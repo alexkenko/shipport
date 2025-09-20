@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
+import { Footer } from '@/components/layout/Footer'
+import { Header } from '@/components/layout/Header'
 
 export const metadata: Metadata = {
   title: 'ShipPort - Connect Marine Superintendents with Vessel Managers | Professional Maritime Services',
@@ -10,6 +12,9 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900">
+      {/* Header */}
+      <Header />
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/waves.svg')] bg-cover bg-center opacity-10"></div>
@@ -23,7 +28,7 @@ export default function HomePage() {
               Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, 
               pre-vetting inspections, and maritime consulting services worldwide.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
                 href="/auth/register?type=manager"
                 className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 btn-hover"
@@ -35,6 +40,20 @@ export default function HomePage() {
                 className="bg-marine-600 hover:bg-marine-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 btn-hover"
               >
                 I'm a Superintendent
+              </Link>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/auth/login"
+                className="border-2 border-white text-white hover:bg-white hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/auth/register"
+                className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
+              >
+                Create Account
               </Link>
             </div>
           </div>
@@ -161,30 +180,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-dark-900 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">ShipPort</h3>
-            <p className="text-gray-400 mb-6">
-              Professional Marine Superintendent Services & Vessel Management Solutions
-            </p>
-            <div className="flex justify-center space-x-6">
-              <Link href="/auth/login" className="text-gray-400 hover:text-white transition-colors">
-                Login
-              </Link>
-              <Link href="/auth/register" className="text-gray-400 hover:text-white transition-colors">
-                Register
-              </Link>
-              <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                About
-              </Link>
-              <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                Contact
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

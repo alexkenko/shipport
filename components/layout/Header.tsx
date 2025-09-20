@@ -16,8 +16,8 @@ import {
 import toast from 'react-hot-toast'
 
 interface HeaderProps {
-  user: AuthUser
-  onNotificationClick: () => void
+  user?: AuthUser | null
+  onNotificationClick?: () => void
   unreadCount?: number
 }
 
@@ -36,17 +36,24 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
     }
   }
 
-  const navigation = user.role === 'manager' 
-    ? [
-        { name: 'Dashboard', href: '/dashboard/manager' },
-        { name: 'Post Job', href: '/dashboard/manager/post-job' },
-        { name: 'My Posts', href: '/dashboard/manager/my-posts' },
-        { name: 'Search Superintendents', href: '/dashboard/manager/search' },
-      ]
+  const navigation = user 
+    ? (user.role === 'manager' 
+      ? [
+          { name: 'Dashboard', href: '/dashboard/manager' },
+          { name: 'Post Job', href: '/dashboard/manager/post-job' },
+          { name: 'My Posts', href: '/dashboard/manager/my-posts' },
+          { name: 'Search Superintendents', href: '/dashboard/manager/search' },
+        ]
+      : [
+          { name: 'Dashboard', href: '/dashboard/superintendent' },
+          { name: 'Search Jobs', href: '/dashboard/superintendent/search' },
+          { name: 'My Applications', href: '/dashboard/superintendent/applications' },
+        ])
     : [
-        { name: 'Dashboard', href: '/dashboard/superintendent' },
-        { name: 'Search Jobs', href: '/dashboard/superintendent/search' },
-        { name: 'My Applications', href: '/dashboard/superintendent/applications' },
+        { name: 'Home', href: '/' },
+        { name: 'About', href: '/about' },
+        { name: 'Services', href: '/services' },
+        { name: 'Contact', href: '/contact' },
       ]
 
   return (
@@ -78,60 +85,82 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
-            {/* Notifications */}
-            <button
-              onClick={onNotificationClick}
-              className="relative p-2 text-gray-400 hover:text-white transition-colors duration-200"
-            >
-              <BellIcon className="h-6 w-6" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              )}
-            </button>
+            {user ? (
+              <>
+                {/* Notifications */}
+                <button
+                  onClick={onNotificationClick}
+                  className="relative p-2 text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  <BellIcon className="h-6 w-6" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
+                </button>
 
-            {/* Profile Menu */}
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
-              >
-                {user.photo_url ? (
-                  <img
-                    src={user.photo_url}
-                    alt={user.name}
-                    className="h-8 w-8 rounded-full object-cover"
-                  />
-                ) : (
-                  <UserCircleIcon className="h-8 w-8" />
-                )}
-                <span className="hidden md:block text-sm font-medium">
-                  {user.name} {user.surname}
-                </span>
-              </button>
-
-              {/* Profile Dropdown */}
-              {isProfileMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-dark-800 rounded-md shadow-lg border border-dark-700 py-1 z-50">
-                  <Link
-                    href={`/dashboard/${user.role}/profile`}
-                    className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-dark-700 hover:text-white transition-colors duration-200"
-                    onClick={() => setIsProfileMenuOpen(false)}
-                  >
-                    <UserCircleIcon className="h-4 w-4 mr-3" />
-                    Edit Profile
-                  </Link>
+                {/* Profile Menu */}
+                <div className="relative">
                   <button
-                    onClick={handleLogout}
-                    className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-dark-700 hover:text-white transition-colors duration-200"
+                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                    className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
                   >
-                    <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
-                    Logout
+                    {user.photo_url ? (
+                      <img
+                        src={user.photo_url}
+                        alt={user.name}
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <UserCircleIcon className="h-8 w-8" />
+                    )}
+                    <span className="hidden md:block text-sm font-medium">
+                      {user.name} {user.surname}
+                    </span>
                   </button>
+
+                  {/* Profile Dropdown */}
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-dark-800 rounded-md shadow-lg border border-dark-700 py-1 z-50">
+                      <Link
+                        href={`/dashboard/${user.role}/profile`}
+                        className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-dark-700 hover:text-white transition-colors duration-200"
+                        onClick={() => setIsProfileMenuOpen(false)}
+                      >
+                        <UserCircleIcon className="h-4 w-4 mr-3" />
+                        Edit Profile
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-dark-700 hover:text-white transition-colors duration-200"
+                      >
+                        <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
+                        Logout
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </>
+            ) : (
+              <>
+                {/* Auth buttons for non-authenticated users */}
+                <div className="hidden md:flex items-center space-x-4">
+                  <Link
+                    href="/auth/login"
+                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              </>
+            )}
 
             {/* Mobile menu button */}
             <button
@@ -161,6 +190,26 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile auth buttons for non-authenticated users */}
+              {!user && (
+                <div className="pt-4 border-t border-dark-600">
+                  <Link
+                    href="/auth/login"
+                    className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    className="bg-primary-600 hover:bg-primary-700 text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 mx-3 mt-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}
