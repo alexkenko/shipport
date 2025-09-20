@@ -244,12 +244,12 @@ export default function ManagerDashboard() {
                   {[
                     {
                       title: "IMO Adopts New EEXI Guidelines for 2025",
-                      source: "Maritime Executive",
+                      source: "Lloyd's List",
                       time: "3h ago",
                       category: "Regulations",
                       image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
                       fallback: "🚢",
-                      url: "https://www.maritime-executive.com/article/imo-adopts-new-eexi-guidelines-2025"
+                        url: "https://www.lloydslist.com/news/imo-eexi-guidelines-2025"
                     },
                     {
                       title: "Major Port Strike Averted in Rotterdam",
