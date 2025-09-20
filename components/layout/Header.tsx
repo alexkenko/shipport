@@ -59,9 +59,9 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
           {/* Logo */}
               <div className="flex items-center">
                 <Link href={user ? `/dashboard/${user.role}` : "/"} className="flex items-center space-x-3">
-                  <div className="w-10 h-10 flex items-center justify-center">
+                  <div className="w-16 h-12 flex items-center justify-center">
                     <img 
-                      src="/logo.jpg" 
+                      src="/logo.png" 
                       alt="ShipinPort Logo" 
                       className="w-full h-full object-contain"
                     />
