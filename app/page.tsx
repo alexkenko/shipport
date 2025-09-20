@@ -69,30 +69,10 @@ export default function HomePage() {
               Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, 
               pre-vetting inspections, and maritime consulting services worldwide.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link
-                href="/auth/register?type=manager"
-                className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 btn-hover"
-              >
-                I'm a Vessel Manager
-              </Link>
-              <Link
-                href="/auth/register?type=superintendent"
-                className="bg-marine-600 hover:bg-marine-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 btn-hover"
-              >
-                I'm a Superintendent
-              </Link>
-            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/auth/login"
-                className="border-2 border-white text-white hover:bg-white hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
-              >
-                Sign In
-              </Link>
-              <Link
                 href="/auth/register"
-                className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
+                className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
               >
                 Create Account
               </Link>
