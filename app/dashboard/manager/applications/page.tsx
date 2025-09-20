@@ -105,10 +105,15 @@ export default function ManagerApplicationsPage() {
 
       // Get superintendent details
       const superintendentIds = applications.map(app => app.superintendent_id)
+      console.log('Debug - Superintendent IDs to lookup:', superintendentIds)
+      
       const { data: superintendents, error: superintendentsError } = await supabase
         .from('users')
         .select('id, name, surname, company, bio, photo_url')
         .in('id', superintendentIds)
+        
+      console.log('Debug - Superintendent query error:', superintendentsError)
+      console.log('Debug - Superintendent query result:', superintendents)
 
       if (superintendentsError) throw superintendentsError
 
