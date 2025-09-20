@@ -29,7 +29,7 @@ export async function signUp(email: string, password: string, userData: {
   if (authError) throw authError
 
   if (authData.user) {
-    const { data: userData, error: userError } = await supabase
+    const { data: insertedUser, error: userError } = await supabase
       .from('users')
       .insert({
         id: authData.user.id,
@@ -70,7 +70,7 @@ export async function signUp(email: string, password: string, userData: {
       if (profileError) throw profileError
     }
 
-    return userData
+    return insertedUser
   }
 
   return null

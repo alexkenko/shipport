@@ -40,6 +40,12 @@ export interface Job {
   status: 'active' | 'completed' | 'cancelled';
   created_at: string;
   updated_at: string;
+  // User data from join
+  users?: {
+    name: string;
+    surname: string;
+    company: string;
+  };
 }
 
 export interface JobApplication {

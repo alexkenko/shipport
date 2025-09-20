@@ -49,14 +49,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://shipport.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management',
     description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
-    url: 'https://shipport.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
     siteName: 'ShipPort',
     images: [
       {
@@ -91,11 +91,11 @@ export const metadata: Metadata = {
 const defaultSEO = {
   title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management Solutions',
   description: 'Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, pre-vetting inspections, and maritime consulting services worldwide.',
-  canonical: 'https://shipport.com',
+  canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://shipport.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
     title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management',
     description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
     siteName: 'ShipPort',
