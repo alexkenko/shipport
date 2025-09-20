@@ -48,6 +48,9 @@ export interface Job {
     name: string;
     surname: string;
     company: string;
+    email?: string;
+    phone?: string;
+    photo_url?: string;
   };
 }
 

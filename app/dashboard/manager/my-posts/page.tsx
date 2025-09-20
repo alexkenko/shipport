@@ -63,6 +63,7 @@ export default function MyPostsPage() {
         })
       )
 
+      console.log('Fetched jobs after deletion:', jobsWithCounts)
       setJobs(jobsWithCounts)
     } catch (error) {
       console.error('Error fetching posts:', error)
@@ -113,8 +114,11 @@ export default function MyPostsPage() {
 
       if (jobError) throw jobError
 
-      setJobs(prev => prev.filter(job => job.id !== jobId))
       toast.success('Job deleted successfully')
+      
+      // Refresh the data to ensure consistency with database
+      console.log('Refreshing jobs after deletion...')
+      await fetchMyPosts()
     } catch (error: any) {
       toast.error(error.message || 'Failed to delete job')
     }
