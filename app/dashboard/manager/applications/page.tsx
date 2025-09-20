@@ -72,7 +72,6 @@ export default function ManagerApplicationsPage() {
       const user = await getCurrentUser()
       if (!user) return
       
-      console.log('Debug - Current user:', user)
 
       // Get all jobs by this manager
       const { data: jobs, error: jobsError } = await supabase
@@ -105,15 +104,10 @@ export default function ManagerApplicationsPage() {
 
       // Get superintendent details
       const superintendentIds = applications.map(app => app.superintendent_id)
-      console.log('Debug - Superintendent IDs to lookup:', superintendentIds)
-      
       const { data: superintendents, error: superintendentsError } = await supabase
         .from('users')
         .select('id, name, surname, company, bio, photo_url')
         .in('id', superintendentIds)
-        
-      console.log('Debug - Superintendent query error:', superintendentsError)
-      console.log('Debug - Superintendent query result:', superintendents)
 
       if (superintendentsError) throw superintendentsError
 
@@ -141,17 +135,6 @@ export default function ManagerApplicationsPage() {
         })
         .filter(app => app.jobs && app.users) // Only include applications with valid job and user data
 
-      console.log('Debug - Manager ID:', user.id)
-      console.log('Debug - Jobs found for manager:', jobs.map(j => ({ id: j.id, title: j.title })))
-      console.log('Debug - Raw applications count:', applications.length)
-      console.log('Debug - Superintendents found:', superintendents?.length || 0)
-      console.log('Debug - Profiles found:', profiles?.length || 0)
-      console.log('Debug - Combined applications count:', combinedApplications.length)
-      console.log('Debug - Applications with missing data:', applications.filter(app => {
-        const job = jobs.find(j => j.id === app.job_id)
-        const superintendent = superintendents?.find(s => s.id === app.superintendent_id)
-        return !job || !superintendent
-      }))
 
       setApplications(combinedApplications)
     } catch (error) {
