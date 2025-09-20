@@ -197,7 +197,8 @@ export default function SuperintendentDashboard() {
                         source: "Maritime Executive",
                         time: "2h ago",
                         category: "Regulations",
-                        image: "🚢",
+                        image: "https://www.maritime-executive.com/media/k2/items/cache/IMO-Carbon-Intensity-1200x630.jpg",
+                        fallback: "🚢",
                         url: "https://www.maritime-executive.com/article/new-imo-carbon-intensity-regulations"
                       },
                       {
@@ -205,7 +206,8 @@ export default function SuperintendentDashboard() {
                         source: "Lloyd's List",
                         time: "4h ago", 
                         category: "Incidents",
-                        image: "⚓",
+                        image: "https://www.lloydslist.com/images/default-source/default-album/suez-canal-ship.jpg",
+                        fallback: "⚓",
                         url: "https://www.lloydslist.com/news/container-ship-grounding-suez"
                       },
                       {
@@ -213,7 +215,8 @@ export default function SuperintendentDashboard() {
                         source: "Safety4Sea",
                         time: "6h ago",
                         category: "Safety",
-                        image: "🛡️",
+                        image: "https://safety4sea.com/wp-content/uploads/bulk-carrier-safety.jpg",
+                        fallback: "🛡️",
                         url: "https://safety4sea.com/bulk-carrier-safety-standards"
                       },
                       {
@@ -221,7 +224,8 @@ export default function SuperintendentDashboard() {
                         source: "Bunker World",
                         time: "8h ago",
                         category: "Market",
-                        image: "⛽",
+                        image: "https://www.bunkerworld.com/images/fuel-price-chart.jpg",
+                        fallback: "⛽",
                         url: "https://www.bunkerworld.com/market-update"
                       },
                       {
@@ -229,7 +233,8 @@ export default function SuperintendentDashboard() {
                         source: "Port Technology",
                         time: "10h ago",
                         category: "Ports",
-                        image: "🏗️",
+                        image: "https://www.porttechnology.org/wp-content/uploads/port-congestion.jpg",
+                        fallback: "🏗️",
                         url: "https://www.porttechnology.org/asian-port-congestion"
                       }
                     ].map((news, index) => (
@@ -242,7 +247,25 @@ export default function SuperintendentDashboard() {
                             <span className="text-xs text-gray-500">{news.time}</span>
                           </div>
                           <div className="flex items-start space-x-2 mb-2">
-                            <div className="text-lg">{news.image}</div>
+                            <div className="relative w-12 h-12 flex-shrink-0">
+                              <img 
+                                src={news.image} 
+                                alt={news.title}
+                                className="w-12 h-12 object-cover rounded"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                  const fallback = target.nextElementSibling as HTMLElement;
+                                  if (fallback) fallback.style.display = 'flex';
+                                }}
+                              />
+                              <div 
+                                className="w-12 h-12 bg-dark-700 rounded flex items-center justify-center text-lg hidden"
+                                style={{ display: 'none' }}
+                              >
+                                {news.fallback}
+                              </div>
+                            </div>
                             <h4 className="font-medium text-white text-sm line-clamp-2 flex-1">
                               {news.title}
                             </h4>
