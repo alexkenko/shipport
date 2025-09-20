@@ -8,9 +8,6 @@ import Link from 'next/link'
 import { getCurrentUser, getSuperintendentProfile } from '@/lib/auth'
 import { AuthUser } from '@/lib/auth'
 import { 
-  MagnifyingGlassIcon, 
-  DocumentTextIcon, 
-  UserGroupIcon,
   ClockIcon
 } from '@heroicons/react/24/outline'
 
@@ -19,32 +16,6 @@ export default function SuperintendentDashboard() {
   const [profile, setProfile] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  const quickActions = [
-    {
-      title: 'Search for Jobs',
-      description: 'Find available marine superintendent positions',
-      icon: MagnifyingGlassIcon,
-      href: '/dashboard/superintendent/search',
-      color: 'bg-primary-600 hover:bg-primary-700',
-      iconColor: 'text-white'
-    },
-    {
-      title: 'My Applications',
-      description: 'Track your job applications and responses',
-      icon: DocumentTextIcon,
-      href: '/dashboard/superintendent/applications',
-      color: 'bg-marine-600 hover:bg-marine-700',
-      iconColor: 'text-white'
-    },
-    {
-      title: 'Update Profile',
-      description: 'Keep your certifications and services up to date',
-      icon: UserGroupIcon,
-      href: '/dashboard/superintendent/profile',
-      color: 'bg-green-600 hover:bg-green-700',
-      iconColor: 'text-white'
-    }
-  ]
 
   useEffect(() => {
     fetchUserData()
@@ -105,33 +76,23 @@ export default function SuperintendentDashboard() {
         </div>
 
 
-        {/* Quick Actions */}
-        <div>
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {quickActions.map((action, index) => (
-              <Link key={index} href={action.href}>
-                <Card variant="elevated" className="hover:scale-105 transition-transform duration-200 cursor-pointer">
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-4 h-full">
-                      <div className={`p-3 rounded-lg ${action.color} flex-shrink-0`}>
-                        <action.icon className={`h-6 w-6 ${action.iconColor}`} />
-                      </div>
-                      <div className="flex-1 text-center flex flex-col justify-center">
-                        <h3 className="font-semibold text-white mb-1">
-                          {action.title}
-                        </h3>
-                        <p className="text-sm text-gray-400 leading-tight">
-                          {action.description}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+
+        {/* Advertisement Bar */}
+        <div className="mb-8">
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-dark-800/50 via-dark-700/30 to-dark-800/50 border border-dark-600/50">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-transparent to-primary-500/5"></div>
+            <div className="relative p-8 text-center">
+              <div className="inline-flex items-center space-x-3">
+                <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                <h3 className="text-lg font-medium text-gray-300 tracking-wide">
+                  Your Ads Here
+                </h3>
+                <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+              </div>
+              <p className="text-sm text-gray-500 mt-2 font-light">
+                Premium advertising space for maritime industry partners
+              </p>
+            </div>
           </div>
         </div>
 
