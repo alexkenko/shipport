@@ -8,7 +8,7 @@ import { supabase } from '@/lib/supabase'
 import { getCurrentUser } from '@/lib/auth'
 import { Job } from '@/types'
 import toast from 'react-hot-toast'
-import { MapPinIcon, CalendarIcon, ClockIcon, UserGroupIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon, CalendarIcon, ClockIcon, UserGroupIcon, TrashIcon } from '@heroicons/react/24/outline'
 
 interface JobWithApplications extends Job {
   applications_count: number
@@ -88,6 +88,35 @@ export default function MyPostsPage() {
       toast.success(`Job status updated to ${newStatus}`)
     } catch (error: any) {
       toast.error(error.message || 'Failed to update job status')
+    }
+  }
+
+  const handleDeleteJob = async (jobId: string, jobTitle: string) => {
+    if (!confirm(`Are you sure you want to delete "${jobTitle}"? This action cannot be undone.`)) {
+      return
+    }
+
+    try {
+      // First delete all applications for this job
+      const { error: applicationsError } = await supabase
+        .from('job_applications')
+        .delete()
+        .eq('job_id', jobId)
+
+      if (applicationsError) throw applicationsError
+
+      // Then delete the job
+      const { error: jobError } = await supabase
+        .from('jobs')
+        .delete()
+        .eq('id', jobId)
+
+      if (jobError) throw jobError
+
+      setJobs(prev => prev.filter(job => job.id !== jobId))
+      toast.success('Job deleted successfully')
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to delete job')
     }
   }
 
@@ -259,12 +288,32 @@ export default function MyPostsPage() {
                         </>
                       )}
                       {job.status === 'completed' && (
+                        <>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleStatusChange(job.id, 'active')}
+                          >
+                            Reactivate
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDeleteJob(job.id, job.title)}
+                            className="border-red-500 text-red-400 hover:bg-red-900"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
+                      {job.status === 'cancelled' && (
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleStatusChange(job.id, 'active')}
+                          onClick={() => handleDeleteJob(job.id, job.title)}
+                          className="border-red-500 text-red-400 hover:bg-red-900"
                         >
-                          Reactivate
+                          <TrashIcon className="h-4 w-4" />
                         </Button>
                       )}
                     </div>
