@@ -8,7 +8,8 @@ import Link from 'next/link'
 import { getCurrentUser, getSuperintendentProfile } from '@/lib/auth'
 import { AuthUser } from '@/lib/auth'
 import { 
-  ClockIcon
+  ClockIcon,
+  UserGroupIcon
 } from '@heroicons/react/24/outline'
 
 export default function SuperintendentDashboard() {
@@ -197,6 +198,24 @@ export default function SuperintendentDashboard() {
                         )}
                       </div>
                     </div>
+
+                    {/* Services */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Services</h4>
+                      <div className="space-y-2">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.services && profile.services.length > 0 ? (
+                          profile.services.map((service: string, index: number) => (
+                            <div key={index} className="p-2 rounded-lg bg-gradient-to-r from-purple-500/10 to-purple-600/5 border border-purple-500/20">
+                              <p className="text-xs text-purple-400 font-medium">{service}</p>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No services added</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Sexy Vertical Separator */}
@@ -252,23 +271,6 @@ export default function SuperintendentDashboard() {
                       </div>
                     </div>
 
-                    {/* Services */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Services</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {isLoading ? (
-                          <span className="text-xs text-gray-400">Loading...</span>
-                        ) : profile?.services && profile.services.length > 0 ? (
-                          profile.services.map((service: string, index: number) => (
-                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-purple-600/10 text-purple-400 text-xs rounded-full border border-purple-500/30 font-medium">
-                              {service}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-xs text-gray-400">No services added</span>
-                        )}
-                      </div>
-                    </div>
 
                     {/* Ports Covered */}
                     <div className="space-y-3">
