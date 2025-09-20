@@ -68,7 +68,10 @@ export default function MyApplicationsPage() {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setApplications(data || [])
+      
+      // Filter out applications for deleted jobs
+      const validApplications = (data || []).filter(app => app.jobs !== null)
+      setApplications(validApplications)
     } catch (error) {
       console.error('Error fetching applications:', error)
       toast.error('Failed to load your applications')
@@ -214,7 +217,7 @@ export default function MyApplicationsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-lg mb-2">
-                        {application.jobs.title}
+                        {application.jobs?.title || 'Job Deleted'}
                       </CardTitle>
                       <CardDescription className="text-sm">
                         Applied {new Date(application.created_at).toLocaleDateString()}
@@ -229,36 +232,47 @@ export default function MyApplicationsPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="mb-4">
-                    <p className="text-sm text-gray-400 mb-2">
-                      <strong>Company:</strong> {application.jobs.users?.company}
-                    </p>
-                    <p className="text-sm text-gray-400 mb-2">
-                      <strong>Contact:</strong> {application.jobs.users?.name} {application.jobs.users?.surname}
-                    </p>
-                  </div>
+                  {application.jobs ? (
+                    <>
+                      <div className="mb-4">
+                        <p className="text-sm text-gray-400 mb-2">
+                          <strong>Company:</strong> {application.jobs.users?.company || 'Not specified'}
+                        </p>
+                        <p className="text-sm text-gray-400 mb-2">
+                          <strong>Contact:</strong> {application.jobs.users?.name || ''} {application.jobs.users?.surname || ''}
+                        </p>
+                      </div>
 
-                  <p className="text-gray-300 mb-4 line-clamp-3">
-                    {application.jobs.description}
-                  </p>
+                      <p className="text-gray-300 mb-4 line-clamp-3">
+                        {application.jobs.description}
+                      </p>
+                    </>
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-gray-400 mb-2">This job has been deleted by the manager</p>
+                      <p className="text-sm text-gray-500">Your application is no longer valid</p>
+                    </div>
+                  )}
                   
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center text-sm text-gray-400">
-                      <MapPinIcon className="h-4 w-4 mr-2" />
-                      {application.jobs.port_name}
+                  {application.jobs && (
+                    <div className="space-y-2 mb-6">
+                      <div className="flex items-center text-sm text-gray-400">
+                        <MapPinIcon className="h-4 w-4 mr-2" />
+                        {application.jobs.port_name}
+                      </div>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <ClockIcon className="h-4 w-4 mr-2" />
+                        {application.jobs.attendance_type}
+                      </div>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <CalendarIcon className="h-4 w-4 mr-2" />
+                        {new Date(application.jobs.start_date).toLocaleDateString()} - {new Date(application.jobs.end_date).toLocaleDateString()}
+                      </div>
+                      <div className="text-sm text-gray-400">
+                        Vessel: {application.jobs.vessel_type}
+                      </div>
                     </div>
-                    <div className="flex items-center text-sm text-gray-400">
-                      <ClockIcon className="h-4 w-4 mr-2" />
-                      {application.jobs.attendance_type}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-400">
-                      <CalendarIcon className="h-4 w-4 mr-2" />
-                      {new Date(application.jobs.start_date).toLocaleDateString()} - {new Date(application.jobs.end_date).toLocaleDateString()}
-                    </div>
-                    <div className="text-sm text-gray-400">
-                      Vessel: {application.jobs.vessel_type}
-                    </div>
-                  </div>
+                  )}
 
                   {application.message && (
                     <div className="mb-4 p-3 bg-dark-800/50 rounded-lg">
