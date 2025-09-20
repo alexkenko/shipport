@@ -46,27 +46,24 @@ export default function SearchSuperintendentsPage() {
   const fetchSuperintendents = async () => {
     setIsLoading(true)
     try {
-      // First, get all superintendents from users table
-      let query = supabase
-        .from('users')
+      // Get all superintendents with their profiles using the same approach as working superintendent search
+      const { data: allSuperintendents, error: usersError } = await supabase
+        .from('superintendent_profiles')
         .select(`
-          id,
-          name,
-          surname,
-          company,
-          bio,
-          photo_url,
-          superintendent_profiles (
-            vessel_types,
-            certifications,
-            ports_covered,
-            services
+          *,
+          users!superintendent_profiles_user_id_fkey (
+            id,
+            name,
+            surname,
+            company,
+            bio,
+            photo_url,
+            role
           )
         `)
-        .eq('role', 'superintendent')
+        .eq('users.role', 'superintendent')
         .order('created_at', { ascending: false })
 
-      const { data: allSuperintendents, error: usersError } = await query
       if (usersError) throw usersError
       
       console.log('All superintendents from DB:', allSuperintendents)
@@ -76,40 +73,40 @@ export default function SearchSuperintendentsPage() {
 
       if (filters.vessel_type && filters.vessel_type.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.[0]?.vessel_types?.includes(filters.vessel_type)
+          sup.vessel_types?.includes(filters.vessel_type)
         )
       }
       if (filters.service && filters.service.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.[0]?.services?.includes(filters.service)
+          sup.services?.includes(filters.service)
         )
       }
       if (filters.certification && filters.certification.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.[0]?.certifications?.includes(filters.certification)
+          sup.certifications?.includes(filters.certification)
         )
       }
       if (filters.port && filters.port.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.[0]?.ports_covered?.includes(filters.port)
+          sup.ports_covered?.includes(filters.port)
         )
       }
 
       // Transform the data to match the expected interface
       const transformedData = filteredSuperintendents.map(sup => ({
         id: sup.id,
-        user_id: sup.id,
-        vessel_types: sup.superintendent_profiles?.[0]?.vessel_types || [],
-        certifications: sup.superintendent_profiles?.[0]?.certifications || [],
-        ports_covered: sup.superintendent_profiles?.[0]?.ports_covered || [],
-        services: sup.superintendent_profiles?.[0]?.services || [],
+        user_id: sup.user_id,
+        vessel_types: sup.vessel_types || [],
+        certifications: sup.certifications || [],
+        ports_covered: sup.ports_covered || [],
+        services: sup.services || [],
         users: {
-          id: sup.id,
-          name: sup.name,
-          surname: sup.surname,
-          company: sup.company,
-          bio: sup.bio,
-          photo_url: sup.photo_url
+          id: sup.users.id,
+          name: sup.users.name,
+          surname: sup.users.surname,
+          company: sup.users.company,
+          bio: sup.users.bio,
+          photo_url: sup.users.photo_url
         }
       }))
 
