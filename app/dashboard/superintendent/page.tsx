@@ -250,9 +250,59 @@ export default function SuperintendentDashboard() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Rate</h4>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Work Day Rate</h4>
                     <p className="text-sm text-white font-medium">
                       {isLoading ? 'Loading...' : profile?.price_per_workday ? `$${profile.price_per_workday}/day` : 'Not specified'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bio & Ports Covered */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Bio</h4>
+                    <p className="text-sm text-gray-300 leading-relaxed">
+                      {isLoading ? 'Loading...' : user?.bio || 'No bio available'}
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Ports Covered</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {isLoading ? (
+                        <span className="text-xs text-gray-400">Loading...</span>
+                      ) : profile?.ports_covered && profile.ports_covered.length > 0 ? (
+                        profile.ports_covered.map((port: string, index: number) => (
+                          <span key={index} className="px-2 py-1 bg-orange-500/10 text-orange-400 text-xs rounded">
+                            {port}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-gray-400">No ports specified</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Service Type & Idle Day Rate */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Service Type</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {isLoading ? (
+                        <span className="text-xs text-gray-400">Loading...</span>
+                      ) : profile?.service_type ? (
+                        <span className="px-3 py-2 bg-indigo-500/10 text-indigo-400 text-sm rounded-lg font-medium">
+                          {profile.service_type === 'door_to_door' ? 'Door to Door Service' : 'Gangway to Gangway Service'}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-400">Not specified</span>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Idle Day Rate</h4>
+                    <p className="text-sm text-white font-medium">
+                      {isLoading ? 'Loading...' : profile?.price_per_idle_day ? `$${profile.price_per_idle_day}/day` : 'Not specified'}
                     </p>
                   </div>
                 </div>
