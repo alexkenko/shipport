@@ -182,23 +182,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-marine-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Connect with Maritime Professionals?
-          </h2>
-          <p className="text-xl text-white/90 mb-8">
-            Join ShipPort today and access a network of certified marine superintendents and vessel managers worldwide.
-          </p>
-          <Link
-            href="/auth/register"
-            className="bg-white text-primary-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 btn-hover inline-block"
-          >
-            Get Started Now
-          </Link>
-        </div>
-      </section>
 
       {/* Footer */}
       <Footer />
