@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
-import { DefaultSeo } from 'next-seo'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -88,24 +87,6 @@ export const metadata: Metadata = {
   },
 }
 
-const defaultSEO = {
-  title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management Solutions',
-  description: 'Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, pre-vetting inspections, and maritime consulting services worldwide.',
-  canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
-    title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management',
-    description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
-    siteName: 'ShipPort',
-  },
-  twitter: {
-    handle: '@shipport',
-    site: '@shipport',
-    cardType: 'summary_large_image',
-  },
-}
 
 export default function RootLayout({
   children,
@@ -115,9 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <DefaultSeo {...defaultSEO} />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0f172a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
