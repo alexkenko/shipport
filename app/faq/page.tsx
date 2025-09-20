@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     'vessel manager questions',
     'superintendent questions',
     'maritime platform support',
-    'shipport help'
+    'shipinport help'
   ],
 }
 
@@ -115,7 +115,7 @@ export default function FAQPage() {
         },
         {
           question: "How do I delete my account?",
-          answer: "Contact our support team at support@shipport.com to request account deletion. We'll process your request and ensure your data is removed in accordance with our privacy policy."
+          answer: "Contact our support team at support@shipinport.com to request account deletion. We'll process your request and ensure your data is removed in accordance with our privacy policy."
         },
         {
           question: "Is my personal information secure?",
@@ -194,7 +194,7 @@ export default function FAQPage() {
                 Contact Support
               </a>
               <a
-                href="mailto:support@shipport.com"
+                href="mailto:support@shipinport.com"
                 className="bg-dark-700 hover:bg-dark-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200"
               >
                 Email Us

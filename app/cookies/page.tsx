@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'tracking technologies',
     'marine platform cookies',
     'user preferences',
-    'shipport cookies'
+    'shipinport cookies'
   ],
 }
 
@@ -163,7 +163,7 @@ export default function CookiesPage() {
               <h2 className="text-2xl font-semibold text-white mb-4">Contact Us</h2>
               <p>If you have any questions about our use of cookies, please contact us at:</p>
               <div className="mt-2 p-4 bg-dark-800 rounded-lg">
-                <p><strong className="text-white">Email:</strong> privacy@shipport.com</p>
+                <p><strong className="text-white">Email:</strong> privacy@shipinport.com</p>
                 <p><strong className="text-white">Website:</strong> <a href="/contact" className="text-primary-400 hover:text-primary-300">Contact Page</a></p>
               </div>
             </section>

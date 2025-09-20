@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'About ShipinPort.com - Leading Marine Superintendent Platform & Vessel Management Solutions',
   description: 'Learn about ShipinPort, the premier platform connecting vessel managers with certified marine superintendents. Discover our mission to revolutionize maritime industry networking and professional services.',
   keywords: [
-    'about shipport',
+    'about shipinport',
     'marine superintendent platform',
     'vessel management solutions',
     'maritime industry networking',
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
     'marine superintendent network'
   ],
   openGraph: {
-    title: 'About ShipPort - Leading Marine Superintendent Platform',
-    description: 'Discover how ShipPort connects vessel managers with certified marine superintendents worldwide.',
+    title: 'About ShipinPort.com - Leading Marine Superintendent Platform',
+    description: 'Discover how ShipinPort connects vessel managers with certified marine superintendents worldwide.',
     type: 'website',
   },
 }

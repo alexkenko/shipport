@@ -186,7 +186,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-2xl">
         <Card variant="glass">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Join ShipPort</CardTitle>
+            <CardTitle className="text-2xl">
+              Join <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span>
+            </CardTitle>
             <CardDescription>
               {step === 1 ? 'Create your account' : 'Complete your profile'}
             </CardDescription>

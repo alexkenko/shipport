@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'marine platform terms',
     'vessel management terms',
     'maritime platform legal',
-    'shipport terms'
+    'shipinport terms'
   ],
 }
 
@@ -115,7 +115,7 @@ export default function TermsPage() {
                 If you have any questions about these Terms of Service, please contact us at:
               </p>
               <div className="mt-2 p-4 bg-dark-800 rounded-lg">
-                <p><strong className="text-white">Email:</strong> legal@shipport.com</p>
+                <p><strong className="text-white">Email:</strong> legal@shipinport.com</p>
                 <p><strong className="text-white">Website:</strong> <a href="/contact" className="text-primary-400 hover:text-primary-300">Contact Page</a></p>
               </div>
             </section>

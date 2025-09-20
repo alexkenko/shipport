@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'privacy rights',
     'marine platform GDPR',
     'data subject rights',
-    'shipport GDPR'
+    'shipinport GDPR'
   ],
 }
 
@@ -80,10 +80,10 @@ export default function GDPRPage() {
               <h2 className="text-2xl font-semibold text-white mb-4">How to Exercise Your Rights</h2>
               <p>To exercise any of your GDPR rights, you can:</p>
               <ul className="list-disc list-inside space-y-2 mt-3">
-                <li>Contact us directly at privacy@shipport.com</li>
+                <li>Contact us directly at privacy@shipinport.com</li>
                 <li>Use our contact form on the website</li>
                 <li>Update your information directly in your account settings</li>
-                <li>Contact our Data Protection Officer at dpo@shipport.com</li>
+                <li>Contact our Data Protection Officer at dpo@shipinport.com</li>
               </ul>
               
               <div className="mt-4 p-4 bg-dark-800 rounded-lg">
@@ -170,8 +170,8 @@ export default function GDPRPage() {
               <h2 className="text-2xl font-semibold text-white mb-4">Contact Information</h2>
               <p>For GDPR-related inquiries, please contact:</p>
               <div className="mt-2 p-4 bg-dark-800 rounded-lg">
-                <p><strong className="text-white">Data Protection Officer:</strong> dpo@shipport.com</p>
-                <p><strong className="text-white">Privacy Team:</strong> privacy@shipport.com</p>
+                <p><strong className="text-white">Data Protection Officer:</strong> dpo@shipinport.com</p>
+                <p><strong className="text-white">Privacy Team:</strong> privacy@shipinport.com</p>
                 <p><strong className="text-white">General Contact:</strong> <a href="/contact" className="text-primary-400 hover:text-primary-300">Contact Page</a></p>
               </div>
             </section>

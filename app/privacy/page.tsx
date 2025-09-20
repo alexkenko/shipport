@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'marine platform privacy',
     'user data security',
     'GDPR compliance',
-    'shipport privacy'
+    'shipinport privacy'
   ],
 }
 
@@ -122,8 +122,8 @@ export default function PrivacyPage() {
               <h2 className="text-2xl font-semibold text-white mb-4">10. Contact Us</h2>
               <p>If you have any questions about this Privacy Policy, please contact us at:</p>
               <div className="mt-2 p-4 bg-dark-800 rounded-lg">
-                <p><strong className="text-white">Email:</strong> privacy@shipport.com</p>
-                <p><strong className="text-white">Data Protection Officer:</strong> dpo@shipport.com</p>
+                <p><strong className="text-white">Email:</strong> privacy@shipinport.com</p>
+                <p><strong className="text-white">Data Protection Officer:</strong> dpo@shipinport.com</p>
                 <p><strong className="text-white">Website:</strong> <a href="/contact" className="text-primary-400 hover:text-primary-300">Contact Page</a></p>
               </div>
             </section>

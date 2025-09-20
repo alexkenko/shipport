@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'marine services disclaimer',
     'vessel management disclaimer',
     'maritime platform legal',
-    'shipport disclaimer'
+    'shipinport disclaimer'
   ],
 }
 
@@ -140,7 +140,7 @@ export default function DisclaimerPage() {
                 If you have any questions about this Legal Disclaimer, please contact us at:
               </p>
               <div className="mt-2 p-4 bg-dark-800 rounded-lg">
-                <p><strong className="text-white">Email:</strong> legal@shipport.com</p>
+                <p><strong className="text-white">Email:</strong> legal@shipinport.com</p>
                 <p><strong className="text-white">Website:</strong> <a href="/contact" className="text-primary-400 hover:text-primary-300">Contact Page</a></p>
               </div>
             </section>

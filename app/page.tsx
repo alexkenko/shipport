@@ -24,8 +24,8 @@ export default function HomePage() {
       "availableLanguage": "English"
     },
     "sameAs": [
-      "https://linkedin.com/company/shipport",
-      "https://twitter.com/shipport"
+      "https://linkedin.com/company/shipinport",
+      "https://twitter.com/shipinport"
     ],
     "service": [
       {

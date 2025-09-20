@@ -175,7 +175,7 @@ export default function ManagerDashboard() {
             <CardHeader>
               <CardTitle>Need Help?</CardTitle>
               <CardDescription>
-                Get the most out of ShipPort
+                Get the most out of <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span>
               </CardDescription>
             </CardHeader>
             <CardContent>

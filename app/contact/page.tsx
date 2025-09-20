@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Contact ShipinPort.com - Marine Superintendent Platform Support & Inquiries',
   description: 'Contact ShipinPort for support, inquiries, or partnership opportunities. Get help with marine superintendent services, vessel management solutions, and maritime industry networking.',
   keywords: [
-    'contact shipport',
+    'contact shipinport',
     'marine superintendent support',
     'vessel manager support',
     'maritime platform contact',
@@ -58,7 +58,7 @@ export default function ContactPage() {
                   For general questions about our marine superintendent platform, vessel management solutions, 
                   or maritime industry networking services.
                 </p>
-                <p className="text-primary-400 mt-2">support@shipport.com</p>
+                <p className="text-primary-400 mt-2">support@shipinport.com</p>
               </div>
               
               <div>
@@ -67,16 +67,16 @@ export default function ContactPage() {
                   Need help with platform features, account management, or technical issues? 
                   Our support team is here to assist you.
                 </p>
-                <p className="text-primary-400 mt-2">tech@shipport.com</p>
+                <p className="text-primary-400 mt-2">tech@shipinport.com</p>
               </div>
               
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Partnership Opportunities</h3>
                 <p className="text-gray-300">
-                  Interested in partnering with ShipPort? We welcome collaborations with 
+                  Interested in partnering with ShipinPort? We welcome collaborations with 
                   maritime industry organizations, training institutions, and service providers.
                 </p>
-                <p className="text-primary-400 mt-2">partnerships@shipport.com</p>
+                <p className="text-primary-400 mt-2">partnerships@shipinport.com</p>
               </div>
               
               <div>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                   Media inquiries, press releases, and industry insights about marine 
                   superintendent services and vessel management solutions.
                 </p>
-                <p className="text-primary-400 mt-2">media@shipport.com</p>
+                <p className="text-primary-400 mt-2">media@shipinport.com</p>
               </div>
             </div>
           </div>
@@ -127,10 +127,10 @@ export default function ContactPage() {
               
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">
-                  Is ShipPort available worldwide?
+                  Is ShipinPort available worldwide?
                 </h3>
                 <p className="text-gray-300">
-                  Yes, ShipPort connects marine professionals globally. Our platform includes 
+                  Yes, ShipinPort connects marine professionals globally. Our platform includes 
                   comprehensive port databases and worldwide coverage.
                 </p>
               </div>
@@ -183,14 +183,14 @@ export default function ContactPage() {
           <div className="glass p-8 rounded-xl">
             <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
             <p className="text-xl text-gray-300 mb-8">
-              Join the ShipPort community and connect with maritime professionals worldwide.
+              Join the ShipinPort community and connect with maritime professionals worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/auth/register"
                 className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
               >
-                Join ShipPort Today
+                Join ShipinPort Today
               </a>
               <a
                 href="/about"
