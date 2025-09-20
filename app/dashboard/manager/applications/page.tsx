@@ -71,6 +71,8 @@ export default function ManagerApplicationsPage() {
     try {
       const user = await getCurrentUser()
       if (!user) return
+      
+      console.log('Debug - Current user:', user)
 
       // Get all jobs by this manager
       const { data: jobs, error: jobsError } = await supabase
@@ -134,8 +136,9 @@ export default function ManagerApplicationsPage() {
         })
         .filter(app => app.jobs && app.users) // Only include applications with valid job and user data
 
+      console.log('Debug - Manager ID:', user.id)
+      console.log('Debug - Jobs found for manager:', jobs.map(j => ({ id: j.id, title: j.title })))
       console.log('Debug - Raw applications count:', applications.length)
-      console.log('Debug - Jobs found:', jobs.length)
       console.log('Debug - Superintendents found:', superintendents?.length || 0)
       console.log('Debug - Profiles found:', profiles?.length || 0)
       console.log('Debug - Combined applications count:', combinedApplications.length)
