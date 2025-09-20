@@ -252,7 +252,7 @@ export default function SuperintendentDashboard() {
                   <div>
                     <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Rate</h4>
                     <p className="text-sm text-white font-medium">
-                      {isLoading ? 'Loading...' : profile?.price_per_workday ? `€${profile.price_per_workday}/day` : 'Not specified'}
+                      {isLoading ? 'Loading...' : profile?.price_per_workday ? `$${profile.price_per_workday}/day` : 'Not specified'}
                     </p>
                   </div>
                 </div>
