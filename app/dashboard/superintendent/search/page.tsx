@@ -61,6 +61,8 @@ export default function SearchJobsPage() {
 
       const { data, error } = await query
       if (error) throw error
+      
+      console.log('Jobs fetched:', data)
       setJobs(data || [])
     } catch (error) {
       console.error('Error fetching jobs:', error)

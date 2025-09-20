@@ -13,7 +13,8 @@ import {
   MagnifyingGlassIcon,
   ChartBarIcon,
   ClockIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  UserGroupIcon
 } from '@heroicons/react/24/outline'
 
 export default function ManagerDashboard() {
@@ -40,6 +41,14 @@ export default function ManagerDashboard() {
       icon: DocumentTextIcon,
       href: '/dashboard/manager/my-posts',
       color: 'bg-marine-600 hover:bg-marine-700',
+      iconColor: 'text-white'
+    },
+    {
+      title: 'Applications',
+      description: 'Review job applications and view profiles',
+      icon: UserGroupIcon,
+      href: '/dashboard/manager/applications',
+      color: 'bg-purple-600 hover:bg-purple-700',
       iconColor: 'text-white'
     },
     {
