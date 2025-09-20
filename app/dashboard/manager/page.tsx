@@ -136,6 +136,132 @@ export default function ManagerDashboard() {
           </div>
         </div>
 
+        {/* Latest Maritime News */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Latest Maritime News</CardTitle>
+            <CardDescription>
+              Stay updated with industry developments
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {/* News Carousel */}
+              <div className="relative overflow-hidden">
+                <div className="flex space-x-4 animate-scroll">
+                  {[
+                    {
+                      title: "New IMO Carbon Intensity Regulations",
+                      source: "Maritime Executive",
+                      time: "2h ago",
+                      category: "Regulations",
+                      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
+                      fallback: "🚢",
+                      url: "https://www.maritime-executive.com/article/new-imo-carbon-intensity-regulations"
+                    },
+                    {
+                      title: "Container Ship Grounding in Suez",
+                      source: "Lloyd's List",
+                      time: "4h ago", 
+                      category: "Incidents",
+                      image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=200&fit=crop&crop=center",
+                      fallback: "⚓",
+                      url: "https://www.lloydslist.com/news/container-ship-grounding-suez"
+                    },
+                    {
+                      title: "New Safety Standards for Bulk Carriers",
+                      source: "Safety4Sea",
+                      time: "6h ago",
+                      category: "Safety",
+                      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop&crop=center",
+                      fallback: "🛡️",
+                      url: "https://safety4sea.com/bulk-carrier-safety-standards"
+                    },
+                    {
+                      title: "Marine Fuel Price Fluctuations",
+                      source: "Bunker World",
+                      time: "8h ago",
+                      category: "Market",
+                      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=300&h=200&fit=crop&crop=center",
+                      fallback: "⛽",
+                      url: "https://www.bunkerworld.com/market-update"
+                    },
+                    {
+                      title: "Port Congestion in Asian Hubs",
+                      source: "Port Technology",
+                      time: "10h ago",
+                      category: "Ports",
+                      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop&crop=center",
+                      fallback: "🏗️",
+                      url: "https://www.porttechnology.org/asian-port-congestion"
+                    }
+                  ].map((news, index) => (
+                    <div key={index} className="flex-shrink-0 w-80">
+                      <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600 hover:border-primary-500 transition-colors">
+                        {/* Category and Time */}
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-medium text-primary-400 bg-primary-400/10 px-2 py-1 rounded">
+                            {news.category}
+                          </span>
+                          <span className="text-xs text-gray-500">{news.time}</span>
+                        </div>
+                        
+                        {/* Big Image */}
+                        <div className="relative w-full h-48 mb-3 rounded-lg overflow-hidden">
+                          <img 
+                            src={news.image} 
+                            alt={news.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const fallback = target.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = 'flex';
+                            }}
+                          />
+                          <div 
+                            className="w-full h-full bg-dark-700 flex items-center justify-center text-4xl hidden"
+                            style={{ display: 'none' }}
+                          >
+                            {news.fallback}
+                          </div>
+                        </div>
+                        
+                        {/* Headline */}
+                        <h4 className="font-semibold text-white text-base line-clamp-2 mb-2">
+                          {news.title}
+                        </h4>
+                        
+                        {/* Source and Read More */}
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs text-gray-400">
+                            {news.source}
+                          </p>
+                          <a
+                            href={news.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-xs text-primary-400 hover:text-primary-300 transition-colors"
+                          >
+                            Read More →
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Refresh Button */}
+              <div className="flex justify-center pt-1">
+                <Button variant="ghost" size="sm" className="text-xs text-gray-400 hover:text-white">
+                  🔄 Refresh News
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card>
