@@ -58,22 +58,13 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
               <div className="flex items-center">
-                <Link href={user ? `/dashboard/${user.role}` : "/"} className="flex items-center space-x-3">
-                  <div className="w-20 h-8 flex items-center justify-center">
-                    <img 
-                      src="/logo.png" 
-                      alt="ShipinPort Logo" 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xl font-bold text-white">
-                      <span className="text-cyan-400">Ship</span>
-                      <span className="text-red-500">in</span>
-                      <span className="text-cyan-400">Port</span>
-                    </span>
-                    <span className="text-xs text-cyan-400">.com</span>
-                  </div>
+                <Link href={user ? `/dashboard/${user.role}` : "/"} className="flex flex-col">
+                  <span className="text-xl font-bold text-white">
+                    <span className="text-cyan-400">Ship</span>
+                    <span className="text-red-500">in</span>
+                    <span className="text-cyan-400">Port</span>
+                  </span>
+                  <span className="text-xs text-cyan-400">.com</span>
                 </Link>
               </div>
 

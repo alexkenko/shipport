@@ -108,103 +108,66 @@ export default function SuperintendentDashboard() {
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {/* Profile Overview & News */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card>
             <CardHeader>
               <CardTitle>Profile Overview</CardTitle>
               <CardDescription>
-                Your professional profile and service details
+                Your professional profile summary
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
-                {/* Basic Information */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-3 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Name</h4>
+              <div className="space-y-3">
+                {/* Basic Info */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-2 rounded-lg bg-dark-800/30">
+                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Name</h4>
                     <p className="text-sm text-white">Captain John Smith</p>
                   </div>
-                  <div className="p-3 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Company</h4>
+                  <div className="p-2 rounded-lg bg-dark-800/30">
+                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Company</h4>
                     <p className="text-sm text-white">Marine Consulting Ltd.</p>
                   </div>
-                  <div className="p-3 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Experience</h4>
-                    <p className="text-sm text-white">15+ Years</p>
+                </div>
+
+                {/* Certifications & Vessel Types */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Certifications</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">ISM</span>
+                      <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">ISPS</span>
+                      <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">MLC</span>
+                    </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Location</h4>
-                    <p className="text-sm text-white">Hamburg, Germany</p>
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Vessel Types</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">Container</span>
+                      <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">Bulk</span>
+                      <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">Tanker</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Certifications */}
-                <div>
-                  <h4 className="text-xs font-semibold text-primary-400 mb-3 uppercase tracking-wide">Certifications</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['ISM Auditor', 'ISPS Lead Auditor', 'MLC Inspector', 'BCAV Certified', 'ISO 9001'].map((cert, index) => (
-                      <span key={index} className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded border border-green-500/20">
-                        {cert}
-                      </span>
-                    ))}
+                {/* Services & Pricing */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Services</h4>
+                    <div className="flex flex-wrap gap-1">
+                      <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">Pre-Vetting</span>
+                      <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">Audits</span>
+                    </div>
                   </div>
-                </div>
-
-                {/* Vessel Types */}
-                <div>
-                  <h4 className="text-xs font-semibold text-primary-400 mb-3 uppercase tracking-wide">Vessel Types</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Container Ships', 'Bulk Carriers', 'Tankers', 'General Cargo', 'Ro-Ro Vessels'].map((type, index) => (
-                      <span key={index} className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded border border-blue-500/20">
-                        {type}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Services */}
-                <div>
-                  <h4 className="text-xs font-semibold text-primary-400 mb-3 uppercase tracking-wide">Services Offered</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Pre-Vetting Inspections', 'ISM Audits', 'ISPS Audits', 'MLC Inspections', 'Marine Consultancy', 'TMSA Preparation'].map((service, index) => (
-                      <span key={index} className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded border border-purple-500/20">
-                        {service}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Port Coverage */}
-                <div>
-                  <h4 className="text-xs font-semibold text-primary-400 mb-3 uppercase tracking-wide">Port Coverage</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Hamburg', 'Rotterdam', 'Antwerp', 'Singapore', 'Dubai', 'Los Angeles'].map((port, index) => (
-                      <span key={index} className="px-2 py-1 bg-cyan-500/10 text-cyan-400 text-xs rounded border border-cyan-500/20">
-                        {port}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Pricing */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-3 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Price per Workday</h4>
+                  <div>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Rate</h4>
                     <p className="text-sm text-white font-medium">€850/day</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Price per Idle Day</h4>
-                    <p className="text-sm text-white font-medium">€425/day</p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-dark-800/30 md:col-span-2">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Service Type</h4>
-                    <p className="text-sm text-white font-medium">Door to Door</p>
                   </div>
                 </div>
 
                 {/* Action Button */}
-                <div className="pt-2">
+                <div className="pt-1">
                   <Link href="/dashboard/superintendent/profile">
                     <Button variant="outline" size="sm" className="w-full">
                       <UserGroupIcon className="h-4 w-4 mr-2" />
@@ -220,65 +183,72 @@ export default function SuperintendentDashboard() {
             <CardHeader>
               <CardTitle>Latest Maritime News</CardTitle>
               <CardDescription>
-                Stay updated with the latest maritime industry developments
+                Stay updated with industry developments
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {/* News Carousel */}
                 <div className="relative overflow-hidden">
-                  <div className="flex space-x-4 animate-scroll">
-                    {/* Sample maritime news items - in production, these would be fetched from APIs */}
+                  <div className="flex space-x-3 animate-scroll">
                     {[
                       {
-                        title: "New IMO Regulations for Carbon Intensity",
+                        title: "New IMO Carbon Intensity Regulations",
                         source: "Maritime Executive",
-                        time: "2 hours ago",
+                        time: "2h ago",
                         category: "Regulations",
+                        image: "🚢",
                         url: "https://www.maritime-executive.com/article/new-imo-carbon-intensity-regulations"
                       },
                       {
-                        title: "Container Ship Grounding in Suez Canal",
+                        title: "Container Ship Grounding in Suez",
                         source: "Lloyd's List",
-                        time: "4 hours ago", 
+                        time: "4h ago", 
                         category: "Incidents",
+                        image: "⚓",
                         url: "https://www.lloydslist.com/news/container-ship-grounding-suez"
                       },
                       {
                         title: "New Safety Standards for Bulk Carriers",
                         source: "Safety4Sea",
-                        time: "6 hours ago",
+                        time: "6h ago",
                         category: "Safety",
+                        image: "🛡️",
                         url: "https://safety4sea.com/bulk-carrier-safety-standards"
                       },
                       {
                         title: "Marine Fuel Price Fluctuations",
                         source: "Bunker World",
-                        time: "8 hours ago",
+                        time: "8h ago",
                         category: "Market",
+                        image: "⛽",
                         url: "https://www.bunkerworld.com/market-update"
                       },
                       {
-                        title: "Port Congestion in Major Asian Hubs",
+                        title: "Port Congestion in Asian Hubs",
                         source: "Port Technology",
-                        time: "10 hours ago",
+                        time: "10h ago",
                         category: "Ports",
+                        image: "🏗️",
                         url: "https://www.porttechnology.org/asian-port-congestion"
                       }
                     ].map((news, index) => (
-                      <div key={index} className="flex-shrink-0 w-80">
-                        <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600 hover:border-primary-500 transition-colors">
+                      <div key={index} className="flex-shrink-0 w-64">
+                        <div className="p-3 rounded-lg bg-dark-800/50 border border-dark-600 hover:border-primary-500 transition-colors">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-xs font-medium text-primary-400 bg-primary-400/10 px-2 py-1 rounded">
                               {news.category}
                             </span>
                             <span className="text-xs text-gray-500">{news.time}</span>
                           </div>
-                          <h4 className="font-medium text-white mb-2 line-clamp-2">
-                            {news.title}
-                          </h4>
-                          <p className="text-xs text-gray-400 mb-3">
-                            Source: {news.source}
+                          <div className="flex items-start space-x-2 mb-2">
+                            <div className="text-lg">{news.image}</div>
+                            <h4 className="font-medium text-white text-sm line-clamp-2 flex-1">
+                              {news.title}
+                            </h4>
+                          </div>
+                          <p className="text-xs text-gray-400 mb-2">
+                            {news.source}
                           </p>
                           <a
                             href={news.url}
@@ -295,10 +265,10 @@ export default function SuperintendentDashboard() {
                 </div>
                 
                 {/* Refresh Button */}
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-1">
                   <Button variant="outline" size="sm" className="text-xs">
                     <ClockIcon className="h-3 w-3 mr-1" />
-                    Last Updated: {new Date().toLocaleTimeString()}
+                    Updated: {new Date().toLocaleTimeString()}
                   </Button>
                 </div>
               </div>
