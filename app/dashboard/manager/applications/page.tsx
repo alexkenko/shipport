@@ -134,6 +134,17 @@ export default function ManagerApplicationsPage() {
         })
         .filter(app => app.jobs && app.users) // Only include applications with valid job and user data
 
+      console.log('Debug - Raw applications count:', applications.length)
+      console.log('Debug - Jobs found:', jobs.length)
+      console.log('Debug - Superintendents found:', superintendents?.length || 0)
+      console.log('Debug - Profiles found:', profiles?.length || 0)
+      console.log('Debug - Combined applications count:', combinedApplications.length)
+      console.log('Debug - Applications with missing data:', applications.filter(app => {
+        const job = jobs.find(j => j.id === app.job_id)
+        const superintendent = superintendents?.find(s => s.id === app.superintendent_id)
+        return !job || !superintendent
+      }))
+
       setApplications(combinedApplications)
     } catch (error) {
       console.error('Error fetching applications:', error)
