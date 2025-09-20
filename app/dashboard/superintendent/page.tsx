@@ -7,9 +7,6 @@ import Link from 'next/link'
 import { 
   MagnifyingGlassIcon, 
   DocumentTextIcon, 
-  ClockIcon,
-  ChartBarIcon,
-  CheckCircleIcon,
   UserGroupIcon
 } from '@heroicons/react/24/outline'
 
@@ -41,12 +38,6 @@ export default function SuperintendentDashboard() {
     }
   ]
 
-  const stats = [
-    { label: 'Applications Sent', value: '8', icon: DocumentTextIcon, color: 'text-blue-400' },
-    { label: 'Pending Responses', value: '3', icon: ClockIcon, color: 'text-yellow-400' },
-    { label: 'Completed Jobs', value: '15', icon: CheckCircleIcon, color: 'text-green-400' },
-    { label: 'Profile Views', value: '42', icon: ChartBarIcon, color: 'text-purple-400' }
-  ]
 
   const recentActivity = [
     {
@@ -85,26 +76,6 @@ export default function SuperintendentDashboard() {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card key={index} variant="glass">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400 mb-1">
-                      {stat.label}
-                    </p>
-                    <p className="text-2xl font-bold text-white">
-                      {stat.value}
-                    </p>
-                  </div>
-                  <stat.icon className={`h-8 w-8 ${stat.color}`} />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
         {/* Quick Actions */}
         <div>
@@ -116,7 +87,7 @@ export default function SuperintendentDashboard() {
               <Link key={index} href={action.href}>
                 <Card variant="elevated" className="hover:scale-105 transition-transform duration-200 cursor-pointer">
                   <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex items-center space-x-4">
                       <div className={`p-3 rounded-lg ${action.color}`}>
                         <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                       </div>

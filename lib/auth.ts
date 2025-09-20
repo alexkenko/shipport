@@ -172,6 +172,8 @@ export async function updateSuperintendentProfile(
       price_per_idle_day: updates.pricePerIdleDay,
       service_type: updates.serviceType,
       updated_at: new Date().toISOString(),
+    }, {
+      onConflict: 'user_id'
     })
     .select()
     .single()
