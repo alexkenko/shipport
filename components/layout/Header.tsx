@@ -36,7 +36,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
     isLoading: notificationsLoading,
     markAsRead,
     markAllAsRead
-  } = useNotifications(user)
+  } = useNotifications(user || null)
 
   const handleLogout = async () => {
     try {

@@ -428,21 +428,107 @@ export default function SuperintendentDashboard() {
                   </div>
                 </div>
                 
-                {/* Google Flights Widget */}
+                {/* Vessel Tracking Widget */}
                 <div className="mt-6 p-4 bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50 rounded-lg">
                   <h4 className="text-sm font-semibold text-white mb-3 flex items-center">
-                    ✈️ Flight Search
+                    🚢 Live Vessel Tracking
                   </h4>
-                  <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-                    <iframe
-                      src="https://www.google.com/travel/flights"
-                      width="100%"
-                      height="400"
-                      frameBorder="0"
-                      scrolling="no"
-                      className="rounded-lg"
-                      title="Google Flights Search"
-                    ></iframe>
+                  <div className="bg-gradient-to-br from-blue-900/20 to-blue-800/10 rounded-lg overflow-hidden shadow-lg border border-blue-500/20">
+                    <div className="p-4">
+                      {/* Map Header */}
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                          <span className="text-xs text-gray-300">Live AIS Data</span>
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {new Date().toLocaleTimeString()}
+                        </div>
+                      </div>
+                      
+                      {/* Mock Map Area */}
+                      <div className="relative h-64 bg-gradient-to-br from-blue-900/30 to-blue-800/20 rounded-lg border border-blue-500/30 overflow-hidden">
+                        {/* Grid Pattern */}
+                        <div className="absolute inset-0 opacity-20">
+                          <svg width="100%" height="100%" className="text-blue-400">
+                            <defs>
+                              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                              </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#grid)" />
+                          </svg>
+                        </div>
+                        
+                        {/* Mock Vessel Icons */}
+                        <div className="absolute top-8 left-12">
+                          <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg">
+                            <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
+                          </div>
+                          <div className="absolute top-6 left-0 text-xs text-green-300 font-mono">MSC Vessel</div>
+                        </div>
+                        
+                        <div className="absolute top-16 right-16">
+                          <div className="w-4 h-4 bg-blue-400 rounded-full animate-pulse shadow-lg">
+                            <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
+                          </div>
+                          <div className="absolute top-6 left-0 text-xs text-blue-300 font-mono">CMA CGM</div>
+                        </div>
+                        
+                        <div className="absolute bottom-12 left-20">
+                          <div className="w-4 h-4 bg-yellow-400 rounded-full animate-pulse shadow-lg">
+                            <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
+                          </div>
+                          <div className="absolute top-6 left-0 text-xs text-yellow-300 font-mono">Maersk Line</div>
+                        </div>
+                        
+                        <div className="absolute bottom-8 right-12">
+                          <div className="w-4 h-4 bg-red-400 rounded-full animate-pulse shadow-lg">
+                            <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
+                          </div>
+                          <div className="absolute top-6 left-0 text-xs text-red-300 font-mono">Hapag-Lloyd</div>
+                        </div>
+                        
+                        <div className="absolute top-20 left-1/2">
+                          <div className="w-4 h-4 bg-purple-400 rounded-full animate-pulse shadow-lg">
+                            <div className="w-2 h-2 bg-white rounded-full absolute top-1 left-1"></div>
+                          </div>
+                          <div className="absolute top-6 left-0 text-xs text-purple-300 font-mono">COSCO</div>
+                        </div>
+                        
+                        {/* Port Markers */}
+                        <div className="absolute bottom-4 left-8">
+                          <div className="w-3 h-3 bg-orange-500 rounded-full">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full absolute top-0.5 left-0.5"></div>
+                          </div>
+                          <div className="absolute top-4 left-0 text-xs text-orange-300">Singapore Port</div>
+                        </div>
+                        
+                        <div className="absolute top-4 right-8">
+                          <div className="w-3 h-3 bg-orange-500 rounded-full">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full absolute top-0.5 left-0.5"></div>
+                          </div>
+                          <div className="absolute top-4 left-0 text-xs text-orange-300">Rotterdam</div>
+                        </div>
+                      </div>
+                      
+                      {/* Vessel Info */}
+                      <div className="mt-4 grid grid-cols-2 gap-2">
+                        <div className="text-xs text-gray-400">
+                          <span className="text-green-400">●</span> Active Vessels: 5
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          <span className="text-orange-400">●</span> Ports: 2
+                        </div>
+                      </div>
+                      
+                      {/* Update Button */}
+                      <div className="mt-3 flex justify-end">
+                        <button className="px-3 py-1 bg-gradient-to-r from-primary-600 to-primary-700 text-white text-xs font-medium rounded-md hover:from-primary-700 hover:to-primary-800 transition-all duration-200">
+                          Refresh Map
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
