@@ -69,14 +69,25 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
               </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
+          <nav className="hidden md:flex space-x-2">
+            {navigation.map((item, index) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                className={`
+                  relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group
+                  ${index === 0 
+                    ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-500/25' 
+                    : 'bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30'
+                  }
+                  hover:scale-105 hover:shadow-lg hover:shadow-primary-500/20
+                `}
               >
-                {item.name}
+                <span className="relative z-10">{item.name}</span>
+                {index === 0 && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-primary-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
             ))}
           </nav>
@@ -177,15 +188,26 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-dark-700">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
+            <div className="px-2 pt-2 pb-3 space-y-2">
+              {navigation.map((item, index) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  className={`
+                    relative block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 group
+                    ${index === 0 
+                      ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-500/25' 
+                      : 'bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30'
+                    }
+                    hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-500/20
+                  `}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item.name}
+                  <span className="relative z-10">{item.name}</span>
+                  {index === 0 && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-primary-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </Link>
               ))}
               

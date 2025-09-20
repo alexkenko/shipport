@@ -235,6 +235,41 @@ export default function SuperintendentDashboard() {
                       </div>
                     </div>
 
+                    {/* Pricing */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Rates</h4>
+                      <div className="space-y-2">
+                        <div className="p-3 rounded-lg bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-500/30">
+                          <p className="text-xs text-green-400 uppercase tracking-wide mb-1">Work Day</p>
+                          <p className="text-sm text-white font-bold">
+                            {isLoading ? 'Loading...' : profile?.price_per_workday ? `$${profile.price_per_workday}/day` : 'Not specified'}
+                          </p>
+                        </div>
+                        <div className="p-3 rounded-lg bg-gradient-to-r from-blue-900/20 to-blue-800/10 border border-blue-500/30">
+                          <p className="text-xs text-blue-400 uppercase tracking-wide mb-1">Idle Day</p>
+                          <p className="text-sm text-white font-bold">
+                            {isLoading ? 'Loading...' : profile?.price_per_idle_day ? `$${profile.price_per_idle_day}/day` : 'Not specified'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Service Type */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Service Type</h4>
+                      <div className="p-3 rounded-lg bg-gradient-to-r from-indigo-900/20 to-indigo-800/10 border border-indigo-500/30">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.service_type ? (
+                          <span className="px-3 py-2 bg-indigo-500/20 text-indigo-400 text-sm rounded-lg font-medium border border-indigo-500/30">
+                            {profile.service_type === 'door_to_door' ? '🚪 Door to Door Service' : '🛥️ Gangway to Gangway Service'}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-gray-400">Not specified</span>
+                        )}
+                      </div>
+                    </div>
+
                     {/* Certifications */}
                     <div className="space-y-3">
                       <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Certifications</h4>
