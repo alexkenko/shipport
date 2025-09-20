@@ -74,22 +74,22 @@ export default function SearchSuperintendentsPage() {
 
       if (filters.vessel_type) {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.vessel_types?.includes(filters.vessel_type)
+          sup.superintendent_profiles?.[0]?.vessel_types?.includes(filters.vessel_type)
         )
       }
       if (filters.service) {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.services?.includes(filters.service)
+          sup.superintendent_profiles?.[0]?.services?.includes(filters.service)
         )
       }
       if (filters.certification) {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.certifications?.includes(filters.certification)
+          sup.superintendent_profiles?.[0]?.certifications?.includes(filters.certification)
         )
       }
       if (filters.port) {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
-          sup.superintendent_profiles?.ports_covered?.includes(filters.port)
+          sup.superintendent_profiles?.[0]?.ports_covered?.includes(filters.port)
         )
       }
 
@@ -97,10 +97,10 @@ export default function SearchSuperintendentsPage() {
       const transformedData = filteredSuperintendents.map(sup => ({
         id: sup.id,
         user_id: sup.id,
-        vessel_types: sup.superintendent_profiles?.vessel_types || [],
-        certifications: sup.superintendent_profiles?.certifications || [],
-        ports_covered: sup.superintendent_profiles?.ports_covered || [],
-        services: sup.superintendent_profiles?.services || [],
+        vessel_types: sup.superintendent_profiles?.[0]?.vessel_types || [],
+        certifications: sup.superintendent_profiles?.[0]?.certifications || [],
+        ports_covered: sup.superintendent_profiles?.[0]?.ports_covered || [],
+        services: sup.superintendent_profiles?.[0]?.services || [],
         users: {
           id: sup.id,
           name: sup.name,

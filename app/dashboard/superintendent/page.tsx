@@ -1,9 +1,12 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
+import { getCurrentUser, getSuperintendentProfile } from '@/lib/auth'
+import { AuthUser } from '@/lib/auth'
 import { 
   MagnifyingGlassIcon, 
   DocumentTextIcon, 
@@ -12,6 +15,10 @@ import {
 } from '@heroicons/react/24/outline'
 
 export default function SuperintendentDashboard() {
+  const [user, setUser] = useState<AuthUser | null>(null)
+  const [profile, setProfile] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
   const quickActions = [
     {
       title: 'Search for Jobs',
