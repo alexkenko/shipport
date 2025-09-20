@@ -95,33 +95,12 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Legal Disclaimer */}
-        <div className="border-t border-dark-700 pt-8 mb-8">
-          <div className="bg-dark-800/50 rounded-lg p-6">
-            <h4 className="text-lg font-semibold text-white mb-4">Important Legal Disclaimer</h4>
-            <div className="text-sm text-gray-400 space-y-3">
-              <p>
-                <strong className="text-white">Disclaimer:</strong> ShipPort is a professional networking platform connecting vessel managers with marine superintendents. 
-                We do not guarantee the quality, reliability, or performance of any services provided by platform users. 
-                All agreements and transactions are between the parties directly involved.
-              </p>
-              <p>
-                <strong className="text-white">Professional Standards:</strong> While we verify user credentials, we recommend conducting your own due diligence 
-                before engaging any marine superintendent services. All users are responsible for ensuring compliance with applicable maritime regulations and standards.
-              </p>
-              <p>
-                <strong className="text-white">Limitation of Liability:</strong> ShipPort shall not be liable for any damages, losses, or claims arising from 
-                the use of our platform or services provided by platform users. Users engage at their own risk.
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* Legal Links */}
         <div className="border-t border-dark-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-sm text-gray-500 mb-4 md:mb-0">
-              © 2024 ShipPort. All rights reserved.
+              © 2024 ShipinPort. All rights reserved.
             </div>
             <div className="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
               <Link href="/terms" className="text-gray-500 hover:text-white transition-colors">
@@ -154,6 +133,9 @@ export function Footer() {
             </p>
             <p>
               <strong>Professional Indemnity:</strong> Marine superintendents are advised to maintain appropriate professional indemnity insurance coverage.
+            </p>
+            <p className="mt-4">
+              <strong>Platform Disclaimer:</strong> ShipinPort serves as a connection platform. We do not guarantee service quality. All agreements are between users directly.
             </p>
           </div>
         </div>
