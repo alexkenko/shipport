@@ -464,6 +464,43 @@ export default function SuperintendentDashboard() {
                   </div>
                 </div>
                 
+                {/* Flight Search */}
+                <div className="mt-6 p-4 bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50 rounded-lg">
+                  <h4 className="text-sm font-semibold text-white mb-3 flex items-center">
+                    ✈️ Flight Search
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs text-gray-400 mb-1">From</label>
+                      <input
+                        type="text"
+                        placeholder="Departure city"
+                        className="w-full px-3 py-2 bg-dark-800 border border-dark-600 rounded-md text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-400 mb-1">To</label>
+                      <input
+                        type="text"
+                        placeholder="Destination city"
+                        className="w-full px-3 py-2 bg-dark-800 border border-dark-600 rounded-md text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-400 mb-1">Date</label>
+                      <input
+                        type="date"
+                        className="w-full px-3 py-2 bg-dark-800 border border-dark-600 rounded-md text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <button className="px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white text-sm font-medium rounded-md hover:from-primary-700 hover:to-primary-800 transition-all duration-200 hover:scale-105">
+                      Search Flights
+                    </button>
+                  </div>
+                </div>
+                
                 {/* Refresh Button */}
                 <div className="flex justify-center pt-1">
                   <Button variant="outline" size="sm" className="text-xs">
