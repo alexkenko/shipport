@@ -11,7 +11,6 @@ import {
   PlusIcon, 
   DocumentTextIcon, 
   MagnifyingGlassIcon,
-  ChartBarIcon,
   ClockIcon,
   CheckCircleIcon,
   UserGroupIcon
@@ -21,8 +20,7 @@ export default function ManagerDashboard() {
   const [stats, setStats] = useState({
     activeJobs: 0,
     totalApplications: 0,
-    completedJobs: 0,
-    totalSuperintendents: 0
+    completedJobs: 0
   })
   const [isLoading, setIsLoading] = useState(true)
 
@@ -121,17 +119,10 @@ export default function ManagerDashboard() {
         .select('*', { count: 'exact', head: true })
         .in('job_id', jobIds)
 
-      // Fetch total superintendents count
-      const { count: superintendentsCount } = await supabase
-        .from('users')
-        .select('*', { count: 'exact', head: true })
-        .eq('role', 'superintendent')
-
       setStats({
         activeJobs: activeJobsCount || 0,
         totalApplications: applicationsCount || 0,
-        completedJobs: completedJobsCount || 0,
-        totalSuperintendents: superintendentsCount || 0
+        completedJobs: completedJobsCount || 0
       })
     } catch (error) {
       console.error('Error fetching dashboard stats:', error)
@@ -143,8 +134,7 @@ export default function ManagerDashboard() {
   const statsData = [
     { label: 'Active Jobs', value: stats.activeJobs.toString(), icon: ClockIcon, color: 'text-blue-400' },
     { label: 'Applications', value: stats.totalApplications.toString(), icon: DocumentTextIcon, color: 'text-green-400' },
-    { label: 'Completed Jobs', value: stats.completedJobs.toString(), icon: CheckCircleIcon, color: 'text-purple-400' },
-    { label: 'Total Superintendents', value: stats.totalSuperintendents.toString(), icon: ChartBarIcon, color: 'text-orange-400' }
+    { label: 'Completed Jobs', value: stats.completedJobs.toString(), icon: CheckCircleIcon, color: 'text-purple-400' }
   ]
 
   return (
