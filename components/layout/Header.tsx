@@ -222,11 +222,12 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                     }
                     hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-500/20
                   `}
-                  onClick={(e) => {
-                    e.preventDefault()
+                  onClick={() => {
                     setIsMobileMenuOpen(false)
-                    // Use router.push for better mobile compatibility
-                    router.push(item.href)
+                    // Small delay to ensure menu closes before navigation
+                    setTimeout(() => {
+                      window.location.href = item.href
+                    }, 100)
                   }}
                 >
                   <span className="relative z-10">{item.name}</span>
@@ -243,10 +244,11 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   <Link
                     href="/auth/login"
                     className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-                    onClick={(e) => {
-                      e.preventDefault()
+                    onClick={() => {
                       setIsMobileMenuOpen(false)
-                      router.push('/auth/login')
+                      setTimeout(() => {
+                        window.location.href = '/auth/login'
+                      }, 100)
                     }}
                   >
                     Sign In
@@ -254,10 +256,11 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   <Link
                     href="/auth/register"
                     className="bg-primary-600 hover:bg-primary-700 text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 mx-3 mt-2"
-                    onClick={(e) => {
-                      e.preventDefault()
+                    onClick={() => {
                       setIsMobileMenuOpen(false)
-                      router.push('/auth/register')
+                      setTimeout(() => {
+                        window.location.href = '/auth/register'
+                      }, 100)
                     }}
                   >
                     Sign Up
