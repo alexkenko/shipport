@@ -52,6 +52,8 @@ export interface Job {
     phone?: string;
     photo_url?: string;
   };
+  // Application status for current user (only used in superintendent search)
+  application_status?: 'pending' | 'accepted' | 'rejected' | null;
 }
 
 export interface JobApplication {

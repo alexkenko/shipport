@@ -31,6 +31,12 @@ export default function SearchJobsPage() {
   const fetchJobs = async () => {
     setIsLoading(true)
     try {
+      const user = await getCurrentUser()
+      if (!user) {
+        toast.error('Please log in to view jobs')
+        return
+      }
+
       let query = supabase
         .from('jobs')
         .select(`
@@ -62,11 +68,38 @@ export default function SearchJobsPage() {
         query = query.lte('end_date', filters.date_range.end.toISOString().split('T')[0])
       }
 
-      const { data, error } = await query
+      const { data: jobsData, error } = await query
       if (error) throw error
       
-      console.log('Jobs fetched:', data)
-      setJobs(data || [])
+      if (!jobsData || jobsData.length === 0) {
+        setJobs([])
+        return
+      }
+
+      // Get existing applications for this user
+      const jobIds = jobsData.map(job => job.id)
+      const { data: applicationsData, error: applicationsError } = await supabase
+        .from('job_applications')
+        .select('job_id, status')
+        .in('job_id', jobIds)
+        .eq('superintendent_id', user.id)
+
+      if (applicationsError) throw applicationsError
+
+      // Create a map of job_id to application status
+      const applicationMap = new Map()
+      applicationsData?.forEach(app => {
+        applicationMap.set(app.job_id, app.status)
+      })
+
+      // Add application status to each job
+      const jobsWithApplications = jobsData.map(job => ({
+        ...job,
+        application_status: applicationMap.get(job.id) || null
+      }))
+      
+      console.log('Jobs fetched with applications:', jobsWithApplications)
+      setJobs(jobsWithApplications)
     } catch (error) {
       console.error('Error fetching jobs:', error)
       toast.error('Failed to load jobs')
@@ -120,6 +153,9 @@ export default function SearchJobsPage() {
       }
 
       toast.success('Application submitted successfully!')
+      
+      // Refresh jobs to update application status
+      await fetchJobs()
     } catch (error: any) {
       toast.error(error.message || 'Failed to submit application')
     } finally {
@@ -315,9 +351,25 @@ export default function SearchJobsPage() {
                     <Button
                       onClick={() => handleApply(job.id)}
                       isLoading={isApplying === job.id}
-                      className="w-full"
+                      disabled={job.application_status === 'pending' || job.application_status === 'accepted' || job.application_status === 'rejected'}
+                      className={`w-full ${
+                        job.application_status === 'pending' 
+                          ? 'bg-yellow-600 hover:bg-yellow-600' 
+                          : job.application_status === 'accepted'
+                          ? 'bg-green-600 hover:bg-green-600'
+                          : job.application_status === 'rejected'
+                          ? 'bg-red-600 hover:bg-red-600'
+                          : ''
+                      }`}
                     >
-                      Apply for Job
+                      {job.application_status === 'pending' 
+                        ? 'Applied' 
+                        : job.application_status === 'accepted'
+                        ? 'Accepted'
+                        : job.application_status === 'rejected'
+                        ? 'Rejected'
+                        : 'Apply for Job'
+                      }
                     </Button>
                   </CardContent>
                 </Card>
