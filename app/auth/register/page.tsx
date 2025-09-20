@@ -8,7 +8,9 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { UserRole, VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES } from '@/types'
+import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
+import { MapPinIcon } from '@heroicons/react/24/outline'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -17,6 +19,10 @@ export default function RegisterPage() {
   const [step, setStep] = useState(1)
   const [userType, setUserType] = useState<UserRole | null>(null)
   
+  const [customCertification, setCustomCertification] = useState('')
+  const [customPort, setCustomPort] = useState('')
+  const [searchPort, setSearchPort] = useState('')
+  const [ports, setPorts] = useState<any[]>([])
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -37,7 +43,23 @@ export default function RegisterPage() {
     if (type && ['manager', 'superintendent'].includes(type)) {
       setUserType(type)
     }
+    loadPorts()
   }, [searchParams])
+
+  const loadPorts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('ports')
+        .select('*')
+        .order('name')
+        .limit(100)
+
+      if (error) throw error
+      setPorts(data || [])
+    } catch (error) {
+      console.error('Error loading ports:', error)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -97,6 +119,57 @@ export default function RegisterPage() {
         : [...prev[type], value]
     }))
   }
+
+  const handleAddCustomCertification = () => {
+    if (customCertification.trim() && !formData.certifications.includes(customCertification.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        certifications: [...prev.certifications, customCertification.trim()]
+      }))
+      setCustomCertification('')
+    }
+  }
+
+  const handleAddCustomPort = () => {
+    if (customPort.trim() && !formData.portsCovered.includes(customPort.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        portsCovered: [...prev.portsCovered, customPort.trim()]
+      }))
+      setCustomPort('')
+    }
+  }
+
+  const handleRemoveCertification = (cert: string) => {
+    setFormData(prev => ({
+      ...prev,
+      certifications: prev.certifications.filter(c => c !== cert)
+    }))
+  }
+
+  const handlePortAdd = (port: any) => {
+    const portString = `${port.name}, ${port.city}, ${port.country}`
+    if (!formData.portsCovered.includes(portString)) {
+      setFormData(prev => ({
+        ...prev,
+        portsCovered: [...prev.portsCovered, portString]
+      }))
+    }
+    setSearchPort('')
+  }
+
+  const handlePortRemove = (port: string) => {
+    setFormData(prev => ({
+      ...prev,
+      portsCovered: prev.portsCovered.filter(p => p !== port)
+    }))
+  }
+
+  const filteredPorts = ports.filter(port =>
+    port.name.toLowerCase().includes(searchPort.toLowerCase()) ||
+    port.city.toLowerCase().includes(searchPort.toLowerCase()) ||
+    port.country.toLowerCase().includes(searchPort.toLowerCase())
+  ).slice(0, 10)
 
   const canProceed = () => {
     if (step === 1) {

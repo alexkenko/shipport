@@ -25,6 +25,9 @@ export interface SuperintendentProfile extends User {
   certifications: string[];
   ports_covered: string[];
   services: string[];
+  price_per_workday?: number;
+  price_per_idle_day?: number;
+  service_type: 'door_to_door' | 'gangway_to_gangway';
 }
 
 export interface Job {
@@ -149,4 +152,10 @@ export const ATTENDANCE_TYPES = [
   'Consultation',
   'Training',
   'Other'
+] as const;
+
+// Service types for superintendents
+export const SERVICE_TYPES = [
+  'Door to Door',
+  'Gangway to Gangway'
 ] as const;

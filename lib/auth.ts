@@ -155,6 +155,9 @@ export async function updateSuperintendentProfile(
     certifications: string[]
     portsCovered: string[]
     services: string[]
+    pricePerWorkday?: number | null
+    pricePerIdleDay?: number | null
+    serviceType: 'door_to_door' | 'gangway_to_gangway'
   }
 ) {
   const { data, error } = await supabase
@@ -164,6 +167,9 @@ export async function updateSuperintendentProfile(
       certifications: updates.certifications,
       ports_covered: updates.portsCovered,
       services: updates.services,
+      price_per_workday: updates.pricePerWorkday,
+      price_per_idle_day: updates.pricePerIdleDay,
+      service_type: updates.serviceType,
       updated_at: new Date().toISOString(),
     })
     .eq('user_id', userId)

@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { updateUserProfile, updateSuperintendentProfile, uploadProfilePhoto, getCurrentUser } from '@/lib/auth'
-import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES } from '@/types'
+import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES, SERVICE_TYPES } from '@/types'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
@@ -26,6 +26,8 @@ export default function SuperintendentProfilePage() {
   const [isUploading, setIsUploading] = useState(false)
   const [ports, setPorts] = useState<Port[]>([])
   const [searchPort, setSearchPort] = useState('')
+  const [customCertification, setCustomCertification] = useState('')
+  const [customPort, setCustomPort] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -36,6 +38,9 @@ export default function SuperintendentProfilePage() {
     certifications: [] as string[],
     portsCovered: [] as string[],
     services: [] as string[],
+    pricePerWorkday: '',
+    pricePerIdleDay: '',
+    serviceType: 'gangway_to_gangway' as 'door_to_door' | 'gangway_to_gangway',
   })
 
   useEffect(() => {
@@ -58,6 +63,9 @@ export default function SuperintendentProfilePage() {
           certifications: [],
           portsCovered: [],
           services: [],
+          pricePerWorkday: '',
+          pricePerIdleDay: '',
+          serviceType: 'gangway_to_gangway',
         })
       }
     } catch (error) {
@@ -117,6 +125,33 @@ export default function SuperintendentProfilePage() {
     }))
   }
 
+  const handleAddCustomCertification = () => {
+    if (customCertification.trim() && !formData.certifications.includes(customCertification.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        certifications: [...prev.certifications, customCertification.trim()]
+      }))
+      setCustomCertification('')
+    }
+  }
+
+  const handleAddCustomPort = () => {
+    if (customPort.trim() && !formData.portsCovered.includes(customPort.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        portsCovered: [...prev.portsCovered, customPort.trim()]
+      }))
+      setCustomPort('')
+    }
+  }
+
+  const handleRemoveCertification = (cert: string) => {
+    setFormData(prev => ({
+      ...prev,
+      certifications: prev.certifications.filter(c => c !== cert)
+    }))
+  }
+
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !user) return
@@ -153,6 +188,9 @@ export default function SuperintendentProfilePage() {
         certifications: formData.certifications,
         portsCovered: formData.portsCovered,
         services: formData.services,
+        pricePerWorkday: formData.pricePerWorkday ? parseFloat(formData.pricePerWorkday) : null,
+        pricePerIdleDay: formData.pricePerIdleDay ? parseFloat(formData.pricePerIdleDay) : null,
+        serviceType: formData.serviceType,
       })
 
       setUser(prev => prev ? {
@@ -350,18 +388,77 @@ export default function SuperintendentProfilePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {CERTIFICATION_TYPES.map((cert) => (
-                  <label key={cert} className="flex items-center space-x-3 p-3 rounded-lg border border-dark-600 hover:border-primary-400 cursor-pointer transition-colors">
-                    <input
-                      type="checkbox"
-                      checked={formData.certifications.includes(cert)}
-                      onChange={() => handleMultiSelectChange('certifications', cert)}
-                      className="rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
-                    />
-                    <span className="text-sm text-gray-300">{cert}</span>
+              <div className="space-y-6">
+                {/* Predefined Certifications */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Common Certifications
                   </label>
-                ))}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {CERTIFICATION_TYPES.map((cert) => (
+                      <label key={cert} className="flex items-center space-x-3 p-3 rounded-lg border border-dark-600 hover:border-primary-400 cursor-pointer transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={formData.certifications.includes(cert)}
+                          onChange={() => handleMultiSelectChange('certifications', cert)}
+                          className="rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                        />
+                        <span className="text-sm text-gray-300">{cert}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Custom Certification Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Add Custom Certification
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={customCertification}
+                      onChange={(e) => setCustomCertification(e.target.value)}
+                      placeholder="e.g., BCAV, MLC, ISO 9001, etc."
+                      className="flex-1 px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomCertification())}
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleAddCustomCertification}
+                      disabled={!customCertification.trim()}
+                      variant="outline"
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Selected Certifications Display */}
+                {formData.certifications.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-3">
+                      Your Certifications
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.certifications.map((cert, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm"
+                        >
+                          <span>{cert}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveCertification(cert)}
+                            className="ml-1 hover:text-red-300 transition-colors"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -391,6 +488,98 @@ export default function SuperintendentProfilePage() {
             </CardContent>
           </Card>
 
+          {/* Pricing */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Pricing</CardTitle>
+              <CardDescription>
+                Set your daily rates for work and idle days
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Price Per Workday (USD)
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
+                    <input
+                      type="number"
+                      name="pricePerWorkday"
+                      value={formData.pricePerWorkday}
+                      onChange={handleInputChange}
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      className="w-full pl-8 pr-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Rate for active work days (inspections, audits, etc.)
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Price Per Idle Day (USD)
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">$</span>
+                    <input
+                      type="number"
+                      name="pricePerIdleDay"
+                      value={formData.pricePerIdleDay}
+                      onChange={handleInputChange}
+                      placeholder="0.00"
+                      min="0"
+                      step="0.01"
+                      className="w-full pl-8 pr-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Rate for standby/waiting days
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Service Type */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Service Type</CardTitle>
+              <CardDescription>
+                Choose how you provide your services
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {SERVICE_TYPES.map((type) => (
+                  <label key={type} className="flex items-center space-x-3 p-4 rounded-lg border border-dark-600 hover:border-primary-400 cursor-pointer transition-colors">
+                    <input
+                      type="radio"
+                      name="serviceType"
+                      value={type.toLowerCase().replace(/\s+/g, '_')}
+                      checked={formData.serviceType === type.toLowerCase().replace(/\s+/g, '_')}
+                      onChange={(e) => setFormData(prev => ({ ...prev, serviceType: e.target.value as 'door_to_door' | 'gangway_to_gangway' }))}
+                      className="text-primary-600 focus:ring-primary-500"
+                    />
+                    <div>
+                      <span className="text-sm font-medium text-gray-300">{type}</span>
+                      <p className="text-xs text-gray-400 mt-1">
+                        {type === 'Door to Door' 
+                          ? 'Service includes travel from your location to the vessel and back'
+                          : 'Service starts at the vessel gangway and ends there'
+                        }
+                      </p>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Ports Covered */}
           <Card>
             <CardHeader>
@@ -400,10 +589,11 @@ export default function SuperintendentProfilePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Port Search from Database */}
                 <div>
                   <Input
-                    label="Search Ports"
+                    label="Search from Port Database"
                     value={searchPort}
                     onChange={(e) => setSearchPort(e.target.value)}
                     placeholder="Type to search for ports..."
@@ -425,24 +615,57 @@ export default function SuperintendentProfilePage() {
                   )}
                 </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {formData.portsCovered.map((port, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center space-x-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm"
+                {/* Custom Port Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Add Custom Port Name
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={customPort}
+                      onChange={(e) => setCustomPort(e.target.value)}
+                      placeholder="e.g., Port of Singapore, Rotterdam, etc."
+                      className="flex-1 px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomPort())}
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleAddCustomPort}
+                      disabled={!customPort.trim()}
+                      variant="outline"
                     >
-                      <MapPinIcon className="h-4 w-4" />
-                      <span>{port}</span>
-                      <button
-                        type="button"
-                        onClick={() => handlePortRemove(port)}
-                        className="ml-1 hover:text-red-300 transition-colors"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
+                      Add
+                    </Button>
+                  </div>
                 </div>
+
+                {/* Selected Ports Display */}
+                {formData.portsCovered.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-3">
+                      Your Ports Covered
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.portsCovered.map((port, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm"
+                        >
+                          <MapPinIcon className="h-4 w-4" />
+                          <span>{port}</span>
+                          <button
+                            type="button"
+                            onClick={() => handlePortRemove(port)}
+                            className="ml-1 hover:text-red-300 transition-colors"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
