@@ -46,37 +46,72 @@ export default function SearchSuperintendentsPage() {
   const fetchSuperintendents = async () => {
     setIsLoading(true)
     try {
+      // First, get all superintendents from users table
       let query = supabase
-        .from('superintendent_profiles')
+        .from('users')
         .select(`
-          *,
-          users!superintendent_profiles_user_id_fkey (
-            id,
-            name,
-            surname,
-            company,
-            bio,
-            photo_url
+          id,
+          name,
+          surname,
+          company,
+          bio,
+          photo_url,
+          superintendent_profiles (
+            vessel_types,
+            certifications,
+            ports_covered,
+            services
           )
         `)
+        .eq('role', 'superintendent')
+        .order('created_at', { ascending: false })
 
-      // Apply filters
+      const { data: allSuperintendents, error: usersError } = await query
+      if (usersError) throw usersError
+
+      // Filter the results based on profile criteria
+      let filteredSuperintendents = allSuperintendents || []
+
       if (filters.vessel_type) {
-        query = query.contains('vessel_types', [filters.vessel_type])
+        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+          sup.superintendent_profiles?.vessel_types?.includes(filters.vessel_type)
+        )
       }
       if (filters.service) {
-        query = query.contains('services', [filters.service])
+        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+          sup.superintendent_profiles?.services?.includes(filters.service)
+        )
       }
       if (filters.certification) {
-        query = query.contains('certifications', [filters.certification])
+        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+          sup.superintendent_profiles?.certifications?.includes(filters.certification)
+        )
       }
       if (filters.port) {
-        query = query.contains('ports_covered', [filters.port])
+        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+          sup.superintendent_profiles?.ports_covered?.includes(filters.port)
+        )
       }
 
-      const { data, error } = await query
-      if (error) throw error
-      setSuperintendents(data || [])
+      // Transform the data to match the expected interface
+      const transformedData = filteredSuperintendents.map(sup => ({
+        id: sup.id,
+        user_id: sup.id,
+        vessel_types: sup.superintendent_profiles?.vessel_types || [],
+        certifications: sup.superintendent_profiles?.certifications || [],
+        ports_covered: sup.superintendent_profiles?.ports_covered || [],
+        services: sup.superintendent_profiles?.services || [],
+        users: {
+          id: sup.id,
+          name: sup.name,
+          surname: sup.surname,
+          company: sup.company,
+          bio: sup.bio,
+          photo_url: sup.photo_url
+        }
+      }))
+
+      setSuperintendents(transformedData)
     } catch (error) {
       console.error('Error fetching superintendents:', error)
       toast.error('Failed to load superintendents')

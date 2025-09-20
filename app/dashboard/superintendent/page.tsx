@@ -193,49 +193,58 @@ export default function SuperintendentDashboard() {
                   <div className="flex space-x-3 animate-scroll">
                     {[
                       {
-                        title: "New IMO Carbon Intensity Regulations",
+                        title: "IMO Adopts New EEXI Guidelines for 2025",
                         source: "Maritime Executive",
-                        time: "2h ago",
+                        time: "3h ago",
                         category: "Regulations",
                         image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
                         fallback: "🚢",
-                        url: "https://www.maritime-executive.com/article/new-imo-carbon-intensity-regulations"
+                        url: "https://www.maritime-executive.com/article/imo-adopts-new-eexi-guidelines-2025"
                       },
                       {
-                        title: "Container Ship Grounding in Suez",
+                        title: "Major Port Strike Averted in Rotterdam",
                         source: "Lloyd's List",
-                        time: "4h ago", 
-                        category: "Incidents",
+                        time: "7h ago", 
+                        category: "Ports",
                         image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=200&fit=crop&crop=center",
                         fallback: "⚓",
-                        url: "https://www.lloydslist.com/news/container-ship-grounding-suez"
+                        url: "https://www.lloydslist.com/news/rotterdam-port-strike-averted"
                       },
                       {
-                        title: "New Safety Standards for Bulk Carriers",
+                        title: "New AI Technology for Vessel Inspection",
                         source: "Safety4Sea",
-                        time: "6h ago",
-                        category: "Safety",
+                        time: "12h ago",
+                        category: "Technology",
                         image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop&crop=center",
-                        fallback: "🛡️",
-                        url: "https://safety4sea.com/bulk-carrier-safety-standards"
+                        fallback: "🤖",
+                        url: "https://safety4sea.com/ai-vessel-inspection-technology"
                       },
                       {
-                        title: "Marine Fuel Price Fluctuations",
+                        title: "Bunker Fuel Prices Drop 2.5% This Week",
                         source: "Bunker World",
-                        time: "8h ago",
+                        time: "18h ago",
                         category: "Market",
                         image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=300&h=200&fit=crop&crop=center",
                         fallback: "⛽",
-                        url: "https://www.bunkerworld.com/market-update"
+                        url: "https://www.bunkerworld.com/weekly-price-update"
                       },
                       {
-                        title: "Port Congestion in Asian Hubs",
+                        title: "Singapore Port Sets New Container Record",
                         source: "Port Technology",
-                        time: "10h ago",
+                        time: "24h ago",
                         category: "Ports",
                         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop&crop=center",
-                        fallback: "🏗️",
-                        url: "https://www.porttechnology.org/asian-port-congestion"
+                        fallback: "📦",
+                        url: "https://www.porttechnology.org/singapore-container-record"
+                      },
+                      {
+                        title: "New Cybersecurity Standards for Ships",
+                        source: "Maritime Reporter",
+                        time: "32h ago",
+                        category: "Security",
+                        image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=300&h=200&fit=crop&crop=center",
+                        fallback: "🔒",
+                        url: "https://www.marinelink.com/news/cybersecurity-standards-ships"
                       }
                     ].map((news, index) => (
                       <div key={index} className="flex-shrink-0 w-80">
