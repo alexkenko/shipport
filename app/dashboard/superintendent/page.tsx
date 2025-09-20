@@ -164,41 +164,6 @@ export default function SuperintendentDashboard() {
                       </div>
                     </div>
 
-                    {/* Pricing */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Rates</h4>
-                      <div className="space-y-2">
-                        <div className="p-3 rounded-lg bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-500/30">
-                          <p className="text-xs text-green-400 uppercase tracking-wide mb-1">Work Day</p>
-                          <p className="text-sm text-white font-bold">
-                            {isLoading ? 'Loading...' : profile?.price_per_workday ? `$${profile.price_per_workday}/day` : 'Not specified'}
-                          </p>
-                        </div>
-                        <div className="p-3 rounded-lg bg-gradient-to-r from-blue-900/20 to-blue-800/10 border border-blue-500/30">
-                          <p className="text-xs text-blue-400 uppercase tracking-wide mb-1">Idle Day</p>
-                          <p className="text-sm text-white font-bold">
-                            {isLoading ? 'Loading...' : profile?.price_per_idle_day ? `$${profile.price_per_idle_day}/day` : 'Not specified'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Service Type */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Service Type</h4>
-                      <div className="p-3 rounded-lg bg-gradient-to-r from-indigo-900/20 to-indigo-800/10 border border-indigo-500/30">
-                        {isLoading ? (
-                          <span className="text-xs text-gray-400">Loading...</span>
-                        ) : profile?.service_type ? (
-                          <span className="px-3 py-2 bg-indigo-500/20 text-indigo-400 text-sm rounded-lg font-medium border border-indigo-500/30">
-                            {profile.service_type === 'door_to_door' ? '🚪 Door to Door Service' : '🛥️ Gangway to Gangway Service'}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-gray-400">Not specified</span>
-                        )}
-                      </div>
-                    </div>
-
                     {/* Services */}
                     <div className="space-y-3">
                       <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Services</h4>
@@ -355,21 +320,21 @@ export default function SuperintendentDashboard() {
                     {[
                       {
                         title: "IMO Updates EEXI Guidelines for 2025",
-                        source: "Lloyd's List",
+                        source: "Maritime Executive",
                         time: "3h ago",
                         category: "Regulations",
                         image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
                         fallback: "🚢",
-                        url: "https://www.lloydslist.com/news/imo-eexi-guidelines-2025"
+                        url: "https://www.maritime-executive.com/news/imo-eexi-guidelines-2025"
                       },
                       {
                         title: "Major Port Strike Averted in Rotterdam",
-                        source: "Lloyd's List",
+                        source: "Port Technology",
                         time: "7h ago", 
                         category: "Ports",
                         image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=200&fit=crop&crop=center",
                         fallback: "⚓",
-                        url: "https://www.lloydslist.com/news/rotterdam-port-strike-averted"
+                        url: "https://www.porttechnology.org/rotterdam-port-strike-averted"
                       },
                       {
                         title: "New AI Technology for Vessel Inspection",

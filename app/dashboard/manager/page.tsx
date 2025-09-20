@@ -244,21 +244,21 @@ export default function ManagerDashboard() {
                   {[
                     {
                       title: "IMO Adopts New EEXI Guidelines for 2025",
-                      source: "Lloyd's List",
+                      source: "Maritime Executive",
                       time: "3h ago",
                       category: "Regulations",
                       image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
                       fallback: "🚢",
-                        url: "https://www.lloydslist.com/news/imo-eexi-guidelines-2025"
+                        url: "https://www.maritime-executive.com/news/imo-eexi-guidelines-2025"
                     },
                     {
                       title: "Major Port Strike Averted in Rotterdam",
-                      source: "Lloyd's List",
+                      source: "Port Technology",
                       time: "7h ago", 
                       category: "Ports",
                       image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=200&fit=crop&crop=center",
                       fallback: "⚓",
-                      url: "https://www.lloydslist.com/news/rotterdam-port-strike-averted"
+                      url: "https://www.porttechnology.org/rotterdam-port-strike-averted"
                     },
                     {
                       title: "New AI Technology for Vessel Inspection",
