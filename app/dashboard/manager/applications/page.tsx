@@ -118,19 +118,21 @@ export default function ManagerApplicationsPage() {
 
       if (profilesError) throw profilesError
 
-      // Combine all the data
-      const combinedApplications = applications.map(app => {
-        const job = jobs.find(j => j.id === app.job_id)
-        const superintendent = superintendents?.find(s => s.id === app.superintendent_id)
-        const profile = profiles?.find(p => p.user_id === app.superintendent_id)
+      // Combine all the data - filter out applications with missing data
+      const combinedApplications = applications
+        .map(app => {
+          const job = jobs.find(j => j.id === app.job_id)
+          const superintendent = superintendents?.find(s => s.id === app.superintendent_id)
+          const profile = profiles?.find(p => p.user_id === app.superintendent_id)
 
-        return {
-          ...app,
-          jobs: job,
-          users: superintendent,
-          superintendent_profiles: profile ? [profile] : []
-        }
-      })
+          return {
+            ...app,
+            jobs: job,
+            users: superintendent,
+            superintendent_profiles: profile ? [profile] : []
+          }
+        })
+        .filter(app => app.jobs && app.users) // Only include applications with valid job and user data
 
       setApplications(combinedApplications)
     } catch (error) {
@@ -240,10 +242,10 @@ export default function ManagerApplicationsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-lg mb-2">
-                        {application.jobs.title}
+                        {application.jobs?.title || 'Unknown Job'}
                       </CardTitle>
                       <CardDescription className="text-sm">
-                        Applied by {application.users.name} {application.users.surname}
+                        Applied by {application.users?.name || 'Unknown'} {application.users?.surname || 'User'}
                       </CardDescription>
                       <CardDescription className="text-xs text-gray-500">
                         {new Date(application.created_at).toLocaleDateString()}
@@ -261,15 +263,18 @@ export default function ManagerApplicationsPage() {
                   <div className="mb-4">
                     <div className="flex items-center text-sm text-gray-400 mb-2">
                       <MapPinIcon className="h-4 w-4 mr-2" />
-                      {application.jobs.port_name}
+                      {application.jobs?.port_name || 'N/A'}
                     </div>
                     <div className="flex items-center text-sm text-gray-400 mb-2">
                       <CalendarIcon className="h-4 w-4 mr-2" />
-                      {new Date(application.jobs.start_date).toLocaleDateString()} - {new Date(application.jobs.end_date).toLocaleDateString()}
+                      {application.jobs?.start_date && application.jobs?.end_date 
+                        ? `${new Date(application.jobs.start_date).toLocaleDateString()} - ${new Date(application.jobs.end_date).toLocaleDateString()}`
+                        : 'N/A'
+                      }
                     </div>
                     <div className="flex items-center text-sm text-gray-400">
                       <ClockIcon className="h-4 w-4 mr-2" />
-                      {application.jobs.attendance_type} • {application.jobs.vessel_type}
+                      {application.jobs?.attendance_type || 'N/A'} • {application.jobs?.vessel_type || 'N/A'}
                     </div>
                   </div>
 
@@ -323,7 +328,7 @@ export default function ManagerApplicationsPage() {
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-white">
-                    {selectedApplication.users.name} {selectedApplication.users.surname}
+                    {selectedApplication.users?.name || 'Unknown'} {selectedApplication.users?.surname || 'User'}
                   </h2>
                   <Button
                     variant="outline"
@@ -338,10 +343,10 @@ export default function ManagerApplicationsPage() {
                   {/* Basic Info */}
                   <div className="flex items-start space-x-4">
                     <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
-                      {selectedApplication.users.photo_url ? (
+                      {selectedApplication.users?.photo_url ? (
                         <img
                           src={selectedApplication.users.photo_url}
-                          alt={`${selectedApplication.users.name} ${selectedApplication.users.surname}`}
+                          alt={`${selectedApplication.users?.name || 'Unknown'} ${selectedApplication.users?.surname || 'User'}`}
                           className="w-16 h-16 rounded-full object-cover"
                         />
                       ) : (
@@ -350,10 +355,10 @@ export default function ManagerApplicationsPage() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white">
-                        {selectedApplication.users.name} {selectedApplication.users.surname}
+                        {selectedApplication.users?.name || 'Unknown'} {selectedApplication.users?.surname || 'User'}
                       </h3>
-                      <p className="text-gray-400">{selectedApplication.users.company}</p>
-                      <p className="text-sm text-gray-500 mt-2">{selectedApplication.users.bio}</p>
+                      <p className="text-gray-400">{selectedApplication.users?.company || 'No company'}</p>
+                      <p className="text-sm text-gray-500 mt-2">{selectedApplication.users?.bio || 'No bio available'}</p>
                     </div>
                   </div>
 
