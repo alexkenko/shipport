@@ -170,7 +170,7 @@ export default function SuperintendentDashboard() {
                       {isLoading ? (
                         <span className="text-xs text-gray-400">Loading...</span>
                       ) : profile?.certifications && profile.certifications.length > 0 ? (
-                        profile.certifications.map((cert, index) => (
+                        profile.certifications.map((cert: string, index: number) => (
                           <span key={index} className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">
                             {cert}
                           </span>
@@ -186,7 +186,7 @@ export default function SuperintendentDashboard() {
                       {isLoading ? (
                         <span className="text-xs text-gray-400">Loading...</span>
                       ) : profile?.vessel_types && profile.vessel_types.length > 0 ? (
-                        profile.vessel_types.map((type, index) => (
+                        profile.vessel_types.map((type: string, index: number) => (
                           <span key={index} className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">
                             {type}
                           </span>
@@ -206,7 +206,7 @@ export default function SuperintendentDashboard() {
                       {isLoading ? (
                         <span className="text-xs text-gray-400">Loading...</span>
                       ) : profile?.services && profile.services.length > 0 ? (
-                        profile.services.map((service, index) => (
+                        profile.services.map((service: string, index: number) => (
                           <span key={index} className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">
                             {service}
                           </span>
