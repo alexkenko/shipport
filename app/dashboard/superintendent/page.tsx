@@ -88,15 +88,15 @@ export default function SuperintendentDashboard() {
               <Link key={index} href={action.href}>
                 <Card variant="elevated" className="hover:scale-105 transition-transform duration-200 cursor-pointer">
                   <CardContent className="p-6">
-                    <div className="flex items-center space-x-4">
-                      <div className={`p-3 rounded-lg ${action.color}`}>
+                    <div className="flex items-center space-x-4 h-full">
+                      <div className={`p-3 rounded-lg ${action.color} flex-shrink-0`}>
                         <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                       </div>
-                      <div className="flex-1 text-center">
-                        <h3 className="font-semibold text-white mb-2">
+                      <div className="flex-1 text-center flex flex-col justify-center">
+                        <h3 className="font-semibold text-white mb-1">
                           {action.title}
                         </h3>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-gray-400 leading-tight">
                           {action.description}
                         </p>
                       </div>

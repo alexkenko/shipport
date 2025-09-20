@@ -1,9 +1,12 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
+import { getCurrentUser } from '@/lib/auth'
 import { 
   PlusIcon, 
   DocumentTextIcon, 
@@ -14,6 +17,14 @@ import {
 } from '@heroicons/react/24/outline'
 
 export default function ManagerDashboard() {
+  const [stats, setStats] = useState({
+    activeJobs: 0,
+    totalApplications: 0,
+    completedJobs: 0,
+    totalSuperintendents: 0
+  })
+  const [isLoading, setIsLoading] = useState(true)
+
   const quickActions = [
     {
       title: 'Post a New Job',
@@ -41,13 +52,6 @@ export default function ManagerDashboard() {
     }
   ]
 
-  const stats = [
-    { label: 'Active Jobs', value: '12', icon: ClockIcon, color: 'text-blue-400' },
-    { label: 'Applications', value: '45', icon: DocumentTextIcon, color: 'text-green-400' },
-    { label: 'Completed Jobs', value: '28', icon: CheckCircleIcon, color: 'text-purple-400' },
-    { label: 'Total Superintendents', value: '156', icon: ChartBarIcon, color: 'text-orange-400' }
-  ]
-
   const recentActivity = [
     {
       id: 1,
@@ -72,6 +76,68 @@ export default function ManagerDashboard() {
     }
   ]
 
+  useEffect(() => {
+    fetchDashboardStats()
+  }, [])
+
+  const fetchDashboardStats = async () => {
+    try {
+      const user = await getCurrentUser()
+      if (!user) return
+
+      // Fetch active jobs count
+      const { count: activeJobsCount } = await supabase
+        .from('jobs')
+        .select('*', { count: 'exact', head: true })
+        .eq('manager_id', user.id)
+        .eq('status', 'active')
+
+      // Fetch completed jobs count
+      const { count: completedJobsCount } = await supabase
+        .from('jobs')
+        .select('*', { count: 'exact', head: true })
+        .eq('manager_id', user.id)
+        .eq('status', 'completed')
+
+      // Fetch total applications count for all jobs by this manager
+      const { data: jobs } = await supabase
+        .from('jobs')
+        .select('id')
+        .eq('manager_id', user.id)
+
+      const jobIds = jobs?.map(job => job.id) || []
+      
+      const { count: applicationsCount } = await supabase
+        .from('job_applications')
+        .select('*', { count: 'exact', head: true })
+        .in('job_id', jobIds)
+
+      // Fetch total superintendents count
+      const { count: superintendentsCount } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .eq('role', 'superintendent')
+
+      setStats({
+        activeJobs: activeJobsCount || 0,
+        totalApplications: applicationsCount || 0,
+        completedJobs: completedJobsCount || 0,
+        totalSuperintendents: superintendentsCount || 0
+      })
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const statsData = [
+    { label: 'Active Jobs', value: stats.activeJobs.toString(), icon: ClockIcon, color: 'text-blue-400' },
+    { label: 'Applications', value: stats.totalApplications.toString(), icon: DocumentTextIcon, color: 'text-green-400' },
+    { label: 'Completed Jobs', value: stats.completedJobs.toString(), icon: CheckCircleIcon, color: 'text-purple-400' },
+    { label: 'Total Superintendents', value: stats.totalSuperintendents.toString(), icon: ChartBarIcon, color: 'text-orange-400' }
+  ]
+
   return (
     <DashboardLayout requiredRole="manager">
       <div className="space-y-8">
@@ -87,23 +153,40 @@ export default function ManagerDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card key={index} variant="glass">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-400 mb-1">
-                      {stat.label}
-                    </p>
-                    <p className="text-2xl font-bold text-white">
-                      {stat.value}
-                    </p>
+          {isLoading ? (
+            // Loading skeleton
+            Array.from({ length: 4 }).map((_, index) => (
+              <Card key={index} variant="glass">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="h-4 bg-gray-700 rounded w-20 mb-2 animate-pulse"></div>
+                      <div className="h-8 bg-gray-700 rounded w-12 animate-pulse"></div>
+                    </div>
+                    <div className="h-8 w-8 bg-gray-700 rounded animate-pulse"></div>
                   </div>
-                  <stat.icon className={`h-8 w-8 ${stat.color}`} />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            statsData.map((stat, index) => (
+              <Card key={index} variant="glass">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-400 mb-1">
+                        {stat.label}
+                      </p>
+                      <p className="text-2xl font-bold text-white">
+                        {stat.value}
+                      </p>
+                    </div>
+                    <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
 
         {/* Quick Actions */}
@@ -116,15 +199,15 @@ export default function ManagerDashboard() {
               <Link key={index} href={action.href}>
                 <Card variant="elevated" className="hover:scale-105 transition-transform duration-200 cursor-pointer">
                   <CardContent className="p-6">
-                    <div className="flex items-center space-x-4">
-                      <div className={`p-3 rounded-lg ${action.color}`}>
+                    <div className="flex items-center space-x-4 h-full">
+                      <div className={`p-3 rounded-lg ${action.color} flex-shrink-0`}>
                         <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                       </div>
-                      <div className="flex-1 text-center">
-                        <h3 className="font-semibold text-white mb-2">
+                      <div className="flex-1 text-center flex flex-col justify-center">
+                        <h3 className="font-semibold text-white mb-1">
                           {action.title}
                         </h3>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-gray-400 leading-tight">
                           {action.description}
                         </p>
                       </div>
