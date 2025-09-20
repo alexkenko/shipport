@@ -62,7 +62,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-3">
+            <Link href={user ? `/dashboard/${user.role}` : "/"} className="flex items-center space-x-3">
               <div className="w-10 h-10 flex items-center justify-center">
                 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                   {/* Lighthouse - Dark Blue */}
