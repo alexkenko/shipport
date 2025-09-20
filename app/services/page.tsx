@@ -4,7 +4,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
-  title: 'Marine Superintendent Services - ISM ISPS MLC Audits, Vessel Inspections & Maritime Consulting',
+  title: 'ShipinPort.com Marine Services - ISM ISPS MLC Audits, Vessel Inspections & Maritime Consulting',
   description: 'Comprehensive marine superintendent services including ISM ISPS MLC audits, pre-vetting inspections, vessel assessments, navigation audits, and maritime consulting. Professional marine industry services worldwide.',
   keywords: [
     'marine superintendent services',
@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     'marine compliance audit',
     'vessel safety inspection'
   ],
-  openGraph: {
-    title: 'Marine Superintendent Services - Professional Maritime Solutions',
-    description: 'Professional marine superintendent services including audits, inspections, and maritime consulting worldwide.',
-    type: 'website',
-  },
+    openGraph: {
+      title: 'ShipinPort.com Marine Services - Professional Maritime Solutions',
+      description: 'Professional marine superintendent services including audits, inspections, and maritime consulting worldwide.',
+      type: 'website',
+    },
 }
 
 export default function ServicesPage() {

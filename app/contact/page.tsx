@@ -3,8 +3,8 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
-  title: 'Contact ShipPort - Marine Superintendent Platform Support & Inquiries',
-  description: 'Contact ShipPort for support, inquiries, or partnership opportunities. Get help with marine superintendent services, vessel management solutions, and maritime industry networking.',
+  title: 'Contact ShipinPort.com - Marine Superintendent Platform Support & Inquiries',
+  description: 'Contact ShipinPort for support, inquiries, or partnership opportunities. Get help with marine superintendent services, vessel management solutions, and maritime industry networking.',
   keywords: [
     'contact shipport',
     'marine superintendent support',
@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     'marine industry support',
     'shipping platform contact'
   ],
-  openGraph: {
-    title: 'Contact ShipPort - Marine Professional Platform Support',
-    description: 'Get in touch with ShipPort for support, inquiries, or partnership opportunities.',
-    type: 'website',
-  },
+    openGraph: {
+      title: 'Contact ShipinPort.com - Marine Professional Platform Support',
+      description: 'Get in touch with ShipinPort for support, inquiries, or partnership opportunities.',
+      type: 'website',
+    },
 }
 
 export default function ContactPage() {
@@ -33,7 +33,11 @@ export default function ContactPage() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Contact <span className="text-primary-400">ShipPort</span>
+            Contact <span className="text-primary-400">
+              <span className="text-blue-700">Shipin</span>
+              <span className="text-cyan-400">Port</span>
+              <span className="text-gray-400">.com</span>
+            </span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Get in touch with us for support, inquiries, or partnership opportunities. 

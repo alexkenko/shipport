@@ -62,11 +62,36 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">S</span>
+            <Link href="/" className="flex items-center space-x-3">
+              <div className="w-10 h-10 flex items-center justify-center">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Lighthouse */}
+                  <rect x="8" y="12" width="4" height="12" fill="#1e40af" rx="1"/>
+                  <rect x="7" y="10" width="6" height="3" fill="#22d3ee" rx="1"/>
+                  <circle cx="10" cy="9" r="1.5" fill="#f59e0b"/>
+                  {/* Light rays */}
+                  <path d="M10 9 L6 5 M10 9 L14 5 M10 9 L10 2" stroke="#22d3ee" strokeWidth="1"/>
+                  {/* Ship */}
+                  <path d="M18 26 L26 26 L28 28 L30 28 L30 30 L18 30 Z" fill="#1e40af"/>
+                  <rect x="20" y="22" width="2" height="4" fill="#22d3ee"/>
+                  <rect x="22" y="20" width="2" height="6" fill="#22d3ee"/>
+                  <rect x="24" y="18" width="2" height="8" fill="#22d3ee"/>
+                  {/* Waves */}
+                  <path d="M12 32 Q16 28 20 32 Q24 36 28 32 Q32 28 36 32" stroke="#1e40af" strokeWidth="2" fill="none"/>
+                  {/* Circular arrow */}
+                  <path d="M8 32 A12 12 0 1 1 32 8" stroke="#22d3ee" strokeWidth="2" fill="none" strokeLinecap="round">
+                    <animateTransform attributeName="transform" type="rotate" values="0 20 20;360 20 20" dur="10s" repeatCount="indefinite"/>
+                  </path>
+                  <polygon points="32,8 36,8 34,4" fill="#22d3ee"/>
+                </svg>
               </div>
-              <span className="text-xl font-bold text-white">ShipPort</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-white">
+                  <span className="text-blue-700">Shipin</span>
+                  <span className="text-cyan-400">Port</span>
+                </span>
+                <span className="text-xs text-gray-400">.com</span>
+              </div>
             </Link>
           </div>
 

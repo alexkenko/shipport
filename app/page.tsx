@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 
 export const metadata: Metadata = {
-  title: 'ShipPort - Connect Marine Superintendents with Vessel Managers | Professional Maritime Services',
+  title: 'ShipinPort.com - Connect Marine Superintendents with Vessel Managers | Professional Maritime Services',
   description: 'Professional platform connecting vessel managers with certified marine superintendents for inspections, audits, and maritime consulting. Find ISM, ISPS, MLC certified professionals worldwide.',
   keywords: 'marine superintendent platform, vessel manager network, marine inspection services, maritime professional services, ship superintendent jobs, marine consulting platform',
 }
@@ -13,7 +13,7 @@ export default function HomePage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "ShipPort",
+    "name": "ShipinPort",
     "description": "Professional Marine Superintendent Services & Vessel Management Solutions",
     "url": process.env.NEXT_PUBLIC_SITE_URL || "https://shipport.com",
     "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://shipport.com"}/logo.png`,
@@ -64,6 +64,11 @@ export default function HomePage() {
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Professional Marine
               <span className="block text-primary-400">Superintendent Services</span>
+              <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-2">
+                <span className="text-blue-700">Shipin</span>
+                <span className="text-cyan-400">Port</span>
+                <span className="text-gray-400">.com</span>
+              </span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
               Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, 
@@ -141,7 +146,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              How ShipPort Works
+              How ShipinPort Works
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Simple steps to connect with the right maritime professionals

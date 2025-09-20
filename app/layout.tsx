@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management Solutions',
+  title: 'ShipinPort.com - Professional Marine Superintendent Services & Vessel Management Solutions',
   description: 'Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, pre-vetting inspections, and maritime consulting services worldwide. Professional marine industry networking platform.',
   keywords: [
     'marine superintendent',
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     'maritime professional services',
     'marine superintendent certification'
   ],
-  authors: [{ name: 'ShipPort Team' }],
-  creator: 'ShipPort',
-  publisher: 'ShipPort',
+  authors: [{ name: 'ShipinPort Team' }],
+  creator: 'ShipinPort',
+  publisher: 'ShipinPort',
   formatDetection: {
     email: false,
     address: false,
@@ -52,11 +52,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
-  openGraph: {
-    title: 'ShipPort - Professional Marine Superintendent Services & Vessel Management',
-    description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
-    siteName: 'ShipPort',
+        openGraph: {
+          title: 'ShipinPort.com - Professional Marine Superintendent Services & Vessel Management',
+          description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
+          url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
+          siteName: 'ShipinPort',
     images: [
       {
         url: '/og-image.jpg',
@@ -68,12 +68,12 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'ShipPort - Professional Marine Superintendent Services',
-    description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
-    images: ['/og-image.jpg'],
-  },
+        twitter: {
+          card: 'summary_large_image',
+          title: 'ShipinPort.com - Professional Marine Superintendent Services',
+          description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
+          images: ['/og-image.jpg'],
+        },
   robots: {
     index: true,
     follow: true,

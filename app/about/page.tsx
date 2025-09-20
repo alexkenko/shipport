@@ -4,8 +4,8 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
-  title: 'About ShipPort - Leading Marine Superintendent Platform & Vessel Management Solutions',
-  description: 'Learn about ShipPort, the premier platform connecting vessel managers with certified marine superintendents. Discover our mission to revolutionize maritime industry networking and professional services.',
+  title: 'About ShipinPort.com - Leading Marine Superintendent Platform & Vessel Management Solutions',
+  description: 'Learn about ShipinPort, the premier platform connecting vessel managers with certified marine superintendents. Discover our mission to revolutionize maritime industry networking and professional services.',
   keywords: [
     'about shipport',
     'marine superintendent platform',
@@ -34,7 +34,11 @@ export default function AboutPage() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            About <span className="text-primary-400">ShipPort</span>
+            About <span className="text-primary-400">
+              <span className="text-blue-700">Shipin</span>
+              <span className="text-cyan-400">Port</span>
+              <span className="text-gray-400">.com</span>
+            </span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             The premier platform connecting vessel managers with certified marine superintendents worldwide, 
@@ -47,7 +51,7 @@ export default function AboutPage() {
           <div className="glass p-8 rounded-xl">
             <h2 className="text-3xl font-bold text-white mb-6">Our Mission</h2>
             <p className="text-lg text-gray-300 mb-6">
-              ShipPort was founded with a clear mission: to bridge the gap between vessel managers and 
+              ShipinPort was founded with a clear mission: to bridge the gap between vessel managers and 
               certified marine superintendents, creating a streamlined platform for maritime professional 
               services and industry networking.
             </p>
@@ -197,10 +201,10 @@ export default function AboutPage() {
         {/* CTA Section */}
         <section className="text-center">
           <div className="glass p-8 rounded-xl">
-            <h2 className="text-3xl font-bold text-white mb-4">Join the ShipPort Community</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Join the ShipinPort Community</h2>
             <p className="text-xl text-gray-300 mb-8">
               Whether you're a vessel manager seeking qualified superintendents or a marine professional 
-              looking for opportunities, ShipPort is your gateway to maritime excellence.
+              looking for opportunities, ShipinPort is your gateway to maritime excellence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

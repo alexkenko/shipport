@@ -4,7 +4,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
-  title: 'Marine Industry Blog - Maritime News, Insights & Professional Tips | ShipPort',
+  title: 'Marine Industry Blog - Maritime News, Insights & Professional Tips | ShipinPort.com',
   description: 'Stay updated with the latest marine industry news, maritime regulations, professional insights, and expert tips for vessel managers and marine superintendents.',
   keywords: [
     'marine industry blog',
@@ -20,11 +20,11 @@ export const metadata: Metadata = {
     'marine consultancy insights',
     'shipping industry blog'
   ],
-  openGraph: {
-    title: 'Marine Industry Blog - Maritime Professional Insights',
-    description: 'Latest marine industry news, insights, and professional tips for maritime professionals.',
-    type: 'website',
-  },
+    openGraph: {
+      title: 'ShipinPort.com Marine Industry Blog - Maritime Professional Insights',
+      description: 'Latest marine industry news, insights, and professional tips for maritime professionals.',
+      type: 'website',
+    },
 }
 
 const blogPosts = [
