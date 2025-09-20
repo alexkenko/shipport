@@ -197,7 +197,7 @@ export default function SuperintendentDashboard() {
                         source: "Maritime Executive",
                         time: "2h ago",
                         category: "Regulations",
-                        image: "https://www.maritime-executive.com/media/k2/items/cache/IMO-Carbon-Intensity-1200x630.jpg",
+                        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=120&h=120&fit=crop&crop=center",
                         fallback: "🚢",
                         url: "https://www.maritime-executive.com/article/new-imo-carbon-intensity-regulations"
                       },
@@ -206,7 +206,7 @@ export default function SuperintendentDashboard() {
                         source: "Lloyd's List",
                         time: "4h ago", 
                         category: "Incidents",
-                        image: "https://www.lloydslist.com/images/default-source/default-album/suez-canal-ship.jpg",
+                        image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=120&h=120&fit=crop&crop=center",
                         fallback: "⚓",
                         url: "https://www.lloydslist.com/news/container-ship-grounding-suez"
                       },
@@ -215,7 +215,7 @@ export default function SuperintendentDashboard() {
                         source: "Safety4Sea",
                         time: "6h ago",
                         category: "Safety",
-                        image: "https://safety4sea.com/wp-content/uploads/bulk-carrier-safety.jpg",
+                        image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=120&h=120&fit=crop&crop=center",
                         fallback: "🛡️",
                         url: "https://safety4sea.com/bulk-carrier-safety-standards"
                       },
@@ -224,7 +224,7 @@ export default function SuperintendentDashboard() {
                         source: "Bunker World",
                         time: "8h ago",
                         category: "Market",
-                        image: "https://www.bunkerworld.com/images/fuel-price-chart.jpg",
+                        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=120&h=120&fit=crop&crop=center",
                         fallback: "⛽",
                         url: "https://www.bunkerworld.com/market-update"
                       },
@@ -233,7 +233,7 @@ export default function SuperintendentDashboard() {
                         source: "Port Technology",
                         time: "10h ago",
                         category: "Ports",
-                        image: "https://www.porttechnology.org/wp-content/uploads/port-congestion.jpg",
+                        image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=120&h=120&fit=crop&crop=center",
                         fallback: "🏗️",
                         url: "https://www.porttechnology.org/asian-port-congestion"
                       }
