@@ -145,19 +145,52 @@ export default function SuperintendentDashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
+              <div className="space-y-4">
+                {/* Profile Photo */}
+                <div className="flex items-center space-x-4 pb-3 border-b border-dark-700">
+                  <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+                    {user?.photo_url ? (
+                      <img
+                        src={user.photo_url}
+                        alt={`${user.name} ${user.surname}`}
+                        className="w-16 h-16 rounded-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = `<svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
+                          }
+                        }}
+                      />
+                    ) : (
+                      <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-white">
+                      {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
+                    </h3>
+                    <p className="text-sm text-gray-400">
+                      {isLoading ? 'Loading...' : user?.company || 'No company specified'}
+                    </p>
+                  </div>
+                </div>
+
                 {/* Basic Info */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-2 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Name</h4>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Email</h4>
                     <p className="text-sm text-white">
-                      {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Not available'}
+                      {isLoading ? 'Loading...' : user?.email || 'Not available'}
                     </p>
                   </div>
                   <div className="p-2 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Company</h4>
+                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Phone</h4>
                     <p className="text-sm text-white">
-                      {isLoading ? 'Loading...' : user?.company || 'Not specified'}
+                      {isLoading ? 'Loading...' : user?.phone || 'Not specified'}
                     </p>
                   </div>
                 </div>
