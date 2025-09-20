@@ -11,7 +11,7 @@ import { Job, ATTENDANCE_TYPES, VESSEL_TYPES, SearchFilters } from '@/types'
 import toast from 'react-hot-toast'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { MapPinIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline'
+import { MapPinIcon, CalendarIcon, ClockIcon, UserIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
 
 export default function SearchJobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -38,7 +38,10 @@ export default function SearchJobsPage() {
           users!jobs_manager_id_fkey (
             name,
             surname,
-            company
+            company,
+            email,
+            phone,
+            photo_url
           )
         `)
         .eq('status', 'active')
@@ -253,9 +256,36 @@ export default function SearchJobsPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <CardTitle className="text-lg mb-2">{job.title}</CardTitle>
-                        <CardDescription className="text-sm">
+                        <CardDescription className="text-sm mb-3">
                           Posted by {job.users?.name} {job.users?.surname} from {job.users?.company}
                         </CardDescription>
+                        
+                        {/* Manager Details */}
+                        <div className="flex items-center space-x-3 p-3 bg-dark-800/50 rounded-lg">
+                          <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+                            {job.users?.photo_url ? (
+                              <img
+                                src={job.users.photo_url}
+                                alt={`${job.users.name} ${job.users.surname}`}
+                                className="w-10 h-10 rounded-full object-cover"
+                              />
+                            ) : (
+                              <UserIcon className="h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-4 text-xs text-gray-300">
+                              <div className="flex items-center space-x-1">
+                                <EnvelopeIcon className="h-3 w-3 text-gray-400" />
+                                <span className="truncate">{job.users?.email}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <PhoneIcon className="h-3 w-3 text-gray-400" />
+                                <span>{job.users?.phone}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CardHeader>
