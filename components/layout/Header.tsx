@@ -59,7 +59,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
           {/* Logo */}
               <div className="flex items-center">
                 <Link href={user ? `/dashboard/${user.role}` : "/"} className="flex items-center space-x-3">
-                  <div className="w-16 h-12 flex items-center justify-center">
+                  <div className="w-20 h-8 flex items-center justify-center">
                     <img 
                       src="/logo.png" 
                       alt="ShipinPort Logo" 
@@ -68,11 +68,11 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xl font-bold text-white">
-                      <span className="text-blue-700">Ship</span>
+                      <span className="text-cyan-400">Ship</span>
                       <span className="text-red-500">in</span>
                       <span className="text-cyan-400">Port</span>
                     </span>
-                    <span className="text-xs text-gray-400">.com</span>
+                    <span className="text-xs text-cyan-400">.com</span>
                   </div>
                 </Link>
               </div>
