@@ -92,7 +92,7 @@ export default function SuperintendentDashboard() {
                       <div className={`p-3 rounded-lg ${action.color}`}>
                         <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 text-center">
                         <h3 className="font-semibold text-white mb-2">
                           {action.title}
                         </h3>

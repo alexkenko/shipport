@@ -116,11 +116,11 @@ export default function ManagerDashboard() {
               <Link key={index} href={action.href}>
                 <Card variant="elevated" className="hover:scale-105 transition-transform duration-200 cursor-pointer">
                   <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex items-center space-x-4">
                       <div className={`p-3 rounded-lg ${action.color}`}>
                         <action.icon className={`h-6 w-6 ${action.iconColor}`} />
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 text-center">
                         <h3 className="font-semibold text-white mb-2">
                           {action.title}
                         </h3>
