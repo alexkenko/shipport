@@ -193,6 +193,17 @@ export default function RegisterPage() {
               {step === 1 ? 'Create your account' : 'Complete your profile'}
             </CardDescription>
           </CardHeader>
+          
+          {/* Back to Home Link */}
+          <div className="px-6 pb-4">
+            <Link 
+              href="/" 
+              className="inline-flex items-center text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+            >
+              ← Back to Home
+            </Link>
+          </div>
+          
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {step === 1 && (

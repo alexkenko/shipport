@@ -59,6 +59,17 @@ export default function LoginPage() {
               Sign in to your <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> account
             </CardDescription>
           </CardHeader>
+          
+          {/* Back to Home Link */}
+          <div className="px-6 pb-4">
+            <Link 
+              href="/" 
+              className="inline-flex items-center text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+            >
+              ← Back to Home
+            </Link>
+          </div>
+          
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
