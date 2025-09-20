@@ -145,10 +145,10 @@ export default function SuperintendentDashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {/* Profile Photo */}
-                <div className="flex items-center space-x-4 pb-3 border-b border-dark-700">
-                  <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="space-y-6">
+                {/* Profile Photo Header */}
+                <div className="flex items-center space-x-4 pb-4 border-b border-gradient-to-r from-primary-500/20 to-transparent">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-full flex items-center justify-center flex-shrink-0 border border-primary-500/30">
                     {user?.photo_url ? (
                       <img
                         src={user.photo_url}
@@ -159,12 +159,12 @@ export default function SuperintendentDashboard() {
                           target.style.display = 'none';
                           const parent = target.parentElement;
                           if (parent) {
-                            parent.innerHTML = `<svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
+                            parent.innerHTML = `<svg class="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
                           }
                         }}
                       />
                     ) : (
-                      <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     )}
@@ -173,137 +173,159 @@ export default function SuperintendentDashboard() {
                     <h3 className="text-lg font-semibold text-white">
                       {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
                     </h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-primary-400 font-medium">
                       {isLoading ? 'Loading...' : user?.company || 'No company specified'}
                     </p>
                   </div>
                 </div>
 
-                {/* Basic Info */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-2 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Email</h4>
-                    <p className="text-sm text-white">
-                      {isLoading ? 'Loading...' : user?.email || 'Not available'}
-                    </p>
-                  </div>
-                  <div className="p-2 rounded-lg bg-dark-800/30">
-                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Phone</h4>
-                    <p className="text-sm text-white">
-                      {isLoading ? 'Loading...' : user?.phone || 'Not specified'}
-                    </p>
-                  </div>
-                </div>
+                {/* Main Content with Vertical Separator */}
+                <div className="grid grid-cols-12 gap-6">
+                  {/* Left Column - Professional Info */}
+                  <div className="col-span-5 space-y-4">
+                    {/* Contact Information */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Contact</h4>
+                      <div className="space-y-2">
+                        <div className="p-3 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
+                          <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Email</p>
+                          <p className="text-sm text-white font-medium">
+                            {isLoading ? 'Loading...' : user?.email || 'Not available'}
+                          </p>
+                        </div>
+                        <div className="p-3 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
+                          <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Phone</p>
+                          <p className="text-sm text-white font-medium">
+                            {isLoading ? 'Loading...' : user?.phone || 'Not specified'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
 
-                {/* Certifications & Vessel Types */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Certifications</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {isLoading ? (
-                        <span className="text-xs text-gray-400">Loading...</span>
-                      ) : profile?.certifications && profile.certifications.length > 0 ? (
-                        profile.certifications.map((cert: string, index: number) => (
-                          <span key={index} className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">
-                            {cert}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-xs text-gray-400">No certifications added</span>
-                      )}
+                    {/* Pricing */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Rates</h4>
+                      <div className="space-y-2">
+                        <div className="p-3 rounded-lg bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-500/30">
+                          <p className="text-xs text-green-400 uppercase tracking-wide mb-1">Work Day</p>
+                          <p className="text-sm text-white font-bold">
+                            {isLoading ? 'Loading...' : profile?.price_per_workday ? `$${profile.price_per_workday}/day` : 'Not specified'}
+                          </p>
+                        </div>
+                        <div className="p-3 rounded-lg bg-gradient-to-r from-blue-900/20 to-blue-800/10 border border-blue-500/30">
+                          <p className="text-xs text-blue-400 uppercase tracking-wide mb-1">Idle Day</p>
+                          <p className="text-sm text-white font-bold">
+                            {isLoading ? 'Loading...' : profile?.price_per_idle_day ? `$${profile.price_per_idle_day}/day` : 'Not specified'}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Vessel Types</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {isLoading ? (
-                        <span className="text-xs text-gray-400">Loading...</span>
-                      ) : profile?.vessel_types && profile.vessel_types.length > 0 ? (
-                        profile.vessel_types.map((type: string, index: number) => (
-                          <span key={index} className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">
-                            {type}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-xs text-gray-400">No vessel types added</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Services & Pricing */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Services</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {isLoading ? (
-                        <span className="text-xs text-gray-400">Loading...</span>
-                      ) : profile?.services && profile.services.length > 0 ? (
-                        profile.services.map((service: string, index: number) => (
-                          <span key={index} className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">
-                            {service}
+                    {/* Service Type */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Service Type</h4>
+                      <div className="p-3 rounded-lg bg-gradient-to-r from-indigo-900/20 to-indigo-800/10 border border-indigo-500/30">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.service_type ? (
+                          <span className="px-3 py-2 bg-indigo-500/20 text-indigo-400 text-sm rounded-lg font-medium border border-indigo-500/30">
+                            {profile.service_type === 'door_to_door' ? '🚪 Door to Door Service' : '🛥️ Gangway to Gangway Service'}
                           </span>
-                        ))
-                      ) : (
-                        <span className="text-xs text-gray-400">No services added</span>
-                      )}
+                        ) : (
+                          <span className="text-xs text-gray-400">Not specified</span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Work Day Rate</h4>
-                    <p className="text-sm text-white font-medium">
-                      {isLoading ? 'Loading...' : profile?.price_per_workday ? `$${profile.price_per_workday}/day` : 'Not specified'}
-                    </p>
-                  </div>
-                </div>
 
-                {/* Bio & Ports Covered */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Bio</h4>
-                    <p className="text-sm text-gray-300 leading-relaxed">
-                      {isLoading ? 'Loading...' : user?.bio || 'No bio available'}
-                    </p>
+                  {/* Sexy Vertical Separator */}
+                  <div className="col-span-1 flex justify-center">
+                    <div className="w-px h-full bg-gradient-to-b from-transparent via-primary-500/50 to-transparent"></div>
                   </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Ports Covered</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {isLoading ? (
-                        <span className="text-xs text-gray-400">Loading...</span>
-                      ) : profile?.ports_covered && profile.ports_covered.length > 0 ? (
-                        profile.ports_covered.map((port: string, index: number) => (
-                          <span key={index} className="px-2 py-1 bg-orange-500/10 text-orange-400 text-xs rounded">
-                            {port}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-xs text-gray-400">No ports specified</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Service Type & Idle Day Rate */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Service Type</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {isLoading ? (
-                        <span className="text-xs text-gray-400">Loading...</span>
-                      ) : profile?.service_type ? (
-                        <span className="px-3 py-2 bg-indigo-500/10 text-indigo-400 text-sm rounded-lg font-medium">
-                          {profile.service_type === 'door_to_door' ? 'Door to Door Service' : 'Gangway to Gangway Service'}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-gray-400">Not specified</span>
-                      )}
+                  {/* Right Column - Professional Details */}
+                  <div className="col-span-6 space-y-4">
+                    {/* Bio */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Professional Bio</h4>
+                      <div className="p-4 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                          {isLoading ? 'Loading...' : user?.bio || 'No professional bio available'}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Idle Day Rate</h4>
-                    <p className="text-sm text-white font-medium">
-                      {isLoading ? 'Loading...' : profile?.price_per_idle_day ? `$${profile.price_per_idle_day}/day` : 'Not specified'}
-                    </p>
+
+                    {/* Certifications */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Certifications</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.certifications && profile.certifications.length > 0 ? (
+                          profile.certifications.map((cert: string, index: number) => (
+                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-green-600/10 text-green-400 text-xs rounded-full border border-green-500/30 font-medium">
+                              {cert}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No certifications added</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Vessel Types */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Vessel Types</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.vessel_types && profile.vessel_types.length > 0 ? (
+                          profile.vessel_types.map((type: string, index: number) => (
+                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-blue-600/10 text-blue-400 text-xs rounded-full border border-blue-500/30 font-medium">
+                              {type}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No vessel types added</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Services */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Services</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.services && profile.services.length > 0 ? (
+                          profile.services.map((service: string, index: number) => (
+                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-purple-600/10 text-purple-400 text-xs rounded-full border border-purple-500/30 font-medium">
+                              {service}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No services added</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Ports Covered */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Ports Covered</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.ports_covered && profile.ports_covered.length > 0 ? (
+                          profile.ports_covered.map((port: string, index: number) => (
+                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-orange-600/10 text-orange-400 text-xs rounded-full border border-orange-500/30 font-medium">
+                              {port}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No ports specified</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
