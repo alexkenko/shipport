@@ -54,7 +54,7 @@ export default function HomePage() {
       />
       
       {/* Header */}
-      <Header />
+      <Header hideNavigation={true} />
       
       {/* Hero Section */}
       <section className="relative overflow-hidden">

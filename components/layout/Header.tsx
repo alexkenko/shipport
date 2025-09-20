@@ -19,9 +19,10 @@ interface HeaderProps {
   user?: AuthUser | null
   onNotificationClick?: () => void
   unreadCount?: number
+  hideNavigation?: boolean
 }
 
-export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderProps) {
+export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigation = false }: HeaderProps) {
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
@@ -95,17 +96,19 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          {!hideNavigation && (
+            <nav className="hidden md:flex space-x-8">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+          )}
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
@@ -201,7 +204,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0 }: HeaderPro
         </div>
 
         {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
+        {isMobileMenuOpen && !hideNavigation && (
           <div className="md:hidden border-t border-dark-700">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
