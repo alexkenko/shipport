@@ -5,7 +5,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { updateUserProfile, updateManagerProfile, uploadProfilePhoto, getCurrentUser } from '@/lib/auth'
+import { updateUserProfile, updateManagerProfile, uploadProfilePhoto, getCurrentUser, getManagerProfile } from '@/lib/auth'
 import { VESSEL_TYPES } from '@/types'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
@@ -34,13 +34,17 @@ export default function ManagerProfilePage() {
       const currentUser = await getCurrentUser()
       if (currentUser) {
         setUser(currentUser)
+        
+        // Load extended manager profile data
+        const managerProfile = await getManagerProfile(currentUser.id)
+        
         setFormData({
           name: currentUser.name,
           surname: currentUser.surname,
           phone: currentUser.phone,
           company: currentUser.company,
           bio: currentUser.bio,
-          vesselTypes: [], // TODO: Load from manager_profiles table
+          vesselTypes: managerProfile?.vessel_types || [],
         })
       }
     } catch (error) {

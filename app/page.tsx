@@ -54,7 +54,7 @@ export default function HomePage() {
       />
       
       {/* Header */}
-      <Header hideNavigation={true} />
+      <Header />
       
       {/* Hero Section */}
       <section className="relative overflow-hidden">
@@ -75,12 +75,18 @@ export default function HomePage() {
               Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, 
               pre-vetting inspections, and maritime consulting services worldwide.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col gap-4 justify-center items-center">
               <Link
                 href="/auth/register"
-                className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
+                className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 w-full sm:w-auto"
               >
                 Create Account
+              </Link>
+              <Link
+                href="/auth/login"
+                className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center"
+              >
+                Sign In
               </Link>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { updateUserProfile, updateSuperintendentProfile, uploadProfilePhoto, getCurrentUser } from '@/lib/auth'
+import { updateUserProfile, updateSuperintendentProfile, uploadProfilePhoto, getCurrentUser, getSuperintendentProfile } from '@/lib/auth'
 import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES, SERVICE_TYPES } from '@/types'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
@@ -53,19 +53,23 @@ export default function SuperintendentProfilePage() {
       const currentUser = await getCurrentUser()
       if (currentUser) {
         setUser(currentUser)
+        
+        // Load extended superintendent profile data
+        const superintendentProfile = await getSuperintendentProfile(currentUser.id)
+        
         setFormData({
           name: currentUser.name,
           surname: currentUser.surname,
           phone: currentUser.phone,
           company: currentUser.company,
           bio: currentUser.bio,
-          vesselTypes: [], // TODO: Load from superintendent_profiles table
-          certifications: [],
-          portsCovered: [],
-          services: [],
-          pricePerWorkday: '',
-          pricePerIdleDay: '',
-          serviceType: 'gangway_to_gangway',
+          vesselTypes: superintendentProfile?.vessel_types || [],
+          certifications: superintendentProfile?.certifications || [],
+          portsCovered: superintendentProfile?.ports_covered || [],
+          services: superintendentProfile?.services || [],
+          pricePerWorkday: superintendentProfile?.price_per_workday?.toString() || '',
+          pricePerIdleDay: superintendentProfile?.price_per_idle_day?.toString() || '',
+          serviceType: superintendentProfile?.service_type || 'gangway_to_gangway',
         })
       }
     } catch (error) {

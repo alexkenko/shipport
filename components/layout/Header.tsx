@@ -50,12 +50,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
           { name: 'Search Jobs', href: '/dashboard/superintendent/search' },
           { name: 'My Applications', href: '/dashboard/superintendent/applications' },
         ])
-    : [
-        { name: 'Home', href: '/' },
-        { name: 'About', href: '/about' },
-        { name: 'Services', href: '/services' },
-        { name: 'Contact', href: '/contact' },
-      ]
+    : []
 
   return (
     <header className="bg-dark-800 border-b border-dark-700 sticky top-0 z-50">

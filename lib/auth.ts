@@ -136,11 +136,11 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
 export async function updateManagerProfile(userId: string, vesselTypes: string[]) {
   const { data, error } = await supabase
     .from('manager_profiles')
-    .update({
+    .upsert({
+      user_id: userId,
       vessel_types: vesselTypes,
       updated_at: new Date().toISOString(),
     })
-    .eq('user_id', userId)
     .select()
     .single()
 
@@ -162,7 +162,8 @@ export async function updateSuperintendentProfile(
 ) {
   const { data, error } = await supabase
     .from('superintendent_profiles')
-    .update({
+    .upsert({
+      user_id: userId,
       vessel_types: updates.vesselTypes,
       certifications: updates.certifications,
       ports_covered: updates.portsCovered,
@@ -172,11 +173,32 @@ export async function updateSuperintendentProfile(
       service_type: updates.serviceType,
       updated_at: new Date().toISOString(),
     })
-    .eq('user_id', userId)
     .select()
     .single()
 
   if (error) throw error
+  return data
+}
+
+export async function getManagerProfile(userId: string) {
+  const { data, error } = await supabase
+    .from('manager_profiles')
+    .select('*')
+    .eq('user_id', userId)
+    .single()
+
+  if (error && error.code !== 'PGRST116') throw error // PGRST116 = no rows returned
+  return data
+}
+
+export async function getSuperintendentProfile(userId: string) {
+  const { data, error } = await supabase
+    .from('superintendent_profiles')
+    .select('*')
+    .eq('user_id', userId)
+    .single()
+
+  if (error && error.code !== 'PGRST116') throw error // PGRST116 = no rows returned
   return data
 }
 
