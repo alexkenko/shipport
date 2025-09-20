@@ -13,6 +13,8 @@ import {
   Bars3Icon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
+import { NotificationDropdown } from '@/components/ui/NotificationDropdown'
+import { useNotifications } from '@/hooks/useNotifications'
 import toast from 'react-hot-toast'
 
 interface HeaderProps {
@@ -26,6 +28,15 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  
+  // Use notifications hook for superintendents
+  const {
+    notifications,
+    unreadCount: notificationUnreadCount,
+    isLoading: notificationsLoading,
+    markAsRead,
+    markAllAsRead
+  } = useNotifications(user)
 
   const handleLogout = async () => {
     try {
@@ -97,17 +108,27 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
             {user ? (
               <>
                 {/* Notifications */}
-                <button
-                  onClick={onNotificationClick}
-                  className="relative p-2 text-gray-400 hover:text-white transition-colors duration-200"
-                >
-                  <BellIcon className="h-6 w-6" />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {unreadCount > 9 ? '9+' : unreadCount}
-                    </span>
-                  )}
-                </button>
+                {user?.role === 'superintendent' ? (
+                  <NotificationDropdown
+                    notifications={notifications}
+                    unreadCount={notificationUnreadCount}
+                    isLoading={notificationsLoading}
+                    onMarkAsRead={markAsRead}
+                    onMarkAllAsRead={markAllAsRead}
+                  />
+                ) : (
+                  <button
+                    onClick={onNotificationClick}
+                    className="relative p-2 text-gray-400 hover:text-white transition-colors duration-200"
+                  >
+                    <BellIcon className="h-6 w-6" />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </span>
+                    )}
+                  </button>
+                )}
 
                 {/* Profile Menu */}
                 <div className="relative">
