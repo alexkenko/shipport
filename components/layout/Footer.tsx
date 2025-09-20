@@ -8,7 +8,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold text-white mb-4">ShipPort</h3>
+            <h3 className="text-2xl font-bold text-white mb-4">
+              <span className="text-blue-700">Shipin</span>
+              <span className="text-cyan-400">Port</span>
+              <span className="text-gray-400 text-sm">.com</span>
+            </h3>
             <p className="text-gray-400 mb-4">
               Professional Marine Superintendent Services & Vessel Management Solutions
             </p>
@@ -48,25 +52,17 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Services</h4>
             <ul className="space-y-2">
-              <li>
-                <Link href="/services/inspections" className="text-gray-400 hover:text-white transition-colors">
-                  Marine Inspections
-                </Link>
+              <li className="text-gray-400">
+                Marine Inspections
               </li>
-              <li>
-                <Link href="/services/audits" className="text-gray-400 hover:text-white transition-colors">
-                  ISM ISPS MLC Audits
-                </Link>
+              <li className="text-gray-400">
+                ISM ISPS MLC Audits
               </li>
-              <li>
-                <Link href="/services/consultancy" className="text-gray-400 hover:text-white transition-colors">
-                  Marine Consultancy
-                </Link>
+              <li className="text-gray-400">
+                Marine Consultancy
               </li>
-              <li>
-                <Link href="/services/tmsa" className="text-gray-400 hover:text-white transition-colors">
-                  TMSA Preparation
-                </Link>
+              <li className="text-gray-400">
+                TMSA Preparation
               </li>
             </ul>
           </div>
