@@ -68,26 +68,28 @@ export default function SearchSuperintendentsPage() {
 
       const { data: allSuperintendents, error: usersError } = await query
       if (usersError) throw usersError
+      
+      console.log('All superintendents from DB:', allSuperintendents)
 
       // Filter the results based on profile criteria
       let filteredSuperintendents = allSuperintendents || []
 
-      if (filters.vessel_type) {
+      if (filters.vessel_type && filters.vessel_type.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
           sup.superintendent_profiles?.[0]?.vessel_types?.includes(filters.vessel_type)
         )
       }
-      if (filters.service) {
+      if (filters.service && filters.service.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
           sup.superintendent_profiles?.[0]?.services?.includes(filters.service)
         )
       }
-      if (filters.certification) {
+      if (filters.certification && filters.certification.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
           sup.superintendent_profiles?.[0]?.certifications?.includes(filters.certification)
         )
       }
-      if (filters.port) {
+      if (filters.port && filters.port.trim() !== '') {
         filteredSuperintendents = filteredSuperintendents.filter(sup => 
           sup.superintendent_profiles?.[0]?.ports_covered?.includes(filters.port)
         )
@@ -111,6 +113,8 @@ export default function SearchSuperintendentsPage() {
         }
       }))
 
+      console.log('Filtered superintendents:', filteredSuperintendents)
+      console.log('Transformed data:', transformedData)
       setSuperintendents(transformedData)
     } catch (error) {
       console.error('Error fetching superintendents:', error)
