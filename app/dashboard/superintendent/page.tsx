@@ -181,6 +181,24 @@ export default function SuperintendentDashboard() {
                         )}
                       </div>
                     </div>
+
+                    {/* Ports Covered */}
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Ports Covered</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {isLoading ? (
+                          <span className="text-xs text-gray-400">Loading...</span>
+                        ) : profile?.ports_covered && profile.ports_covered.length > 0 ? (
+                          profile.ports_covered.map((port: string, index: number) => (
+                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-orange-600/10 text-orange-400 text-xs rounded-full border border-orange-500/30 font-medium">
+                              {port}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400">No ports specified</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Sexy Vertical Separator */}
@@ -267,25 +285,6 @@ export default function SuperintendentDashboard() {
                           ))
                         ) : (
                           <span className="text-xs text-gray-400">No vessel types added</span>
-                        )}
-                      </div>
-                    </div>
-
-
-                    {/* Ports Covered */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Ports Covered</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {isLoading ? (
-                          <span className="text-xs text-gray-400">Loading...</span>
-                        ) : profile?.ports_covered && profile.ports_covered.length > 0 ? (
-                          profile.ports_covered.map((port: string, index: number) => (
-                            <span key={index} className="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-orange-600/10 text-orange-400 text-xs rounded-full border border-orange-500/30 font-medium">
-                              {port}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-xs text-gray-400">No ports specified</span>
                         )}
                       </div>
                     </div>
