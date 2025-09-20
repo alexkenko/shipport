@@ -10,8 +10,49 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ShipPort",
+    "description": "Professional Marine Superintendent Services & Vessel Management Solutions",
+    "url": process.env.NEXT_PUBLIC_SITE_URL || "https://shipport.com",
+    "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://shipport.com"}/logo.png`,
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-555-SHIPPORT",
+      "contactType": "customer service",
+      "availableLanguage": "English"
+    },
+    "sameAs": [
+      "https://linkedin.com/company/shipport",
+      "https://twitter.com/shipport"
+    ],
+    "service": [
+      {
+        "@type": "Service",
+        "name": "Marine Superintendent Services",
+        "description": "Professional marine superintendent services including ISM ISPS MLC audits, vessel inspections, and maritime consulting"
+      },
+      {
+        "@type": "Service", 
+        "name": "Vessel Management Solutions",
+        "description": "Comprehensive vessel management solutions connecting vessel managers with certified marine professionals"
+      }
+    ],
+    "areaServed": {
+      "@type": "Place",
+      "name": "Worldwide"
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
       {/* Header */}
       <Header />
       
