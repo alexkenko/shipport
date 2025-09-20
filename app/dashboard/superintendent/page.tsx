@@ -319,12 +319,12 @@ export default function SuperintendentDashboard() {
                     {[
                       {
                         title: "IMO Updates EEXI Guidelines for 2025",
-                        source: "Maritime Executive",
+                        source: "Safety4Sea",
                         time: "3h ago",
                         category: "Regulations",
                         image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
                         fallback: "🚢",
-                        url: "https://www.maritime-executive.com/news/imo-eexi-guidelines-2025"
+                        url: "https://safety4sea.com/imo-eexi-guidelines-2025"
                       },
                       {
                         title: "Major Port Strike Averted in Rotterdam",
