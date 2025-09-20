@@ -222,7 +222,12 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                     }
                     hover:scale-[1.02] hover:shadow-lg hover:shadow-primary-500/20
                   `}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setIsMobileMenuOpen(false)
+                    // Use router.push for better mobile compatibility
+                    router.push(item.href)
+                  }}
                 >
                   <span className="relative z-10">{item.name}</span>
                   {index === 0 && (
@@ -238,14 +243,22 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   <Link
                     href="/auth/login"
                     className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setIsMobileMenuOpen(false)
+                      router.push('/auth/login')
+                    }}
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/auth/register"
                     className="bg-primary-600 hover:bg-primary-700 text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 mx-3 mt-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setIsMobileMenuOpen(false)
+                      router.push('/auth/register')
+                    }}
                   >
                     Sign Up
                   </Link>
