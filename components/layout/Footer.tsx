@@ -9,7 +9,8 @@ export function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <h3 className="text-2xl font-bold text-white mb-4">
-              <span className="text-blue-700">Shipin</span>
+              <span className="text-blue-700">Ship</span>
+              <span className="text-red-500">in</span>
               <span className="text-cyan-400">Port</span>
               <span className="text-gray-400 text-sm">.com</span>
             </h3>

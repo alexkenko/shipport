@@ -65,7 +65,8 @@ export default function HomePage() {
               Professional Marine
               <span className="block text-primary-400">Superintendent Services</span>
               <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-2">
-                <span className="text-blue-700">Shipin</span>
+                <span className="text-blue-700">Ship</span>
+                <span className="text-red-500">in</span>
                 <span className="text-cyan-400">Port</span>
                 <span className="text-gray-400">.com</span>
               </span>

@@ -34,7 +34,8 @@ export default function ContactPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Contact <span className="text-primary-400">
-              <span className="text-blue-700">Shipin</span>
+              <span className="text-blue-700">Ship</span>
+              <span className="text-red-500">in</span>
               <span className="text-cyan-400">Port</span>
               <span className="text-gray-400">.com</span>
             </span>
