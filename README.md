@@ -187,7 +187,7 @@ ShipPort is a professional web application that connects Vessel Managers with Co
    ```
 
 6. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to your domain or [http://localhost:3000](http://localhost:3000) for development
 
 ## Project Structure
 

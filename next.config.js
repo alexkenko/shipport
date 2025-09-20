@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, '')].filter(Boolean),
   },
   async rewrites() {
     return [
