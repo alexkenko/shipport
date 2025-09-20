@@ -82,18 +82,23 @@ export function useNotifications(user: AuthUser | null) {
       }
 
       // Convert applications to notifications
-      const notificationData: Notification[] = applications?.map(app => ({
-        id: `app_${app.id}`,
-        type: app.status === 'accepted' ? 'application_accepted' : 'application_rejected',
-        title: app.status === 'accepted' ? 'Application Accepted!' : 'Application Not Selected',
-        message: app.status === 'accepted' 
-          ? `Congratulations! Your application for ${app.jobs.title} has been accepted by ${app.jobs.users.company}.`
-          : `Your application for ${app.jobs.title} was not selected by ${app.jobs.users.company}.`,
-        job_title: app.jobs.title,
-        company_name: app.jobs.users.company,
-        created_at: app.updated_at,
-        read: false // In a real app, you'd track this in a separate notifications table
-      })) || []
+      const notificationData: Notification[] = applications?.map(app => {
+        const job = Array.isArray(app.jobs) ? app.jobs[0] : app.jobs
+        const user = Array.isArray(job?.users) ? job.users[0] : job?.users
+        
+        return {
+          id: `app_${app.id}`,
+          type: app.status === 'accepted' ? 'application_accepted' : 'application_rejected',
+          title: app.status === 'accepted' ? 'Application Accepted!' : 'Application Not Selected',
+          message: app.status === 'accepted' 
+            ? `Congratulations! Your application for ${job?.title || 'Unknown Job'} has been accepted by ${user?.company || 'Unknown Company'}.`
+            : `Your application for ${job?.title || 'Unknown Job'} was not selected by ${user?.company || 'Unknown Company'}.`,
+          job_title: job?.title || 'Unknown Job',
+          company_name: user?.company || 'Unknown Company',
+          created_at: app.updated_at,
+          read: false // In a real app, you'd track this in a separate notifications table
+        }
+      }) || []
 
       setNotifications(notificationData)
       setUnreadCount(notificationData.filter(n => !n.read).length)
