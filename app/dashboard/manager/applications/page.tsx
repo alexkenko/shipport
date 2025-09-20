@@ -73,10 +73,12 @@ export default function ManagerApplicationsPage() {
       if (!user) return
 
       // Get all jobs by this manager
-      const { data: jobs } = await supabase
+      const { data: jobs, error: jobsError } = await supabase
         .from('jobs')
-        .select('id')
+        .select('id, title, description, port_name, attendance_type, vessel_type, start_date, end_date, status')
         .eq('manager_id', user.id)
+
+      if (jobsError) throw jobsError
 
       if (!jobs || jobs.length === 0) {
         setApplications([])
@@ -86,44 +88,51 @@ export default function ManagerApplicationsPage() {
       const jobIds = jobs.map(job => job.id)
 
       // Get all applications for these jobs
-      const { data, error } = await supabase
+      const { data: applications, error: applicationsError } = await supabase
         .from('job_applications')
-        .select(`
-          *,
-          jobs (
-            id,
-            title,
-            description,
-            port_name,
-            attendance_type,
-            vessel_type,
-            start_date,
-            end_date,
-            status
-          ),
-          users!job_applications_superintendent_id_fkey (
-            id,
-            name,
-            surname,
-            company,
-            bio,
-            photo_url
-          ),
-          superintendent_profiles (
-            vessel_types,
-            certifications,
-            ports_covered,
-            services,
-            price_per_workday,
-            price_per_idle_day,
-            service_type
-          )
-        `)
+        .select('*')
         .in('job_id', jobIds)
         .order('created_at', { ascending: false })
 
-      if (error) throw error
-      setApplications(data || [])
+      if (applicationsError) throw applicationsError
+
+      if (!applications || applications.length === 0) {
+        setApplications([])
+        return
+      }
+
+      // Get superintendent details
+      const superintendentIds = applications.map(app => app.superintendent_id)
+      const { data: superintendents, error: superintendentsError } = await supabase
+        .from('users')
+        .select('id, name, surname, company, bio, photo_url')
+        .in('id', superintendentIds)
+
+      if (superintendentsError) throw superintendentsError
+
+      // Get superintendent profiles
+      const { data: profiles, error: profilesError } = await supabase
+        .from('superintendent_profiles')
+        .select('user_id, vessel_types, certifications, ports_covered, services, price_per_workday, price_per_idle_day, service_type')
+        .in('user_id', superintendentIds)
+
+      if (profilesError) throw profilesError
+
+      // Combine all the data
+      const combinedApplications = applications.map(app => {
+        const job = jobs.find(j => j.id === app.job_id)
+        const superintendent = superintendents?.find(s => s.id === app.superintendent_id)
+        const profile = profiles?.find(p => p.user_id === app.superintendent_id)
+
+        return {
+          ...app,
+          jobs: job,
+          users: superintendent,
+          superintendent_profiles: profile ? [profile] : []
+        }
+      })
+
+      setApplications(combinedApplications)
     } catch (error) {
       console.error('Error fetching applications:', error)
       toast.error('Failed to load applications')
