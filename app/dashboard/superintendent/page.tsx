@@ -46,6 +46,26 @@ export default function SuperintendentDashboard() {
     }
   ]
 
+  useEffect(() => {
+    fetchUserData()
+  }, [])
+
+  const fetchUserData = async () => {
+    try {
+      const currentUser = await getCurrentUser()
+      if (currentUser) {
+        setUser(currentUser)
+        
+        // Load superintendent profile
+        const superintendentProfile = await getSuperintendentProfile(currentUser.id)
+        setProfile(superintendentProfile)
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const recentActivity = [
     {
@@ -130,11 +150,15 @@ export default function SuperintendentDashboard() {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-2 rounded-lg bg-dark-800/30">
                     <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Name</h4>
-                    <p className="text-sm text-white">Captain John Smith</p>
+                    <p className="text-sm text-white">
+                      {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Not available'}
+                    </p>
                   </div>
                   <div className="p-2 rounded-lg bg-dark-800/30">
                     <h4 className="text-xs font-semibold text-primary-400 mb-1 uppercase tracking-wide">Company</h4>
-                    <p className="text-sm text-white">Marine Consulting Ltd.</p>
+                    <p className="text-sm text-white">
+                      {isLoading ? 'Loading...' : user?.company || 'Not specified'}
+                    </p>
                   </div>
                 </div>
 
@@ -143,17 +167,33 @@ export default function SuperintendentDashboard() {
                   <div>
                     <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Certifications</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">ISM</span>
-                      <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">ISPS</span>
-                      <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">MLC</span>
+                      {isLoading ? (
+                        <span className="text-xs text-gray-400">Loading...</span>
+                      ) : profile?.certifications && profile.certifications.length > 0 ? (
+                        profile.certifications.map((cert, index) => (
+                          <span key={index} className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded">
+                            {cert}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-gray-400">No certifications added</span>
+                      )}
                     </div>
                   </div>
                   <div>
                     <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Vessel Types</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">Container</span>
-                      <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">Bulk</span>
-                      <span className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">Tanker</span>
+                      {isLoading ? (
+                        <span className="text-xs text-gray-400">Loading...</span>
+                      ) : profile?.vessel_types && profile.vessel_types.length > 0 ? (
+                        profile.vessel_types.map((type, index) => (
+                          <span key={index} className="px-2 py-1 bg-blue-500/10 text-blue-400 text-xs rounded">
+                            {type}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-gray-400">No vessel types added</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -163,13 +203,24 @@ export default function SuperintendentDashboard() {
                   <div>
                     <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Services</h4>
                     <div className="flex flex-wrap gap-1">
-                      <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">Pre-Vetting</span>
-                      <span className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">Audits</span>
+                      {isLoading ? (
+                        <span className="text-xs text-gray-400">Loading...</span>
+                      ) : profile?.services && profile.services.length > 0 ? (
+                        profile.services.map((service, index) => (
+                          <span key={index} className="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded">
+                            {service}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-gray-400">No services added</span>
+                      )}
                     </div>
                   </div>
                   <div>
                     <h4 className="text-xs font-semibold text-primary-400 mb-2 uppercase tracking-wide">Rate</h4>
-                    <p className="text-sm text-white font-medium">€850/day</p>
+                    <p className="text-sm text-white font-medium">
+                      {isLoading ? 'Loading...' : profile?.price_per_workday ? `€${profile.price_per_workday}/day` : 'Not specified'}
+                    </p>
                   </div>
                 </div>
 
