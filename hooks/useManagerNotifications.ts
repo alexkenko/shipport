@@ -69,6 +69,8 @@ export function useManagerNotifications(user: AuthUser | null) {
     if (!user || user.role !== 'manager') return
 
     try {
+      // Get read application notifications from localStorage
+      const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
       // Fetch notifications from the notifications table
       const { data: dbNotifications, error: notificationsError } = await supabase
         .from('notifications')
@@ -131,7 +133,7 @@ export function useManagerNotifications(user: AuthUser | null) {
           superintendent_name: `${superintendent?.name || 'Unknown'} ${superintendent?.surname || 'User'}`,
           superintendent_company: superintendent?.company || 'Unknown Company',
           created_at: app.created_at,
-          read: false // In a real app, you'd track this in a separate notifications table
+          read: readApplicationIds.includes(app.id)
         }
       })
 
@@ -149,6 +151,8 @@ export function useManagerNotifications(user: AuthUser | null) {
   }
 
   const markAsRead = async (notificationId: string) => {
+    if (!user) return
+
     // If it's a database notification (not prefixed with 'app_'), update the database
     if (!notificationId.startsWith('app_')) {
       try {
@@ -158,6 +162,14 @@ export function useManagerNotifications(user: AuthUser | null) {
           .eq('id', notificationId)
       } catch (error) {
         console.error('Error marking notification as read:', error)
+      }
+    } else {
+      // If it's an application notification, save to localStorage
+      const applicationId = notificationId.replace('app_', '')
+      const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
+      if (!readApplicationIds.includes(applicationId)) {
+        readApplicationIds.push(applicationId)
+        localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(readApplicationIds))
       }
     }
 
@@ -172,6 +184,19 @@ export function useManagerNotifications(user: AuthUser | null) {
   }
 
   const markAllAsRead = () => {
+    if (!user) return
+
+    // Get all unread application notifications and save them to localStorage
+    const unreadApplicationIds = notifications
+      .filter(n => !n.read && n.id.startsWith('app_'))
+      .map(n => n.id.replace('app_', ''))
+    
+    if (unreadApplicationIds.length > 0) {
+      const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
+      const newReadIds = [...new Set([...readApplicationIds, ...unreadApplicationIds])]
+      localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(newReadIds))
+    }
+
     setNotifications(prev => prev.map(n => ({ ...n, read: true })))
     setUnreadCount(0)
   }
