@@ -86,6 +86,8 @@ export const useEmailVerification = () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user?.email_confirmed_at) {
         setState(prev => ({ ...prev, isVerified: true }))
+      } else {
+        setState(prev => ({ ...prev, isVerified: false }))
       }
     } catch (error) {
       console.error('Error checking verification status:', error)

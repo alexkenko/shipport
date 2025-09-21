@@ -140,6 +140,8 @@ export async function updateManagerProfile(userId: string, vesselTypes: string[]
       user_id: userId,
       vessel_types: vesselTypes,
       updated_at: new Date().toISOString(),
+    }, {
+      onConflict: 'user_id'
     })
     .select()
     .single()
