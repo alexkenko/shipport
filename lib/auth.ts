@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { User, UserRole } from '@/types'
+import { InputValidator, RateLimiter } from './validation'
 
 export interface AuthUser {
   id: string
@@ -21,8 +22,52 @@ export async function signUp(email: string, password: string, userData: {
   company: string
   bio: string
 }) {
+  // Rate limiting
+  const clientIP = typeof window !== 'undefined' ? 'browser' : 'server'
+  const rateLimitKey = `signup:${clientIP}`
+  
+  if (!RateLimiter.checkLimit(rateLimitKey, 5, 15 * 60 * 1000)) { // 5 attempts per 15 minutes
+    throw new Error('Too many signup attempts. Please try again later.')
+  }
+
+  // Input validation
+  const emailValidation = InputValidator.validateEmail(email)
+  if (!emailValidation.isValid) {
+    throw new Error(`Email validation failed: ${emailValidation.errors.join(', ')}`)
+  }
+
+  const nameValidation = InputValidator.validateName(userData.name, 'First name')
+  if (!nameValidation.isValid) {
+    throw new Error(`Name validation failed: ${nameValidation.errors.join(', ')}`)
+  }
+
+  const surnameValidation = InputValidator.validateName(userData.surname, 'Last name')
+  if (!surnameValidation.isValid) {
+    throw new Error(`Surname validation failed: ${surnameValidation.errors.join(', ')}`)
+  }
+
+  const phoneValidation = InputValidator.validatePhone(userData.phone)
+  if (!phoneValidation.isValid) {
+    throw new Error(`Phone validation failed: ${phoneValidation.errors.join(', ')}`)
+  }
+
+  const companyValidation = InputValidator.validateCompany(userData.company)
+  if (!companyValidation.isValid) {
+    throw new Error(`Company validation failed: ${companyValidation.errors.join(', ')}`)
+  }
+
+  const bioValidation = InputValidator.validateBio(userData.bio)
+  if (!bioValidation.isValid) {
+    throw new Error(`Bio validation failed: ${bioValidation.errors.join(', ')}`)
+  }
+
+  // Password validation
+  if (!password || password.length < 8) {
+    throw new Error('Password must be at least 8 characters long')
+  }
+
   const { data: authData, error: authError } = await supabase.auth.signUp({
-    email,
+    email: emailValidation.sanitizedValue!,
     password,
   })
 
@@ -33,13 +78,13 @@ export async function signUp(email: string, password: string, userData: {
       .from('users')
       .insert({
         id: authData.user.id,
-        email,
+        email: emailValidation.sanitizedValue!,
         role: userData.role,
-        name: userData.name,
-        surname: userData.surname,
-        phone: userData.phone,
-        company: userData.company,
-        bio: userData.bio,
+        name: nameValidation.sanitizedValue!,
+        surname: surnameValidation.sanitizedValue!,
+        phone: phoneValidation.sanitizedValue!,
+        company: companyValidation.sanitizedValue!,
+        bio: bioValidation.sanitizedValue!,
       })
       .select()
       .single()
