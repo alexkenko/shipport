@@ -91,26 +91,26 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
       </div>
 
     {showOTPInput && (
-      <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200 shadow-sm">
+      <div className="space-y-4 p-6 bg-blue-50 rounded-lg border border-blue-200">
         <div className="flex items-start gap-4">
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-xl">📧</span>
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white text-lg">✉️</span>
             </div>
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-blue-900 mb-2">
-              Verification Email Sent! ✨
+            <h3 className="text-lg font-medium text-slate-800 mb-2">
+              Verification Email Sent
             </h3>
-            <p className="text-sm text-blue-800 leading-relaxed">
-              We've sent a verification link to <span className="font-semibold bg-blue-100 px-2 py-1 rounded text-blue-900">{userEmail}</span>
+            <p className="text-sm text-slate-700 leading-relaxed mb-3">
+              We've sent a verification link to <span className="font-medium text-blue-800 bg-blue-100 px-2 py-1 rounded">{userEmail}</span>
             </p>
-            <p className="text-sm text-blue-700 mt-2">
+            <p className="text-sm text-slate-600 mb-3">
               Please check your inbox and click the link to verify your account. The link expires in 1 hour.
             </p>
-            <div className="mt-3 p-3 bg-blue-100/50 rounded-lg border border-blue-200">
-              <p className="text-xs text-blue-600 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+            <div className="p-3 bg-blue-100 rounded border border-blue-200">
+              <p className="text-xs text-blue-700 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full"></span>
                 Don't see the email? Check your spam folder
               </p>
             </div>
@@ -122,7 +122,7 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
             onClick={handleSendOTP}
             disabled={isSendingOTP}
             size="sm"
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-sm"
+            className="bg-blue-600 hover:bg-blue-700 text-white border-0 font-medium"
           >
             {isSendingOTP ? (
               <>
@@ -137,9 +137,9 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
             onClick={handleCancelOTP}
             size="sm"
             variant="outline"
-            className="border-gray-300 text-gray-600 hover:bg-gray-50"
+            className="border-slate-300 text-slate-600 hover:bg-slate-50 font-medium"
           >
-            Skip for now
+            Skip
           </Button>
         </div>
       </div>

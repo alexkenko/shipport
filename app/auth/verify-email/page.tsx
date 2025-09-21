@@ -13,16 +13,46 @@ export default function VerifyEmailPage() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const token = searchParams.get('token')
-        const type = searchParams.get('type')
-        const email = searchParams.get('email')
+        // Check if we have a confirmation_url parameter (from custom email template)
+        const confirmationUrl = searchParams.get('confirmation_url')
+        
+        if (confirmationUrl) {
+          // Parse the confirmation URL to get the token
+          const url = new URL(confirmationUrl)
+          const token = url.searchParams.get('token')
+          const type = url.searchParams.get('type')
+          const email = url.searchParams.get('email')
+          
+          if (!token || type !== 'email' || !email) {
+            setStatus('error')
+            setMessage('Invalid verification link. Please try again.')
+            return
+          }
+          
+          await performVerification(token, email)
+        } else {
+          // Fallback to direct token parameters
+          const token = searchParams.get('token')
+          const type = searchParams.get('type')
+          const email = searchParams.get('email')
 
-        if (!token || type !== 'email' || !email) {
-          setStatus('error')
-          setMessage('Invalid verification link. Please try again.')
-          return
+          if (!token || type !== 'email' || !email) {
+            setStatus('error')
+            setMessage('Invalid verification link. Please try again.')
+            return
+          }
+          
+          await performVerification(token, email)
         }
+      } catch (error) {
+        console.error('Unexpected error:', error)
+        setStatus('error')
+        setMessage('An unexpected error occurred. Please try again.')
+      }
+    }
 
+    const performVerification = async (token: string, email: string) => {
+      try {
         // Verify the magic link token with Supabase
         const { error: verifyError } = await supabase.auth.verifyOtp({
           token,
@@ -82,9 +112,9 @@ export default function VerifyEmailPage() {
         }, 2000)
 
       } catch (error) {
-        console.error('Unexpected error:', error)
+        console.error('Verification error:', error)
         setStatus('error')
-        setMessage('An unexpected error occurred. Please try again.')
+        setMessage('An unexpected error occurred during verification.')
       }
     }
 

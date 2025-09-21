@@ -50,7 +50,7 @@ export const useEmailVerification = () => {
       if (storeError) throw storeError
 
       // Send magic link via email using Zoho SMTP
-      // Always use production domain for magic links to avoid localhost issues
+      // Use custom email link to prevent email prefetching issues
       const redirectUrl = 'https://shipinport.com/auth/verify-email'
 
       const { error: emailError } = await supabase.auth.signInWithOtp({
