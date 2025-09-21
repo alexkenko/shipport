@@ -13,6 +13,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { NotificationDropdown } from '@/components/ui/NotificationDropdown'
 import { useNotifications } from '@/hooks/useNotifications'
+import { useManagerNotifications } from '@/hooks/useManagerNotifications'
+import { ManagerNotificationDropdown } from '@/components/ui/ManagerNotificationDropdown'
 import toast from 'react-hot-toast'
 
 interface HeaderProps {
@@ -34,6 +36,15 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
     markAsRead,
     markAllAsRead
   } = useNotifications(user || null)
+
+  // Use notifications hook for managers
+  const {
+    notifications: managerNotifications,
+    unreadCount: managerUnreadCount,
+    isLoading: managerNotificationsLoading,
+    markAsRead: managerMarkAsRead,
+    markAllAsRead: managerMarkAllAsRead
+  } = useManagerNotifications(user || null)
 
   const handleLogout = async () => {
     try {
@@ -112,6 +123,14 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                     isLoading={notificationsLoading}
                     onMarkAsRead={markAsRead}
                     onMarkAllAsRead={markAllAsRead}
+                  />
+                ) : user?.role === 'manager' ? (
+                  <ManagerNotificationDropdown
+                    notifications={managerNotifications}
+                    unreadCount={managerUnreadCount}
+                    isLoading={managerNotificationsLoading}
+                    onMarkAsRead={managerMarkAsRead}
+                    onMarkAllAsRead={managerMarkAllAsRead}
                   />
                 ) : (
                   <button
