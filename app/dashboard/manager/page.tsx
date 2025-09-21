@@ -4,16 +4,12 @@ import { useState, useEffect } from 'react'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { getCurrentUser, AuthUser } from '@/lib/auth'
 import { 
-  PlusIcon, 
   DocumentTextIcon, 
-  MagnifyingGlassIcon,
   ClockIcon,
-  CheckCircleIcon,
-  UserGroupIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
 import { useNews } from '@/hooks/useNews'
@@ -29,40 +25,6 @@ export default function ManagerDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const { articles: newsArticles, isLoading: newsLoading, error: newsError, refetch: refreshNews } = useNews(6)
 
-  const quickActions = [
-    {
-      title: 'Post a New Job',
-      description: 'Create a new job posting for marine superintendent services',
-      icon: PlusIcon,
-      href: '/dashboard/manager/post-job',
-      color: 'bg-primary-600 hover:bg-primary-700',
-      iconColor: 'text-white'
-    },
-    {
-      title: 'My Posts',
-      description: 'View and manage your job postings',
-      icon: DocumentTextIcon,
-      href: '/dashboard/manager/my-posts',
-      color: 'bg-marine-600 hover:bg-marine-700',
-      iconColor: 'text-white'
-    },
-    {
-      title: 'Applications',
-      description: 'Review job applications and view profiles',
-      icon: UserGroupIcon,
-      href: '/dashboard/manager/applications',
-      color: 'bg-purple-600 hover:bg-purple-700',
-      iconColor: 'text-white'
-    },
-    {
-      title: 'Search Superintendents',
-      description: 'Find qualified marine superintendents',
-      icon: MagnifyingGlassIcon,
-      href: '/dashboard/manager/search',
-      color: 'bg-green-600 hover:bg-green-700',
-      iconColor: 'text-white'
-    }
-  ]
 
   const recentActivity = [
     {
@@ -206,35 +168,6 @@ export default function ManagerDashboard() {
           )}
         </div>
 
-        {/* Quick Actions */}
-        <div>
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {quickActions.map((action, index) => (
-              <Link key={index} href={action.href}>
-                <Card variant="elevated" className="hover:scale-105 transition-transform duration-200 cursor-pointer">
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-4 h-full">
-                      <div className={`p-3 rounded-lg ${action.color} flex-shrink-0`}>
-                        <action.icon className={`h-6 w-6 ${action.iconColor}`} />
-                      </div>
-                      <div className="flex-1 text-center flex flex-col justify-center">
-                        <h3 className="font-semibold text-white mb-1">
-                          {action.title}
-                        </h3>
-                        <p className="text-sm text-gray-400 leading-tight">
-                          {action.description}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
 
         {/* Latest Maritime News */}
         <Card>

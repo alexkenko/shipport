@@ -9,7 +9,14 @@ import { AuthUser } from '@/lib/auth'
 import { 
   BellIcon, 
   UserCircleIcon, 
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  HomeIcon,
+  PlusIcon,
+  DocumentTextIcon,
+  UserGroupIcon,
+  MagnifyingGlassIcon,
+  BriefcaseIcon,
+  ClipboardDocumentListIcon
 } from '@heroicons/react/24/outline'
 import { NotificationDropdown } from '@/components/ui/NotificationDropdown'
 import { useNotifications } from '@/hooks/useNotifications'
@@ -59,15 +66,16 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
   const navigation = user 
     ? (user.role === 'manager' 
       ? [
-          { name: 'Dashboard', href: '/dashboard/manager' },
-          { name: 'Post Job', href: '/dashboard/manager/post-job' },
-          { name: 'My Posts', href: '/dashboard/manager/my-posts' },
-          { name: 'Search Superintendents', href: '/dashboard/manager/search' },
+          { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon },
+          { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon },
+          { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon },
+          { name: 'Applications', href: '/dashboard/manager/applications', icon: UserGroupIcon },
+          { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon },
         ]
       : [
-          { name: 'Dashboard', href: '/dashboard/superintendent' },
-          { name: 'Search Jobs', href: '/dashboard/superintendent/search' },
-          { name: 'My Applications', href: '/dashboard/superintendent/applications' },
+          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon },
+          { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon },
+          { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon },
         ])
     : []
 
@@ -94,7 +102,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                 key={item.name}
                 href={item.href}
                 className={`
-                  relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group
+                  relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group flex items-center space-x-2
                   ${index === 0 
                     ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-500/25' 
                     : 'bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30'
@@ -102,6 +110,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   hover:scale-105 hover:shadow-lg hover:shadow-primary-500/20
                 `}
               >
+                <item.icon className={`h-4 w-4 ${index === 0 ? 'text-white' : 'text-gray-400 group-hover:text-white'}`} />
                 <span className="relative z-10">{item.name}</span>
                 {index === 0 && (
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
