@@ -49,34 +49,26 @@ export const useEmailVerification = () => {
 
       if (storeError) throw storeError
 
-      // Send email using Supabase's built-in email functionality with Zoho SMTP
-      // This will use your configured Zoho SMTP settings
-      try {
-        const { error: emailError } = await supabase.auth.signInWithOtp({
-          email: user.email,
-          options: {
-            shouldCreateUser: false,
-            emailRedirectTo: `${window.location.origin}/dashboard`
-          }
-        })
-
-        if (emailError) {
-          console.error('Email sending error:', emailError)
-          // If email fails, show OTP for testing
-          alert(`Email sending failed. Your verification code is: ${otpCode}\n\nError: ${emailError.message}`)
-        } else {
-          console.log('Email sent successfully via Zoho SMTP')
+      // Send magic link via email using Zoho SMTP
+      const { error: emailError } = await supabase.auth.signInWithOtp({
+        email: user.email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/dashboard`
         }
-      } catch (error) {
-        console.error('Email sending error:', error)
-        // If email fails, show OTP for testing
-        alert(`Email sending failed. Your verification code is: ${otpCode}`)
+      })
+
+      if (emailError) {
+        console.error('Email sending error:', emailError)
+        throw new Error(`Failed to send verification email: ${emailError.message}`)
       }
+
+      console.log('Magic link sent successfully via Zoho SMTP')
 
       setState(prev => ({ 
         ...prev, 
         isSendingOTP: false, 
-        success: 'Verification code generated! Check the popup for your code.' 
+        success: 'Verification email sent! Please check your inbox and follow the instructions.' 
       }))
     } catch (error: any) {
       setState(prev => ({ 
@@ -91,31 +83,18 @@ export const useEmailVerification = () => {
     setState(prev => ({ ...prev, isVerifying: true, error: null, success: null }))
     
     try {
+      // For magic link verification, we'll verify the token directly with Supabase
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        token,
+        type: 'email',
+        email
+      })
+
+      if (verifyError) throw verifyError
+
       // Get current user
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('User not found')
-
-      // Check the OTP code against our stored value
-      const { data: verification, error: fetchError } = await supabase
-        .from('email_verifications')
-        .select('otp_code, otp_expires_at')
-        .eq('user_id', user.id)
-        .eq('email', email)
-        .single()
-
-      if (fetchError) throw new Error('No verification code found. Please request a new one.')
-
-      // Check if OTP has expired
-      const now = new Date()
-      const expiresAt = new Date(verification.otp_expires_at)
-      if (now > expiresAt) {
-        throw new Error('Verification code has expired. Please request a new one.')
-      }
-
-      // Check if OTP code matches
-      if (verification.otp_code !== token) {
-        throw new Error('Invalid verification code. Please try again.')
-      }
 
       // Mark email as verified in our custom table
       const { error: verificationError } = await supabase
@@ -125,7 +104,7 @@ export const useEmailVerification = () => {
           email: email,
           is_verified: true,
           verified_at: new Date().toISOString(),
-          otp_code: null, // Clear the OTP code after successful verification
+          otp_code: null,
           otp_expires_at: null
         }, {
           onConflict: 'user_id,email'
@@ -143,7 +122,7 @@ export const useEmailVerification = () => {
       setState(prev => ({ 
         ...prev, 
         isVerifying: false, 
-        error: error.message || 'Invalid verification code' 
+        error: error.message || 'Invalid verification link' 
       }))
     }
   }

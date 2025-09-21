@@ -83,48 +83,39 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
       </div>
 
       {showOTPInput && (
-        <div className="space-y-3 p-4 bg-gray-50 rounded-lg border">
-          <p className="text-sm text-gray-600">
-            Enter the 6-digit verification code sent to <strong>{userEmail}</strong>
-            <br />
-            <span className="text-xs text-gray-500">Verification is optional and doesn't affect your account usage</span>
-          </p>
-          
-          <div className="flex items-center gap-2">
-            <Input
-              type="text"
-              placeholder="000000"
-              value={otpCode}
-              onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="w-24 text-center text-lg tracking-widest"
-              maxLength={6}
-            />
-            <Button
-              onClick={handleVerifyOTP}
-              disabled={isVerifying || otpCode.length !== 6}
-              size="sm"
-            >
-              {isVerifying ? 'Verifying...' : 'Verify'}
-            </Button>
-            <Button
-              onClick={handleCancelOTP}
-              size="sm"
-              variant="ghost"
-              className="text-gray-500"
-            >
-              Skip
-            </Button>
+        <div className="space-y-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="flex items-start gap-3">
+            <div className="text-blue-600 text-lg">📧</div>
+            <div>
+              <p className="text-sm text-blue-800 font-medium">
+                Verification email sent!
+              </p>
+              <p className="text-sm text-blue-700 mt-1">
+                Please check your email <strong>{userEmail}</strong> and follow the instructions in the email to verify your account.
+              </p>
+              <p className="text-xs text-blue-600 mt-2">
+                Verification is optional and doesn't affect your account usage
+              </p>
+            </div>
           </div>
-
+          
           <div className="flex gap-2">
             <Button
               onClick={handleSendOTP}
               disabled={isSendingOTP}
               size="sm"
               variant="ghost"
-              className="text-xs text-gray-400"
+              className="text-xs text-blue-600 hover:text-blue-700"
             >
-              {isSendingOTP ? 'Resending...' : 'Resend Code'}
+              {isSendingOTP ? 'Resending...' : 'Resend Email'}
+            </Button>
+            <Button
+              onClick={handleCancelOTP}
+              size="sm"
+              variant="ghost"
+              className="text-xs text-gray-500"
+            >
+              Skip
             </Button>
           </div>
         </div>
