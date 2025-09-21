@@ -50,10 +50,7 @@ export default function SearchJobsPage() {
             company,
             email,
             phone,
-            photo_url,
-            email_verifications!email_verifications_user_id_fkey (
-              is_verified
-            )
+            photo_url
           )
         `)
         .eq('status', 'active')
@@ -98,10 +95,29 @@ export default function SearchJobsPage() {
         applicationMap.set(app.job_id, app.status)
       })
 
-      // Add application status to each job
+      // Fetch verification status for all managers
+      const managerIds = jobsData.map(job => job.manager_id)
+      const { data: verificationsData, error: verificationsError } = await supabase
+        .from('email_verifications')
+        .select('user_id, is_verified')
+        .in('user_id', managerIds)
+
+      // Create a map of manager_id to verification status
+      const verificationMap = new Map()
+      verificationsData?.forEach(verification => {
+        verificationMap.set(verification.user_id, verification.is_verified)
+      })
+
+      // Add application status and verification status to each job
       const jobsWithApplications = jobsData.map(job => ({
         ...job,
-        application_status: applicationMap.get(job.id) || null
+        application_status: applicationMap.get(job.id) || null,
+        users: {
+          ...job.users,
+          email_verifications: verificationMap.get(job.manager_id) ? 
+            [{ is_verified: verificationMap.get(job.manager_id) }] : 
+            [{ is_verified: false }]
+        }
       }))
       
       console.log('Jobs fetched with applications:', jobsWithApplications)
