@@ -4,9 +4,9 @@ import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 
 export const metadata: Metadata = {
-  title: 'ShipinPort.com - Connect Marine Superintendents with Vessel Managers | Professional Maritime Services',
-  description: 'Professional platform connecting vessel managers with certified marine superintendents for inspections, audits, and maritime consulting. Find ISM, ISPS, MLC certified professionals worldwide.',
-  keywords: 'marine superintendent platform, vessel manager network, marine inspection services, maritime professional services, ship superintendent jobs, marine consulting platform',
+  title: 'Marine Superintendent Services | Ship Inspections & Audits | Port State Inspection | Oil Major Inspection | SIRE 2.0 | ShipinPort.com',
+  description: 'Professional Marine Superintendent services including ship inspections and audits, port state inspection, oil major inspection, vetting, SIRE 2.0, and marine consultancy. Connect with certified maritime professionals worldwide.',
+  keywords: 'marine superintendent, marine consultancy, ship inspections and audits, port state inspection, oil major inspection, vetting, SIRE 2.0, marine superintendent services, vessel inspections, maritime audits, marine consulting, ship superintendent, maritime professional services, marine inspection services, vessel management, maritime consulting platform',
 }
 
 export default function HomePage() {
@@ -31,12 +31,32 @@ export default function HomePage() {
       {
         "@type": "Service",
         "name": "Marine Superintendent Services",
-        "description": "Professional marine superintendent services including ISM ISPS MLC audits, vessel inspections, and maritime consulting"
+        "description": "Professional marine superintendent services including ship inspections and audits, port state inspection, oil major inspection, vetting, and SIRE 2.0 compliance"
       },
       {
         "@type": "Service", 
-        "name": "Vessel Management Solutions",
-        "description": "Comprehensive vessel management solutions connecting vessel managers with certified marine professionals"
+        "name": "Marine Consultancy",
+        "description": "Expert marine consultancy services for vessel operations, safety management, and regulatory compliance"
+      },
+      {
+        "@type": "Service", 
+        "name": "Ship Inspections and Audits",
+        "description": "Comprehensive ship inspections and audits including ISM, ISPS, MLC compliance assessments"
+      },
+      {
+        "@type": "Service", 
+        "name": "Port State Inspection",
+        "description": "Professional port state inspection services ensuring vessel compliance with international regulations"
+      },
+      {
+        "@type": "Service", 
+        "name": "Oil Major Inspection",
+        "description": "Specialized oil major inspection services for tanker vessels and offshore operations"
+      },
+      {
+        "@type": "Service", 
+        "name": "SIRE 2.0 Vetting",
+        "description": "Advanced SIRE 2.0 vetting services and vessel risk assessments for charter approval"
       }
     ],
     "areaServed": {
@@ -65,15 +85,16 @@ export default function HomePage() {
               Professional Marine
               <span className="block text-white">Superintendent Services</span>
               <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-2">
-                <span className="text-cyan-400">Ship</span>
+                <span className="text-blue-700">Ship</span>
                 <span className="text-red-500">in</span>
                 <span className="text-cyan-400">Port</span>
-                <span className="text-cyan-400">.com</span>
+                <span className="text-gray-400">.com</span>
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, 
-              pre-vetting inspections, and maritime consulting services worldwide.
+              Professional <strong className="text-white">Marine Superintendent</strong> services including <strong className="text-white">ship inspections and audits</strong>, 
+              <strong className="text-white"> port state inspection</strong>, <strong className="text-white">oil major inspection</strong>, 
+              <strong className="text-white">vetting</strong>, <strong className="text-white">SIRE 2.0</strong>, and <strong className="text-white">marine consultancy</strong> worldwide.
             </p>
             <div className="flex flex-col gap-4 justify-center items-center">
               <Link
@@ -108,33 +129,33 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: 'Pre-Vetting Inspections',
-                description: 'Comprehensive vessel assessments for charter requirements and compliance verification.',
-                icon: '🔍'
-              },
-              {
-                title: 'ISM, ISPS, MLC Audits',
-                description: 'Certified audits ensuring compliance with international maritime safety standards.',
+                title: 'Ship Inspections and Audits',
+                description: 'Professional ship inspections and audits including ISM, ISPS, MLC compliance assessments.',
                 icon: '📋'
               },
               {
-                title: 'Marine Consultancy',
-                description: 'Expert advice on vessel operations, safety management, and regulatory compliance.',
-                icon: '⚓'
+                title: 'Port State Inspection',
+                description: 'Expert port state inspection services ensuring vessel compliance with international regulations.',
+                icon: '🔍'
               },
               {
-                title: 'TMSA Preparation',
-                description: 'Preparation and implementation of Tanker Management and Self Assessment programs.',
+                title: 'Oil Major Inspection',
+                description: 'Comprehensive oil major inspection services for tanker vessels and offshore operations.',
                 icon: '🛢️'
               },
               {
-                title: 'Navigation Audits',
-                description: 'Comprehensive navigation system assessments and safety evaluations.',
+                title: 'SIRE 2.0 Vetting',
+                description: 'Advanced SIRE 2.0 vetting services and vessel risk assessments for charter approval.',
+                icon: '⚓'
+              },
+              {
+                title: 'Marine Consultancy',
+                description: 'Expert marine consultancy services for vessel operations, safety management, and regulatory compliance.',
                 icon: '🧭'
               },
               {
-                title: 'Cargo Supervision',
-                description: 'Professional oversight of cargo operations ensuring safety and compliance.',
+                title: 'Marine Superintendent Services',
+                description: 'Professional marine superintendent services including vessel management and maritime consulting.',
                 icon: '📦'
               }
             ].map((service, index) => (
@@ -194,6 +215,56 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SEO Content Section */}
+      <section className="py-20 bg-dark-800/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-6">
+                Professional <span className="text-primary-400">Marine Superintendent</span> Services
+              </h2>
+              <p className="text-gray-300 mb-4">
+                Our platform connects vessel managers with certified <strong className="text-white">marine superintendents</strong> 
+                specializing in comprehensive <strong className="text-white">ship inspections and audits</strong>. Our professionals 
+                provide expert <strong className="text-white">marine consultancy</strong> services including <strong className="text-white">port state inspection</strong>, 
+                <strong className="text-white"> oil major inspection</strong>, and <strong className="text-white">vetting</strong> services.
+              </p>
+              <p className="text-gray-300 mb-4">
+                We specialize in <strong className="text-white">SIRE 2.0</strong> compliance and advanced vessel risk assessments. 
+                Our <strong className="text-white">marine superintendent</strong> network includes certified professionals with extensive 
+                experience in maritime safety, regulatory compliance, and vessel management operations.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-6">
+                Comprehensive Maritime Inspection Services
+              </h3>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-start">
+                  <span className="text-primary-400 mr-3">✓</span>
+                  <span><strong className="text-white">Ship inspections and audits</strong> - ISM, ISPS, MLC compliance assessments</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary-400 mr-3">✓</span>
+                  <span><strong className="text-white">Port state inspection</strong> - International regulation compliance verification</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary-400 mr-3">✓</span>
+                  <span><strong className="text-white">Oil major inspection</strong> - Tanker and offshore vessel assessments</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary-400 mr-3">✓</span>
+                  <span><strong className="text-white">SIRE 2.0 vetting</strong> - Advanced vessel risk evaluation systems</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary-400 mr-3">✓</span>
+                  <span><strong className="text-white">Marine consultancy</strong> - Expert maritime operational guidance</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <Footer />
