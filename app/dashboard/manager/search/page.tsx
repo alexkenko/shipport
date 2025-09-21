@@ -53,12 +53,12 @@ export default function SearchSuperintendentsPage() {
   const fetchSuperintendents = async () => {
     setIsLoading(true)
     try {
-      // Get all superintendents with their profiles
+      // Get all superintendents with their profiles using a simpler approach
       const { data: allSuperintendents, error: usersError } = await supabase
         .from('superintendent_profiles')
         .select(`
           *,
-          users!superintendent_profiles_user_id_fkey (
+          users (
             id,
             name,
             surname,
@@ -70,15 +70,22 @@ export default function SearchSuperintendentsPage() {
             role
           )
         `)
-        .eq('users.role', 'superintendent')
         .order('created_at', { ascending: false })
 
-      if (usersError) throw usersError
+      if (usersError) {
+        console.error('Supabase query error:', usersError)
+        throw usersError
+      }
+
+      // Filter superintendents in JavaScript instead of SQL
+      const filteredSuperintendents = allSuperintendents?.filter(sup => 
+        sup.users && sup.users.role === 'superintendent'
+      ) || []
       
-      console.log('All superintendents from DB:', allSuperintendents)
+      console.log('All superintendents from DB:', filteredSuperintendents)
 
       // Get email verification status for all superintendents
-      const userIds = allSuperintendents?.map(sup => sup.user_id) || []
+      const userIds = filteredSuperintendents?.map(sup => sup.user_id) || []
       const { data: emailVerifications } = await supabase
         .from('email_verifications')
         .select('user_id, is_verified')
@@ -87,31 +94,31 @@ export default function SearchSuperintendentsPage() {
       console.log('Email verifications:', emailVerifications)
 
       // Filter the results based on profile criteria
-      let filteredSuperintendents = allSuperintendents || []
+      let finalFilteredSuperintendents = filteredSuperintendents || []
 
       if (filters.vessel_type && filters.vessel_type.trim() !== '') {
-        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+        finalFilteredSuperintendents = finalFilteredSuperintendents.filter(sup => 
           sup.vessel_types?.includes(filters.vessel_type)
         )
       }
       if (filters.service && filters.service.trim() !== '') {
-        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+        finalFilteredSuperintendents = finalFilteredSuperintendents.filter(sup => 
           sup.services?.includes(filters.service)
         )
       }
       if (filters.certification && filters.certification.trim() !== '') {
-        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+        finalFilteredSuperintendents = finalFilteredSuperintendents.filter(sup => 
           sup.certifications?.includes(filters.certification)
         )
       }
       if (filters.port && filters.port.trim() !== '') {
-        filteredSuperintendents = filteredSuperintendents.filter(sup => 
+        finalFilteredSuperintendents = finalFilteredSuperintendents.filter(sup => 
           sup.ports_covered?.includes(filters.port)
         )
       }
 
       // Transform the data to match the expected interface
-      const transformedData = filteredSuperintendents.map(sup => {
+      const transformedData = finalFilteredSuperintendents.map(sup => {
         const userEmailVerification = emailVerifications?.find(ev => ev.user_id === sup.user_id)
         return {
           id: sup.id,
@@ -134,7 +141,7 @@ export default function SearchSuperintendentsPage() {
         }
       })
 
-      console.log('Filtered superintendents:', filteredSuperintendents)
+      console.log('Final filtered superintendents:', finalFilteredSuperintendents)
       console.log('Transformed data:', transformedData)
       setSuperintendents(transformedData)
     } catch (error) {
