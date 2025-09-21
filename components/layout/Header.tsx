@@ -69,16 +69,16 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
   const navigation = user 
     ? (user.role === 'manager' 
       ? [
-          { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon },
-          { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon },
-          { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon },
-          { name: 'Applications', href: '/dashboard/manager/applications', icon: UserGroupIcon },
-          { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon },
+          { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon, color: 'blue' },
+          { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon, color: 'green' },
+          { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon, color: 'yellow' },
+          { name: 'Applications', href: '/dashboard/manager/applications', icon: UserGroupIcon, color: 'red' },
+          { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon, color: 'purple' },
         ]
       : [
-          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon },
-          { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon },
-          { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon },
+          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
+          { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green' },
+          { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red' },
         ])
     : []
 
@@ -100,27 +100,94 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-2">
-            {navigation.map((item, index) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`
-                  relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group flex items-center space-x-2
-                  ${index === 0 
-                    ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-500/25' 
-                    : 'bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30'
-                  }
-                  hover:scale-105 hover:shadow-lg hover:shadow-primary-500/20
-                `}
-              >
-                <item.icon className={`h-4 w-4 ${index === 0 ? 'text-white' : 'text-gray-400 group-hover:text-white'}`} />
-                <span className="relative z-10">{item.name}</span>
-                {index === 0 && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-primary-600/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </Link>
-            ))}
+            {navigation.map((item, index) => {
+              // Define color schemes for each navigation item
+              const getColorClasses = (color: string, isActive: boolean) => {
+                const baseClasses = 'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group flex items-center space-x-2 hover:scale-105 hover:shadow-lg'
+                
+                switch (color) {
+                  case 'blue':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25' 
+                        : 'bg-gradient-to-r from-blue-700/30 to-blue-600/20 text-blue-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-500/30 hover:to-blue-600/20 border border-blue-600/30 hover:border-blue-500/50 hover:shadow-blue-500/20'
+                    }`
+                  case 'green':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/25' 
+                        : 'bg-gradient-to-r from-green-700/30 to-green-600/20 text-green-200 hover:text-white hover:bg-gradient-to-r hover:from-green-500/30 hover:to-green-600/20 border border-green-600/30 hover:border-green-500/50 hover:shadow-green-500/20'
+                    }`
+                  case 'yellow':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 text-white shadow-lg shadow-yellow-500/25' 
+                        : 'bg-gradient-to-r from-yellow-700/30 to-yellow-600/20 text-yellow-200 hover:text-white hover:bg-gradient-to-r hover:from-yellow-500/30 hover:to-yellow-600/20 border border-yellow-600/30 hover:border-yellow-500/50 hover:shadow-yellow-500/20'
+                    }`
+                  case 'red':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25' 
+                        : 'bg-gradient-to-r from-red-700/30 to-red-600/20 text-red-200 hover:text-white hover:bg-gradient-to-r hover:from-red-500/30 hover:to-red-600/20 border border-red-600/30 hover:border-red-500/50 hover:shadow-red-500/20'
+                    }`
+                  case 'purple':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25' 
+                        : 'bg-gradient-to-r from-purple-700/30 to-purple-600/20 text-purple-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500/30 hover:to-purple-600/20 border border-purple-600/30 hover:border-purple-500/50 hover:shadow-purple-500/20'
+                    }`
+                  default:
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-500/25' 
+                        : 'bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30 hover:shadow-primary-500/20'
+                    }`
+                }
+              }
+
+              const getIconColor = (color: string, isActive: boolean) => {
+                if (isActive) return 'text-white'
+                switch (color) {
+                  case 'blue': return 'text-blue-400 group-hover:text-white'
+                  case 'green': return 'text-green-400 group-hover:text-white'
+                  case 'yellow': return 'text-yellow-400 group-hover:text-white'
+                  case 'red': return 'text-red-400 group-hover:text-white'
+                  case 'purple': return 'text-purple-400 group-hover:text-white'
+                  default: return 'text-gray-400 group-hover:text-white'
+                }
+              }
+
+              const isActive = index === 0 // Dashboard is always active
+              
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={getColorClasses(item.color, isActive)}
+                >
+                  <item.icon className={`h-4 w-4 ${getIconColor(item.color, isActive)}`} />
+                  <span className="relative z-10">{item.name}</span>
+                  {isActive && (
+                    <div className={`absolute inset-0 bg-gradient-to-r ${
+                      item.color === 'blue' ? 'from-blue-500/20 to-blue-600/20' :
+                      item.color === 'green' ? 'from-green-500/20 to-green-600/20' :
+                      item.color === 'yellow' ? 'from-yellow-500/20 to-yellow-600/20' :
+                      item.color === 'red' ? 'from-red-500/20 to-red-600/20' :
+                      item.color === 'purple' ? 'from-purple-500/20 to-purple-600/20' :
+                      'from-primary-500/20 to-primary-600/20'
+                    } rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                  )}
+                  <div className={`absolute inset-0 bg-gradient-to-r ${
+                    item.color === 'blue' ? 'from-blue-500/10 to-blue-600/5' :
+                    item.color === 'green' ? 'from-green-500/10 to-green-600/5' :
+                    item.color === 'yellow' ? 'from-yellow-500/10 to-yellow-600/5' :
+                    item.color === 'red' ? 'from-red-500/10 to-red-600/5' :
+                    item.color === 'purple' ? 'from-purple-500/10 to-purple-600/5' :
+                    'from-primary-500/10 to-primary-600/5'
+                  } rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Right side actions */}
@@ -248,24 +315,84 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
       {user && navigation.length > 0 && isMobileMenuOpen && (
         <div className="md:hidden bg-dark-800 border-t border-dark-700 relative z-50">
           <div className="px-4 py-2 space-y-1">
-            {navigation.map((item, index) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30 relative z-50"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMobileMenuOpen(false);
-                  // Use setTimeout to ensure state update completes before navigation
-                  setTimeout(() => {
-                    window.location.href = item.href;
-                  }, 100);
-                }}
-              >
-                <item.icon className="h-5 w-5 text-gray-400" />
-                <span>{item.name}</span>
-              </Link>
-            ))}
+            {navigation.map((item, index) => {
+              // Define mobile color schemes for each navigation item
+              const getMobileColorClasses = (color: string, isActive: boolean) => {
+                const baseClasses = 'flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 relative z-50'
+                
+                switch (color) {
+                  case 'blue':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/25 border border-blue-500/50' 
+                        : 'bg-gradient-to-r from-blue-700/30 to-blue-600/20 text-blue-200 hover:text-white hover:bg-gradient-to-r hover:from-blue-500/30 hover:to-blue-600/20 border border-blue-600/30 hover:border-blue-500/50'
+                    }`
+                  case 'green':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/25 border border-green-500/50' 
+                        : 'bg-gradient-to-r from-green-700/30 to-green-600/20 text-green-200 hover:text-white hover:bg-gradient-to-r hover:from-green-500/30 hover:to-green-600/20 border border-green-600/30 hover:border-green-500/50'
+                    }`
+                  case 'yellow':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 text-white shadow-lg shadow-yellow-500/25 border border-yellow-500/50' 
+                        : 'bg-gradient-to-r from-yellow-700/30 to-yellow-600/20 text-yellow-200 hover:text-white hover:bg-gradient-to-r hover:from-yellow-500/30 hover:to-yellow-600/20 border border-yellow-600/30 hover:border-yellow-500/50'
+                    }`
+                  case 'red':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25 border border-red-500/50' 
+                        : 'bg-gradient-to-r from-red-700/30 to-red-600/20 text-red-200 hover:text-white hover:bg-gradient-to-r hover:from-red-500/30 hover:to-red-600/20 border border-red-600/30 hover:border-red-500/50'
+                    }`
+                  case 'purple':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25 border border-purple-500/50' 
+                        : 'bg-gradient-to-r from-purple-700/30 to-purple-600/20 text-purple-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500/30 hover:to-purple-600/20 border border-purple-600/30 hover:border-purple-500/50'
+                    }`
+                  default:
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-500/25 border border-primary-500/50' 
+                        : 'bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30'
+                    }`
+                }
+              }
+
+              const getMobileIconColor = (color: string, isActive: boolean) => {
+                if (isActive) return 'text-white'
+                switch (color) {
+                  case 'blue': return 'text-blue-400 group-hover:text-white'
+                  case 'green': return 'text-green-400 group-hover:text-white'
+                  case 'yellow': return 'text-yellow-400 group-hover:text-white'
+                  case 'red': return 'text-red-400 group-hover:text-white'
+                  case 'purple': return 'text-purple-400 group-hover:text-white'
+                  default: return 'text-gray-400 group-hover:text-white'
+                }
+              }
+
+              const isActive = index === 0 // Dashboard is always active
+              
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={getMobileColorClasses(item.color, isActive)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    // Use setTimeout to ensure state update completes before navigation
+                    setTimeout(() => {
+                      window.location.href = item.href;
+                    }, 100);
+                  }}
+                >
+                  <item.icon className={`h-5 w-5 ${getMobileIconColor(item.color, isActive)}`} />
+                  <span>{item.name}</span>
+                </Link>
+              )
+            })}
           </div>
         </div>
       )}
