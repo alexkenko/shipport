@@ -116,12 +116,7 @@ export default function VerifyEmailPage() {
         }
 
         setStatus('success')
-        setMessage('Email verified successfully! Redirecting to dashboard...')
-
-        // Redirect to dashboard after 2 seconds
-        setTimeout(() => {
-          router.push('/dashboard')
-        }, 2000)
+        setMessage('Email verified successfully! You can close this tab.')
 
       } catch (error) {
         console.error('Verification error:', error)
@@ -187,12 +182,7 @@ export default function VerifyEmailPage() {
         }
 
         setStatus('success')
-        setMessage('Email verified successfully! Redirecting to dashboard...')
-
-        // Redirect to dashboard after 2 seconds
-        setTimeout(() => {
-          router.push('/dashboard')
-        }, 2000)
+        setMessage('Email verified successfully! You can close this tab.')
 
       } catch (error) {
         console.error('Verification error:', error)
@@ -268,8 +258,9 @@ export default function VerifyEmailPage() {
 
           {status === 'success' && (
             <div className="mt-6">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
-              <p className="text-sm text-gray-300 mt-2">Redirecting...</p>
+              <div className="text-center">
+                <p className="text-sm text-gray-300">You can now close this tab and return to your dashboard.</p>
+              </div>
             </div>
           )}
         </div>
