@@ -51,6 +51,9 @@ export interface Job {
     email?: string;
     phone?: string;
     photo_url?: string;
+    email_verifications?: {
+      is_verified: boolean;
+    }[];
   };
   // Application status for current user (only used in superintendent search)
   application_status?: 'pending' | 'accepted' | 'rejected' | null;

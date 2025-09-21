@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
-import { getCurrentUser } from '@/lib/auth'
+import { getCurrentUser, AuthUser } from '@/lib/auth'
 import { 
   PlusIcon, 
   DocumentTextIcon, 
@@ -18,6 +18,7 @@ import {
 import { VerificationTip } from '@/components/ui/VerificationTip'
 
 export default function ManagerDashboard() {
+  const [user, setUser] = useState<AuthUser | null>(null)
   const [stats, setStats] = useState({
     activeJobs: 0,
     totalApplications: 0,
@@ -85,8 +86,20 @@ export default function ManagerDashboard() {
   ]
 
   useEffect(() => {
+    fetchUserData()
     fetchDashboardStats()
   }, [])
+
+  const fetchUserData = async () => {
+    try {
+      const currentUser = await getCurrentUser()
+      if (currentUser) {
+        setUser(currentUser)
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error)
+    }
+  }
 
   const fetchDashboardStats = async () => {
     try {
