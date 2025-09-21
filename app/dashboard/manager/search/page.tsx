@@ -10,6 +10,7 @@ import { getCurrentUser } from '@/lib/auth'
 import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES } from '@/types'
 import toast from 'react-hot-toast'
 import { MapPinIcon, UserCircleIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
+import { SearchPopup } from '@/components/ui/SearchPopup'
 
 interface SuperintendentProfile {
   id: string
@@ -34,6 +35,7 @@ export default function SearchSuperintendentsPage() {
   const [superintendents, setSuperintendents] = useState<SuperintendentProfile[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSendingInterest, setIsSendingInterest] = useState<string | null>(null)
+  const [showSearchPopup, setShowSearchPopup] = useState(false)
   const [filters, setFilters] = useState({
     vessel_type: '',
     service: '',
@@ -135,6 +137,7 @@ export default function SearchSuperintendentsPage() {
   }
 
   const handleSearch = () => {
+    setShowSearchPopup(true)
     fetchSuperintendents()
   }
 
@@ -396,6 +399,12 @@ export default function SearchSuperintendentsPage() {
           )}
         </div>
       </div>
+
+      {/* Search Popup */}
+      <SearchPopup 
+        isOpen={showSearchPopup} 
+        onClose={() => setShowSearchPopup(false)} 
+      />
     </DashboardLayout>
   )
 }

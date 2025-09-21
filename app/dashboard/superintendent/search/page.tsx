@@ -13,11 +13,13 @@ import toast from 'react-hot-toast'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { MapPinIcon, CalendarIcon, ClockIcon, UserIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
+import { SearchPopup } from '@/components/ui/SearchPopup'
 
 export default function SearchJobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isApplying, setIsApplying] = useState<string | null>(null)
+  const [showSearchPopup, setShowSearchPopup] = useState(false)
   const [filters, setFilters] = useState<SearchFilters>({
     port_name: '',
     attendance_type: '',
@@ -117,6 +119,7 @@ export default function SearchJobsPage() {
   }
 
   const handleSearch = () => {
+    setShowSearchPopup(true)
     fetchJobs()
   }
 
@@ -395,6 +398,12 @@ export default function SearchJobsPage() {
           )}
         </div>
       </div>
+
+      {/* Search Popup */}
+      <SearchPopup 
+        isOpen={showSearchPopup} 
+        onClose={() => setShowSearchPopup(false)} 
+      />
     </DashboardLayout>
   )
 }

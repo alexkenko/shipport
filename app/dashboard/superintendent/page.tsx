@@ -94,19 +94,19 @@ export default function SuperintendentDashboard() {
           </div>
         </div>
 
-        {/* Advertisement Bar */}
+        {/* Premium Ad Bar */}
         <div className="mb-8">
-          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-dark-800/50 via-dark-700/30 to-dark-800/50 border border-dark-600/50">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-transparent to-primary-500/5"></div>
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-yellow-900/30 via-yellow-800/20 to-yellow-900/30 border border-yellow-600/50">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 via-transparent to-yellow-500/10"></div>
             <div className="relative p-8 text-center">
               <div className="inline-flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
-                <h3 className="text-lg font-medium text-gray-300 tracking-wide">
-                  Your Ads Here
+                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                <h3 className="text-lg font-medium text-yellow-200 tracking-wide">
+                  Premium Ad Bar
                 </h3>
-                <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
               </div>
-              <p className="text-sm text-gray-500 mt-2 font-light">
+              <p className="text-sm text-yellow-300/80 mt-2 font-light">
                 Premium advertising space for maritime industry partners
               </p>
             </div>
