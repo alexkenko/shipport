@@ -53,7 +53,7 @@ export default function SearchSuperintendentsPage() {
   const fetchSuperintendents = async () => {
     setIsLoading(true)
     try {
-      // Get all superintendents with their profiles and verification status
+      // Get all superintendents with their profiles
       const { data: allSuperintendents, error: usersError } = await supabase
         .from('superintendent_profiles')
         .select(`
@@ -68,9 +68,6 @@ export default function SearchSuperintendentsPage() {
             bio,
             photo_url,
             role
-          ),
-          email_verifications!email_verifications_user_id_fkey (
-            is_verified
           )
         `)
         .eq('users.role', 'superintendent')
@@ -79,6 +76,15 @@ export default function SearchSuperintendentsPage() {
       if (usersError) throw usersError
       
       console.log('All superintendents from DB:', allSuperintendents)
+
+      // Get email verification status for all superintendents
+      const userIds = allSuperintendents?.map(sup => sup.user_id) || []
+      const { data: emailVerifications } = await supabase
+        .from('email_verifications')
+        .select('user_id, is_verified')
+        .in('user_id', userIds)
+
+      console.log('Email verifications:', emailVerifications)
 
       // Filter the results based on profile criteria
       let filteredSuperintendents = allSuperintendents || []
@@ -105,24 +111,28 @@ export default function SearchSuperintendentsPage() {
       }
 
       // Transform the data to match the expected interface
-      const transformedData = filteredSuperintendents.map(sup => ({
-        id: sup.id,
-        user_id: sup.user_id,
-        vessel_types: sup.vessel_types || [],
-        certifications: sup.certifications || [],
-        ports_covered: sup.ports_covered || [],
-        services: sup.services || [],
-        users: {
-          id: sup.users.id,
-          name: sup.users.name,
-          surname: sup.users.surname,
-          email: sup.users.email,
-          phone: sup.users.phone,
-          company: sup.users.company,
-          bio: sup.users.bio,
-          photo_url: sup.users.photo_url
+      const transformedData = filteredSuperintendents.map(sup => {
+        const userEmailVerification = emailVerifications?.find(ev => ev.user_id === sup.user_id)
+        return {
+          id: sup.id,
+          user_id: sup.user_id,
+          vessel_types: sup.vessel_types || [],
+          certifications: sup.certifications || [],
+          ports_covered: sup.ports_covered || [],
+          services: sup.services || [],
+          email_verifications: userEmailVerification ? [{ is_verified: userEmailVerification.is_verified }] : [],
+          users: {
+            id: sup.users.id,
+            name: sup.users.name,
+            surname: sup.users.surname,
+            email: sup.users.email,
+            phone: sup.users.phone,
+            company: sup.users.company,
+            bio: sup.users.bio,
+            photo_url: sup.users.photo_url
+          }
         }
-      }))
+      })
 
       console.log('Filtered superintendents:', filteredSuperintendents)
       console.log('Transformed data:', transformedData)
