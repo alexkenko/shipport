@@ -17,20 +17,20 @@ export default function VerifyEmailPage() {
         const confirmationUrl = searchParams.get('confirmation_url')
         
         if (confirmationUrl) {
-          // Parse the confirmation URL to get the token
+          // Parse the confirmation URL to get the token hash
           try {
             const url = new URL(confirmationUrl)
-            const token = url.searchParams.get('token')
+            const tokenHash = url.searchParams.get('token')
             const type = url.searchParams.get('type')
             
-            if (!token || type !== 'magiclink') {
+            if (!tokenHash || type !== 'magiclink') {
               setStatus('error')
               setMessage('Invalid verification link. Please try again.')
               return
             }
             
-            // For magic link, we don't need email parameter
-            await performVerification(token, '')
+            // Use token hash verification method
+            await performVerificationWithHash(tokenHash)
           } catch (error) {
             console.error('Error parsing confirmation URL:', error)
             setStatus('error')
@@ -55,6 +55,72 @@ export default function VerifyEmailPage() {
         console.error('Unexpected error:', error)
         setStatus('error')
         setMessage('An unexpected error occurred. Please try again.')
+      }
+    }
+
+    const performVerificationWithHash = async (tokenHash: string) => {
+      try {
+        // Verify the magic link token hash with Supabase
+        const { error: verifyError } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: 'magiclink'
+        })
+
+        if (verifyError) {
+          console.error('Verification error:', verifyError)
+          
+          // Check if it's an expired link error
+          if (verifyError.message.includes('expired') || verifyError.message.includes('invalid')) {
+            setStatus('error')
+            setMessage('This verification link has expired. Please request a new one from your profile page.')
+          } else {
+            setStatus('error')
+            setMessage(`Verification failed: ${verifyError.message}`)
+          }
+          return
+        }
+
+        // Get current user after verification
+        const { data: { user: verifiedUser } } = await supabase.auth.getUser()
+        if (!verifiedUser) {
+          setStatus('error')
+          setMessage('User not found. Please try logging in again.')
+          return
+        }
+
+        // Mark email as verified in our custom table
+        const { error: verificationError } = await supabase
+          .from('email_verifications')
+          .upsert({
+            user_id: verifiedUser.id,
+            email: verifiedUser.email,
+            is_verified: true,
+            verified_at: new Date().toISOString(),
+            otp_code: null,
+            otp_expires_at: null
+          }, {
+            onConflict: 'user_id,email'
+          })
+
+        if (verificationError) {
+          console.error('Database update error:', verificationError)
+          setStatus('error')
+          setMessage('Email verified but failed to update database. Please contact support.')
+          return
+        }
+
+        setStatus('success')
+        setMessage('Email verified successfully! Redirecting to dashboard...')
+
+        // Redirect to dashboard after 2 seconds
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 2000)
+
+      } catch (error) {
+        console.error('Verification error:', error)
+        setStatus('error')
+        setMessage('An unexpected error occurred during verification.')
       }
     }
 
