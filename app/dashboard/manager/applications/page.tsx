@@ -46,6 +46,9 @@ interface ApplicationWithDetails {
     company: string
     bio: string
     photo_url: string | null
+    email_verifications?: {
+      is_verified: boolean
+    }[]
   }
   superintendent_profiles: {
     vessel_types: string[]
@@ -108,7 +111,12 @@ export default function ManagerApplicationsPage() {
       const superintendentIds = applications.map(app => app.superintendent_id)
       const { data: superintendents, error: superintendentsError } = await supabase
         .from('users')
-        .select('id, name, surname, email, phone, company, bio, photo_url')
+        .select(`
+          id, name, surname, email, phone, company, bio, photo_url,
+          email_verifications!email_verifications_user_id_fkey (
+            is_verified
+          )
+        `)
         .in('id', superintendentIds)
 
       if (superintendentsError) throw superintendentsError

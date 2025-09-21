@@ -15,6 +15,7 @@ import {
   CheckCircleIcon,
   UserGroupIcon
 } from '@heroicons/react/24/outline'
+import { VerificationTip } from '@/components/ui/VerificationTip'
 
 export default function ManagerDashboard() {
   const [stats, setStats] = useState({
@@ -139,6 +140,7 @@ export default function ManagerDashboard() {
 
   return (
     <DashboardLayout requiredRole="manager">
+      {user && <VerificationTip userRole="manager" userEmail={user.email} />}
       <div className="space-y-8">
         {/* Header */}
         <div>

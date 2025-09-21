@@ -11,6 +11,7 @@ import {
   ClockIcon,
   UserGroupIcon
 } from '@heroicons/react/24/outline'
+import { VerificationTip } from '@/components/ui/VerificationTip'
 
 export default function SuperintendentDashboard() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -65,6 +66,7 @@ export default function SuperintendentDashboard() {
 
   return (
     <DashboardLayout requiredRole="superintendent">
+      {user && <VerificationTip userRole="superintendent" userEmail={user.email} />}
       <div className="space-y-8">
         {/* Header */}
         <div>

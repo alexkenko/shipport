@@ -29,6 +29,9 @@ interface SuperintendentProfile {
     bio: string
     photo_url: string | null
   }
+  email_verifications?: {
+    is_verified: boolean
+  }[]
 }
 
 export default function SearchSuperintendentsPage() {
@@ -50,7 +53,7 @@ export default function SearchSuperintendentsPage() {
   const fetchSuperintendents = async () => {
     setIsLoading(true)
     try {
-      // Get all superintendents with their profiles using the same approach as working superintendent search
+      // Get all superintendents with their profiles and verification status
       const { data: allSuperintendents, error: usersError } = await supabase
         .from('superintendent_profiles')
         .select(`
@@ -65,6 +68,9 @@ export default function SearchSuperintendentsPage() {
             bio,
             photo_url,
             role
+          ),
+          email_verifications!email_verifications_user_id_fkey (
+            is_verified
           )
         `)
         .eq('users.role', 'superintendent')
@@ -305,9 +311,20 @@ export default function SearchSuperintendentsPage() {
                         <UserCircleIcon className="h-16 w-16 text-gray-400" />
                       )}
                       <div className="flex-1">
-                        <CardTitle className="text-lg mb-1">
-                          {superintendent.users.name} {superintendent.users.surname}
-                        </CardTitle>
+                        <div className="flex items-center gap-2 mb-1">
+                          <CardTitle className="text-lg">
+                            {superintendent.users.name} {superintendent.users.surname}
+                          </CardTitle>
+                          {superintendent.email_verifications?.[0]?.is_verified ? (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              ⭐ Verified
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                              ⚪ Unverified
+                            </span>
+                          )}
+                        </div>
                         <CardDescription className="text-sm">
                           {superintendent.users.company}
                         </CardDescription>

@@ -50,7 +50,10 @@ export default function SearchJobsPage() {
             company,
             email,
             phone,
-            photo_url
+            photo_url,
+            email_verifications!email_verifications_user_id_fkey (
+              is_verified
+            )
           )
         `)
         .eq('status', 'active')
@@ -312,9 +315,20 @@ export default function SearchJobsPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <CardTitle className="text-lg mb-2">{job.title}</CardTitle>
-                        <CardDescription className="text-sm mb-3">
-                          Posted by {job.users?.name} {job.users?.surname} from {job.users?.company}
-                        </CardDescription>
+                        <div className="flex items-center gap-2 mb-3">
+                          <CardDescription className="text-sm">
+                            Posted by {job.users?.name} {job.users?.surname} from {job.users?.company}
+                          </CardDescription>
+                          {job.users?.email_verifications?.[0]?.is_verified ? (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              ⭐ Verified
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                              ⚪ Unverified
+                            </span>
+                          )}
+                        </div>
                         
                         {/* Manager Details */}
                         <div className="flex items-center space-x-3 p-3 bg-dark-800/50 rounded-lg">
