@@ -54,6 +54,10 @@ export function NotificationDropdown({
         return '✅'
       case 'application_rejected':
         return '❌'
+      case 'profile_view':
+        return '👁️'
+      case 'job_interest':
+        return '💼'
       default:
         return '🔔'
     }
@@ -65,6 +69,10 @@ export function NotificationDropdown({
         return 'text-green-400'
       case 'application_rejected':
         return 'text-red-400'
+      case 'profile_view':
+        return 'text-blue-400'
+      case 'job_interest':
+        return 'text-yellow-400'
       default:
         return 'text-blue-400'
     }

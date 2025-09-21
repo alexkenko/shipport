@@ -160,15 +160,15 @@ export default function SearchSuperintendentsPage() {
         .from('notifications')
         .insert({
           user_id: superintendentId,
-          type: 'job_interest',
-          title: 'Manager Interest',
-          message: `${user.name} ${user.surname} from ${user.company} is interested in your services`,
+          type: 'profile_view',
+          title: 'Profile Viewed',
+          message: `Manager of ${user.company} has viewed your profile`,
           related_id: user.id
         })
 
       if (error) throw error
 
-      toast.success('Interest sent successfully!')
+      toast.success('Profile view notification sent!')
     } catch (error: any) {
       toast.error(error.message || 'Failed to send interest')
     } finally {
