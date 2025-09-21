@@ -66,6 +66,24 @@ export const useEmailVerification = () => {
 
       if (error) throw error
 
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('User not found')
+
+      // Mark email as verified in our custom table
+      const { error: verificationError } = await supabase
+        .from('email_verifications')
+        .upsert({
+          user_id: user.id,
+          email: email,
+          is_verified: true,
+          verified_at: new Date().toISOString()
+        }, {
+          onConflict: 'user_id,email'
+        })
+
+      if (verificationError) throw verificationError
+
       setState(prev => ({ 
         ...prev, 
         isVerifying: false, 
@@ -84,11 +102,25 @@ export const useEmailVerification = () => {
   const checkVerificationStatus = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (user?.email_confirmed_at) {
-        setState(prev => ({ ...prev, isVerified: true }))
-      } else {
-        setState(prev => ({ ...prev, isVerified: false }))
+      if (!user?.email) return
+
+      // Check our custom email verification table
+      const { data: verification, error } = await supabase
+        .from('email_verifications')
+        .select('is_verified')
+        .eq('user_id', user.id)
+        .eq('email', user.email)
+        .single()
+
+      if (error && error.code !== 'PGRST116') { // PGRST116 = no rows found
+        console.error('Error checking verification status:', error)
+        return
       }
+
+      setState(prev => ({ 
+        ...prev, 
+        isVerified: verification?.is_verified || false 
+      }))
     } catch (error) {
       console.error('Error checking verification status:', error)
     }
