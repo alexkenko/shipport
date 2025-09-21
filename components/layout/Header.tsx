@@ -16,7 +16,9 @@ import {
   UserGroupIcon,
   MagnifyingGlassIcon,
   BriefcaseIcon,
-  ClipboardDocumentListIcon
+  ClipboardDocumentListIcon,
+  Bars3Icon,
+  XMarkIcon
 } from '@heroicons/react/24/outline'
 import { NotificationDropdown } from '@/components/ui/NotificationDropdown'
 import { useNotifications } from '@/hooks/useNotifications'
@@ -34,6 +36,7 @@ interface HeaderProps {
 export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigation = false }: HeaderProps) {
   const router = useRouter()
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   
   // Use notifications hook for superintendents
   const {
@@ -122,6 +125,20 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
+            {/* Mobile menu button */}
+            {user && navigation.length > 0 && (
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 text-gray-400 hover:text-white transition-colors duration-200"
+              >
+                {isMobileMenuOpen ? (
+                  <XMarkIcon className="h-6 w-6" />
+                ) : (
+                  <Bars3Icon className="h-6 w-6" />
+                )}
+              </button>
+            )}
+            
             {user ? (
               <>
                 {/* Notifications */}
@@ -222,12 +239,32 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
 
       </div>
 
+      {/* Mobile Navigation */}
+      {user && navigation.length > 0 && isMobileMenuOpen && (
+        <div className="md:hidden bg-dark-800 border-t border-dark-700">
+          <div className="px-4 py-2 space-y-1">
+            {navigation.map((item, index) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <item.icon className="h-5 w-5 text-gray-400" />
+                <span>{item.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Click outside to close dropdowns */}
-      {isProfileMenuOpen && (
+      {(isProfileMenuOpen || isMobileMenuOpen) && (
         <div
           className="fixed inset-0 z-40"
           onClick={() => {
             setIsProfileMenuOpen(false)
+            setIsMobileMenuOpen(false)
           }}
         />
       )}
