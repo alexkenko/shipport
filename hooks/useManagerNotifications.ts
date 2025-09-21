@@ -193,8 +193,9 @@ export function useManagerNotifications(user: AuthUser | null) {
     
     if (unreadApplicationIds.length > 0) {
       const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
-      const newReadIds = [...new Set([...readApplicationIds, ...unreadApplicationIds])]
-      localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(newReadIds))
+      const combinedIds = [...readApplicationIds, ...unreadApplicationIds]
+      const uniqueIds = Array.from(new Set(combinedIds))
+      localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(uniqueIds))
     }
 
     setNotifications(prev => prev.map(n => ({ ...n, read: true })))
