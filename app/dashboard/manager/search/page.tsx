@@ -22,6 +22,8 @@ interface SuperintendentProfile {
     id: string
     name: string
     surname: string
+    email: string
+    phone: string
     company: string
     bio: string
     photo_url: string | null
@@ -55,6 +57,8 @@ export default function SearchSuperintendentsPage() {
             id,
             name,
             surname,
+            email,
+            phone,
             company,
             bio,
             photo_url,
@@ -104,6 +108,8 @@ export default function SearchSuperintendentsPage() {
           id: sup.users.id,
           name: sup.users.name,
           surname: sup.users.surname,
+          email: sup.users.email,
+          phone: sup.users.phone,
           company: sup.users.company,
           bio: sup.users.bio,
           photo_url: sup.users.photo_url
@@ -302,6 +308,10 @@ export default function SearchSuperintendentsPage() {
                         <CardDescription className="text-sm">
                           {superintendent.users.company}
                         </CardDescription>
+                        <div className="text-xs text-gray-500 mt-1">
+                          <div>{superintendent.users.email}</div>
+                          <div>{superintendent.users.phone}</div>
+                        </div>
                       </div>
                     </div>
                   </CardHeader>

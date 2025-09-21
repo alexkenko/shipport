@@ -41,6 +41,8 @@ interface ApplicationWithDetails {
     id: string
     name: string
     surname: string
+    email: string
+    phone: string
     company: string
     bio: string
     photo_url: string | null
@@ -106,7 +108,7 @@ export default function ManagerApplicationsPage() {
       const superintendentIds = applications.map(app => app.superintendent_id)
       const { data: superintendents, error: superintendentsError } = await supabase
         .from('users')
-        .select('id, name, surname, company, bio, photo_url')
+        .select('id, name, surname, email, phone, company, bio, photo_url')
         .in('id', superintendentIds)
 
       if (superintendentsError) throw superintendentsError
@@ -252,6 +254,10 @@ export default function ManagerApplicationsPage() {
                       <CardDescription className="text-xs text-gray-500">
                         {new Date(application.created_at).toLocaleDateString()}
                       </CardDescription>
+                      <div className="text-xs text-gray-500 mt-1">
+                        <div>{application.users?.email || 'N/A'}</div>
+                        <div>{application.users?.phone || 'N/A'}</div>
+                      </div>
                     </div>
                     <div className="flex items-center space-x-2">
                       {getStatusIcon(application.status)}
@@ -360,6 +366,10 @@ export default function ManagerApplicationsPage() {
                         {selectedApplication.users?.name || 'Unknown'} {selectedApplication.users?.surname || 'User'}
                       </h3>
                       <p className="text-gray-400">{selectedApplication.users?.company || 'No company'}</p>
+                      <div className="text-sm text-gray-500 mt-2">
+                        <div>📧 {selectedApplication.users?.email || 'No email'}</div>
+                        <div>📞 {selectedApplication.users?.phone || 'No phone'}</div>
+                      </div>
                       <p className="text-sm text-gray-500 mt-2">{selectedApplication.users?.bio || 'No bio available'}</p>
                     </div>
                   </div>
