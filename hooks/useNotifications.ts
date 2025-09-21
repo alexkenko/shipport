@@ -6,11 +6,11 @@ import { AuthUser } from '@/lib/auth'
 
 export interface Notification {
   id: string
-  type: 'application_accepted' | 'application_rejected'
+  type: 'application_accepted' | 'application_rejected' | 'profile_view' | 'job_interest'
   title: string
   message: string
-  job_title: string
-  company_name: string
+  job_title?: string
+  company_name?: string
   created_at: string
   read: boolean
 }
@@ -28,15 +28,28 @@ export function useNotifications(user: AuthUser | null) {
 
     fetchNotifications()
     
-    // Set up real-time subscription for application updates
+    // Set up real-time subscriptions for notifications and application updates
     const channel = supabase
-      .channel('application_updates')
+      .channel('notifications_and_applications')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => {
+          console.log('New notification received:', payload)
+          fetchNotifications()
+        }
+      )
       .on(
         'postgres_changes',
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'applications',
+          table: 'job_applications',
           filter: `superintendent_id=eq.${user.id}`
         },
         (payload) => {
@@ -58,8 +71,20 @@ export function useNotifications(user: AuthUser | null) {
     if (!user || user.role !== 'superintendent') return
 
     try {
-      const { data: applications, error } = await supabase
-        .from('applications')
+      // Fetch notifications from the notifications table
+      const { data: dbNotifications, error: notificationsError } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (notificationsError) {
+        console.error('Error fetching notifications:', notificationsError)
+      }
+
+      // Fetch application status notifications
+      const { data: applications, error: applicationsError } = await supabase
+        .from('job_applications')
         .select(`
           id,
           status,
@@ -76,32 +101,45 @@ export function useNotifications(user: AuthUser | null) {
         .in('status', ['accepted', 'rejected'])
         .order('updated_at', { ascending: false })
 
-      if (error) {
-        console.error('Error fetching notifications:', error)
-        return
+      if (applicationsError) {
+        console.error('Error fetching applications:', applicationsError)
       }
 
+      // Convert database notifications to our format
+      const dbNotificationData: Notification[] = (dbNotifications || []).map(notif => ({
+        id: notif.id,
+        type: notif.type as 'profile_view' | 'job_interest',
+        title: notif.title,
+        message: notif.message,
+        created_at: notif.created_at,
+        read: notif.is_read
+      }))
+
       // Convert applications to notifications
-      const notificationData: Notification[] = applications?.map(app => {
+      const applicationNotificationData: Notification[] = (applications || []).map(app => {
         const job = Array.isArray(app.jobs) ? app.jobs[0] : app.jobs
-        const user = Array.isArray(job?.users) ? job.users[0] : job?.users
+        const jobUser = Array.isArray(job?.users) ? job.users[0] : job?.users
         
         return {
           id: `app_${app.id}`,
           type: app.status === 'accepted' ? 'application_accepted' : 'application_rejected',
           title: app.status === 'accepted' ? 'Application Accepted!' : 'Application Not Selected',
           message: app.status === 'accepted' 
-            ? `Congratulations! Your application for ${job?.title || 'Unknown Job'} has been accepted by ${user?.company || 'Unknown Company'}.`
-            : `Your application for ${job?.title || 'Unknown Job'} was not selected by ${user?.company || 'Unknown Company'}.`,
+            ? `Congratulations! Your application for ${job?.title || 'Unknown Job'} has been accepted by ${jobUser?.company || 'Unknown Company'}.`
+            : `Your application for ${job?.title || 'Unknown Job'} was not selected by ${jobUser?.company || 'Unknown Company'}.`,
           job_title: job?.title || 'Unknown Job',
-          company_name: user?.company || 'Unknown Company',
+          company_name: jobUser?.company || 'Unknown Company',
           created_at: app.updated_at,
           read: false // In a real app, you'd track this in a separate notifications table
         }
-      }) || []
+      })
 
-      setNotifications(notificationData)
-      setUnreadCount(notificationData.filter(n => !n.read).length)
+      // Combine all notifications
+      const allNotifications = [...dbNotificationData, ...applicationNotificationData]
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+
+      setNotifications(allNotifications)
+      setUnreadCount(allNotifications.filter(n => !n.read).length)
     } catch (error) {
       console.error('Error fetching notifications:', error)
     } finally {
@@ -110,6 +148,18 @@ export function useNotifications(user: AuthUser | null) {
   }
 
   const markAsRead = async (notificationId: string) => {
+    // If it's a database notification (not prefixed with 'app_'), update the database
+    if (!notificationId.startsWith('app_')) {
+      try {
+        await supabase
+          .from('notifications')
+          .update({ is_read: true })
+          .eq('id', notificationId)
+      } catch (error) {
+        console.error('Error marking notification as read:', error)
+      }
+    }
+
     setNotifications(prev => 
       prev.map(notification => 
         notification.id === notificationId 
