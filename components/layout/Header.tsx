@@ -128,8 +128,13 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
             {/* Mobile menu button */}
             {user && navigation.length > 0 && (
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-gray-400 hover:text-white transition-colors duration-200"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                }}
+                className="md:hidden p-2 text-gray-400 hover:text-white transition-colors duration-200 relative z-50"
+                aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (
                   <XMarkIcon className="h-6 w-6" />
@@ -241,14 +246,21 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
 
       {/* Mobile Navigation */}
       {user && navigation.length > 0 && isMobileMenuOpen && (
-        <div className="md:hidden bg-dark-800 border-t border-dark-700">
+        <div className="md:hidden bg-dark-800 border-t border-dark-700 relative z-50">
           <div className="px-4 py-2 space-y-1">
             {navigation.map((item, index) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30"
-                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 bg-gradient-to-r from-dark-700/50 to-dark-600/30 text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/10 border border-dark-600/50 hover:border-primary-500/30 relative z-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  // Use setTimeout to ensure state update completes before navigation
+                  setTimeout(() => {
+                    window.location.href = item.href;
+                  }, 100);
+                }}
               >
                 <item.icon className="h-5 w-5 text-gray-400" />
                 <span>{item.name}</span>
@@ -262,9 +274,12 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
       {(isProfileMenuOpen || isMobileMenuOpen) && (
         <div
           className="fixed inset-0 z-40"
-          onClick={() => {
-            setIsProfileMenuOpen(false)
-            setIsMobileMenuOpen(false)
+          onClick={(e) => {
+            // Only close if clicking on the backdrop, not on menu items
+            if (e.target === e.currentTarget) {
+              setIsProfileMenuOpen(false)
+              setIsMobileMenuOpen(false)
+            }
           }}
         />
       )}
