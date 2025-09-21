@@ -194,7 +194,7 @@ export class InputValidator {
     const errors: string[] = []
     
     if (price === null || price === undefined || price === '') {
-      return { isValid: true, errors: [], sanitizedValue: null }
+      return { isValid: true, errors: [], sanitizedValue: undefined }
     }
 
     const numPrice = typeof price === 'string' ? parseFloat(price) : price
