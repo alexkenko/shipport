@@ -29,27 +29,43 @@ export const useEmailVerification = () => {
         throw new Error('No user email found')
       }
 
-      // Send OTP for email verification
-      const { error } = await supabase.auth.signInWithOtp({
-        email: user.email,
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: `${window.location.origin}/dashboard`
-        }
-      })
+      // Generate a 6-digit OTP code
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString()
+      
+      // Store the OTP in our email_verifications table with expiration
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10 minutes from now
+      
+      const { error: storeError } = await supabase
+        .from('email_verifications')
+        .upsert({
+          user_id: user.id,
+          email: user.email,
+          otp_code: otpCode,
+          otp_expires_at: expiresAt.toISOString(),
+          is_verified: false
+        }, {
+          onConflict: 'user_id,email'
+        })
 
-      if (error) throw error
+      if (storeError) throw storeError
+
+      // For now, we'll show the OTP in the browser console and alert
+      // In production, you would implement a proper email sending service
+      console.log('OTP Code for', user.email, ':', otpCode)
+      
+      // Show OTP in an alert for testing (remove this in production)
+      alert(`Your verification code is: ${otpCode}\n\nThis is for testing only. In production, this code will be sent to your email.`)
 
       setState(prev => ({ 
         ...prev, 
         isSendingOTP: false, 
-        success: 'Verification email sent! Please check your inbox.' 
+        success: 'Verification code generated! Check the popup for your code.' 
       }))
     } catch (error: any) {
       setState(prev => ({ 
         ...prev, 
         isSendingOTP: false, 
-        error: error.message || 'Failed to send verification email' 
+        error: error.message || 'Failed to send verification code' 
       }))
     }
   }
@@ -58,17 +74,31 @@ export const useEmailVerification = () => {
     setState(prev => ({ ...prev, isVerifying: true, error: null, success: null }))
     
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        token,
-        type: 'email',
-        email
-      })
-
-      if (error) throw error
-
       // Get current user
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('User not found')
+
+      // Check the OTP code against our stored value
+      const { data: verification, error: fetchError } = await supabase
+        .from('email_verifications')
+        .select('otp_code, otp_expires_at')
+        .eq('user_id', user.id)
+        .eq('email', email)
+        .single()
+
+      if (fetchError) throw new Error('No verification code found. Please request a new one.')
+
+      // Check if OTP has expired
+      const now = new Date()
+      const expiresAt = new Date(verification.otp_expires_at)
+      if (now > expiresAt) {
+        throw new Error('Verification code has expired. Please request a new one.')
+      }
+
+      // Check if OTP code matches
+      if (verification.otp_code !== token) {
+        throw new Error('Invalid verification code. Please try again.')
+      }
 
       // Mark email as verified in our custom table
       const { error: verificationError } = await supabase
@@ -77,7 +107,9 @@ export const useEmailVerification = () => {
           user_id: user.id,
           email: email,
           is_verified: true,
-          verified_at: new Date().toISOString()
+          verified_at: new Date().toISOString(),
+          otp_code: null, // Clear the OTP code after successful verification
+          otp_expires_at: null
         }, {
           onConflict: 'user_id,email'
         })
