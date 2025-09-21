@@ -63,7 +63,7 @@ export default function HomePage() {
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Professional Marine
-              <span className="block text-primary-400">Superintendent Services</span>
+              <span className="block text-white">Superintendent Services</span>
               <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-2">
                 <span className="text-cyan-400">Ship</span>
                 <span className="text-red-500">in</span>
