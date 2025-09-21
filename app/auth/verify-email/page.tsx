@@ -18,18 +18,25 @@ export default function VerifyEmailPage() {
         
         if (confirmationUrl) {
           // Parse the confirmation URL to get the token
-          const url = new URL(confirmationUrl)
-          const token = url.searchParams.get('token')
-          const type = url.searchParams.get('type')
-          const email = url.searchParams.get('email')
-          
-          if (!token || type !== 'email' || !email) {
+          try {
+            const url = new URL(confirmationUrl)
+            const token = url.searchParams.get('token')
+            const type = url.searchParams.get('type')
+            
+            if (!token || type !== 'magiclink') {
+              setStatus('error')
+              setMessage('Invalid verification link. Please try again.')
+              return
+            }
+            
+            // For magic link, we don't need email parameter
+            await performVerification(token, '')
+          } catch (error) {
+            console.error('Error parsing confirmation URL:', error)
             setStatus('error')
-            setMessage('Invalid verification link. Please try again.')
+            setMessage('Invalid verification link format. Please try again.')
             return
           }
-          
-          await performVerification(token, email)
         } else {
           // Fallback to direct token parameters
           const token = searchParams.get('token')
@@ -56,8 +63,7 @@ export default function VerifyEmailPage() {
         // Verify the magic link token with Supabase
         const { error: verifyError } = await supabase.auth.verifyOtp({
           token,
-          type: 'email',
-          email
+          type: 'magiclink'
         })
 
         if (verifyError) {
