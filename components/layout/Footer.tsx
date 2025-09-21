@@ -42,27 +42,26 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact
+                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">
+                  FAQ
                 </Link>
               </li>
             </ul>
           </div>
 
-
           {/* Support */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Support</h4>
+            <h4 className="text-lg font-semibold text-white mb-4">Support & Contact</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">
-                  FAQ
+                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                  Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact Support
-                </Link>
+                <a href="mailto:support@shipinport.com" className="text-gray-400 hover:text-white transition-colors">
+                  support@shipinport.com
+                </a>
               </li>
             </ul>
           </div>

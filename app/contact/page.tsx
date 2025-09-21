@@ -53,39 +53,19 @@ export default function ContactPage() {
             
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">General Inquiries</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Contact Us</h3>
                 <p className="text-gray-300">
-                  For general questions about our marine superintendent platform, vessel management solutions, 
-                  or maritime industry networking services.
+                  For all inquiries including general questions, technical support, partnerships, 
+                  media inquiries, and any other matters related to our marine superintendent platform.
                 </p>
                 <p className="text-primary-400 mt-2">support@shipinport.com</p>
               </div>
               
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Technical Support</h3>
+              <div className="p-4 bg-dark-800 rounded-lg">
+                <h3 className="text-lg font-semibold text-white mb-2">Response Time</h3>
                 <p className="text-gray-300">
-                  Need help with platform features, account management, or technical issues? 
-                  Our support team is here to assist you.
+                  We typically respond to all inquiries within 24-48 hours during business days.
                 </p>
-                <p className="text-primary-400 mt-2">tech@shipinport.com</p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Partnership Opportunities</h3>
-                <p className="text-gray-300">
-                  Interested in partnering with ShipinPort? We welcome collaborations with 
-                  maritime industry organizations, training institutions, and service providers.
-                </p>
-                <p className="text-primary-400 mt-2">partnerships@shipinport.com</p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Media & Press</h3>
-                <p className="text-gray-300">
-                  Media inquiries, press releases, and industry insights about marine 
-                  superintendent services and vessel management solutions.
-                </p>
-                <p className="text-primary-400 mt-2">media@shipinport.com</p>
               </div>
             </div>
           </div>
