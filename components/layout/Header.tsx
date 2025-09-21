@@ -105,6 +105,8 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
               const getColorClasses = (color: string, isActive: boolean) => {
                 const baseClasses = 'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group flex items-center space-x-2 hover:scale-105 hover:shadow-lg'
                 
+                console.log(`getColorClasses called with color: ${color}, isActive: ${isActive}`)
+                
                 switch (color) {
                   case 'blue':
                     return `${baseClasses} ${
