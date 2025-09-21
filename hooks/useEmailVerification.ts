@@ -49,12 +49,19 @@ export const useEmailVerification = () => {
 
       if (storeError) throw storeError
 
-      // For now, we'll use a simple approach that works with your existing setup
-      // The OTP is stored in the database and ready for verification
-      // In a production environment, you would configure a proper email service
-      // to send the OTP code via email using your Zoho SMTP settings
-      
-      console.log('OTP generated and stored. Email sending would be implemented here.')
+      // Send OTP via email using our custom Edge Function
+      const { error: emailError } = await supabase.functions.invoke('send-otp-email', {
+        body: {
+          email: user.email,
+          otpCode: otpCode,
+          userName: user.user_metadata?.name || user.user_metadata?.full_name || 'User'
+        }
+      })
+
+      if (emailError) {
+        console.error('Email sending error:', emailError)
+        throw new Error('Failed to send verification email. Please try again.')
+      }
 
       setState(prev => ({ 
         ...prev, 
