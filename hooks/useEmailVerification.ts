@@ -22,26 +22,23 @@ export const useEmailVerification = () => {
     setState(prev => ({ ...prev, isSendingOTP: true, error: null, success: null }))
     
     try {
-      const { error } = await supabase.auth.resend({
-        type: 'email_change',
-        email: supabase.auth.getUser().then(({ data: { user } }) => user?.email) as any
+      // Get current user email
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user?.email) {
+        throw new Error('No user email found')
+      }
+
+      // Send OTP for email verification
+      const { error } = await supabase.auth.signInWithOtp({
+        email: user.email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/dashboard`
+        }
       })
 
-      if (error) {
-        // If resend doesn't work, try sending a new OTP
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user?.email) {
-          const { error: otpError } = await supabase.auth.signInWithOtp({
-            email: user.email,
-            options: {
-              shouldCreateUser: false,
-              emailRedirectTo: `${window.location.origin}/dashboard`
-            }
-          })
-          
-          if (otpError) throw otpError
-        }
-      }
+      if (error) throw error
 
       setState(prev => ({ 
         ...prev, 
