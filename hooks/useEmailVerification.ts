@@ -49,13 +49,29 @@ export const useEmailVerification = () => {
 
       if (storeError) throw storeError
 
-      // For now, we'll skip email sending due to rate limits
-      // The OTP is stored in the database and can be retrieved for testing
-      console.log('OTP generated:', otpCode, 'for email:', user.email)
-      
-      // In production, you would implement proper email sending here
-      // For testing, we can display the OTP temporarily
-      alert(`Your verification code is: ${otpCode}\n\nNote: Email sending is temporarily disabled due to rate limits.`)
+      // Send email using Supabase's built-in email functionality with Zoho SMTP
+      // This will use your configured Zoho SMTP settings
+      try {
+        const { error: emailError } = await supabase.auth.signInWithOtp({
+          email: user.email,
+          options: {
+            shouldCreateUser: false,
+            emailRedirectTo: `${window.location.origin}/dashboard`
+          }
+        })
+
+        if (emailError) {
+          console.error('Email sending error:', emailError)
+          // If email fails, show OTP for testing
+          alert(`Email sending failed. Your verification code is: ${otpCode}\n\nError: ${emailError.message}`)
+        } else {
+          console.log('Email sent successfully via Zoho SMTP')
+        }
+      } catch (error) {
+        console.error('Email sending error:', error)
+        // If email fails, show OTP for testing
+        alert(`Email sending failed. Your verification code is: ${otpCode}`)
+      }
 
       setState(prev => ({ 
         ...prev, 
