@@ -6,6 +6,12 @@ export interface ValidationResult {
   sanitizedValue?: string
 }
 
+export interface ArrayValidationResult {
+  isValid: boolean
+  errors: string[]
+  sanitizedValue?: string[]
+}
+
 export class InputValidator {
   // Email validation
   static validateEmail(email: string): ValidationResult {
@@ -215,7 +221,7 @@ export class InputValidator {
     return {
       isValid: errors.length === 0,
       errors,
-      sanitizedValue: numPrice
+      sanitizedValue: numPrice.toString()
     }
   }
 
@@ -299,7 +305,7 @@ export class InputValidator {
   }
 
   // Validate array of strings (for vessel types, services, etc.)
-  static validateStringArray(array: string[], fieldName: string = 'Array', maxLength: number = 20): ValidationResult {
+  static validateStringArray(array: string[], fieldName: string = 'Array', maxLength: number = 20): ArrayValidationResult {
     const errors: string[] = []
     
     if (!Array.isArray(array)) {
