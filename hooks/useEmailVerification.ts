@@ -49,24 +49,18 @@ export const useEmailVerification = () => {
 
       if (storeError) throw storeError
 
-      // Send OTP via email using our custom Edge Function
-      const { error: emailError } = await supabase.functions.invoke('send-otp-email', {
-        body: {
-          email: user.email,
-          otpCode: otpCode,
-          userName: user.user_metadata?.name || user.user_metadata?.full_name || 'User'
-        }
-      })
-
-      if (emailError) {
-        console.error('Email sending error:', emailError)
-        throw new Error('Failed to send verification email. Please try again.')
-      }
+      // For now, we'll skip email sending due to rate limits
+      // The OTP is stored in the database and can be retrieved for testing
+      console.log('OTP generated:', otpCode, 'for email:', user.email)
+      
+      // In production, you would implement proper email sending here
+      // For testing, we can display the OTP temporarily
+      alert(`Your verification code is: ${otpCode}\n\nNote: Email sending is temporarily disabled due to rate limits.`)
 
       setState(prev => ({ 
         ...prev, 
         isSendingOTP: false, 
-        success: 'Verification code sent! Please check your email inbox.' 
+        success: 'Verification code generated! Check the popup for your code.' 
       }))
     } catch (error: any) {
       setState(prev => ({ 
