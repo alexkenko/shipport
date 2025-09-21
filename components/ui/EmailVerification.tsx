@@ -66,17 +66,18 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-          ❌ Not Verified
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+          ⚪ Unverified
         </span>
         {!showOTPInput && (
           <Button
             onClick={handleSendOTP}
             disabled={isSendingOTP}
             size="sm"
-            variant="outline"
+            variant="ghost"
+            className="text-xs text-gray-400 hover:text-gray-300"
           >
-            {isSendingOTP ? 'Sending...' : 'Verify Email'}
+            {isSendingOTP ? 'Sending...' : 'Verify (optional)'}
           </Button>
         )}
       </div>
@@ -85,6 +86,8 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
         <div className="space-y-3 p-4 bg-gray-50 rounded-lg border">
           <p className="text-sm text-gray-600">
             Enter the 6-digit verification code sent to <strong>{userEmail}</strong>
+            <br />
+            <span className="text-xs text-gray-500">Verification is optional and doesn't affect your account usage</span>
           </p>
           
           <div className="flex items-center gap-2">
@@ -106,9 +109,10 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
             <Button
               onClick={handleCancelOTP}
               size="sm"
-              variant="outline"
+              variant="ghost"
+              className="text-gray-500"
             >
-              Cancel
+              Skip
             </Button>
           </div>
 
@@ -118,6 +122,7 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
               disabled={isSendingOTP}
               size="sm"
               variant="ghost"
+              className="text-xs text-gray-400"
             >
               {isSendingOTP ? 'Resending...' : 'Resend Code'}
             </Button>

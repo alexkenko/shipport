@@ -246,7 +246,7 @@ export default function ManagerProfilePage() {
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-between">
                     <span className="text-white">{user.email}</span>
                     <EmailVerification userEmail={user.email} />
                   </div>
