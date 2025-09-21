@@ -23,6 +23,10 @@ export default function ManagerProfilePage() {
     phone: '',
     company: '',
     bio: '',
+    website: '',
+    linkedin: '',
+    twitter: '',
+    facebook: '',
     vesselTypes: [] as string[],
   })
 
@@ -45,6 +49,10 @@ export default function ManagerProfilePage() {
           phone: currentUser.phone,
           company: currentUser.company,
           bio: currentUser.bio,
+          website: currentUser.website || '',
+          linkedin: currentUser.linkedin || '',
+          twitter: currentUser.twitter || '',
+          facebook: currentUser.facebook || '',
           vesselTypes: managerProfile?.vessel_types || [],
         })
       }
@@ -101,6 +109,10 @@ export default function ManagerProfilePage() {
         phone: formData.phone,
         company: formData.company,
         bio: formData.bio,
+        website: formData.website,
+        linkedin: formData.linkedin,
+        twitter: formData.twitter,
+        facebook: formData.facebook,
       })
 
       await updateManagerProfile(user.id, formData.vesselTypes)
@@ -266,6 +278,67 @@ export default function ManagerProfilePage() {
                   rows={4}
                   required
                 />
+              </div>
+
+              {/* Social Media & Website */}
+              <div className="mt-6">
+                <label className="block text-sm font-medium text-gray-300 mb-4">
+                  Social Media & Website
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-400 mb-1">
+                      Website
+                    </label>
+                    <Input
+                      name="website"
+                      type="url"
+                      value={formData.website}
+                      onChange={handleInputChange}
+                      placeholder="https://yourwebsite.com"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-400 mb-1">
+                      LinkedIn
+                    </label>
+                    <Input
+                      name="linkedin"
+                      type="url"
+                      value={formData.linkedin}
+                      onChange={handleInputChange}
+                      placeholder="https://linkedin.com/in/yourprofile"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-400 mb-1">
+                      Twitter (X)
+                    </label>
+                    <Input
+                      name="twitter"
+                      type="url"
+                      value={formData.twitter}
+                      onChange={handleInputChange}
+                      placeholder="https://twitter.com/yourhandle"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-400 mb-1">
+                      Facebook
+                    </label>
+                    <Input
+                      name="facebook"
+                      type="url"
+                      value={formData.facebook}
+                      onChange={handleInputChange}
+                      placeholder="https://facebook.com/yourprofile"
+                      className="w-full"
+                    />
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>

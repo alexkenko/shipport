@@ -12,6 +12,10 @@ export interface AuthUser {
   company: string
   bio: string
   photo_url?: string
+  website?: string
+  linkedin?: string
+  twitter?: string
+  facebook?: string
 }
 
 export async function signUp(email: string, password: string, userData: {

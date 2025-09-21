@@ -10,6 +10,10 @@ export interface User {
   company: string;
   bio: string;
   photo_url?: string;
+  website?: string;
+  linkedin?: string;
+  twitter?: string;
+  facebook?: string;
   created_at: string;
   updated_at: string;
 }
@@ -51,6 +55,10 @@ export interface Job {
     email?: string;
     phone?: string;
     photo_url?: string;
+    website?: string;
+    linkedin?: string;
+    twitter?: string;
+    facebook?: string;
     email_verifications?: {
       is_verified: boolean;
     }[];
