@@ -13,8 +13,6 @@ import {
 } from '@heroicons/react/24/outline'
 import { getManagerProfile } from '@/lib/auth'
 import { VerificationTip } from '@/components/ui/VerificationTip'
-import { useNews } from '@/hooks/useNews'
-import { newsService } from '@/lib/news'
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -25,7 +23,6 @@ export default function ManagerDashboard() {
     completedJobs: 0
   })
   const [isLoading, setIsLoading] = useState(true)
-  const { articles: newsArticles, isLoading: newsLoading, error: newsError, refetch: refreshNews } = useNews(6)
 
 
 
@@ -153,257 +150,135 @@ export default function ManagerDashboard() {
 
 
 
-        {/* Profile Overview & News */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Overview</CardTitle>
-              <CardDescription>
-                Your professional profile summary
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                {/* Profile Photo Header */}
-                <div className="flex items-center space-x-4 pb-4 border-b border-gradient-to-r from-primary-500/20 to-transparent">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-full flex items-center justify-center flex-shrink-0 border border-primary-500/30">
-                    {user?.photo_url ? (
-                      <img
-                        src={user.photo_url}
-                        alt={`${user.name} ${user.surname}`}
-                        className="w-16 h-16 rounded-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `<svg class="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
-                          }
-                        }}
-                      />
-                    ) : (
-                      <svg className="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white">
-                      {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
-                    </h3>
-                    <p className="text-sm text-primary-400 font-medium">
-                      {isLoading ? 'Loading...' : user?.company || 'No company specified'}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Main Content with Vertical Separator */}
-                <div className="grid grid-cols-12 gap-6">
-                  {/* Left Column - Professional Info */}
-                  <div className="col-span-5 space-y-4">
-                    {/* Contact Information */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Contact</h4>
-                      <div className="space-y-2">
-                        <div className="p-3 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
-                          <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Email</p>
-                          <p className="text-sm text-white font-medium">
-                            {isLoading ? 'Loading...' : user?.email || 'Not available'}
-                          </p>
-                        </div>
-                        <div className="p-3 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
-                          <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Phone</p>
-                          <p className="text-sm text-white font-medium">
-                            {isLoading ? 'Loading...' : user?.phone || 'Not specified'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Company Info */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Company</h4>
-                      <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20">
-                        <p className="text-sm text-blue-400 font-medium">
-                          {isLoading ? 'Loading...' : user?.company || 'No company specified'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sexy Vertical Separator */}
-                  <div className="col-span-1 flex justify-center">
-                    <div className="w-px h-full bg-gradient-to-b from-transparent via-primary-500/50 to-transparent"></div>
-                  </div>
-
-                  {/* Right Column - Professional Details */}
-                  <div className="col-span-6 space-y-4">
-                    {/* Bio */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Professional Bio</h4>
-                      <div className="p-4 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
-                        <p className="text-sm text-gray-300 leading-relaxed">
-                          {isLoading ? 'Loading...' : user?.bio || 'No professional bio available'}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Job Statistics */}
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Job Statistics</h4>
-                      <div className="grid grid-cols-3 gap-2">
-                        <div className="p-2 rounded-lg bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-500/30 text-center">
-                          <p className="text-xs text-green-400 uppercase tracking-wide mb-1">Active</p>
-                          <p className="text-sm text-white font-bold">{stats.activeJobs}</p>
-                        </div>
-                        <div className="p-2 rounded-lg bg-gradient-to-r from-blue-900/20 to-blue-800/10 border border-blue-500/30 text-center">
-                          <p className="text-xs text-blue-400 uppercase tracking-wide mb-1">Applications</p>
-                          <p className="text-sm text-white font-bold">{stats.totalApplications}</p>
-                        </div>
-                        <div className="p-2 rounded-lg bg-gradient-to-r from-purple-900/20 to-purple-800/10 border border-purple-500/30 text-center">
-                          <p className="text-xs text-purple-400 uppercase tracking-wide mb-1">Completed</p>
-                          <p className="text-sm text-white font-bold">{stats.completedJobs}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Edit Profile Button */}
-                <div className="pt-4 border-t border-dark-600/50">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full bg-gradient-to-r from-dark-700/50 to-dark-600/30 border border-dark-600/50 hover:border-primary-500/30 hover:from-primary-500/20 hover:to-primary-600/10"
-                    onClick={() => window.location.href = '/dashboard/manager/profile'}
-                  >
-                    Edit Profile
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Latest Maritime News */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Latest Maritime News</CardTitle>
-              <CardDescription>
-                Stay updated with industry developments
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {/* News Carousel */}
-                <div className="relative overflow-hidden">
-                  {newsLoading ? (
-                    <div className="flex space-x-4">
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <div key={index} className="flex-shrink-0 w-80">
-                          <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600">
-                            <div className="animate-pulse">
-                              <div className="h-4 bg-gray-700 rounded w-20 mb-3"></div>
-                              <div className="h-48 bg-gray-700 rounded mb-3"></div>
-                              <div className="h-6 bg-gray-700 rounded mb-2"></div>
-                              <div className="h-4 bg-gray-700 rounded w-24"></div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : newsError ? (
-                    <div className="text-center py-8">
-                      <p className="text-gray-400 mb-4">Failed to load news</p>
-                      <Button variant="outline" size="sm" onClick={refreshNews}>
-                        Try Again
-                      </Button>
-                    </div>
-                  ) : newsArticles.length === 0 ? (
-                    <div className="text-center py-8">
-                      <p className="text-gray-400 mb-4">No news articles available</p>
-                      <Button variant="outline" size="sm" onClick={refreshNews}>
-                        Refresh
-                      </Button>
-                    </div>
+        {/* Profile Overview */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Profile Overview</CardTitle>
+            <CardDescription>
+              Your professional profile summary
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {/* Profile Photo Header */}
+              <div className="flex items-center space-x-4 pb-4 border-b border-gradient-to-r from-primary-500/20 to-transparent">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-full flex items-center justify-center flex-shrink-0 border border-primary-500/30">
+                  {user?.photo_url ? (
+                    <img
+                      src={user.photo_url}
+                      alt={`${user.name} ${user.surname}`}
+                      className="w-16 h-16 rounded-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.innerHTML = `<svg class="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
+                        }
+                      }}
+                    />
                   ) : (
-                    <div className="flex space-x-4 animate-scroll">
-                      {newsArticles.map((article, index) => (
-                        <div key={index} className="flex-shrink-0 w-80">
-                          <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600 hover:border-primary-500 transition-colors">
-                            {/* Category and Time */}
-                            <div className="flex items-center justify-between mb-3">
-                              <span className="text-xs font-medium text-primary-400 bg-primary-400/10 px-2 py-1 rounded">
-                                {newsService.getCategoryFromTitle(article.title)}
-                              </span>
-                              <span className="text-xs text-gray-500">
-                                {newsService.formatTimeAgo(article.publishedAt)}
-                              </span>
-                            </div>
-                            
-                            {/* Big Image */}
-                            <div className="relative w-full h-48 mb-3 rounded-lg overflow-hidden">
-                              {article.urlToImage ? (
-                                <img 
-                                  src={article.urlToImage} 
-                                  alt={article.title}
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.style.display = 'none';
-                                    const fallback = target.nextElementSibling as HTMLElement;
-                                    if (fallback) fallback.style.display = 'flex';
-                                  }}
-                                />
-                              ) : null}
-                              <div 
-                                className={`w-full h-full bg-dark-700 flex items-center justify-center text-4xl ${article.urlToImage ? 'hidden' : 'flex'}`}
-                              >
-                                🚢
-                              </div>
-                            </div>
-                            
-                            {/* Headline */}
-                            <h4 className="font-semibold text-white text-base line-clamp-2 mb-2">
-                              {article.title}
-                            </h4>
-                            
-                            {/* Source and Read More */}
-                            <div className="flex items-center justify-between">
-                              <p className="text-xs text-gray-400">
-                                {article.source.name}
-                              </p>
-                              <a
-                                href={article.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center text-xs text-primary-400 hover:text-primary-300 transition-colors"
-                              >
-                                Read More →
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <svg className="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
                   )}
                 </div>
-                
-                {/* Refresh Button */}
-                <div className="flex justify-center pt-1">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="text-xs text-gray-400 hover:text-white"
-                    onClick={refreshNews}
-                    disabled={newsLoading}
-                  >
-                    {newsLoading ? '🔄 Loading...' : '🔄 Refresh News'}
-                  </Button>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
+                  </h3>
+                  <p className="text-sm text-primary-400 font-medium">
+                    {isLoading ? 'Loading...' : user?.company || 'No company specified'}
+                  </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+
+              {/* Main Content with Vertical Separator */}
+              <div className="grid grid-cols-12 gap-6">
+                {/* Left Column - Professional Info */}
+                <div className="col-span-5 space-y-4">
+                  {/* Contact Information */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Contact</h4>
+                    <div className="space-y-2">
+                      <div className="p-3 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
+                        <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Email</p>
+                        <p className="text-sm text-white font-medium">
+                          {isLoading ? 'Loading...' : user?.email || 'Not available'}
+                        </p>
+                      </div>
+                      <div className="p-3 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
+                        <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Phone</p>
+                        <p className="text-sm text-white font-medium">
+                          {isLoading ? 'Loading...' : user?.phone || 'Not specified'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Company Info */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Company</h4>
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-600/5 border border-blue-500/20">
+                      <p className="text-sm text-blue-400 font-medium">
+                        {isLoading ? 'Loading...' : user?.company || 'No company specified'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sexy Vertical Separator */}
+                <div className="col-span-1 flex justify-center">
+                  <div className="w-px h-full bg-gradient-to-b from-transparent via-primary-500/50 to-transparent"></div>
+                </div>
+
+                {/* Right Column - Professional Details */}
+                <div className="col-span-6 space-y-4">
+                  {/* Bio */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Professional Bio</h4>
+                    <div className="p-4 rounded-lg bg-gradient-to-r from-dark-800/50 to-dark-700/30 border border-dark-600/50">
+                      <p className="text-sm text-gray-300 leading-relaxed">
+                        {isLoading ? 'Loading...' : user?.bio || 'No professional bio available'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Job Statistics */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Job Statistics</h4>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="p-2 rounded-lg bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-500/30 text-center">
+                        <p className="text-xs text-green-400 uppercase tracking-wide mb-1">Active</p>
+                        <p className="text-sm text-white font-bold">{stats.activeJobs}</p>
+                      </div>
+                      <div className="p-2 rounded-lg bg-gradient-to-r from-blue-900/20 to-blue-800/10 border border-blue-500/30 text-center">
+                        <p className="text-xs text-blue-400 uppercase tracking-wide mb-1">Applications</p>
+                        <p className="text-sm text-white font-bold">{stats.totalApplications}</p>
+                      </div>
+                      <div className="p-2 rounded-lg bg-gradient-to-r from-purple-900/20 to-purple-800/10 border border-purple-500/30 text-center">
+                        <p className="text-xs text-purple-400 uppercase tracking-wide mb-1">Completed</p>
+                        <p className="text-sm text-white font-bold">{stats.completedJobs}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Edit Profile Button */}
+              <div className="pt-4 border-t border-dark-600/50">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full bg-gradient-to-r from-dark-700/50 to-dark-600/30 border border-dark-600/50 hover:border-primary-500/30 hover:from-primary-500/20 hover:to-primary-600/10"
+                  onClick={() => window.location.href = '/dashboard/manager/profile'}
+                >
+                  Edit Profile
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </DashboardLayout>
   )
