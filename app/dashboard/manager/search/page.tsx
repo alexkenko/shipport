@@ -142,7 +142,19 @@ export default function SearchSuperintendentsPage() {
       })
 
       console.log('Final filtered superintendents:', finalFilteredSuperintendents)
+      console.log('Email verifications:', emailVerifications)
       console.log('Transformed data:', transformedData)
+      
+      // Debug specific user verification
+      const kenkadzeUser = transformedData.find(sup => sup.users.email === 'kenkadzealex@gmail.com')
+      if (kenkadzeUser) {
+        console.log('Kenkadze user verification:', {
+          user_id: kenkadzeUser.user_id,
+          email: kenkadzeUser.users.email,
+          email_verifications: kenkadzeUser.email_verifications
+        })
+      }
+      
       setSuperintendents(transformedData)
     } catch (error) {
       console.error('Error fetching superintendents:', error)

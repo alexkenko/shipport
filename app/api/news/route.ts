@@ -79,7 +79,7 @@ async function fetchRealMaritimeNews(limit: number): Promise<NewsArticle[]> {
         }
       }
     } catch (error) {
-      console.warn(`❌ Failed to fetch from ${source.name}:`, error.message);
+      console.warn(`❌ Failed to fetch from ${source.name}:`, error instanceof Error ? error.message : String(error));
       continue;
     }
   }

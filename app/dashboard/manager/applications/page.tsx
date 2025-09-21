@@ -111,15 +111,16 @@ export default function ManagerApplicationsPage() {
       const superintendentIds = applications.map(app => app.superintendent_id)
       const { data: superintendents, error: superintendentsError } = await supabase
         .from('users')
-        .select(`
-          id, name, surname, email, phone, company, bio, photo_url,
-          email_verifications!email_verifications_user_id_fkey (
-            is_verified
-          )
-        `)
+        .select('id, name, surname, email, phone, company, bio, photo_url')
         .in('id', superintendentIds)
 
       if (superintendentsError) throw superintendentsError
+
+      // Get email verification status for superintendents
+      const { data: emailVerifications } = await supabase
+        .from('email_verifications')
+        .select('user_id, is_verified')
+        .in('user_id', superintendentIds)
 
       // Get superintendent profiles
       const { data: profiles, error: profilesError } = await supabase
@@ -135,11 +136,15 @@ export default function ManagerApplicationsPage() {
           const job = jobs.find(j => j.id === app.job_id)
           const superintendent = superintendents?.find(s => s.id === app.superintendent_id)
           const profile = profiles?.find(p => p.user_id === app.superintendent_id)
+          const emailVerification = emailVerifications?.find(ev => ev.user_id === app.superintendent_id)
 
           return {
             ...app,
             jobs: job,
-            users: superintendent,
+            users: superintendent ? {
+              ...superintendent,
+              email_verifications: emailVerification ? [{ is_verified: emailVerification.is_verified }] : []
+            } : null,
             superintendent_profiles: profile ? [profile] : []
           }
         })
