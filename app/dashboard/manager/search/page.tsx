@@ -82,16 +82,12 @@ export default function SearchSuperintendentsPage() {
         sup.users && sup.users.role === 'superintendent'
       ) || []
       
-      console.log('All superintendents from DB:', filteredSuperintendents)
-
       // Get email verification status for all superintendents
       const userIds = filteredSuperintendents?.map(sup => sup.user_id) || []
       const { data: emailVerifications } = await supabase
         .from('email_verifications')
         .select('user_id, is_verified')
         .in('user_id', userIds)
-
-      console.log('Email verifications:', emailVerifications)
 
       // Filter the results based on profile criteria
       let finalFilteredSuperintendents = filteredSuperintendents || []
@@ -121,15 +117,6 @@ export default function SearchSuperintendentsPage() {
       const transformedData = finalFilteredSuperintendents.map(sup => {
         const userEmailVerification = emailVerifications?.find(ev => ev.user_id === sup.user_id)
         
-        // Debug specific user
-        if (sup.users?.email === 'kenkadzealex@gmail.com') {
-          console.log('=== KENKADZE DEBUG ===')
-          console.log('Superintendent user_id:', sup.user_id)
-          console.log('All email verifications:', emailVerifications)
-          console.log('Found verification:', userEmailVerification)
-          console.log('Will create email_verifications array:', userEmailVerification ? [{ is_verified: userEmailVerification.is_verified }] : [])
-        }
-        
         return {
           id: sup.id,
           user_id: sup.user_id,
@@ -151,30 +138,6 @@ export default function SearchSuperintendentsPage() {
         }
       })
 
-      console.log('Final filtered superintendents:', finalFilteredSuperintendents)
-      console.log('Email verifications:', emailVerifications)
-      console.log('Transformed data:', transformedData)
-      
-      // Debug specific user verification
-      const kenkadzeUser = transformedData.find(sup => sup.users.email === 'kenkadzealex@gmail.com')
-      if (kenkadzeUser) {
-        console.log('Kenkadze user verification:', {
-          user_id: kenkadzeUser.user_id,
-          email: kenkadzeUser.users.email,
-          email_verifications: kenkadzeUser.email_verifications
-        })
-        
-        // Debug the email verification lookup
-        const userEmailVerification = emailVerifications?.find(ev => ev.user_id === kenkadzeUser.user_id)
-        console.log('Direct email verification lookup for kenkadze:', userEmailVerification)
-      }
-      
-      // Debug all email verifications
-      console.log('All email verifications with details:', emailVerifications?.map(ev => ({
-        user_id: ev.user_id,
-        is_verified: ev.is_verified
-      })))
-      
       setSuperintendents(transformedData)
     } catch (error) {
       console.error('Error fetching superintendents:', error)
