@@ -120,6 +120,16 @@ export default function SearchSuperintendentsPage() {
       // Transform the data to match the expected interface
       const transformedData = finalFilteredSuperintendents.map(sup => {
         const userEmailVerification = emailVerifications?.find(ev => ev.user_id === sup.user_id)
+        
+        // Debug specific user
+        if (sup.users?.email === 'kenkadzealex@gmail.com') {
+          console.log('=== KENKADZE DEBUG ===')
+          console.log('Superintendent user_id:', sup.user_id)
+          console.log('All email verifications:', emailVerifications)
+          console.log('Found verification:', userEmailVerification)
+          console.log('Will create email_verifications array:', userEmailVerification ? [{ is_verified: userEmailVerification.is_verified }] : [])
+        }
+        
         return {
           id: sup.id,
           user_id: sup.user_id,
