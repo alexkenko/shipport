@@ -264,11 +264,11 @@ export default function SearchSuperintendentsPage() {
               />
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <Button onClick={handleSearch} className="flex-1">
                 Search Superintendents
               </Button>
-              <Button variant="outline" onClick={clearFilters}>
+              <Button variant="outline" onClick={clearFilters} className="px-6">
                 Clear Filters
               </Button>
             </div>

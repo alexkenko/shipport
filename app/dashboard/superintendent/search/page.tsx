@@ -293,11 +293,11 @@ export default function SearchJobsPage() {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <Button onClick={handleSearch} className="flex-1">
                 Search Jobs
               </Button>
-              <Button variant="outline" onClick={clearFilters}>
+              <Button variant="outline" onClick={clearFilters} className="px-6">
                 Clear Filters
               </Button>
             </div>
