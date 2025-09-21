@@ -57,7 +57,7 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
     return (
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-          ✅ Verified
+          ⭐ Verified
         </span>
       </div>
     )
