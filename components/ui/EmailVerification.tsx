@@ -43,7 +43,7 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
 
   const handleVerifyOTP = async () => {
     if (otpCode.length === 6) {
-      await verifyOTP(otpCode)
+      await verifyOTP(otpCode, userEmail)
     }
   }
 

@@ -54,13 +54,14 @@ export const useEmailVerification = () => {
     }
   }
 
-  const verifyOTP = async (token: string) => {
+  const verifyOTP = async (token: string, email: string) => {
     setState(prev => ({ ...prev, isVerifying: true, error: null, success: null }))
     
     try {
       const { error } = await supabase.auth.verifyOtp({
         token,
-        type: 'email'
+        type: 'email',
+        email
       })
 
       if (error) throw error
