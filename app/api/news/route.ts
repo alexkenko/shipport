@@ -92,13 +92,13 @@ async function fetchRealMaritimeNews(limit: number): Promise<NewsArticle[]> {
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   );
 
-  // Return limited results or fallback
+  // Return limited results or empty array
   if (uniqueArticles.length > 0) {
     console.log(`📰 Returning ${Math.min(uniqueArticles.length, limit)} real maritime news articles`);
     return uniqueArticles.slice(0, limit);
   } else {
-    console.log('⚠️ No real news found, returning sample articles');
-    return getSampleMaritimeNews(limit);
+    console.log('⚠️ No real news found, returning empty array');
+    return [];
   }
 }
 

@@ -30,8 +30,8 @@ export class NewsService {
       return articles;
     } catch (error) {
       console.error('Error fetching maritime news from API:', error);
-      // Fallback to sample news if API fails
-      return this.getSampleMaritimeNews(limit);
+      // Return empty array instead of fake news
+      return [];
     }
   }
 

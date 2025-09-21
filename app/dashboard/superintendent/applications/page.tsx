@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -141,21 +140,6 @@ export default function MyApplicationsPage() {
           </p>
         </div>
 
-        {/* Mobile Navigation Buttons */}
-        <div className="mb-6 md:hidden">
-          <div className="grid grid-cols-2 gap-3">
-            <Link href="/dashboard/superintendent">
-              <Button variant="outline" className="w-full bg-gradient-to-r from-dark-700/50 to-dark-600/30 border border-dark-600/50 hover:border-primary-500/30 hover:from-primary-500/20 hover:to-primary-600/10">
-                <span className="text-sm">Dashboard</span>
-              </Button>
-            </Link>
-            <Link href="/dashboard/superintendent/search">
-              <Button variant="outline" className="w-full bg-gradient-to-r from-dark-700/50 to-dark-600/30 border border-dark-600/50 hover:border-primary-500/30 hover:from-primary-500/20 hover:to-primary-600/10">
-                <span className="text-sm">Search Jobs</span>
-              </Button>
-            </Link>
-          </div>
-        </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

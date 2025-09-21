@@ -120,6 +120,10 @@ export function useNotifications(user: AuthUser | null) {
         const job = Array.isArray(app.jobs) ? app.jobs[0] : app.jobs
         const jobUser = Array.isArray(job?.users) ? job.users[0] : job?.users
         
+        // Check if this application notification has been read from localStorage
+        const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
+        const isRead = readApplicationIds.includes(app.id)
+        
         return {
           id: `app_${app.id}`,
           type: app.status === 'accepted' ? 'application_accepted' : 'application_rejected',
@@ -130,7 +134,7 @@ export function useNotifications(user: AuthUser | null) {
           job_title: job?.title || 'Unknown Job',
           company_name: jobUser?.company || 'Unknown Company',
           created_at: app.updated_at,
-          read: false // In a real app, you'd track this in a separate notifications table
+          read: isRead
         }
       })
 

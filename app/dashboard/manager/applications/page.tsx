@@ -271,6 +271,22 @@ export default function ManagerApplicationsPage() {
                         <div>{application.users?.email || 'N/A'}</div>
                         <div>{application.users?.phone || 'N/A'}</div>
                       </div>
+                      {/* Email Verification Status */}
+                      {application.users?.email_verifications?.[0]?.is_verified ? (
+                        <div className="mt-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            <span className="text-green-600">⭐</span>
+                            Verified
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="mt-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                            Unverified
+                          </span>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center space-x-2">
                       {getStatusIcon(application.status)}
@@ -382,6 +398,20 @@ export default function ManagerApplicationsPage() {
                       <div className="text-sm text-gray-500 mt-2">
                         <div>📧 {selectedApplication.users?.email || 'No email'}</div>
                         <div>📞 {selectedApplication.users?.phone || 'No phone'}</div>
+                      </div>
+                      {/* Email Verification Status */}
+                      <div className="mt-2">
+                        {selectedApplication.users?.email_verifications?.[0]?.is_verified ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            <span className="text-green-600">⭐</span>
+                            Verified Email
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                            Unverified Email
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-gray-500 mt-2">{selectedApplication.users?.bio || 'No bio available'}</p>
                     </div>
