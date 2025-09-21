@@ -10,6 +10,7 @@ import { VESSEL_TYPES } from '@/types'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
 import { CameraIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { EmailVerification } from '@/components/ui/EmailVerification'
 
 export default function ManagerProfilePage() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -240,6 +241,16 @@ export default function ManagerProfilePage() {
                   onChange={handleInputChange}
                   required
                 />
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Email Address
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <span className="text-white">{user.email}</span>
+                    <EmailVerification userEmail={user.email} />
+                  </div>
+                </div>
               </div>
 
               <div className="mt-6">
