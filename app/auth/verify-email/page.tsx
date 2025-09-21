@@ -20,10 +20,12 @@ export default function VerifyEmailPage() {
           // Parse the confirmation URL to get the token hash
           try {
             const url = new URL(confirmationUrl)
-            const tokenHash = url.searchParams.get('token')
+            const tokenHash = url.searchParams.get('token_hash')
             const type = url.searchParams.get('type')
             
-            if (!tokenHash || type !== 'magiclink') {
+            console.log('Parsed URL:', { tokenHash, type, fullUrl: confirmationUrl })
+            
+            if (!tokenHash) {
               setStatus('error')
               setMessage('Invalid verification link. Please try again.')
               return
@@ -60,11 +62,15 @@ export default function VerifyEmailPage() {
 
     const performVerificationWithHash = async (tokenHash: string) => {
       try {
+        console.log('Attempting verification with token hash:', tokenHash)
+        
         // Verify the magic link token hash with Supabase
         const { error: verifyError } = await supabase.auth.verifyOtp({
           token_hash: tokenHash,
           type: 'magiclink'
         })
+        
+        console.log('Verification result:', { verifyError })
 
         if (verifyError) {
           console.error('Verification error:', verifyError)
