@@ -183,23 +183,34 @@ export function useManagerNotifications(user: AuthUser | null) {
     setUnreadCount(prev => Math.max(0, prev - 1))
   }
 
-  const markAllAsRead = () => {
+  const markAllAsRead = async () => {
     if (!user) return
 
-    // Get all unread application notifications and save them to localStorage
-    const unreadApplicationIds = notifications
-      .filter(n => !n.read && n.id.startsWith('app_'))
-      .map(n => n.id.replace('app_', ''))
-    
-    if (unreadApplicationIds.length > 0) {
-      const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
-      const combinedIds = [...readApplicationIds, ...unreadApplicationIds]
-      const uniqueIds = Array.from(new Set(combinedIds))
-      localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(uniqueIds))
-    }
+    try {
+      // Update all unread database notifications
+      await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('user_id', user.id)
+        .eq('is_read', false)
 
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })))
-    setUnreadCount(0)
+      // Get all unread application notifications and save them to localStorage
+      const unreadApplicationIds = notifications
+        .filter(n => !n.read && n.id.startsWith('app_'))
+        .map(n => n.id.replace('app_', ''))
+      
+      if (unreadApplicationIds.length > 0) {
+        const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
+        const combinedIds = [...readApplicationIds, ...unreadApplicationIds]
+        const uniqueIds = Array.from(new Set(combinedIds))
+        localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(uniqueIds))
+      }
+
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+      setUnreadCount(0)
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error)
+    }
   }
 
   return {

@@ -170,9 +170,21 @@ export function useNotifications(user: AuthUser | null) {
     setUnreadCount(prev => Math.max(0, prev - 1))
   }
 
-  const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })))
-    setUnreadCount(0)
+  const markAllAsRead = async () => {
+    try {
+      // Update all unread notifications in the database
+      await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('user_id', user?.id)
+        .eq('is_read', false)
+      
+      // Update local state
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+      setUnreadCount(0)
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error)
+    }
   }
 
   return {

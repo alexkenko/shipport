@@ -83,21 +83,6 @@ export default function SuperintendentDashboard() {
 
 
 
-        {/* Mobile Navigation Buttons */}
-        <div className="mb-6 md:hidden">
-          <div className="grid grid-cols-2 gap-3">
-            <Link href="/dashboard/superintendent/search">
-              <Button variant="outline" className="w-full bg-gradient-to-r from-dark-700/50 to-dark-600/30 border border-dark-600/50 hover:border-primary-500/30 hover:from-primary-500/20 hover:to-primary-600/10">
-                <span className="text-sm">Search Jobs</span>
-              </Button>
-            </Link>
-            <Link href="/dashboard/superintendent/applications">
-              <Button variant="outline" className="w-full bg-gradient-to-r from-dark-700/50 to-dark-600/30 border border-dark-600/50 hover:border-primary-500/30 hover:from-primary-500/20 hover:to-primary-600/10">
-                <span className="text-sm">My Applications</span>
-              </Button>
-            </Link>
-          </div>
-        </div>
 
         {/* Premium Ad Bar */}
         <div className="mb-8">
