@@ -60,10 +60,15 @@ export default function VerifyEmailPage() {
 
     const performVerification = async (token: string, email: string) => {
       try {
+        // For magic link verification, we need to get the user's email first
+        const { data: { user } } = await supabase.auth.getUser()
+        const userEmail = user?.email || email
+        
         // Verify the magic link token with Supabase
         const { error: verifyError } = await supabase.auth.verifyOtp({
           token,
-          type: 'magiclink'
+          type: 'magiclink',
+          email: userEmail
         })
 
         if (verifyError) {
@@ -80,9 +85,9 @@ export default function VerifyEmailPage() {
           return
         }
 
-        // Get current user
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) {
+        // Get current user after verification
+        const { data: { user: verifiedUser } } = await supabase.auth.getUser()
+        if (!verifiedUser) {
           setStatus('error')
           setMessage('User not found. Please try logging in again.')
           return
@@ -92,8 +97,8 @@ export default function VerifyEmailPage() {
         const { error: verificationError } = await supabase
           .from('email_verifications')
           .upsert({
-            user_id: user.id,
-            email: email,
+            user_id: verifiedUser.id,
+            email: userEmail,
             is_verified: true,
             verified_at: new Date().toISOString(),
             otp_code: null,
