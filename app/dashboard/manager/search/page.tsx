@@ -153,7 +153,17 @@ export default function SearchSuperintendentsPage() {
           email: kenkadzeUser.users.email,
           email_verifications: kenkadzeUser.email_verifications
         })
+        
+        // Debug the email verification lookup
+        const userEmailVerification = emailVerifications?.find(ev => ev.user_id === kenkadzeUser.user_id)
+        console.log('Direct email verification lookup for kenkadze:', userEmailVerification)
       }
+      
+      // Debug all email verifications
+      console.log('All email verifications with details:', emailVerifications?.map(ev => ({
+        user_id: ev.user_id,
+        is_verified: ev.is_verified
+      })))
       
       setSuperintendents(transformedData)
     } catch (error) {
