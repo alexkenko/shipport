@@ -110,6 +110,25 @@ export default function ManagerDashboard() {
           </p>
         </div>
 
+        {/* Premium Ad Bar */}
+        <div className="mb-8">
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-yellow-900/30 via-yellow-800/20 to-yellow-900/30 border border-yellow-600/50">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 via-transparent to-yellow-500/10"></div>
+            <div className="relative p-8 text-center">
+              <div className="inline-flex items-center space-x-3">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                <h3 className="text-lg font-medium text-yellow-200 tracking-wide">
+                  Premium Ad Bar
+                </h3>
+                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+              </div>
+              <p className="text-sm text-yellow-300/80 mt-2 font-light">
+                Premium advertising space for maritime industry partners
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {isLoading ? (
