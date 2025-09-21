@@ -16,6 +16,8 @@ import {
   UserGroupIcon
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
+import { useNews } from '@/hooks/useNews'
+import { newsService } from '@/lib/news'
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -25,6 +27,7 @@ export default function ManagerDashboard() {
     completedJobs: 0
   })
   const [isLoading, setIsLoading] = useState(true)
+  const { articles: newsArticles, isLoading: newsLoading, error: newsError, refetch: refreshNews } = useNews(6)
 
   const quickActions = [
     {
@@ -245,123 +248,108 @@ export default function ManagerDashboard() {
             <div className="space-y-2">
               {/* News Carousel */}
               <div className="relative overflow-hidden">
-                <div className="flex space-x-4 animate-scroll">
-                  {[
-                    {
-                      title: "IMO Adopts New EEXI Guidelines for 2025",
-                      source: "Safety4Sea",
-                      time: "3h ago",
-                      category: "Regulations",
-                      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop&crop=center",
-                      fallback: "🚢",
-                        url: "https://safety4sea.com/imo-eexi-guidelines-2025"
-                    },
-                    {
-                      title: "Major Port Strike Averted in Rotterdam",
-                      source: "Port Technology",
-                      time: "7h ago", 
-                      category: "Ports",
-                      image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=200&fit=crop&crop=center",
-                      fallback: "⚓",
-                      url: "https://www.porttechnology.org/rotterdam-port-strike-averted"
-                    },
-                    {
-                      title: "New AI Technology for Vessel Inspection",
-                      source: "Safety4Sea",
-                      time: "12h ago",
-                      category: "Technology",
-                      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=200&fit=crop&crop=center",
-                      fallback: "🤖",
-                      url: "https://safety4sea.com/ai-vessel-inspection-technology"
-                    },
-                    {
-                      title: "Bunker Fuel Prices Drop 2.5% This Week",
-                      source: "Bunker World",
-                      time: "18h ago",
-                      category: "Market",
-                      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=300&h=200&fit=crop&crop=center",
-                      fallback: "⛽",
-                      url: "https://www.bunkerworld.com/weekly-price-update"
-                    },
-                    {
-                      title: "Singapore Port Sets New Container Record",
-                      source: "Port Technology",
-                      time: "24h ago",
-                      category: "Ports",
-                      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop&crop=center",
-                      fallback: "📦",
-                      url: "https://www.porttechnology.org/singapore-container-record"
-                    },
-                    {
-                      title: "New Cybersecurity Standards for Ships",
-                      source: "Maritime Reporter",
-                      time: "32h ago",
-                      category: "Security",
-                      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=300&h=200&fit=crop&crop=center",
-                      fallback: "🔒",
-                      url: "https://www.marinelink.com/news/cybersecurity-standards-ships"
-                    }
-                  ].map((news, index) => (
-                    <div key={index} className="flex-shrink-0 w-80">
-                      <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600 hover:border-primary-500 transition-colors">
-                        {/* Category and Time */}
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-medium text-primary-400 bg-primary-400/10 px-2 py-1 rounded">
-                            {news.category}
-                          </span>
-                          <span className="text-xs text-gray-500">{news.time}</span>
-                        </div>
-                        
-                        {/* Big Image */}
-                        <div className="relative w-full h-48 mb-3 rounded-lg overflow-hidden">
-                          <img 
-                            src={news.image} 
-                            alt={news.title}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = 'none';
-                              const fallback = target.nextElementSibling as HTMLElement;
-                              if (fallback) fallback.style.display = 'flex';
-                            }}
-                          />
-                          <div 
-                            className="w-full h-full bg-dark-700 flex items-center justify-center text-4xl hidden"
-                            style={{ display: 'none' }}
-                          >
-                            {news.fallback}
+                {newsLoading ? (
+                  <div className="flex space-x-4">
+                    {Array.from({ length: 3 }).map((_, index) => (
+                      <div key={index} className="flex-shrink-0 w-80">
+                        <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600">
+                          <div className="animate-pulse">
+                            <div className="h-4 bg-gray-700 rounded w-20 mb-3"></div>
+                            <div className="h-48 bg-gray-700 rounded mb-3"></div>
+                            <div className="h-6 bg-gray-700 rounded mb-2"></div>
+                            <div className="h-4 bg-gray-700 rounded w-24"></div>
                           </div>
                         </div>
-                        
-                        {/* Headline */}
-                        <h4 className="font-semibold text-white text-base line-clamp-2 mb-2">
-                          {news.title}
-                        </h4>
-                        
-                        {/* Source and Read More */}
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-gray-400">
-                            {news.source}
-                          </p>
-                          <a
-                            href={news.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-xs text-primary-400 hover:text-primary-300 transition-colors"
-                          >
-                            Read More →
-                          </a>
+                      </div>
+                    ))}
+                  </div>
+                ) : newsError ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-400 mb-4">Failed to load news</p>
+                    <Button variant="outline" size="sm" onClick={refreshNews}>
+                      Try Again
+                    </Button>
+                  </div>
+                ) : newsArticles.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-gray-400 mb-4">No news articles available</p>
+                    <Button variant="outline" size="sm" onClick={refreshNews}>
+                      Refresh
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex space-x-4 animate-scroll">
+                    {newsArticles.map((article, index) => (
+                      <div key={index} className="flex-shrink-0 w-80">
+                        <div className="p-4 rounded-lg bg-dark-800/50 border border-dark-600 hover:border-primary-500 transition-colors">
+                          {/* Category and Time */}
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-xs font-medium text-primary-400 bg-primary-400/10 px-2 py-1 rounded">
+                              {newsService.getCategoryFromTitle(article.title)}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {newsService.formatTimeAgo(article.publishedAt)}
+                            </span>
+                          </div>
+                          
+                          {/* Big Image */}
+                          <div className="relative w-full h-48 mb-3 rounded-lg overflow-hidden">
+                            {article.urlToImage ? (
+                              <img 
+                                src={article.urlToImage} 
+                                alt={article.title}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.style.display = 'none';
+                                  const fallback = target.nextElementSibling as HTMLElement;
+                                  if (fallback) fallback.style.display = 'flex';
+                                }}
+                              />
+                            ) : null}
+                            <div 
+                              className={`w-full h-full bg-dark-700 flex items-center justify-center text-4xl ${article.urlToImage ? 'hidden' : 'flex'}`}
+                            >
+                              🚢
+                            </div>
+                          </div>
+                          
+                          {/* Headline */}
+                          <h4 className="font-semibold text-white text-base line-clamp-2 mb-2">
+                            {article.title}
+                          </h4>
+                          
+                          {/* Source and Read More */}
+                          <div className="flex items-center justify-between">
+                            <p className="text-xs text-gray-400">
+                              {article.source.name}
+                            </p>
+                            <a
+                              href={article.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-xs text-primary-400 hover:text-primary-300 transition-colors"
+                            >
+                              Read More →
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
               
               {/* Refresh Button */}
               <div className="flex justify-center pt-1">
-                <Button variant="ghost" size="sm" className="text-xs text-gray-400 hover:text-white">
-                  🔄 Refresh News
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-xs text-gray-400 hover:text-white"
+                  onClick={refreshNews}
+                  disabled={newsLoading}
+                >
+                  {newsLoading ? '🔄 Loading...' : '🔄 Refresh News'}
                 </Button>
               </div>
             </div>
