@@ -175,14 +175,28 @@ export function useNotifications(user: AuthUser | null) {
   }
 
   const markAllAsRead = async () => {
+    if (!user) return
+
     try {
       // Update all unread notifications in the database
       await supabase
         .from('notifications')
         .update({ is_read: true })
-        .eq('user_id', user?.id)
+        .eq('user_id', user.id)
         .eq('is_read', false)
+
+      // Get all unread application notifications and save them to localStorage
+      const unreadApplicationIds = notifications
+        .filter(n => !n.read && n.id.startsWith('app_'))
+        .map(n => n.id.replace('app_', ''))
       
+      if (unreadApplicationIds.length > 0) {
+        const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
+        const combinedIds = [...readApplicationIds, ...unreadApplicationIds]
+        const uniqueIds = Array.from(new Set(combinedIds))
+        localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(uniqueIds))
+      }
+
       // Update local state
       setNotifications(prev => prev.map(n => ({ ...n, read: true })))
       setUnreadCount(0)
