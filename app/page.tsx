@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 
 export const metadata: Metadata = {
@@ -271,8 +270,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }
