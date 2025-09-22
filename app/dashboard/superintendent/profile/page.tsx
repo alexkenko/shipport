@@ -458,10 +458,9 @@ export default function SuperintendentProfilePage() {
                     </label>
                     <Input
                       name="website"
-                      type="url"
                       value={formData.website}
                       onChange={handleInputChange}
-                      placeholder="https://yourwebsite.com"
+                      placeholder="Enter your website URL"
                       className="w-full"
                     />
                   </div>
@@ -471,10 +470,9 @@ export default function SuperintendentProfilePage() {
                     </label>
                     <Input
                       name="linkedin"
-                      type="url"
                       value={formData.linkedin}
                       onChange={handleInputChange}
-                      placeholder="https://linkedin.com/in/yourprofile"
+                      placeholder="Enter your LinkedIn profile"
                       className="w-full"
                     />
                   </div>
@@ -484,10 +482,9 @@ export default function SuperintendentProfilePage() {
                     </label>
                     <Input
                       name="twitter"
-                      type="url"
                       value={formData.twitter}
                       onChange={handleInputChange}
-                      placeholder="https://twitter.com/yourhandle"
+                      placeholder="Enter your Twitter handle"
                       className="w-full"
                     />
                   </div>
@@ -497,10 +494,9 @@ export default function SuperintendentProfilePage() {
                     </label>
                     <Input
                       name="facebook"
-                      type="url"
                       value={formData.facebook}
                       onChange={handleInputChange}
-                      placeholder="https://facebook.com/yourprofile"
+                      placeholder="Enter your Facebook profile"
                       className="w-full"
                     />
                   </div>
