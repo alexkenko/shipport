@@ -168,6 +168,20 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
 }
 
 export async function updateUserProfile(userId: string, updates: Partial<User>) {
+  console.log('🔍 updateUserProfile called with:', { userId, updates })
+  
+  // Check authentication first
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+  console.log('🔍 Current auth user:', authUser?.id)
+  
+  if (!authUser) {
+    throw new Error('No authenticated user found')
+  }
+  
+  if (authUser.id !== userId) {
+    throw new Error(`User ID mismatch: auth user ${authUser.id} trying to update ${userId}`)
+  }
+  
   const { data, error } = await supabase
     .from('users')
     .update({
@@ -177,11 +191,31 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     .eq('id', userId)
     .select()
 
-  if (error) throw error
+  console.log('🔍 Update result:', { data, error })
+  
+  if (error) {
+    console.error('🔍 Update error details:', error)
+    throw error
+  }
+  
   return data && data.length > 0 ? data[0] : null
 }
 
 export async function updateManagerProfile(userId: string, vesselTypes: string[]) {
+  console.log('🔍 updateManagerProfile called with:', { userId, vesselTypes })
+  
+  // Check authentication first
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+  console.log('🔍 Current auth user for manager profile:', authUser?.id)
+  
+  if (!authUser) {
+    throw new Error('No authenticated user found for manager profile update')
+  }
+  
+  if (authUser.id !== userId) {
+    throw new Error(`User ID mismatch: auth user ${authUser.id} trying to update manager profile ${userId}`)
+  }
+  
   const { data, error } = await supabase
     .from('manager_profiles')
     .upsert({
@@ -193,7 +227,13 @@ export async function updateManagerProfile(userId: string, vesselTypes: string[]
     })
     .select()
 
-  if (error) throw error
+  console.log('🔍 Manager profile update result:', { data, error })
+  
+  if (error) {
+    console.error('🔍 Manager profile update error details:', error)
+    throw error
+  }
+  
   return data && data.length > 0 ? data[0] : null
 }
 
