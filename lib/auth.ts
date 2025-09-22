@@ -235,10 +235,9 @@ export async function getManagerProfile(userId: string) {
     .from('manager_profiles')
     .select('*')
     .eq('user_id', userId)
-    .single()
 
-  if (error && error.code !== 'PGRST116') throw error // PGRST116 = no rows returned
-  return data
+  if (error) throw error
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function getSuperintendentProfile(userId: string) {
@@ -246,10 +245,9 @@ export async function getSuperintendentProfile(userId: string) {
     .from('superintendent_profiles')
     .select('*')
     .eq('user_id', userId)
-    .single()
 
-  if (error && error.code !== 'PGRST116') throw error // PGRST116 = no rows returned
-  return data
+  if (error) throw error
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function uploadProfilePhoto(userId: string, file: File) {
