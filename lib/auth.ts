@@ -197,6 +197,17 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
 }
 
 export async function updateManagerProfile(userId: string, vesselTypes: string[]) {
+  // Check if user is authenticated
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+  
+  if (!authUser) {
+    throw new Error('User not authenticated. Please refresh the page and try again.')
+  }
+  
+  if (authUser.id !== userId) {
+    throw new Error('Authentication mismatch. Please refresh the page and try again.')
+  }
+
   const { data, error } = await supabase
     .from('manager_profiles')
     .upsert({
@@ -207,10 +218,14 @@ export async function updateManagerProfile(userId: string, vesselTypes: string[]
       onConflict: 'user_id'
     })
     .select()
-    .single()
 
-  if (error) throw error
-  return data
+  if (error) {
+    console.error('Update manager profile error:', error)
+    throw new Error(`Failed to update profile: ${error.message}`)
+  }
+
+  // Return the first result if multiple are returned (shouldn't happen with upsert)
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function updateSuperintendentProfile(
@@ -225,6 +240,17 @@ export async function updateSuperintendentProfile(
     serviceType: 'door_to_door' | 'gangway_to_gangway'
   }
 ) {
+  // Check if user is authenticated
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+  
+  if (!authUser) {
+    throw new Error('User not authenticated. Please refresh the page and try again.')
+  }
+  
+  if (authUser.id !== userId) {
+    throw new Error('Authentication mismatch. Please refresh the page and try again.')
+  }
+
   const { data, error } = await supabase
     .from('superintendent_profiles')
     .upsert({
@@ -241,10 +267,14 @@ export async function updateSuperintendentProfile(
       onConflict: 'user_id'
     })
     .select()
-    .single()
 
-  if (error) throw error
-  return data
+  if (error) {
+    console.error('Update superintendent profile error:', error)
+    throw new Error(`Failed to update profile: ${error.message}`)
+  }
+
+  // Return the first result if multiple are returned (shouldn't happen with upsert)
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function getManagerProfile(userId: string) {

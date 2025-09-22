@@ -119,6 +119,16 @@ export default function ManagerProfilePage() {
 
     setIsSaving(true)
     try {
+      // For iPhone users, refresh auth session before update
+      const { data: { user: authUser } } = await supabase.auth.getUser()
+      if (!authUser) {
+        // Refresh the session for mobile users
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
+          throw new Error('Please refresh the page and try again')
+        }
+      }
+
       await updateUserProfile(user.id, {
         name: formData.name,
         surname: formData.surname,
@@ -144,7 +154,12 @@ export default function ManagerProfilePage() {
 
       toast.success('Profile updated successfully')
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile')
+      console.error('Profile update error:', error)
+      if (error.message.includes('Cannot coerce') || error.message.includes('row-level security policy')) {
+        toast.error('Authentication error. Please refresh the page and try again.')
+      } else {
+        toast.error(error.message || 'Failed to update profile')
+      }
     } finally {
       setIsSaving(false)
     }
