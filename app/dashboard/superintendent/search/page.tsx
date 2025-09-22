@@ -161,18 +161,30 @@ export default function SearchJobsPage() {
 
       if (error) throw error
 
-      // Create notification for manager
+      // Create notification for manager (only if not already exists)
       const job = jobs.find(j => j.id === jobId)
       if (job) {
-        await supabase
+        // Check if notification already exists for this job application
+        const { data: existingNotification } = await supabase
           .from('notifications')
-          .insert({
-            user_id: job.manager_id,
-            type: 'job_application',
-            title: 'New Job Application',
-            message: `${user.name} ${user.surname} has applied for your job: ${job.title}`,
-            related_id: jobId
-          })
+          .select('id')
+          .eq('user_id', job.manager_id)
+          .eq('type', 'job_application')
+          .eq('related_id', jobId)
+          .single()
+
+        // Only create notification if it doesn't already exist
+        if (!existingNotification) {
+          await supabase
+            .from('notifications')
+            .insert({
+              user_id: job.manager_id,
+              type: 'job_application',
+              title: 'New Job Application',
+              message: `${user.name} ${user.surname} has applied for your job: ${job.title}`,
+              related_id: jobId
+            })
+        }
       }
 
       toast.success('Application submitted successfully!')
