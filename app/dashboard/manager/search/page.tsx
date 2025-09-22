@@ -19,6 +19,9 @@ interface SuperintendentProfile {
   certifications: string[]
   ports_covered: string[]
   services: string[]
+  price_per_workday: string
+  price_per_idle_day: string
+  service_type: string
   users: {
     id: string
     name: string
@@ -28,6 +31,10 @@ interface SuperintendentProfile {
     company: string
     bio: string
     photo_url: string | null
+    website: string | null
+    linkedin: string | null
+    twitter: string | null
+    facebook: string | null
   }
   email_verifications?: {
     is_verified: boolean
@@ -124,6 +131,9 @@ export default function SearchSuperintendentsPage() {
           certifications: sup.certifications || [],
           ports_covered: sup.ports_covered || [],
           services: sup.services || [],
+          price_per_workday: sup.price_per_workday,
+          price_per_idle_day: sup.price_per_idle_day,
+          service_type: sup.service_type,
           email_verifications: userEmailVerification ? [{ is_verified: userEmailVerification.is_verified }] : [],
           users: {
             id: sup.users.id,
@@ -133,7 +143,11 @@ export default function SearchSuperintendentsPage() {
             phone: sup.users.phone,
             company: sup.users.company,
             bio: sup.users.bio,
-            photo_url: sup.users.photo_url
+            photo_url: sup.users.photo_url,
+            website: sup.users.website,
+            linkedin: sup.users.linkedin,
+            twitter: sup.users.twitter,
+            facebook: sup.users.facebook
           }
         }
       })
@@ -352,7 +366,49 @@ export default function SearchSuperintendentsPage() {
                       {superintendent.users.bio}
                     </p>
                     
-                    <div className="space-y-3 mb-6">
+                    <div className="space-y-4 mb-6">
+                      {/* Pricing Information */}
+                      {(superintendent.price_per_workday || superintendent.price_per_idle_day) && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-300 mb-2 flex items-center">
+                            <StarIcon className="h-4 w-4 mr-1" />
+                            Pricing
+                          </h4>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            {superintendent.price_per_workday && (
+                              <div className="bg-blue-600 text-white px-2 py-1 rounded text-center">
+                                Work Day: ${superintendent.price_per_workday}
+                              </div>
+                            )}
+                            {superintendent.price_per_idle_day && (
+                              <div className="bg-blue-600 text-white px-2 py-1 rounded text-center">
+                                Idle Day: ${superintendent.price_per_idle_day}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Vessel Types */}
+                      {superintendent.vessel_types.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-300 mb-2">Vessel Types</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {superintendent.vessel_types.slice(0, 3).map((vessel, index) => (
+                              <span key={index} className="bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                                {vessel}
+                              </span>
+                            ))}
+                            {superintendent.vessel_types.length > 3 && (
+                              <span className="bg-dark-600 text-gray-300 text-xs px-2 py-1 rounded">
+                                +{superintendent.vessel_types.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Certifications */}
                       {superintendent.certifications.length > 0 && (
                         <div>
                           <h4 className="text-sm font-medium text-gray-300 mb-2 flex items-center">
@@ -374,6 +430,7 @@ export default function SearchSuperintendentsPage() {
                         </div>
                       )}
 
+                      {/* Services */}
                       {superintendent.services.length > 0 && (
                         <div>
                           <h4 className="text-sm font-medium text-gray-300 mb-2">Services</h4>
@@ -392,6 +449,7 @@ export default function SearchSuperintendentsPage() {
                         </div>
                       )}
 
+                      {/* Service Areas */}
                       {superintendent.ports_covered.length > 0 && (
                         <div>
                           <h4 className="text-sm font-medium text-gray-300 mb-2 flex items-center">
@@ -412,15 +470,56 @@ export default function SearchSuperintendentsPage() {
                           </div>
                         </div>
                       )}
+
+                      {/* Social Media Links */}
+                      {(superintendent.users.website || superintendent.users.linkedin || superintendent.users.twitter || superintendent.users.facebook) && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-300 mb-2">Links</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {superintendent.users.website && (
+                              <a href={superintendent.users.website} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-xs underline">
+                                Website
+                              </a>
+                            )}
+                            {superintendent.users.linkedin && (
+                              <a href={superintendent.users.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-xs underline">
+                                LinkedIn
+                              </a>
+                            )}
+                            {superintendent.users.twitter && (
+                              <a href={superintendent.users.twitter} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-xs underline">
+                                Twitter
+                              </a>
+                            )}
+                            {superintendent.users.facebook && (
+                              <a href={superintendent.users.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-xs underline">
+                                Facebook
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    <Button
-                      onClick={() => handleSendInterest(superintendent.users.id)}
-                      isLoading={isSendingInterest === superintendent.users.id}
-                      className="w-full"
-                    >
-                      Send Interest
-                    </Button>
+                    <div className="space-y-2">
+                      <Button
+                        onClick={() => handleSendInterest(superintendent.users.id)}
+                        isLoading={isSendingInterest === superintendent.users.id}
+                        className="w-full"
+                      >
+                        Send Interest
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          // Open superintendent profile in new tab
+                          window.open(`/profile/superintendent/${superintendent.users.id}`, '_blank')
+                        }}
+                        className="w-full"
+                      >
+                        View Full Profile
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}

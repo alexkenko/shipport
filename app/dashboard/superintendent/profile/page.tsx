@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -10,7 +11,7 @@ import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES, SERVICE_TYP
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
-import { CameraIcon, UserCircleIcon, MapPinIcon } from '@heroicons/react/24/outline'
+import { CameraIcon, UserCircleIcon, MapPinIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
 import { EmailVerification } from '@/components/ui/EmailVerification'
 
 interface Port {
@@ -21,10 +22,14 @@ interface Port {
 }
 
 export default function SuperintendentProfilePage() {
+  const searchParams = useSearchParams()
+  const viewUserId = searchParams.get('id') // For external viewing
   const [user, setUser] = useState<AuthUser | null>(null)
+  const [viewingUser, setViewingUser] = useState<any>(null) // For external viewing
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [isExternalView, setIsExternalView] = useState(false)
   const [ports, setPorts] = useState<Port[]>([])
   const [searchPort, setSearchPort] = useState('')
   const [customCertification, setCustomCertification] = useState('')
@@ -49,9 +54,71 @@ export default function SuperintendentProfilePage() {
   })
 
   useEffect(() => {
-    loadUserProfile()
+    if (viewUserId) {
+      setIsExternalView(true)
+      loadExternalProfile(viewUserId)
+    } else {
+      loadUserProfile()
+    }
     loadPorts()
-  }, [])
+  }, [viewUserId])
+
+  const loadExternalProfile = async (userId: string) => {
+    try {
+      // Load superintendent profile data for external viewing
+      const { data: profileData, error } = await supabase
+        .from('superintendent_profiles')
+        .select(`
+          *,
+          users (
+            id,
+            name,
+            surname,
+            email,
+            phone,
+            company,
+            bio,
+            photo_url,
+            website,
+            linkedin,
+            twitter,
+            facebook,
+            role
+          )
+        `)
+        .eq('user_id', userId)
+        .single()
+
+      if (error) throw error
+
+      if (profileData && profileData.users) {
+        setViewingUser(profileData)
+        setFormData({
+          name: profileData.users.name,
+          surname: profileData.users.surname,
+          phone: profileData.users.phone,
+          company: profileData.users.company,
+          bio: profileData.users.bio,
+          website: profileData.users.website || '',
+          linkedin: profileData.users.linkedin || '',
+          twitter: profileData.users.twitter || '',
+          facebook: profileData.users.facebook || '',
+          vesselTypes: profileData.vessel_types || [],
+          certifications: profileData.certifications || [],
+          portsCovered: profileData.ports_covered || [],
+          services: profileData.services || [],
+          pricePerWorkday: profileData.price_per_workday?.toString() || '',
+          pricePerIdleDay: profileData.price_per_idle_day?.toString() || '',
+          serviceType: profileData.service_type || 'gangway_to_gangway',
+        })
+      }
+    } catch (error) {
+      console.error('Error loading external profile:', error)
+      toast.error('Failed to load profile')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const loadUserProfile = async () => {
     try {
