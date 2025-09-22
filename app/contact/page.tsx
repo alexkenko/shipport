@@ -107,10 +107,10 @@ export default function ContactPage() {
               
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">
-                  Is <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> available worldwide?
+                  Is <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> available worldwide?
                 </h3>
                 <p className="text-gray-300">
-                  Yes, <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> connects marine professionals globally. Our platform includes 
+                  Yes, <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> connects marine professionals globally. Our platform includes 
                   comprehensive port databases and worldwide coverage.
                 </p>
               </div>
@@ -163,14 +163,14 @@ export default function ContactPage() {
           <div className="glass p-8 rounded-xl">
             <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
             <p className="text-xl text-gray-300 mb-8">
-              Join the <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> community and connect with maritime professionals worldwide.
+              Join the <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> community and connect with maritime professionals worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/auth/register"
                 className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200"
               >
-                Join <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> Today
+                Join <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> Today
               </a>
               <a
                 href="/about"

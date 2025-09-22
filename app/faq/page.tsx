@@ -152,7 +152,7 @@ export default function FAQPage() {
             Frequently Asked <span className="text-primary-400">Questions</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Find answers to common questions about <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> and our marine professional networking platform.
+            Find answers to common questions about <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> and our marine professional networking platform.
           </p>
         </div>
 
@@ -169,18 +169,18 @@ export default function FAQPage() {
                     <h3 className="text-lg font-semibold text-white mb-3" dangerouslySetInnerHTML={{
                       __html: faq.question.replace(/ShipinPort\.com?/g, (match) => {
                         if (match === 'ShipinPort') {
-                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-cyan-400">Port</span>';
+                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-blue-700">Port</span>';
                         } else {
-                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-cyan-400">Port</span><span class="text-gray-400">.com</span>';
+                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-blue-700">Port.com</span>';
                         }
                       })
                     }} />
                     <p className="text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{
                       __html: faq.answer.replace(/ShipinPort\.com?/g, (match) => {
                         if (match === 'ShipinPort') {
-                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-cyan-400">Port</span>';
+                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-blue-700">Port</span>';
                         } else {
-                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-cyan-400">Port</span><span class="text-gray-400">.com</span>';
+                          return '<span class="text-blue-700">Ship</span><span class="text-red-500">in</span><span class="text-blue-700">Port.com</span>';
                         }
                       })
                     }} />

@@ -90,9 +90,9 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
               <div className="flex items-center">
                 <Link href={user ? `/dashboard/${user.role}` : "/"} className="flex flex-col">
                   <span className="text-xl font-bold text-white">
-                    <span className="text-blue-700">Ship</span>
-                    <span className="text-red-500">in</span>
-                    <span className="text-cyan-400">Port</span>
+        <span className="text-blue-700">Ship</span>
+        <span className="text-red-500">in</span>
+        <span className="text-blue-700">Port</span>
                   </span>
                   <span className="text-xs text-gray-400">.com</span>
                 </Link>

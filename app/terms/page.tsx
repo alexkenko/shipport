@@ -34,14 +34,14 @@ export default function TermsPage() {
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">1. Acceptance of Terms</h2>
               <p>
-                By accessing and using <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> ("the Platform"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+                By accessing and using <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> ("the Platform"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">2. Description of Service</h2>
               <p>
-                <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> is a professional networking platform that connects vessel managers with certified marine superintendents for maritime services including inspections, audits, consultancy, and vessel management solutions.
+                <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> is a professional networking platform that connects vessel managers with certified marine superintendents for maritime services including inspections, audits, consultancy, and vessel management solutions.
               </p>
             </section>
 
@@ -58,7 +58,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">4. Service Limitations</h2>
               <p>
-                <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> serves as a connection platform between vessel managers and marine superintendents. We do not guarantee the quality, reliability, or performance of services provided by platform users. All agreements and transactions are between the parties directly involved.
+                <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> serves as a connection platform between vessel managers and marine superintendents. We do not guarantee the quality, reliability, or performance of services provided by platform users. All agreements and transactions are between the parties directly involved.
               </p>
             </section>
 
@@ -77,14 +77,14 @@ export default function TermsPage() {
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">6. Intellectual Property</h2>
               <p>
-                The platform and its original content, features, and functionality are and will remain the exclusive property of <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> and its licensors. The platform is protected by copyright, trademark, and other laws.
+                The platform and its original content, features, and functionality are and will remain the exclusive property of <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> and its licensors. The platform is protected by copyright, trademark, and other laws.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">7. Limitation of Liability</h2>
               <p>
-                In no event shall <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span>, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the platform.
+                In no event shall <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span>, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the platform.
               </p>
             </section>
 
@@ -98,7 +98,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">9. Governing Law</h2>
               <p>
-                These Terms shall be interpreted and governed by the laws of the jurisdiction in which <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span><span className="text-gray-400">.com</span> operates, without regard to its conflict of law provisions.
+                These Terms shall be interpreted and governed by the laws of the jurisdiction in which <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> operates, without regard to its conflict of law provisions.
               </p>
             </section>
 

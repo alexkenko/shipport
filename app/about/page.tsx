@@ -52,7 +52,7 @@ export default function AboutPage() {
           <div className="glass p-8 rounded-xl">
             <h2 className="text-3xl font-bold text-white mb-6">Our Mission</h2>
             <p className="text-lg text-gray-300 mb-6">
-              <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> was founded with a clear mission: to bridge the gap between vessel managers and 
+              <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> was founded with a clear mission: to bridge the gap between vessel managers and 
               certified marine superintendents, creating a streamlined platform for maritime professional 
               services and industry networking.
             </p>
@@ -202,10 +202,10 @@ export default function AboutPage() {
         {/* CTA Section */}
         <section className="text-center">
           <div className="glass p-8 rounded-xl">
-            <h2 className="text-3xl font-bold text-white mb-4">Join the <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> Community</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Join the <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> Community</h2>
             <p className="text-xl text-gray-300 mb-8">
               Whether you're a vessel manager seeking qualified superintendents or a marine professional 
-              looking for opportunities, <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-cyan-400">Port</span> is your gateway to maritime excellence.
+              looking for opportunities, <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> is your gateway to maritime excellence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
