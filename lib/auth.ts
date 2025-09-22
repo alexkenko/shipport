@@ -168,6 +168,20 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
 }
 
 export async function updateUserProfile(userId: string, updates: Partial<User>) {
+  console.log('updateUserProfile called with:', { userId, updates })
+  
+  // Check current user authentication
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  console.log('Current authenticated user:', currentUser?.id)
+  
+  if (!currentUser) {
+    throw new Error('No authenticated user found')
+  }
+  
+  if (currentUser.id !== userId) {
+    throw new Error(`User ID mismatch: authenticated user ${currentUser.id} trying to update ${userId}`)
+  }
+  
   const { data, error } = await supabase
     .from('users')
     .update({
@@ -177,7 +191,12 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     .eq('id', userId)
     .select()
 
-  if (error) throw error
+  console.log('Update result:', { data, error })
+  
+  if (error) {
+    console.error('Update error details:', error)
+    throw error
+  }
   return data && data.length > 0 ? data[0] : null
 }
 
@@ -251,9 +270,25 @@ export async function getSuperintendentProfile(userId: string) {
 }
 
 export async function uploadProfilePhoto(userId: string, file: File) {
+  console.log('uploadProfilePhoto called with:', { userId, fileName: file.name, fileSize: file.size, fileType: file.type })
+  
+  // Check current user authentication
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  console.log('Current authenticated user for upload:', currentUser?.id)
+  
+  if (!currentUser) {
+    throw new Error('No authenticated user found for upload')
+  }
+  
+  if (currentUser.id !== userId) {
+    throw new Error(`User ID mismatch: authenticated user ${currentUser.id} trying to upload for ${userId}`)
+  }
+  
   const fileExt = file.name.split('.').pop()
   const fileName = `${userId}.${fileExt}`
   const filePath = `profile-photos/${fileName}`
+  
+  console.log('Uploading file to path:', filePath)
 
   const { error: uploadError } = await supabase.storage
     .from('profile-photos')
@@ -261,11 +296,17 @@ export async function uploadProfilePhoto(userId: string, file: File) {
       upsert: true // This allows overwriting existing files
     })
 
-  if (uploadError) throw uploadError
+  console.log('Upload result:', { uploadError })
+  
+  if (uploadError) {
+    console.error('Upload error details:', uploadError)
+    throw uploadError
+  }
 
   const { data } = supabase.storage
     .from('profile-photos')
     .getPublicUrl(filePath)
-
+    
+  console.log('Generated public URL:', data.publicUrl)
   return data.publicUrl
 }
