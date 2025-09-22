@@ -305,7 +305,8 @@ export default function SearchJobsPage() {
             <Card>
               <CardContent className="p-8 text-center">
                 <p className="text-gray-400 mb-4">No jobs found matching your criteria</p>
-                <p className="text-sm text-gray-500">Try adjusting your filters or check back later for new opportunities</p>
+                <p className="text-sm text-gray-500 mb-3">Try adjusting your filters or check back later for new opportunities</p>
+                <p className="text-sm text-blue-600 font-medium">💡 Tip: Even if vessel managers haven't posted specific jobs, they can still browse your profile and reach out for potential opportunities!</p>
               </CardContent>
             </Card>
           ) : (
