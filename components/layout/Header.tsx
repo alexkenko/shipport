@@ -94,7 +94,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
         <span className="text-red-500">in</span>
         <span className="text-blue-700">Port</span>
                   </span>
-                  <span className="text-xs text-gray-400">.com</span>
+                  <span className="text-xs text-blue-700">.com</span>
                 </Link>
               </div>
 

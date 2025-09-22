@@ -93,8 +93,7 @@ export default function HomePage() {
               <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-4">
                 <span className="text-blue-700">Ship</span>
                 <span className="text-red-500">in</span>
-                <span className="text-cyan-400">Port</span>
-                <span className="text-gray-400">.com</span>
+                <span className="text-blue-700">Port.com</span>
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">

@@ -11,8 +11,7 @@ export function Footer() {
             <h3 className="text-2xl font-bold text-white mb-4">
               <span className="text-blue-700">Ship</span>
               <span className="text-red-500">in</span>
-              <span className="text-cyan-400">Port</span>
-              <span className="text-gray-400 text-sm">.com</span>
+              <span className="text-blue-700">Port.com</span>
             </h3>
             <p className="text-gray-400 mb-4">
               Professional Marine Superintendent Services & Vessel Management Solutions
