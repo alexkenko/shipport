@@ -5,7 +5,7 @@ export function GET(): Response {
 Allow: /
 
 # High priority pages for Marine Superintendent, Marine Consultancy, Superintendancy
-Sitemap: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://shpport.com'}/sitemap.xml
+Sitemap: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com'}/sitemap.xml
 
 # Crawl delay for better server performance
 Crawl-delay: 1
