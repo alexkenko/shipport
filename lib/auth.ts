@@ -176,10 +176,9 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     })
     .eq('id', userId)
     .select()
-    .single()
 
   if (error) throw error
-  return data
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function updateManagerProfile(userId: string, vesselTypes: string[]) {
@@ -193,10 +192,9 @@ export async function updateManagerProfile(userId: string, vesselTypes: string[]
       onConflict: 'user_id'
     })
     .select()
-    .single()
 
   if (error) throw error
-  return data
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function updateSuperintendentProfile(
@@ -227,10 +225,9 @@ export async function updateSuperintendentProfile(
       onConflict: 'user_id'
     })
     .select()
-    .single()
 
   if (error) throw error
-  return data
+  return data && data.length > 0 ? data[0] : null
 }
 
 export async function getManagerProfile(userId: string) {
