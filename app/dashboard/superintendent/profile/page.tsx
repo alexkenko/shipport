@@ -238,12 +238,27 @@ export default function SuperintendentProfilePage() {
 
     setIsUploading(true)
     try {
+      // For iPhone users, refresh auth session before upload
+      const { data: { user: authUser } } = await supabase.auth.getUser()
+      if (!authUser) {
+        // Refresh the session for mobile users
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
+          throw new Error('Please refresh the page and try again')
+        }
+      }
+
       const photoUrl = await uploadProfilePhoto(user.id, file)
       await updateUserProfile(user.id, { photo_url: photoUrl })
       setUser(prev => prev ? { ...prev, photo_url: photoUrl } : null)
       toast.success('Photo updated successfully')
     } catch (error: any) {
-      toast.error(error.message || 'Failed to upload photo')
+      console.error('Photo upload error:', error)
+      if (error.message.includes('row-level security policy')) {
+        toast.error('Authentication error. Please refresh the page and try again.')
+      } else {
+        toast.error(error.message || 'Failed to upload photo')
+      }
     } finally {
       setIsUploading(false)
     }

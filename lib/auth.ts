@@ -168,6 +168,17 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
 }
 
 export async function updateUserProfile(userId: string, updates: Partial<User>) {
+  // Check if user is authenticated
+  const { data: { user: authUser } } = await supabase.auth.getUser()
+  
+  if (!authUser) {
+    throw new Error('User not authenticated. Please refresh the page and try again.')
+  }
+  
+  if (authUser.id !== userId) {
+    throw new Error('Authentication mismatch. Please refresh the page and try again.')
+  }
+
   const { data, error } = await supabase
     .from('users')
     .update({
@@ -178,7 +189,10 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     .select()
     .single()
 
-  if (error) throw error
+  if (error) {
+    console.error('Update user profile error:', error)
+    throw new Error(`Failed to update profile: ${error.message}`)
+  }
   return data
 }
 
@@ -256,15 +270,42 @@ export async function getSuperintendentProfile(userId: string) {
 }
 
 export async function uploadProfilePhoto(userId: string, file: File) {
+  // Validate file
+  if (!file) {
+    throw new Error('No file provided')
+  }
+
+  // Check file size (max 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    throw new Error('File size must be less than 5MB')
+  }
+
+  // Check file type
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error('Only JPEG, PNG, and WebP images are allowed')
+  }
+
   const fileExt = file.name.split('.').pop()
   const fileName = `${userId}.${fileExt}`
   const filePath = `profile-photos/${fileName}`
 
+  // Try to delete existing photo first
+  await supabase.storage
+    .from('profile-photos')
+    .remove([filePath])
+
   const { error: uploadError } = await supabase.storage
     .from('profile-photos')
-    .upload(filePath, file)
+    .upload(filePath, file, {
+      upsert: true,
+      cacheControl: '3600'
+    })
 
-  if (uploadError) throw uploadError
+  if (uploadError) {
+    console.error('Upload error:', uploadError)
+    throw new Error(`Failed to upload photo: ${uploadError.message}`)
+  }
 
   const { data } = supabase.storage
     .from('profile-photos')
