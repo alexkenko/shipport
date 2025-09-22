@@ -262,7 +262,9 @@ export async function uploadProfilePhoto(userId: string, file: File) {
 
   const { error: uploadError } = await supabase.storage
     .from('profile-photos')
-    .upload(filePath, file)
+    .upload(filePath, file, {
+      upsert: true // Allow overwriting existing files
+    })
 
   if (uploadError) throw uploadError
 
