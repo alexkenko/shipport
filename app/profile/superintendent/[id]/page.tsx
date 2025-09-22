@@ -256,18 +256,6 @@ export default function PublicSuperintendentProfile() {
                 </div>
               )}
 
-              {/* Contact Button */}
-              <div className="pt-6 border-t border-dark-700">
-                <Button 
-                  className="w-full bg-primary-600 hover:bg-primary-700"
-                  onClick={() => {
-                    // Redirect to contact or login
-                    window.location.href = '/login'
-                  }}
-                >
-                  Contact This Superintendent
-                </Button>
-              </div>
             </CardContent>
           </Card>
         </div>
