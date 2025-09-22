@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
-import { CheckBadgeIcon, StarIcon, MapPinIcon, UserCircleIcon, ArrowLeftIcon } from '@heroicons/react/24/outline'
+import { CheckBadgeIcon, StarIcon, MapPinIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 
 interface Port {
   id: string
@@ -17,7 +17,6 @@ interface Port {
 
 export default function PublicSuperintendentProfile() {
   const params = useParams()
-  const router = useRouter()
   const userId = params.id as string
   const [profileData, setProfileData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -89,23 +88,6 @@ export default function PublicSuperintendentProfile() {
     <div className="min-h-screen bg-dark-900">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Button
-              variant="outline"
-              onClick={() => {
-                if (window.history.length > 1) {
-                  router.back()
-                } else {
-                  router.push('/dashboard/manager/search')
-                }
-              }}
-              className="flex items-center gap-2 bg-dark-800 border-dark-700 text-gray-300 hover:bg-dark-700 hover:text-white"
-            >
-              <ArrowLeftIcon className="h-4 w-4" />
-              Back to Search
-            </Button>
-          </div>
           <Card className="bg-dark-800 border-dark-700">
             <CardHeader>
               <div className="flex items-start space-x-6">
