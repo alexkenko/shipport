@@ -6,17 +6,21 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ShipinPort.com - Professional Marine Superintendent Services & Vessel Management Solutions',
-  description: 'Connect with certified marine superintendents for vessel inspections, ISM ISPS MLC audits, pre-vetting inspections, and maritime consulting services worldwide. Professional marine industry networking platform.',
+  title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy Services',
+  description: 'Professional Marine Superintendent and Marine Consultancy services. Connect with certified superintendents for vessel inspections, ISM ISPS MLC audits, pre-vetting inspections, and maritime consulting worldwide.',
   keywords: [
-    'marine superintendent',
-    'vessel manager',
+    'Marine Superintendent',
+    'Marine Consultancy',
+    'Superintendancy',
+    'marine superintendent services',
+    'marine consultancy services',
+    'superintendancy services',
+    'vessel superintendent',
     'marine inspection services',
     'ISM audit',
     'ISPS audit',
     'MLC audit',
     'pre-vetting inspection',
-    'marine consultancy',
     'TMSA preparation',
     'bulk vessel inspection',
     'pre purchase inspection',
@@ -53,8 +57,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
         openGraph: {
-          title: 'ShipinPort.com - Professional Marine Superintendent Services & Vessel Management',
-          description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
+          title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy Services',
+          description: 'Professional Marine Superintendent and Marine Consultancy services. Connect with certified superintendents for vessel inspections, audits, and maritime consulting worldwide.',
           url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
           siteName: 'ShipinPort',
     images: [
@@ -70,8 +74,8 @@ export const metadata: Metadata = {
   },
         twitter: {
           card: 'summary_large_image',
-          title: 'ShipinPort.com - Professional Marine Superintendent Services',
-          description: 'Connect with certified marine superintendents for vessel inspections, audits, and maritime consulting services worldwide.',
+          title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy',
+          description: 'Professional Marine Superintendent and Marine Consultancy services. Leading Superintendancy platform for vessel inspections, audits, and maritime consulting worldwide.',
           images: ['/og-image.jpg'],
         },
   robots: {

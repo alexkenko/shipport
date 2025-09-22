@@ -4,17 +4,17 @@ import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 
 export const metadata: Metadata = {
-  title: 'Marine Superintendent Services | Ship Inspections & Audits | Port State Inspection | Oil Major Inspection | SIRE 2.0 | ShipinPort.com',
-  description: 'Professional Marine Superintendent services including ship inspections and audits, port state inspection, oil major inspection, vetting, SIRE 2.0, and marine consultancy. Connect with certified maritime professionals worldwide.',
-  keywords: 'marine superintendent, marine consultancy, ship inspections and audits, port state inspection, oil major inspection, vetting, SIRE 2.0, marine superintendent services, vessel inspections, maritime audits, marine consulting, ship superintendent, maritime professional services, marine inspection services, vessel management, maritime consulting platform',
+  title: 'Marine Superintendent; Marine Consultancy, Superintendancy | #1 Professional Marine Services Platform',
+  description: 'Leading Marine Superintendent and Marine Consultancy platform. Professional Superintendancy services for vessel inspections, ISM audits, marine consultancy, and maritime consulting worldwide. Find certified marine superintendents and marine consultancy experts.',
+  keywords: 'Marine Superintendent, Marine Consultancy, Superintendancy, marine superintendent services, marine consultancy services, superintendancy services, vessel superintendent, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent jobs, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform',
 }
 
 export default function HomePage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "ShipinPort",
-    "description": "Professional Marine Superintendent Services & Vessel Management Solutions",
+    "name": "ShipinPort - Marine Superintendent; Marine Consultancy, Superintendancy",
+    "description": "Leading Marine Superintendent and Marine Consultancy platform. Professional Superintendancy services for vessel inspections, ISM audits, marine consultancy, and maritime consulting worldwide.",
     "url": process.env.NEXT_PUBLIC_SITE_URL || "https://shipport.com",
     "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://shipport.com"}/logo.png`,
     "contactPoint": {
@@ -36,7 +36,12 @@ export default function HomePage() {
       {
         "@type": "Service", 
         "name": "Marine Consultancy",
-        "description": "Expert marine consultancy services for vessel operations, safety management, and regulatory compliance"
+        "description": "Expert Marine Consultancy services for vessel operations, safety management, and regulatory compliance"
+      },
+      {
+        "@type": "Service", 
+        "name": "Superintendancy Services",
+        "description": "Professional Superintendancy services for comprehensive vessel supervision and maritime operations management"
       },
       {
         "@type": "Service", 
@@ -82,19 +87,20 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Professional Marine
-              <span className="block text-white">Superintendent Services</span>
-              <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-2">
+              <span className="text-blue-400">Marine Superintendent;</span>
+              <span className="block text-cyan-400">Marine Consultancy,</span>
+              <span className="block text-green-400">Superintendancy</span>
+              <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-4">
                 <span className="text-blue-700">Ship</span>
                 <span className="text-red-500">in</span>
                 <span className="text-cyan-400">Port</span>
                 <span className="text-gray-400">.com</span>
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Professional <strong className="text-white">Marine Superintendent</strong> services including <strong className="text-white">ship inspections and audits</strong>, 
-              <strong className="text-white"> port state inspection</strong>, <strong className="text-white">oil major inspection</strong>, 
-              <strong className="text-white">vetting</strong>, <strong className="text-white">SIRE 2.0</strong>, and <strong className="text-white">marine consultancy</strong> worldwide.
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
+              #1 Professional <strong className="text-white">Marine Superintendent</strong> and <strong className="text-white">Marine Consultancy</strong> Platform. 
+              Leading <strong className="text-white">Superintendancy</strong> services including vessel inspections, ISM audits, 
+              <strong className="text-white"> marine consultancy</strong>, and maritime consulting worldwide.
             </p>
             <div className="flex flex-col gap-4 justify-center items-center">
               <Link
