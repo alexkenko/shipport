@@ -12,6 +12,7 @@ import {
   UserGroupIcon
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
+import { PremiumBadge } from '@/components/ui/PremiumBadge'
 
 export default function SuperintendentDashboard() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -134,9 +135,18 @@ export default function SuperintendentDashboard() {
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">
-                    {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
-                  </h3>
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-lg font-semibold text-white">
+                      {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
+                    </h3>
+                    {user && (
+                      <PremiumBadge 
+                        signupDate={user.created_at} 
+                        role={user.role}
+                        size="sm"
+                      />
+                    )}
+                  </div>
                   <p className="text-sm text-primary-400 font-medium">
                     {isLoading ? 'Loading...' : user?.company || 'No company specified'}
                   </p>

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { CheckBadgeIcon, StarIcon, MapPinIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { PremiumBadge } from '@/components/ui/PremiumBadge'
 
 interface Port {
   id: string
@@ -44,7 +45,8 @@ export default function PublicSuperintendentProfile() {
             linkedin,
             twitter,
             facebook,
-            role
+            role,
+            created_at
           )
         `)
         .eq('user_id', userId)
@@ -101,9 +103,16 @@ export default function PublicSuperintendentProfile() {
                   <UserCircleIcon className="h-24 w-24 text-gray-400" />
                 )}
                 <div className="flex-1">
-                  <CardTitle className="text-2xl text-white mb-2">
-                    {user.name} {user.surname}
-                  </CardTitle>
+                  <div className="flex items-center gap-3 mb-2">
+                    <CardTitle className="text-2xl text-white">
+                      {user.name} {user.surname}
+                    </CardTitle>
+                    <PremiumBadge 
+                      signupDate={user.created_at} 
+                      role={user.role}
+                      size="md"
+                    />
+                  </div>
                   <CardDescription className="text-lg text-gray-300 mb-2">
                     {user.company}
                   </CardDescription>

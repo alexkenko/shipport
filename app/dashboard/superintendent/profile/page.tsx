@@ -13,6 +13,7 @@ import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
 import { CameraIcon, UserCircleIcon, MapPinIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
 import { EmailVerification } from '@/components/ui/EmailVerification'
+import { PremiumBadge } from '@/components/ui/PremiumBadge'
 
 interface Port {
   id: string
@@ -366,9 +367,16 @@ export default function SuperintendentProfilePage() {
                   </label>
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-white">
-                    {user.name} {user.surname}
-                  </h3>
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-lg font-medium text-white">
+                      {user.name} {user.surname}
+                    </h3>
+                    <PremiumBadge 
+                      signupDate={user.created_at} 
+                      role={user.role}
+                      size="sm"
+                    />
+                  </div>
                   <p className="text-gray-400">{user.company}</p>
                   {isUploading && (
                     <p className="text-sm text-primary-400 mt-2">Uploading...</p>

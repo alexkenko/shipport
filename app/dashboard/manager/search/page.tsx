@@ -11,6 +11,7 @@ import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES } from '@/ty
 import toast from 'react-hot-toast'
 import { MapPinIcon, UserCircleIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
 import { SearchPopup } from '@/components/ui/SearchPopup'
+import { PremiumBadge } from '@/components/ui/PremiumBadge'
 
 interface SuperintendentProfile {
   id: string
@@ -35,6 +36,8 @@ interface SuperintendentProfile {
     linkedin: string | null
     twitter: string | null
     facebook: string | null
+    created_at: string
+    role: string
   }
   email_verifications?: {
     is_verified: boolean
@@ -74,7 +77,8 @@ export default function SearchSuperintendentsPage() {
             company,
             bio,
             photo_url,
-            role
+            role,
+            created_at
           )
         `)
         .order('created_at', { ascending: false })
@@ -147,7 +151,9 @@ export default function SearchSuperintendentsPage() {
             website: sup.users.website,
             linkedin: sup.users.linkedin,
             twitter: sup.users.twitter,
-            facebook: sup.users.facebook
+            facebook: sup.users.facebook,
+            created_at: sup.users.created_at,
+            role: sup.users.role
           }
         }
       })
@@ -341,15 +347,22 @@ export default function SearchSuperintendentsPage() {
                           <CardTitle className="text-lg">
                             {superintendent.users.name} {superintendent.users.surname}
                           </CardTitle>
-                          {superintendent.email_verifications?.[0]?.is_verified ? (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              ⭐ Verified
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                              ⚪ Unverified
-                            </span>
-                          )}
+                          <div className="flex items-center gap-2">
+                            <PremiumBadge 
+                              signupDate={superintendent.users.created_at} 
+                              role={superintendent.users.role}
+                              size="sm"
+                            />
+                            {superintendent.email_verifications?.[0]?.is_verified ? (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ⭐ Verified
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                ⚪ Unverified
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <CardDescription className="text-sm">
                           {superintendent.users.company}
