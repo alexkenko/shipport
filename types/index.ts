@@ -175,3 +175,53 @@ export const SERVICE_TYPES = [
   'Door to Door',
   'Gangway to Gangway'
 ] as const;
+
+// Blog system types
+export interface BlogCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  color: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  featured_image_url: string | null;
+  author_id: string | null;
+  category_id: string | null;
+  status: 'draft' | 'published' | 'archived';
+  published_at: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  tags: string[];
+  reading_time: number | null;
+  view_count: number;
+  created_at: string;
+  updated_at: string;
+  // Relations
+  author?: {
+    id: string;
+    name: string;
+    surname: string;
+    photo_url: string | null;
+  };
+  category?: BlogCategory;
+  seo_data?: BlogSeoData;
+}
+
+export interface BlogSeoData {
+  id: string;
+  post_id: string;
+  schema_type: string;
+  json_ld_data: any;
+  focus_keyword: string | null;
+  created_at: string;
+  updated_at: string;
+}

@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
+import { supabase } from '@/lib/supabase'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com'
   
-  return [
+  // Static pages
+  const staticPages = [
     // Main pages - High priority
     {
       url: baseUrl,
@@ -138,4 +140,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.4,
     },
   ]
+
+  // Fetch blog posts dynamically
+  let blogPosts: any[] = []
+  try {
+    const { data: posts } = await supabase
+      .from('blog_posts')
+      .select('slug, updated_at, published_at')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+
+    blogPosts = posts?.map(post => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.updated_at),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })) || []
+  } catch (error) {
+    console.error('Error fetching blog posts for sitemap:', error)
+  }
+
+  return [...staticPages, ...blogPosts]
 }
