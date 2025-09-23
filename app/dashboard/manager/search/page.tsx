@@ -348,6 +348,10 @@ export default function SearchSuperintendentsPage() {
                             {superintendent.users.name} {superintendent.users.surname}
                           </CardTitle>
                           <div className="flex items-center gap-2">
+                            {/* Debug info */}
+                            <div className="text-xs text-gray-500">
+                              Debug: {superintendent.users.created_at ? 'Has date' : 'No date'} | {superintendent.users.role}
+                            </div>
                             <PremiumBadge 
                               signupDate={superintendent.users.created_at} 
                               role={superintendent.users.role}

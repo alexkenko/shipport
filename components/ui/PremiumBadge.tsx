@@ -9,6 +9,9 @@ interface PremiumBadgeProps {
 }
 
 export function PremiumBadge({ signupDate, role, size = 'md', className = '' }: PremiumBadgeProps) {
+  // Debug logging
+  console.log('PremiumBadge Debug:', { signupDate, role, isEligible: isEligibleForPremiumBadge(signupDate, role) })
+  
   // Only show badge for eligible superintendents
   if (!isEligibleForPremiumBadge(signupDate, role)) {
     return null
