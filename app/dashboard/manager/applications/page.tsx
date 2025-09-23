@@ -47,6 +47,8 @@ interface ApplicationWithDetails {
     company: string
     bio: string
     photo_url: string | null
+    created_at: string
+    role: string
     email_verifications?: {
       is_verified: boolean
     }[]
