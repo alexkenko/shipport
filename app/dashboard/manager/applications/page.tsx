@@ -17,6 +17,7 @@ import {
   XCircleIcon,
   ClockIcon as PendingIcon
 } from '@heroicons/react/24/outline'
+import { PremiumBadge } from '@/components/ui/PremiumBadge'
 
 interface ApplicationWithDetails {
   id: string
@@ -111,7 +112,7 @@ export default function ManagerApplicationsPage() {
       const superintendentIds = applications.map(app => app.superintendent_id)
       const { data: superintendents, error: superintendentsError } = await supabase
         .from('users')
-        .select('id, name, surname, email, phone, company, bio, photo_url')
+        .select('id, name, surname, email, phone, company, bio, photo_url, created_at, role')
         .in('id', superintendentIds)
 
       if (superintendentsError) throw superintendentsError
@@ -379,7 +380,7 @@ export default function ManagerApplicationsPage() {
                 <div className="space-y-6">
                   {/* Basic Info */}
                   <div className="flex items-start space-x-4">
-                    <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
                       {selectedApplication.users?.photo_url ? (
                         <img
                           src={selectedApplication.users.photo_url}
@@ -387,13 +388,22 @@ export default function ManagerApplicationsPage() {
                           className="w-16 h-16 rounded-full object-cover"
                         />
                       ) : (
-                        <UserIcon className="h-8 w-8 text-gray-400" />
+                        <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
+                          <UserIcon className="h-8 w-8 text-gray-400" />
+                        </div>
                       )}
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        {selectedApplication.users?.name || 'Unknown'} {selectedApplication.users?.surname || 'User'}
-                      </h3>
+                      <div className="flex items-center gap-3 mb-1">
+                        <h3 className="text-lg font-semibold text-white">
+                          {selectedApplication.users?.name || 'Unknown'} {selectedApplication.users?.surname || 'User'}
+                        </h3>
+                        <PremiumBadge 
+                          signupDate={selectedApplication.users?.created_at || ''} 
+                          role={selectedApplication.users?.role || ''}
+                          size="sm"
+                        />
+                      </div>
                       <p className="text-gray-400">{selectedApplication.users?.company || 'No company'}</p>
                       <div className="text-sm text-gray-500 mt-2">
                         <div>📧 {selectedApplication.users?.email || 'No email'}</div>
