@@ -134,27 +134,22 @@ export default function HomePage() {
             {[
               {
                 title: 'Ship Inspections and Audits',
-                description: 'Professional ship inspections and audits including ISM, ISPS, MLC compliance assessments.',
+                description: 'Professional ship inspections and audits including ISM, ISPS, MLC compliance assessments by Qualified marine Superintendents.',
                 icon: '📋'
               },
               {
                 title: 'Port State Inspection',
-                description: 'Expert port state inspection services ensuring vessel compliance with international regulations.',
+                description: 'Expert port state inspection preparation services ensuring vessel compliance with international regulations by qualified Marine Superintendents.',
                 icon: '🔍'
               },
               {
-                title: 'Oil Major Inspection',
-                description: 'Comprehensive oil major inspection services for tanker vessels and offshore operations.',
-                icon: '🛢️'
-              },
-              {
                 title: 'SIRE 2.0 Vetting',
-                description: 'Advanced SIRE 2.0 vetting services and vessel risk assessments for charter approval.',
+                description: 'Advanced SIRE 2.0 vetting preparation services by certified Marine Superintendents.',
                 icon: '⚓'
               },
               {
                 title: 'Marine Consultancy',
-                description: 'Expert marine consultancy services for vessel operations, safety management, and regulatory compliance.',
+                description: 'Expert marine consultancy services for vessel operations, safety management, and regulatory compliance by certified Consultants.',
                 icon: '🧭'
               },
               {
