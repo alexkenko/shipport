@@ -111,7 +111,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
             {navigation.map((item, index) => {
               // Define color schemes for each navigation item
               const getColorClasses = (color: string, isActive: boolean) => {
-                const baseClasses = 'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group flex items-center space-x-2 hover:scale-105 hover:shadow-lg'
+                const baseClasses = 'relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 group flex items-center space-x-1.5 hover:scale-105 hover:shadow-lg'
                 
                 console.log(`getColorClasses called with color: ${color}, isActive: ${isActive}`)
                 
@@ -175,7 +175,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   href={item.href}
                   className={getColorClasses(item.color, isActive)}
                 >
-                  <item.icon className={`h-4 w-4 ${getIconColor(item.color, isActive)}`} />
+                  <item.icon className={`h-3.5 w-3.5 ${getIconColor(item.color, isActive)}`} />
                   <span className="relative z-10">{item.name}</span>
                   {isActive && (
                     <div className={`absolute inset-0 bg-gradient-to-r ${
@@ -328,7 +328,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
             {navigation.map((item, index) => {
               // Define mobile color schemes for each navigation item
               const getMobileColorClasses = (color: string, isActive: boolean) => {
-                const baseClasses = 'flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 relative z-50'
+                const baseClasses = 'flex items-center space-x-2 px-2 py-2 rounded-lg text-xs font-medium transition-all duration-200 relative z-50'
                 
                 switch (color) {
                   case 'blue':
@@ -398,7 +398,7 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                     }, 100);
                   }}
                 >
-                  <item.icon className={`h-5 w-5 ${getMobileIconColor(item.color, isActive)}`} />
+                  <item.icon className={`h-4 w-4 ${getMobileIconColor(item.color, isActive)}`} />
                   <span>{item.name}</span>
                 </Link>
               )
