@@ -2,29 +2,30 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
 export async function GET(request: NextRequest) {
+  console.log('🚀 Admin superintendents API called')
   try {
     // Check authentication using Supabase directly
     const authHeader = request.headers.get('authorization')
-    console.log('Auth header received:', authHeader ? 'Present' : 'Missing')
+    console.log('🔐 Auth header received:', authHeader ? 'Present' : 'Missing')
     
     if (!authHeader) {
-      console.log('No authorization header found')
+      console.log('❌ No authorization header found')
       return NextResponse.json({ error: 'No authorization header' }, { status: 401 })
     }
 
     const token = authHeader.replace('Bearer ', '')
-    console.log('Token extracted:', token ? 'Present' : 'Missing')
+    console.log('🔑 Token extracted:', token ? 'Present' : 'Missing')
     
     const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-    console.log('Admin API - User auth result:', { user: user?.email, error: authError?.message })
-    console.log('Admin API - Email comparison:', { 
+    console.log('👤 Admin API - User auth result:', { user: user?.email, error: authError?.message })
+    console.log('📧 Admin API - Email comparison:', { 
       userEmail: user?.email, 
       expectedEmail: 'kenkadzealex@gmail.com',
       matches: user?.email === 'kenkadzealex@gmail.com'
     })
     
     if (authError || !user || user.email !== 'kenkadzealex@gmail.com') {
-      console.log('Admin API - Authorization failed:', { 
+      console.log('🚫 Admin API - Authorization failed:', { 
         authError: authError?.message, 
         userEmail: user?.email,
         hasUser: !!user,
@@ -38,6 +39,8 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || ''
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
+    
+    console.log('📊 Query params:', { search, page, limit })
 
     // Build query for superintendents - simplified without profiles for now
     let query = supabase
@@ -69,6 +72,8 @@ export async function GET(request: NextRequest) {
     const from = (page - 1) * limit
     const to = from + limit - 1
 
+    console.log('🔢 Pagination:', { from, to, limit })
+
     // Get count separately for pagination
     let countQuery = supabase
       .from('users')
@@ -79,13 +84,22 @@ export async function GET(request: NextRequest) {
       countQuery = countQuery.or(`name.ilike.%${search}%,surname.ilike.%${search}%,email.ilike.%${search}%,company.ilike.%${search}%`)
     }
     
-    const { count } = await countQuery
+    console.log('📊 Getting count...')
+    const { count, error: countError } = await countQuery
+    console.log('📊 Count result:', { count, countError: countError?.message })
 
+    console.log('🔍 Getting superintendents...')
     const { data: superintendents, error } = await query
       .range(from, to)
 
+    console.log('🔍 Superintendents result:', { 
+      count: superintendents?.length, 
+      error: error?.message,
+      firstSuperintendent: superintendents?.[0]?.email 
+    })
+
     if (error) {
-      console.error('Error fetching superintendents:', error)
+      console.error('❌ Error fetching superintendents:', error)
       return NextResponse.json({ error: 'Failed to fetch superintendents' }, { status: 500 })
     }
 
