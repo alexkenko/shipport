@@ -33,8 +33,8 @@ export default function BlogManagementPage() {
       console.log('Categories data:', categoriesData)
       setCategories(categoriesData.categories || [])
 
-      // Fetch posts
-      const postsRes = await fetch('/api/blog/posts')
+      // Fetch posts - explicitly request published posts
+      const postsRes = await fetch('/api/blog/posts?status=published&limit=50')
       const postsData = await postsRes.json()
       console.log('Posts data:', postsData)
       setPosts(postsData.posts || [])
