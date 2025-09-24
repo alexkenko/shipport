@@ -127,25 +127,44 @@ export async function signUp(email: string, password: string, userData: {
 }
 
 export async function signIn(email: string, password: string) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
+  console.log('🔐 Attempting to sign in with email:', email)
+  
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
 
-  if (error) throw error
+    console.log('🔐 Supabase auth response:', { data: !!data, error: !!error })
 
-  if (data.user) {
-    const { data: userData, error: userError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', data.user.id)
-      .single()
+    if (error) {
+      console.error('🔐 Auth error:', error)
+      throw error
+    }
 
-    if (userError) throw userError
-    return userData
+    if (data.user) {
+      console.log('🔐 User authenticated, fetching user data...')
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', data.user.id)
+        .single()
+
+      if (userError) {
+        console.error('🔐 User data error:', userError)
+        throw userError
+      }
+      
+      console.log('🔐 User data fetched successfully:', userData?.email)
+      return userData
+    }
+
+    console.log('🔐 No user data returned')
+    return null
+  } catch (error) {
+    console.error('🔐 Sign in error:', error)
+    throw error
   }
-
-  return null
 }
 
 export async function signOut() {

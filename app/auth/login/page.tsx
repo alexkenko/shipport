@@ -23,9 +23,18 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const user = await signIn(formData.email, formData.password)
+      console.log('🚀 Starting login process...')
+      
+      // Add timeout to prevent hanging
+      const loginPromise = signIn(formData.email, formData.password)
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Login timeout - please try again')), 10000)
+      )
+      
+      const user = await Promise.race([loginPromise, timeoutPromise]) as any
       
       if (user) {
+        console.log('✅ Login successful, redirecting...')
         toast.success('Successfully logged in!')
         
         // Redirect based on user role
@@ -36,6 +45,7 @@ export default function LoginPage() {
         }
       }
     } catch (error: any) {
+      console.error('❌ Login error:', error)
       toast.error(error.message || 'Failed to sign in')
     } finally {
       setIsLoading(false)
