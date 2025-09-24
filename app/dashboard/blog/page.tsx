@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -76,11 +75,10 @@ export default function BlogManagementPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-dark-900">
-        <Header />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <DashboardLayout requiredRole="manager">
+        <div className="space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-6">Blog Management</h1>
+            <h1 className="text-3xl font-bold text-white mb-6">Blog Management</h1>
             <div className="animate-pulse">
               <div className="h-4 bg-gray-700 rounded w-1/4 mx-auto mb-8"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -94,26 +92,23 @@ export default function BlogManagementPage() {
               </div>
             </div>
           </div>
-        </main>
-        <Footer />
-      </div>
+        </div>
+      </DashboardLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-dark-900">
-      <Header />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <DashboardLayout requiredRole="manager">
+      <div className="space-y-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Blog Management</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">Blog Management</h1>
             <p className="text-gray-300">Create, edit, and manage your blog posts</p>
           </div>
           <Button
             onClick={() => router.push('/dashboard/blog/create')}
-            className="bg-primary-600 hover:bg-primary-700"
+            className="bg-primary-600 hover:bg-primary-700 w-full sm:w-auto"
           >
             <PlusIcon className="h-5 w-5 mr-2" />
             New Post
@@ -242,9 +237,7 @@ export default function BlogManagementPage() {
             </Button>
           </div>
         )}
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </DashboardLayout>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -120,18 +121,20 @@ export default function EditBlogPostPage() {
 
   if (isLoadingPost) {
     return (
-      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading blog post...</p>
+      <DashboardLayout requiredRole="manager">
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+            <p className="text-gray-400">Loading blog post...</p>
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-dark-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <DashboardLayout requiredRole="manager">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-8">
           <Link href="/dashboard/blog" className="mr-4">
@@ -312,6 +315,6 @@ export default function EditBlogPostPage() {
           </div>
         </form>
       </div>
-    </div>
+    </DashboardLayout>
   )
 }

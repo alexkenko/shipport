@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -103,8 +104,8 @@ export default function CreateBlogPostPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <DashboardLayout requiredRole="manager">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-8">
           <Link href="/dashboard/blog" className="mr-4">
@@ -285,6 +286,6 @@ export default function CreateBlogPostPage() {
           </div>
         </form>
       </div>
-    </div>
+    </DashboardLayout>
   )
 }
