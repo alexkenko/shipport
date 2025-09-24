@@ -47,7 +47,7 @@ export default function SuperintendentDashboard() {
         <h1 className="text-3xl font-bold text-white mb-6">Superintendent Dashboard</h1>
 
         {user && !user.email_verified && (
-          <VerificationTip email={user.email} />
+          <VerificationTip userRole="superintendent" userEmail={user.email} />
         )}
 
         {/* Main Dashboard Grid - Profile and Blog Side by Side */}
