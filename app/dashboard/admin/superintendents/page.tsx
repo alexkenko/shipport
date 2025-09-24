@@ -10,20 +10,6 @@ import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 
-interface SuperintendentProfile {
-  id: string
-  services: string[]
-  ports_covered: string[]
-  price_per_workday: number
-  price_per_idle_day: number
-  certifications: string[]
-  vessel_types: string[]
-  years_experience: number
-  availability_status: string
-  created_at: string
-  updated_at: string
-}
-
 interface Superintendent {
   id: string
   email: string
@@ -39,7 +25,6 @@ interface Superintendent {
   facebook?: string
   created_at: string
   role: string
-  superintendent_profiles: SuperintendentProfile[]
 }
 
 export default function AdminSuperintendentsPage() {
@@ -198,7 +183,6 @@ export default function AdminSuperintendentsPage() {
             {/* Superintendent Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {superintendents.map((superintendent) => {
-                const profile = superintendent.superintendent_profiles?.[0]
                 return (
                   <Card key={superintendent.id} className="bg-dark-800/50 backdrop-blur-sm border-dark-700 hover:border-primary-500/50 transition-colors">
                     <CardHeader className="pb-4">
@@ -268,76 +252,12 @@ export default function AdminSuperintendentsPage() {
                         )}
                       </div>
 
-                      {/* Profile Info */}
-                      {profile && (
-                        <div className="space-y-3">
-                          {/* Experience & Availability */}
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-gray-400">
-                              {profile.years_experience ? `${profile.years_experience} years exp` : 'Experience not specified'}
-                            </span>
-                            {profile.availability_status && (
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getAvailabilityColor(profile.availability_status)}`}>
-                                {profile.availability_status}
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Pricing */}
-                          <div className="grid grid-cols-2 gap-2 text-sm">
-                            <div className="bg-green-900/20 p-2 rounded border border-green-500/30">
-                              <p className="text-green-400 text-xs">Work Day</p>
-                              <p className="text-white font-bold">
-                                {profile.price_per_workday ? `$${profile.price_per_workday}` : 'N/A'}
-                              </p>
-                            </div>
-                            <div className="bg-blue-900/20 p-2 rounded border border-blue-500/30">
-                              <p className="text-blue-400 text-xs">Idle Day</p>
-                              <p className="text-white font-bold">
-                                {profile.price_per_idle_day ? `$${profile.price_per_idle_day}` : 'N/A'}
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Services */}
-                          {profile.services && profile.services.length > 0 && (
-                            <div>
-                              <p className="text-xs text-gray-400 mb-1">Services</p>
-                              <div className="flex flex-wrap gap-1">
-                                {profile.services.slice(0, 3).map((service, index) => (
-                                  <span key={index} className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded border border-purple-500/30">
-                                    {service}
-                                  </span>
-                                ))}
-                                {profile.services.length > 3 && (
-                                  <span className="px-2 py-1 bg-gray-500/20 text-gray-400 text-xs rounded border border-gray-500/30">
-                                    +{profile.services.length - 3} more
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Ports */}
-                          {profile.ports_covered && profile.ports_covered.length > 0 && (
-                            <div>
-                              <p className="text-xs text-gray-400 mb-1">Ports Covered</p>
-                              <div className="flex flex-wrap gap-1">
-                                {profile.ports_covered.slice(0, 2).map((port, index) => (
-                                  <span key={index} className="px-2 py-1 bg-orange-500/20 text-orange-400 text-xs rounded border border-orange-500/30">
-                                    {port}
-                                  </span>
-                                ))}
-                                {profile.ports_covered.length > 2 && (
-                                  <span className="px-2 py-1 bg-gray-500/20 text-gray-400 text-xs rounded border border-gray-500/30">
-                                    +{profile.ports_covered.length - 2} more
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          )}
+                      {/* Basic Info */}
+                      <div className="space-y-2">
+                        <div className="text-sm text-gray-400">
+                          <span className="font-medium">Role:</span> {superintendent.role}
                         </div>
-                      )}
+                      </div>
 
                       {/* Bio */}
                       {superintendent.bio && (

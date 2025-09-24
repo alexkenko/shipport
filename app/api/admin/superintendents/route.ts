@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
 
-    // Build query for superintendents with their profiles
+    // Build query for superintendents - simplified without profiles for now
     let query = supabase
       .from('users')
       .select(`
@@ -56,20 +56,7 @@ export async function GET(request: NextRequest) {
         twitter,
         facebook,
         created_at,
-        role,
-        superintendent_profiles (
-          id,
-          services,
-          ports_covered,
-          price_per_workday,
-          price_per_idle_day,
-          certifications,
-          vessel_types,
-          years_experience,
-          availability_status,
-          created_at,
-          updated_at
-        )
+        role
       `)
       .eq('role', 'superintendent')
 
