@@ -55,14 +55,24 @@ export default function EditBlogPostPage() {
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
 
+      console.log('Edit page - Current user:', session?.user?.email)
+      console.log('Edit page - Session token:', token ? 'Present' : 'Missing')
+
       const headers: HeadersInit = {}
       if (token) {
         headers['Authorization'] = `Bearer ${token}`
       }
 
+      console.log('Edit page - Making request to:', `/api/blog/posts/${slug}`)
+      console.log('Edit page - Headers:', headers)
+
       const response = await fetch(`/api/blog/posts/${slug}`, { headers })
+      
+      console.log('Edit page - Response status:', response.status)
+      
       if (response.ok) {
         const data = await response.json()
+        console.log('Edit page - Response data:', data)
         const post = data.post
         setFormData({
           title: post.title || '',
@@ -77,7 +87,9 @@ export default function EditBlogPostPage() {
           status: post.status || 'draft'
         })
       } else {
-        toast.error('Blog post not found')
+        const errorData = await response.json()
+        console.error('Edit page - Error response:', errorData)
+        toast.error(errorData.error || 'Blog post not found')
         router.push('/dashboard/blog')
       }
     } catch (error) {
@@ -116,7 +128,7 @@ export default function EditBlogPostPage() {
     try {
       const fileExt = file.name.split('.').pop()
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
-      const filePath = `${fileName}`
+      const filePath = `uploads/${fileName}`
 
       const { data, error } = await supabase.storage
         .from('blog-images')
