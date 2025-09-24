@@ -127,12 +127,15 @@ export default function CreateBlogPostPage() {
 
       // Get the current user and their token
       const { data: { user }, error: userError } = await supabase.auth.getUser()
+      console.log('Current user:', user?.email, 'Error:', userError?.message)
+      
       if (userError || !user) {
         throw new Error('Not authenticated')
       }
 
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
+      console.log('Session token:', token ? 'Present' : 'Missing')
 
       if (!token) {
         throw new Error('No access token available')

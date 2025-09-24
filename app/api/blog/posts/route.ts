@@ -73,14 +73,21 @@ export async function POST(request: NextRequest) {
   try {
     // Check authentication using Supabase directly
     const authHeader = request.headers.get('authorization')
+    console.log('Auth header received:', authHeader ? 'Present' : 'Missing')
+    
     if (!authHeader) {
+      console.log('No authorization header found')
       return NextResponse.json({ error: 'No authorization header' }, { status: 401 })
     }
 
     const token = authHeader.replace('Bearer ', '')
+    console.log('Token extracted:', token ? 'Present' : 'Missing')
+    
     const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+    console.log('User auth result:', { user: user?.email, error: authError?.message })
     
     if (authError || !user || user.email !== 'kenkadzealex@gmail.com') {
+      console.log('Authorization failed:', { authError: authError?.message, userEmail: user?.email })
       return NextResponse.json({ error: 'Unauthorized. Only authorized users can create blog posts.' }, { status: 401 })
     }
 
