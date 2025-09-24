@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { BlogPost, BlogCategory } from '@/types'
-import { CalendarIcon, ClockIcon, UserIcon, TagIcon, SearchIcon } from '@heroicons/react/24/outline'
+import { CalendarIcon, ClockIcon, UserIcon, TagIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -98,7 +98,7 @@ export default function BlogPage() {
             {/* Search */}
             <form onSubmit={handleSearch} className="mb-6">
               <div className="relative max-w-md mx-auto">
-                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                   type="text"
                   placeholder="Search blog posts..."
