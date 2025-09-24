@@ -112,7 +112,7 @@ export default function BlogPage() {
             {/* Categories */}
             <div className="flex flex-wrap gap-2 justify-center">
               <Button
-                variant={selectedCategory === '' ? 'default' : 'outline'}
+                variant={selectedCategory === '' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => handleCategoryFilter('')}
                 className="mb-2"
