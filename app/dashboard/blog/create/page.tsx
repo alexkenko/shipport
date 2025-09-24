@@ -74,7 +74,7 @@ export default function CreateBlogPostPage() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    console.log('File selected:', { name: file.name, type: file.type, size: file.size })
+    console.log('📁 File selected:', { name: file.name, type: file.type, size: file.size })
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
@@ -94,16 +94,16 @@ export default function CreateBlogPostPage() {
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
       const filePath = `uploads/${fileName}`
 
-      console.log('Uploading file:', { fileName, filePath, fileType: file.type })
+      console.log('📤 Uploading file:', { fileName, filePath, fileType: file.type })
 
       const { data, error } = await supabase.storage
         .from('blog-images')
         .upload(filePath, file)
 
-      console.log('Upload result:', { data, error })
+      console.log('📤 Upload result:', { data, error })
 
       if (error) {
-        console.error('Upload error details:', error)
+        console.error('❌ Upload error details:', error)
         throw error
       }
 
@@ -111,7 +111,7 @@ export default function CreateBlogPostPage() {
         .from('blog-images')
         .getPublicUrl(filePath)
 
-      console.log('Public URL generated:', publicUrl)
+      console.log('🔗 Public URL generated:', publicUrl)
 
       setFormData(prev => ({
         ...prev,
@@ -120,8 +120,8 @@ export default function CreateBlogPostPage() {
 
       toast.success('Image uploaded successfully!')
     } catch (error: any) {
-      console.error('Error uploading image:', error)
-      console.error('Error details:', {
+      console.error('❌ Error uploading image:', error)
+      console.error('❌ Error details:', {
         message: error.message,
         statusCode: error.statusCode,
         error: error.error

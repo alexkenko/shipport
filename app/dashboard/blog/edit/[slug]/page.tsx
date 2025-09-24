@@ -112,6 +112,8 @@ export default function EditBlogPostPage() {
     const file = e.target.files?.[0]
     if (!file) return
 
+    console.log('📁 File selected:', { name: file.name, type: file.type, size: file.size })
+
     // Validate file type
     if (!file.type.startsWith('image/')) {
       toast.error('Please select an image file')
@@ -130,17 +132,24 @@ export default function EditBlogPostPage() {
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
       const filePath = `uploads/${fileName}`
 
+      console.log('📤 Uploading file:', { fileName, filePath, fileType: file.type })
+
       const { data, error } = await supabase.storage
         .from('blog-images')
         .upload(filePath, file)
 
+      console.log('📤 Upload result:', { data, error })
+
       if (error) {
+        console.error('❌ Upload error details:', error)
         throw error
       }
 
       const { data: { publicUrl } } = supabase.storage
         .from('blog-images')
         .getPublicUrl(filePath)
+
+      console.log('🔗 Public URL generated:', publicUrl)
 
       setFormData(prev => ({
         ...prev,
@@ -149,8 +158,13 @@ export default function EditBlogPostPage() {
 
       toast.success('Image uploaded successfully!')
     } catch (error: any) {
-      console.error('Error uploading image:', error)
-      toast.error('Failed to upload image. Please try again.')
+      console.error('❌ Error uploading image:', error)
+      console.error('❌ Error details:', {
+        message: error.message,
+        statusCode: error.statusCode,
+        error: error.error
+      })
+      toast.error(`Failed to upload image: ${error.message || 'Please try again.'}`)
     } finally {
       setIsUploadingImage(false)
     }
