@@ -122,7 +122,7 @@ export default function BlogPage() {
               {categories.map((category) => (
                 <Button
                   key={category.id}
-                  variant={selectedCategory === category.slug ? 'default' : 'outline'}
+                  variant={selectedCategory === category.slug ? 'primary' : 'outline'}
                   size="sm"
                   onClick={() => handleCategoryFilter(category.slug)}
                   className="mb-2"
@@ -241,7 +241,7 @@ export default function BlogPage() {
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <Button
                       key={page}
-                      variant={currentPage === page ? 'default' : 'outline'}
+                      variant={currentPage === page ? 'primary' : 'outline'}
                       onClick={() => setCurrentPage(page)}
                       className="w-10"
                     >
