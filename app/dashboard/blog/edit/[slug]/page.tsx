@@ -127,7 +127,7 @@ export default function EditBlogPostPage() {
 
   if (isLoadingPost) {
     return (
-      <DashboardLayout requiredRole="manager">
+      <DashboardLayout>
         <div className="flex items-center justify-center min-h-96">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
@@ -139,7 +139,7 @@ export default function EditBlogPostPage() {
   }
 
   return (
-    <DashboardLayout requiredRole="manager">
+    <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-8">

@@ -75,7 +75,7 @@ export default function BlogManagementPage() {
 
   if (isLoading) {
     return (
-      <DashboardLayout requiredRole="manager">
+      <DashboardLayout>
         <div className="space-y-8">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-white mb-6">Blog Management</h1>
@@ -98,7 +98,7 @@ export default function BlogManagementPage() {
   }
 
   return (
-    <DashboardLayout requiredRole="manager">
+    <DashboardLayout>
       <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">

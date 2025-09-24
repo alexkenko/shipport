@@ -110,7 +110,7 @@ export default function CreateBlogPostPage() {
   }
 
   return (
-    <DashboardLayout requiredRole="manager">
+    <DashboardLayout>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center mb-8">
