@@ -74,13 +74,19 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
           { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon, color: 'yellow' },
           { name: 'Applications', href: '/dashboard/manager/applications', icon: UserGroupIcon, color: 'red' },
           { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon, color: 'purple' },
-          ...(user.email === 'kenkadzealex@gmail.com' ? [{ name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' }] : []),
+          ...(user.email === 'kenkadzealex@gmail.com' ? [
+            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
+            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+          ] : []),
         ]
       : [
           { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
           { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green' },
           { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red' },
-          ...(user.email === 'kenkadzealex@gmail.com' ? [{ name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' }] : []),
+          ...(user.email === 'kenkadzealex@gmail.com' ? [
+            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
+            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+          ] : []),
         ])
     : []
 
