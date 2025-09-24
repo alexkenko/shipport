@@ -25,14 +25,18 @@ export default function BlogManagementPage() {
   const fetchBlogData = async () => {
     setIsLoading(true)
     try {
+      console.log('Fetching blog data...')
+      
       // Fetch categories
       const categoriesRes = await fetch('/api/blog/categories')
       const categoriesData = await categoriesRes.json()
+      console.log('Categories data:', categoriesData)
       setCategories(categoriesData.categories || [])
 
       // Fetch posts
       const postsRes = await fetch('/api/blog/posts')
       const postsData = await postsRes.json()
+      console.log('Posts data:', postsData)
       setPosts(postsData.posts || [])
     } catch (error) {
       console.error('Error fetching blog data:', error)
@@ -106,13 +110,22 @@ export default function BlogManagementPage() {
             <h1 className="text-3xl font-bold text-white mb-2">Blog Management</h1>
             <p className="text-gray-300">Create, edit, and manage your blog posts</p>
           </div>
-          <Button
-            onClick={() => router.push('/dashboard/blog/create')}
-            className="bg-primary-600 hover:bg-primary-700 w-full sm:w-auto"
-          >
-            <PlusIcon className="h-5 w-5 mr-2" />
-            New Post
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              onClick={fetchBlogData}
+              variant="outline"
+              className="bg-dark-700 hover:bg-dark-600 w-full sm:w-auto"
+            >
+              Refresh
+            </Button>
+            <Button
+              onClick={() => router.push('/dashboard/blog/create')}
+              className="bg-primary-600 hover:bg-primary-700 w-full sm:w-auto"
+            >
+              <PlusIcon className="h-5 w-5 mr-2" />
+              New Post
+            </Button>
+          </div>
         </div>
 
         {/* Search and Filter */}
