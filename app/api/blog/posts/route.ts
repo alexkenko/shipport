@@ -71,9 +71,16 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if user is authenticated and is the authorized user
-    const user = await getCurrentUser()
-    if (!user || user.email !== 'kenkadzealex@gmail.com') {
+    // Check authentication using Supabase directly
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader) {
+      return NextResponse.json({ error: 'No authorization header' }, { status: 401 })
+    }
+
+    const token = authHeader.replace('Bearer ', '')
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+    
+    if (authError || !user || user.email !== 'kenkadzealex@gmail.com') {
       return NextResponse.json({ error: 'Unauthorized. Only authorized users can create blog posts.' }, { status: 401 })
     }
 

@@ -10,6 +10,7 @@ import { BlogCategory } from '@/types'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
+import { supabase } from '@/lib/supabase'
 
 export default function CreateBlogPostPage() {
   const router = useRouter()
@@ -75,10 +76,15 @@ export default function CreateBlogPostPage() {
     try {
       const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
 
+      // Get the current session token
+      const { data: { session } } = await supabase.auth.getSession()
+      const token = session?.access_token
+
       const response = await fetch('/api/blog/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token && { 'Authorization': `Bearer ${token}` }),
         },
         body: JSON.stringify({
           ...formData,
