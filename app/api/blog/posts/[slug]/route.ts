@@ -46,9 +46,14 @@ export async function GET(
       query = query.eq('status', 'published')
     }
 
+    console.log('Blog post API called:', { slug, isEditRequest, authHeader: !!authHeader })
+
     const { data: post, error } = await query.single()
 
+    console.log('Query result:', { post: !!post, error: error?.message, slug })
+
     if (error || !post) {
+      console.log('Blog post not found:', { error: error?.message, slug })
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 })
     }
 
