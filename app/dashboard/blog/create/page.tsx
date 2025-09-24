@@ -125,15 +125,24 @@ export default function CreateBlogPostPage() {
     try {
       const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
 
-      // Get the current session token
+      // Get the current user and their token
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      if (userError || !user) {
+        throw new Error('Not authenticated')
+      }
+
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
+
+      if (!token) {
+        throw new Error('No access token available')
+      }
 
       const response = await fetch('/api/blog/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { 'Authorization': `Bearer ${token}` }),
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...formData,
