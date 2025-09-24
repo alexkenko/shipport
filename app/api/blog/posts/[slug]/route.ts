@@ -30,12 +30,6 @@ export async function GET(
           slug,
           color,
           description
-        ),
-        seo_data:blog_seo_data (
-          id,
-          schema_type,
-          json_ld_data,
-          focus_keyword
         )
       `)
       .eq('slug', slug)
