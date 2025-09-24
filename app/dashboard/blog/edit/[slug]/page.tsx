@@ -51,7 +51,16 @@ export default function EditBlogPostPage() {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`/api/blog/posts/${slug}`)
+      // Get authentication token for edit access
+      const { data: { session } } = await supabase.auth.getSession()
+      const token = session?.access_token
+
+      const headers: HeadersInit = {}
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+
+      const response = await fetch(`/api/blog/posts/${slug}`, { headers })
       if (response.ok) {
         const data = await response.json()
         const post = data.post

@@ -9,8 +9,12 @@ export async function GET(
   try {
     const { slug } = params
 
+    // Check if this is an edit request (has authorization header)
+    const authHeader = request.headers.get('authorization')
+    const isEditRequest = !!authHeader
+
     // Fetch the blog post with relations
-    const { data: post, error } = await supabase
+    let query = supabase
       .from('blog_posts')
       .select(`
         *,
@@ -35,18 +39,26 @@ export async function GET(
         )
       `)
       .eq('slug', slug)
-      .eq('status', 'published')
-      .single()
+
+    // For public access, only show published posts
+    // For edit access, show all posts
+    if (!isEditRequest) {
+      query = query.eq('status', 'published')
+    }
+
+    const { data: post, error } = await query.single()
 
     if (error || !post) {
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 })
     }
 
-    // Increment view count
-    await supabase
-      .from('blog_posts')
-      .update({ view_count: post.view_count + 1 })
-      .eq('id', post.id)
+    // Only increment view count for public access (not edit requests)
+    if (!isEditRequest) {
+      await supabase
+        .from('blog_posts')
+        .update({ view_count: post.view_count + 1 })
+        .eq('id', post.id)
+    }
 
     return NextResponse.json({ post })
   } catch (error) {
