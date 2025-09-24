@@ -83,15 +83,16 @@ export async function GET(request: NextRequest) {
     const to = from + limit - 1
 
     // Get count separately for pagination
-    const { count } = await supabase
+    let countQuery = supabase
       .from('users')
       .select('*', { count: 'exact', head: true })
       .eq('role', 'superintendent')
-      .modify((query) => {
-        if (search) {
-          query.or(`name.ilike.%${search}%,surname.ilike.%${search}%,email.ilike.%${search}%,company.ilike.%${search}%`)
-        }
-      })
+    
+    if (search) {
+      countQuery = countQuery.or(`name.ilike.%${search}%,surname.ilike.%${search}%,email.ilike.%${search}%,company.ilike.%${search}%`)
+    }
+    
+    const { count } = await countQuery
 
     const { data: superintendents, error } = await query
       .range(from, to)
