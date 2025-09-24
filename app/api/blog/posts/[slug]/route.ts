@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { getCurrentUser } from '@/lib/auth'
 
 export async function GET(
   request: NextRequest,
@@ -59,6 +60,12 @@ export async function PUT(
   { params }: { params: { slug: string } }
 ) {
   try {
+    // Check if user is authenticated and is the authorized user
+    const user = await getCurrentUser()
+    if (!user || user.email !== 'kenkadzealex@gmail.com') {
+      return NextResponse.json({ error: 'Unauthorized. Only authorized users can edit blog posts.' }, { status: 401 })
+    }
+
     const { slug } = params
     const body = await request.json()
 
