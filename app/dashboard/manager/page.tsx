@@ -256,24 +256,6 @@ export default function ManagerDashboard() {
                     </div>
                   </div>
 
-                  {/* Job Statistics */}
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-bold text-primary-400 uppercase tracking-wider">Job Statistics</h4>
-                    <div className="grid grid-cols-3 gap-2">
-                      <div className="p-2 rounded-lg bg-gradient-to-r from-green-900/20 to-green-800/10 border border-green-500/30 text-center">
-                        <p className="text-xs text-green-400 uppercase tracking-wide mb-1">Active</p>
-                        <p className="text-sm text-white font-bold">{stats.activeJobs}</p>
-                      </div>
-                      <div className="p-2 rounded-lg bg-gradient-to-r from-blue-900/20 to-blue-800/10 border border-blue-500/30 text-center">
-                        <p className="text-xs text-blue-400 uppercase tracking-wide mb-1">Applications</p>
-                        <p className="text-sm text-white font-bold">{stats.totalApplications}</p>
-                      </div>
-                      <div className="p-2 rounded-lg bg-gradient-to-r from-purple-900/20 to-purple-800/10 border border-purple-500/30 text-center">
-                        <p className="text-xs text-purple-400 uppercase tracking-wide mb-1">Completed</p>
-                        <p className="text-sm text-white font-bold">{stats.completedJobs}</p>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Edit Profile Button */}
                   <div className="pt-4 border-t border-dark-600/50">
