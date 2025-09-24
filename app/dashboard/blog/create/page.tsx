@@ -28,6 +28,7 @@ export default function CreateBlogPostPage() {
     tags: '',
     status: 'draft' as 'draft' | 'published'
   })
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
 
   useEffect(() => {
     fetchCategories()
@@ -66,6 +67,54 @@ export default function CreateBlogPostPage() {
         ...prev,
         [name]: value
       }))
+    }
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please select an image file')
+      return
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image size must be less than 5MB')
+      return
+    }
+
+    setIsUploadingImage(true)
+    try {
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+      const filePath = `blog-images/${fileName}`
+
+      const { data, error } = await supabase.storage
+        .from('blog-images')
+        .upload(filePath, file)
+
+      if (error) {
+        throw error
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(filePath)
+
+      setFormData(prev => ({
+        ...prev,
+        featured_image_url: publicUrl
+      }))
+
+      toast.success('Image uploaded successfully!')
+    } catch (error: any) {
+      console.error('Error uploading image:', error)
+      toast.error('Failed to upload image. Please try again.')
+    } finally {
+      setIsUploadingImage(false)
     }
   }
 
@@ -189,13 +238,63 @@ export default function CreateBlogPostPage() {
               <CardTitle className="text-white">Media and Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Input
-                label="Featured Image URL"
-                name="featured_image_url"
-                value={formData.featured_image_url}
-                onChange={handleInputChange}
-                placeholder="https://example.com/image.jpg"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Featured Image</label>
+                
+                {/* Image Preview */}
+                {formData.featured_image_url && (
+                  <div className="mb-4">
+                    <img
+                      src={formData.featured_image_url}
+                      alt="Featured image preview"
+                      className="w-full h-48 object-cover rounded-lg border border-dark-600"
+                    />
+                  </div>
+                )}
+
+                {/* Upload Button */}
+                <div className="space-y-3">
+                  <input
+                    type="file"
+                    id="image-upload"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    disabled={isUploadingImage}
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 cursor-pointer transition-colors ${
+                      isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {isUploadingImage ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        Upload Image
+                      </>
+                    )}
+                  </label>
+                  
+                  <p className="text-xs text-gray-400">
+                    Or paste an image URL below
+                  </p>
+                  
+                  <Input
+                    name="featured_image_url"
+                    value={formData.featured_image_url}
+                    onChange={handleInputChange}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
