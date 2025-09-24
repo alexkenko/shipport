@@ -17,6 +17,7 @@ export interface AuthUser {
   twitter?: string
   facebook?: string
   created_at: string
+  email_verified?: boolean
 }
 
 export async function signUp(email: string, password: string, userData: {
@@ -184,7 +185,11 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     .single()
 
   if (error) throw error
-  return userData
+  
+  return {
+    ...userData,
+    email_verified: user.email_confirmed_at !== null
+  }
 }
 
 export async function updateUserProfile(userId: string, updates: Partial<User>) {
