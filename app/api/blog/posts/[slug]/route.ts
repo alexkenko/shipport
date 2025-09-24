@@ -71,9 +71,28 @@ export async function PUT(
   { params }: { params: { slug: string } }
 ) {
   try {
-    // Check if user is authenticated and is the authorized user
-    const user = await getCurrentUser()
-    if (!user || user.email !== 'kenkadzealex@gmail.com') {
+    // Check authentication using Supabase directly
+    const authHeader = request.headers.get('authorization')
+    console.log('🔐 Blog edit API - Auth header received:', authHeader ? 'Present' : 'Missing')
+    
+    if (!authHeader) {
+      console.log('❌ Blog edit API - No authorization header found')
+      return NextResponse.json({ error: 'No authorization header' }, { status: 401 })
+    }
+
+    const token = authHeader.replace('Bearer ', '')
+    console.log('🔑 Blog edit API - Token extracted:', token ? 'Present' : 'Missing')
+    
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+    console.log('👤 Blog edit API - User auth result:', { user: user?.email, error: authError?.message })
+    
+    if (authError || !user || user.email !== 'kenkadzealex@gmail.com') {
+      console.log('🚫 Blog edit API - Authorization failed:', { 
+        authError: authError?.message, 
+        userEmail: user?.email,
+        hasUser: !!user,
+        emailMatch: user?.email === 'kenkadzealex@gmail.com'
+      })
       return NextResponse.json({ error: 'Unauthorized. Only authorized users can edit blog posts.' }, { status: 401 })
     }
 
