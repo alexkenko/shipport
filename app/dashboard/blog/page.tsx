@@ -37,6 +37,8 @@ export default function BlogManagementPage() {
       const postsRes = await fetch('/api/blog/posts?status=published&limit=50')
       const postsData = await postsRes.json()
       console.log('Posts data:', postsData)
+      console.log('Posts array:', postsData.posts)
+      console.log('Posts count:', postsData.posts?.length || 0)
       setPosts(postsData.posts || [])
     } catch (error) {
       console.error('Error fetching blog data:', error)
