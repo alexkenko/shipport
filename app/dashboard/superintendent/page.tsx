@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import { BlogCarousel } from '@/components/ui/BlogCarousel'
 
 export default function SuperintendentDashboard() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -315,6 +316,15 @@ export default function SuperintendentDashboard() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Blog Carousel */}
+        <div className="mt-8">
+          <BlogCarousel 
+            title="Latest Marine Industry Insights" 
+            maxPosts={3}
+            showViewAll={true}
+          />
+        </div>
       </div>
     </DashboardLayout>
   )
