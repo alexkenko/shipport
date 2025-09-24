@@ -92,7 +92,7 @@ export default function CreateBlogPostPage() {
     try {
       const fileExt = file.name.split('.').pop()
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
-      const filePath = `blog-images/${fileName}`
+      const filePath = `${fileName}`
 
       console.log('Uploading file:', { fileName, filePath, fileType: file.type })
 
