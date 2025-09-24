@@ -16,10 +16,20 @@ export async function GET(request: NextRequest) {
     console.log('Token extracted:', token ? 'Present' : 'Missing')
     
     const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-    console.log('User auth result:', { user: user?.email, error: authError?.message })
+    console.log('Admin API - User auth result:', { user: user?.email, error: authError?.message })
+    console.log('Admin API - Email comparison:', { 
+      userEmail: user?.email, 
+      expectedEmail: 'kenkadzealex@gmail.com',
+      matches: user?.email === 'kenkadzealex@gmail.com'
+    })
     
     if (authError || !user || user.email !== 'kenkadzealex@gmail.com') {
-      console.log('Authorization failed:', { authError: authError?.message, userEmail: user?.email })
+      console.log('Admin API - Authorization failed:', { 
+        authError: authError?.message, 
+        userEmail: user?.email,
+        hasUser: !!user,
+        emailMatch: user?.email === 'kenkadzealex@gmail.com'
+      })
       return NextResponse.json({ error: 'Unauthorized. Only admin users can access this endpoint.' }, { status: 401 })
     }
 
@@ -72,9 +82,19 @@ export async function GET(request: NextRequest) {
     const from = (page - 1) * limit
     const to = from + limit - 1
 
-    const { data: superintendents, error, count } = await query
+    // Get count separately for pagination
+    const { count } = await supabase
+      .from('users')
+      .select('*', { count: 'exact', head: true })
+      .eq('role', 'superintendent')
+      .modify((query) => {
+        if (search) {
+          query.or(`name.ilike.%${search}%,surname.ilike.%${search}%,email.ilike.%${search}%,company.ilike.%${search}%`)
+        }
+      })
+
+    const { data: superintendents, error } = await query
       .range(from, to)
-      .limit(limit)
 
     if (error) {
       console.error('Error fetching superintendents:', error)
