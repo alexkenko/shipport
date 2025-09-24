@@ -317,13 +317,19 @@ export default function SuperintendentDashboard() {
           </CardContent>
         </Card>
 
-        {/* Blog Carousel */}
-        <div className="mt-8">
-          <BlogCarousel 
-            title="Latest Marine Industry Insights" 
-            maxPosts={3}
-            showViewAll={true}
-          />
+        {/* Main Dashboard Grid - Profile and Blog Side by Side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+          {/* Blog Carousel */}
+          <div className="flex flex-col">
+            <BlogCarousel 
+              title="Latest Marine Industry Insights" 
+              maxPosts={3}
+              showViewAll={true}
+            />
+          </div>
+          
+          {/* Empty space for balance or future content */}
+          <div></div>
         </div>
       </div>
     </DashboardLayout>
