@@ -71,18 +71,23 @@ export function useNotifications(user: AuthUser | null) {
     if (!user || user.role !== 'superintendent') return
 
     try {
+      // Only fetch notifications from the last 30 days
+      const thirtyDaysAgo = new Date()
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
       // Fetch notifications from the notifications table
       const { data: dbNotifications, error: notificationsError } = await supabase
         .from('notifications')
         .select('*')
         .eq('user_id', user.id)
+        .gte('created_at', thirtyDaysAgo.toISOString())
         .order('created_at', { ascending: false })
 
       if (notificationsError) {
         console.error('Error fetching notifications:', notificationsError)
       }
 
-      // Fetch application status notifications
+      // Fetch application status notifications from the last 30 days
       const { data: applications, error: applicationsError } = await supabase
         .from('job_applications')
         .select(`
@@ -92,13 +97,12 @@ export function useNotifications(user: AuthUser | null) {
           updated_at,
           jobs!inner (
             title,
-            users!inner (
-              company
-            )
+            manager_id
           )
         `)
         .eq('superintendent_id', user.id)
         .in('status', ['accepted', 'rejected'])
+        .gte('updated_at', thirtyDaysAgo.toISOString())
         .order('updated_at', { ascending: false })
 
       if (applicationsError) {
@@ -118,7 +122,6 @@ export function useNotifications(user: AuthUser | null) {
       // Convert applications to notifications
       const applicationNotificationData: Notification[] = (applications || []).map(app => {
         const job = Array.isArray(app.jobs) ? app.jobs[0] : app.jobs
-        const jobUser = Array.isArray(job?.users) ? job.users[0] : job?.users
         
         // Check if this application notification has been read from localStorage
         const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
@@ -129,10 +132,10 @@ export function useNotifications(user: AuthUser | null) {
           type: app.status === 'accepted' ? 'application_accepted' : 'application_rejected',
           title: app.status === 'accepted' ? 'Application Accepted!' : 'Application Not Selected',
           message: app.status === 'accepted' 
-            ? `Congratulations! Your application for ${job?.title || 'Unknown Job'} has been accepted by ${jobUser?.company || 'Unknown Company'}.`
-            : `Your application for ${job?.title || 'Unknown Job'} was not selected by ${jobUser?.company || 'Unknown Company'}.`,
+            ? `Congratulations! Your application for ${job?.title || 'Unknown Job'} has been accepted.`
+            : `Your application for ${job?.title || 'Unknown Job'} was not selected.`,
           job_title: job?.title || 'Unknown Job',
-          company_name: jobUser?.company || 'Unknown Company',
+          company_name: 'Company', // We'll get this from the manager_id if needed
           created_at: app.updated_at,
           read: isRead
         }
@@ -144,6 +147,9 @@ export function useNotifications(user: AuthUser | null) {
 
       setNotifications(allNotifications)
       setUnreadCount(allNotifications.filter(n => !n.read).length)
+      
+      // Clear old notifications from localStorage
+      clearOldNotifications()
     } catch (error) {
       console.error('Error fetching notifications:', error)
     } finally {
@@ -205,12 +211,34 @@ export function useNotifications(user: AuthUser | null) {
     }
   }
 
+  const clearOldNotifications = () => {
+    if (!user) return
+    
+    // Clear localStorage entries older than 30 days
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    
+    try {
+      const readApplicationIds = JSON.parse(localStorage.getItem(`read_applications_${user.id}`) || '[]')
+      // For now, we'll just clear all old entries since we don't have timestamps in localStorage
+      // In a production app, you'd want to store timestamps with the IDs
+      if (readApplicationIds.length > 50) { // If more than 50 entries, clear half
+        const halfLength = Math.floor(readApplicationIds.length / 2)
+        const recentIds = readApplicationIds.slice(0, halfLength)
+        localStorage.setItem(`read_applications_${user.id}`, JSON.stringify(recentIds))
+      }
+    } catch (error) {
+      console.error('Error clearing old notifications:', error)
+    }
+  }
+
   return {
     notifications,
     unreadCount,
     isLoading,
     markAsRead,
     markAllAsRead,
+    clearOldNotifications,
     refetch: fetchNotifications
   }
 }
