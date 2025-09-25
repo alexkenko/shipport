@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { BlogPost, BlogCategory } from '@/types'
 import { CalendarIcon, ClockIcon, UserIcon, TagIcon, ArrowLeftIcon, ShareIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getCurrentUser } from '@/lib/auth'
 
 export default function BlogPostPage() {
   const params = useParams()
@@ -17,12 +19,23 @@ export default function BlogPostPage() {
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
     if (params.slug) {
       fetchPost(params.slug as string)
     }
+    checkUser()
   }, [params.slug])
+
+  const checkUser = async () => {
+    try {
+      const currentUser = await getCurrentUser()
+      setUser(currentUser)
+    } catch (error) {
+      console.log('No user logged in')
+    }
+  }
 
   const fetchPost = async (slug: string) => {
     try {
@@ -93,22 +106,34 @@ export default function BlogPostPage() {
   }
 
   if (isLoading) {
+    const LoadingContent = () => (
+      <div className="max-w-4xl mx-auto">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-700 rounded mb-4"></div>
+          <div className="h-4 bg-gray-700 rounded w-3/4 mb-8"></div>
+          <div className="h-64 bg-gray-700 rounded mb-8"></div>
+          <div className="space-y-4">
+            <div className="h-4 bg-gray-700 rounded"></div>
+            <div className="h-4 bg-gray-700 rounded"></div>
+            <div className="h-4 bg-gray-700 rounded w-5/6"></div>
+          </div>
+        </div>
+      </div>
+    )
+
+    if (user) {
+      return (
+        <DashboardLayout>
+          <LoadingContent />
+        </DashboardLayout>
+      )
+    }
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
         <Header />
         <main className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-700 rounded mb-4"></div>
-              <div className="h-4 bg-gray-700 rounded w-3/4 mb-8"></div>
-              <div className="h-64 bg-gray-700 rounded mb-8"></div>
-              <div className="space-y-4">
-                <div className="h-4 bg-gray-700 rounded"></div>
-                <div className="h-4 bg-gray-700 rounded"></div>
-                <div className="h-4 bg-gray-700 rounded w-5/6"></div>
-              </div>
-            </div>
-          </div>
+          <LoadingContent />
         </main>
         <Footer />
       </div>
@@ -116,36 +141,45 @@ export default function BlogPostPage() {
   }
 
   if (error || !post) {
+    const ErrorContent = () => (
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
+        <p className="text-gray-300 mb-8">{error || 'The blog post you are looking for does not exist.'}</p>
+        <Link href="/blog">
+          <Button>
+            <ArrowLeftIcon className="h-4 w-4 mr-2" />
+            Back to Blog
+          </Button>
+        </Link>
+      </div>
+    )
+
+    if (user) {
+      return (
+        <DashboardLayout>
+          <ErrorContent />
+        </DashboardLayout>
+      )
+    }
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
         <Header />
         <main className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
-            <p className="text-gray-300 mb-8">{error || 'The blog post you are looking for does not exist.'}</p>
-            <Link href="/blog">
-              <Button>
-                <ArrowLeftIcon className="h-4 w-4 mr-2" />
-                Back to Blog
-              </Button>
-            </Link>
-          </div>
+          <ErrorContent />
         </main>
         <Footer />
       </div>
     )
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-      <Header />
-      <main className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <Link href="/blog" className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
-            <ArrowLeftIcon className="h-4 w-4 mr-2" />
-            Back to Blog
-          </Link>
+  const BlogContent = () => (
+    <div className="max-w-4xl mx-auto">
+      {/* Back Button */}
+      <Link href="/blog" className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
+        <ArrowLeftIcon className="h-4 w-4 mr-2" />
+        Back to Blog
+      </Link>
 
           {/* Article Header */}
           <article className="mb-12">
@@ -316,7 +350,22 @@ export default function BlogPostPage() {
               </div>
             </section>
           )}
-        </div>
+    </div>
+  )
+
+  if (user) {
+    return (
+      <DashboardLayout>
+        <BlogContent />
+      </DashboardLayout>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
+      <Header />
+      <main className="container mx-auto px-4 py-16">
+        <BlogContent />
       </main>
       <Footer />
     </div>
