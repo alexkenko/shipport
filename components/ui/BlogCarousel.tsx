@@ -22,10 +22,22 @@ export function BlogCarousel({
   const [categories, setCategories] = useState<BlogCategory[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
   useEffect(() => {
     fetchBlogData()
   }, [])
+
+  // Auto-rotation effect
+  useEffect(() => {
+    if (!isAutoPlaying || posts.length <= 3) return
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % Math.max(1, posts.length - 2))
+    }, 4000) // Rotate every 4 seconds
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, posts.length])
 
   const fetchBlogData = async () => {
     setIsLoading(true)
@@ -56,6 +68,18 @@ export function BlogCarousel({
 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + Math.max(1, posts.length - 2)) % Math.max(1, posts.length - 2))
+  }
+
+  const handleMouseEnter = () => {
+    setIsAutoPlaying(false)
+  }
+
+  const handleMouseLeave = () => {
+    setIsAutoPlaying(true)
+  }
+
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying)
   }
 
   if (isLoading) {
@@ -94,16 +118,31 @@ export function BlogCarousel({
   }
 
   return (
-    <div className="bg-dark-800/50 backdrop-blur-sm rounded-2xl p-6">
+    <div 
+      className="bg-dark-800/50 backdrop-blur-sm rounded-2xl p-6"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-white">{title}</h2>
-        {showViewAll && (
-          <Link href="/blog">
-            <Button variant="outline" size="sm">
-              View All
-            </Button>
-          </Link>
-        )}
+        <div className="flex items-center space-x-3">
+          {posts.length > 3 && (
+            <button
+              onClick={toggleAutoPlay}
+              className="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 text-white transition-colors"
+              title={isAutoPlaying ? 'Pause auto-rotation' : 'Resume auto-rotation'}
+            >
+              {isAutoPlaying ? '⏸️' : '▶️'}
+            </button>
+          )}
+          {showViewAll && (
+            <Link href="/blog">
+              <Button variant="outline" size="sm">
+                View All
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
 
       <div className="relative">
@@ -126,9 +165,17 @@ export function BlogCarousel({
         )}
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.slice(currentIndex, currentIndex + 3).map((post) => (
-            <Card key={post.id} className="bg-dark-700 hover:bg-dark-600 transition-all duration-300 group cursor-pointer">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
+          {posts.slice(currentIndex, currentIndex + 3).map((post, index) => (
+            <Card 
+              key={post.id} 
+              className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform ${
+                index === 0 ? 'animate-fade-in' : ''
+              }`}
+              style={{
+                animationDelay: `${index * 100}ms`
+              }}
+            >
               <Link href={`/blog/${post.slug}`}>
                 <div className="overflow-hidden rounded-t-lg">
                   {post.featured_image_url ? (
