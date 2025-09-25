@@ -139,20 +139,33 @@ export default function CreateBlogPostPage() {
     try {
       const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
 
-      // Get the current user and their token
+      // Get the current user and their token with better error handling
       const { data: { user }, error: userError } = await supabase.auth.getUser()
-      console.log('Current user:', user?.email, 'Error:', userError?.message)
+      console.log('🔐 Current user:', user?.email, 'Error:', userError?.message)
       
       if (userError || !user) {
-        throw new Error('Not authenticated')
+        console.error('❌ User authentication failed:', userError)
+        throw new Error('Not authenticated. Please log in again.')
       }
 
-      const { data: { session } } = await supabase.auth.getSession()
-      const token = session?.access_token
-      console.log('Session token:', token ? 'Present' : 'Missing')
+      // Try to refresh the session first
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      console.log('🔄 Session refresh result:', { hasSession: !!session, error: sessionError?.message })
+      
+      let token = session?.access_token
+      
+      // If no session, try to refresh
+      if (!token) {
+        console.log('🔄 No session found, attempting to refresh...')
+        const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession()
+        console.log('🔄 Refresh result:', { hasSession: !!refreshedSession, error: refreshError?.message })
+        token = refreshedSession?.access_token
+      }
+
+      console.log('🔑 Final token status:', token ? 'Present' : 'Missing')
 
       if (!token) {
-        throw new Error('No access token available')
+        throw new Error('No access token available. Please log in again.')
       }
 
       const response = await fetch('/api/blog/posts', {
@@ -290,26 +303,26 @@ export default function CreateBlogPostPage() {
                   />
                   <label
                     htmlFor="image-upload"
-                    className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 cursor-pointer transition-colors ${
+                    className={`w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 cursor-pointer transition-colors ${
                       isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
                     {isUploadingImage ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                         Uploading...
                       </>
                     ) : (
                       <>
-                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
-                        Upload Image
+                        📷 Upload Image
                       </>
                     )}
                   </label>
                   
-                  <p className="text-xs text-gray-400">
+                  <p className="text-sm text-gray-400 text-center sm:text-left">
                     Or paste an image URL below
                   </p>
                   

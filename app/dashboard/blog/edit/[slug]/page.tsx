@@ -177,17 +177,33 @@ export default function EditBlogPostPage() {
     try {
       const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
 
-      // Get the current user and their token
+      // Get the current user and their token with better error handling
       const { data: { user }, error: userError } = await supabase.auth.getUser()
+      console.log('🔐 Edit - Current user:', user?.email, 'Error:', userError?.message)
+      
       if (userError || !user) {
-        throw new Error('Not authenticated')
+        console.error('❌ Edit - User authentication failed:', userError)
+        throw new Error('Not authenticated. Please log in again.')
       }
 
-      const { data: { session } } = await supabase.auth.getSession()
-      const token = session?.access_token
+      // Try to refresh the session first
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      console.log('🔄 Edit - Session refresh result:', { hasSession: !!session, error: sessionError?.message })
+      
+      let token = session?.access_token
+      
+      // If no session, try to refresh
+      if (!token) {
+        console.log('🔄 Edit - No session found, attempting to refresh...')
+        const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession()
+        console.log('🔄 Edit - Refresh result:', { hasSession: !!refreshedSession, error: refreshError?.message })
+        token = refreshedSession?.access_token
+      }
+
+      console.log('🔑 Edit - Final token status:', token ? 'Present' : 'Missing')
 
       if (!token) {
-        throw new Error('No access token available')
+        throw new Error('No access token available. Please log in again.')
       }
 
       const response = await fetch(`/api/blog/posts/${slug}`, {
