@@ -33,7 +33,7 @@ interface HeaderProps {
   hideNavigation?: boolean
 }
 
-export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigation = false }: HeaderProps) {
+export function Header({ user = null, onNotificationClick, unreadCount = 0, hideNavigation = false }: HeaderProps) {
   const router = useRouter()
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -89,6 +89,15 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
           ] : []),
         ])
     : []
+
+  // Debug logging
+  console.log('Header render:', { 
+    hasUser: !!user, 
+    userEmail: user?.email, 
+    userRole: user?.role, 
+    navigationCount: navigation.length,
+    navigationItems: navigation.map(n => n.name)
+  })
 
   return (
     <header className="bg-dark-800 border-b border-dark-700 sticky top-0 z-50">
@@ -146,6 +155,18 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                         ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25' 
                         : 'bg-gradient-to-r from-purple-700/30 to-purple-600/20 text-purple-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500/30 hover:to-purple-600/20 border border-purple-600/30 hover:border-purple-500/50 hover:shadow-purple-500/20'
                     }`
+                  case 'indigo':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-lg shadow-indigo-500/25' 
+                        : 'bg-gradient-to-r from-indigo-700/30 to-indigo-600/20 text-indigo-200 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500/30 hover:to-indigo-600/20 border border-indigo-600/30 hover:border-indigo-500/50 hover:shadow-indigo-500/20'
+                    }`
+                  case 'teal':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg shadow-teal-500/25' 
+                        : 'bg-gradient-to-r from-teal-700/30 to-teal-600/20 text-teal-200 hover:text-white hover:bg-gradient-to-r hover:from-teal-500/30 hover:to-teal-600/20 border border-teal-600/30 hover:border-teal-500/50 hover:shadow-teal-500/20'
+                    }`
                   default:
                     return `${baseClasses} ${
                       isActive 
@@ -163,6 +184,8 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   case 'yellow': return 'text-yellow-400 group-hover:text-white'
                   case 'red': return 'text-red-400 group-hover:text-white'
                   case 'purple': return 'text-purple-400 group-hover:text-white'
+                  case 'indigo': return 'text-indigo-400 group-hover:text-white'
+                  case 'teal': return 'text-teal-400 group-hover:text-white'
                   default: return 'text-gray-400 group-hover:text-white'
                 }
               }
@@ -361,6 +384,18 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                         ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25 border border-purple-500/50' 
                         : 'bg-gradient-to-r from-purple-700/30 to-purple-600/20 text-purple-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500/30 hover:to-purple-600/20 border border-purple-600/30 hover:border-purple-500/50'
                     }`
+                  case 'indigo':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-lg shadow-indigo-500/25 border border-indigo-500/50' 
+                        : 'bg-gradient-to-r from-indigo-700/30 to-indigo-600/20 text-indigo-200 hover:text-white hover:bg-gradient-to-r hover:from-indigo-500/30 hover:to-indigo-600/20 border border-indigo-600/30 hover:border-indigo-500/50'
+                    }`
+                  case 'teal':
+                    return `${baseClasses} ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg shadow-teal-500/25 border border-teal-500/50' 
+                        : 'bg-gradient-to-r from-teal-700/30 to-teal-600/20 text-teal-200 hover:text-white hover:bg-gradient-to-r hover:from-teal-500/30 hover:to-teal-600/20 border border-teal-600/30 hover:border-teal-500/50'
+                    }`
                   default:
                     return `${baseClasses} ${
                       isActive 
@@ -378,6 +413,8 @@ export function Header({ user, onNotificationClick, unreadCount = 0, hideNavigat
                   case 'yellow': return 'text-yellow-400 group-hover:text-white'
                   case 'red': return 'text-red-400 group-hover:text-white'
                   case 'purple': return 'text-purple-400 group-hover:text-white'
+                  case 'indigo': return 'text-indigo-400 group-hover:text-white'
+                  case 'teal': return 'text-teal-400 group-hover:text-white'
                   default: return 'text-gray-400 group-hover:text-white'
                 }
               }
