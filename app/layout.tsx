@@ -4,6 +4,7 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { Footer } from '@/components/layout/Footer'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -108,6 +109,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className={`${inter.className} bg-dark-900 text-white min-h-screen`}>
+        <GoogleAnalytics />
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">
             {children}

@@ -10,6 +10,7 @@
     "setup-db": "node scripts/setup-database.js",
     "monitor": "node scripts/monitor-deployment.js",
     "clear-cache": "node scripts/clear-cache.js",
+    "test-ga4": "node scripts/test-ga4.js",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

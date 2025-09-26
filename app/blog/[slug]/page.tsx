@@ -12,6 +12,7 @@ import { CalendarIcon, ClockIcon, UserIcon, TagIcon, ArrowLeftIcon, ShareIcon } 
 import Link from 'next/link'
 import Image from 'next/image'
 import { getCurrentUser } from '@/lib/auth'
+import { trackBlogPostView } from '@/lib/analytics'
 
 export default function BlogPostPage() {
   const params = useParams()
@@ -53,6 +54,11 @@ export default function BlogPostPage() {
 
       const data = await response.json()
       setPost(data.post)
+      
+      // Track blog post view
+      if (data.post) {
+        trackBlogPostView(data.post.title, data.post.slug)
+      }
       
       // Fetch related posts
       if (data.post.category_id) {

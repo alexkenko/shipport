@@ -10,6 +10,7 @@ import { BlogPost, BlogCategory } from '@/types'
 import { CalendarIcon, ClockIcon, UserIcon, TagIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Image from 'next/image'
+import { trackBlogPostView, trackBlogSearch, trackBlogCategoryFilter } from '@/lib/analytics'
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -79,12 +80,22 @@ export default function BlogPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    if (searchTerm) {
+      trackBlogSearch(searchTerm)
+    }
     setCurrentPage(1)
     fetchPosts()
   }
 
   const handleCategoryFilter = (categorySlug: string) => {
-    setSelectedCategory(categorySlug === selectedCategory ? '' : categorySlug)
+    const newCategory = categorySlug === selectedCategory ? '' : categorySlug
+    if (newCategory) {
+      const category = categories.find(cat => cat.slug === newCategory)
+      if (category) {
+        trackBlogCategoryFilter(category.name)
+      }
+    }
+    setSelectedCategory(newCategory)
     setCurrentPage(1)
   }
 
@@ -239,7 +250,10 @@ export default function BlogPage() {
                         </div>
                       )}
 
-                      <Link href={`/blog/${post.slug}`}>
+                      <Link 
+                        href={`/blog/${post.slug}`}
+                        onClick={() => trackBlogPostView(post.title, post.slug)}
+                      >
                         <Button className="w-full">
                           Read More
                         </Button>
