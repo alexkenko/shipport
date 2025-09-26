@@ -15,7 +15,7 @@ export default function GoogleAnalytics() {
 
   useEffect(() => {
     // Track page views on route changes
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '')
       trackPageView(url)
     }

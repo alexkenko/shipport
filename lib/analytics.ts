@@ -33,7 +33,7 @@ export const initGA = () => {
 
 // Track page views
 export const trackPageView = (url: string, title?: string) => {
-  if (typeof window === 'undefined' || !window.gtag) return
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
 
   window.gtag('config', GA4_MEASUREMENT_ID, {
     page_path: url,
@@ -43,7 +43,7 @@ export const trackPageView = (url: string, title?: string) => {
 
 // Track custom events
 export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
-  if (typeof window === 'undefined' || !window.gtag) return
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
 
   window.gtag('event', action, {
     event_category: category,
@@ -56,7 +56,7 @@ export const trackEvent = (action: string, category: string, label?: string, val
 export const trackBlogPostView = (postTitle: string, postSlug: string) => {
   trackEvent('blog_post_view', 'Blog', postTitle)
   
-  if (typeof window !== 'undefined' && window.gtag) {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
     window.gtag('event', 'blog_post_view', {
       event_category: 'Blog',
       event_label: postTitle,
