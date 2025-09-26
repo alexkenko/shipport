@@ -160,5 +160,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching blog posts for sitemap:', error)
   }
 
-  return [...staticPages, ...blogPosts]
+  // Fetch public superintendent profiles dynamically
+  let profilePages: any[] = []
+  try {
+    const { data: profiles } = await supabase
+      .from('users')
+      .select('id, updated_at')
+      .eq('role', 'superintendent')
+      .eq('is_public', true) // Only include public profiles
+      .order('updated_at', { ascending: false })
+
+    profilePages = profiles?.map(profile => ({
+      url: `${baseUrl}/profile/superintendent/${profile.id}`,
+      lastModified: new Date(profile.updated_at),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })) || []
+  } catch (error) {
+    console.error('Error fetching profiles for sitemap:', error)
+  }
+
+  return [...staticPages, ...blogPosts, ...profilePages]
 }

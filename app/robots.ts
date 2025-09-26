@@ -7,7 +7,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        allow: [
+          '/',
+          '/profile/',  // Allow public profile pages
+        ],
         disallow: [
           '/dashboard/',
           '/api/',

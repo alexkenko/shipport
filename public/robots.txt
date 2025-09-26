@@ -20,3 +20,4 @@ Allow: /services
 Allow: /about
 Allow: /contact
 Allow: /blog
+Allow: /profile/
