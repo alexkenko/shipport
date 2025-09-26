@@ -36,13 +36,24 @@ export default function BlogPage() {
       if (selectedCategory) params.append('category', selectedCategory)
       if (searchTerm) params.append('search', searchTerm)
 
-      const response = await fetch(`/api/blog/posts?${params}`)
+      const response = await fetch(`/api/blog/posts?${params}`, {
+        cache: 'no-store', // Disable caching for fresh data
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
       
       setPosts(data.posts || [])
       setTotalPages(data.pagination?.pages || 1)
     } catch (error) {
       console.error('Error fetching posts:', error)
+      setPosts([]) // Clear posts on error
     } finally {
       setIsLoading(false)
     }
@@ -86,10 +97,21 @@ export default function BlogPage() {
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Maritime Blog
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-4">
             Stay updated with the latest insights, industry news, and expert advice 
             from marine superintendents and maritime professionals.
           </p>
+          <Button
+            onClick={() => {
+              setCurrentPage(1)
+              fetchPosts()
+            }}
+            variant="outline"
+            size="sm"
+            className="text-gray-300 border-gray-600 hover:bg-gray-700"
+          >
+            Refresh Posts
+          </Button>
         </div>
 
         {/* Search and Filters */}

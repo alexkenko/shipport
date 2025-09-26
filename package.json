@@ -9,6 +9,7 @@
     "lint": "next lint",
     "setup-db": "node scripts/setup-database.js",
     "monitor": "node scripts/monitor-deployment.js",
+    "clear-cache": "node scripts/clear-cache.js",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
