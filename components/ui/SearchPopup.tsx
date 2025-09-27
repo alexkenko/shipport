@@ -51,7 +51,7 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
           {/* Company Name */}
           <div className="bg-gradient-to-r from-yellow-600 to-yellow-700 rounded-lg p-4">
             <h3 className="text-xl font-semibold text-white">
-              Pontus Maritime Services
+              www.shipinport.com
             </h3>
           </div>
 

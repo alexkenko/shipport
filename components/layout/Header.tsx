@@ -88,7 +88,13 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
             { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
           ] : []),
         ])
-    : []
+    : [
+        { name: 'Home', href: '/', icon: HomeIcon, color: 'blue' },
+        { name: 'About', href: '/about', icon: UserGroupIcon, color: 'green' },
+        { name: 'Services', href: '/services', icon: BriefcaseIcon, color: 'yellow' },
+        { name: 'Blog', href: '/blog', icon: DocumentTextIcon, color: 'purple' },
+        { name: 'Contact', href: '/contact', icon: UserGroupIcon, color: 'red' },
+      ]
 
   // Debug logging
   console.log('Header render:', { 
@@ -116,8 +122,9 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
               </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-2">
-            {navigation.map((item, index) => {
+          {!hideNavigation && navigation.length > 0 && (
+            <nav className="hidden md:flex space-x-2">
+              {navigation.map((item, index) => {
               // Define color schemes for each navigation item
               const getColorClasses = (color: string, isActive: boolean) => {
                 const baseClasses = 'relative px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 group flex items-center space-x-1.5 hover:scale-105 hover:shadow-lg'
@@ -190,7 +197,7 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
                 }
               }
 
-              const isActive = index === 0 // Dashboard is always active
+              const isActive = user ? index === 0 : false // Dashboard is always active for authenticated users
               
               return (
                 <Link
@@ -221,12 +228,13 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
                 </Link>
               )
             })}
-          </nav>
+            </nav>
+          )}
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             {/* Mobile menu button */}
-            {user && navigation.length > 0 && (
+            {navigation.length > 0 && (
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -283,15 +291,21 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
                     onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                     className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
                   >
-                    {user.photo_url ? (
-                      <img
-                        src={user.photo_url}
-                        alt={user.name}
-                        className="h-8 w-8 rounded-full object-cover"
-                      />
-                    ) : (
-                      <UserCircleIcon className="h-8 w-8" />
-                    )}
+                    <div className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center bg-gray-700">
+                      {user.photo_url ? (
+                        <img
+                          src={user.photo_url}
+                          alt={user.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            // Hide the image and show the fallback icon if image fails to load
+                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                          }}
+                        />
+                      ) : null}
+                      <UserCircleIcon className={`h-8 w-8 text-gray-400 ${user.photo_url ? 'hidden' : ''}`} />
+                    </div>
                     <span className="hidden md:block text-sm font-medium">
                       {user.name} {user.surname}
                     </span>
@@ -345,7 +359,7 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
       </div>
 
       {/* Mobile Navigation */}
-      {user && navigation.length > 0 && isMobileMenuOpen && (
+      {navigation.length > 0 && isMobileMenuOpen && (
         <div className="md:hidden bg-dark-800 border-t border-dark-700 relative z-50">
           <div className="px-4 py-2 space-y-1">
             {navigation.map((item, index) => {
@@ -419,7 +433,7 @@ export function Header({ user = null, onNotificationClick, unreadCount = 0, hide
                 }
               }
 
-              const isActive = index === 0 // Dashboard is always active
+              const isActive = user ? index === 0 : false // Dashboard is always active for authenticated users
               
               return (
                 <Link

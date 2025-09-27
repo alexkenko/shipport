@@ -333,15 +333,21 @@ export default function SearchSuperintendentsPage() {
                 <Card key={superintendent.id} variant="elevated">
                   <CardHeader>
                     <div className="flex items-start space-x-4">
-                      {superintendent.users.photo_url ? (
-                        <img
-                          src={superintendent.users.photo_url}
-                          alt={`${superintendent.users.name} ${superintendent.users.surname}`}
-                          className="h-16 w-16 rounded-full object-cover"
-                        />
-                      ) : (
-                        <UserCircleIcon className="h-16 w-16 text-gray-400" />
-                      )}
+                      <div className="h-16 w-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-700">
+                        {superintendent.users.photo_url ? (
+                          <img
+                            src={superintendent.users.photo_url}
+                            alt={`${superintendent.users.name} ${superintendent.users.surname}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // Hide the image and show the fallback icon if image fails to load
+                              e.currentTarget.style.display = 'none';
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        <UserCircleIcon className={`h-16 w-16 text-gray-400 ${superintendent.users.photo_url ? 'hidden' : ''}`} />
+                      </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <CardTitle className="text-lg">

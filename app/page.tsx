@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { Header } from '@/components/layout/Header'
+import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 
 export const metadata: Metadata = {
   title: 'Marine Superintendent; Marine Consultancy, Superintendancy | #1 Professional Marine Services Platform',
@@ -78,7 +78,7 @@ export default function HomePage() {
       />
       
       {/* Header */}
-      <Header />
+      <HeaderWrapper />
       
       {/* Hero Section */}
       <section className="relative overflow-hidden">

@@ -11,6 +11,7 @@ import { CalendarIcon, ClockIcon, UserIcon, TagIcon, MagnifyingGlassIcon } from 
 import Link from 'next/link'
 import Image from 'next/image'
 import { trackBlogPostView, trackBlogSearch, trackBlogCategoryFilter } from '@/lib/analytics'
+import { getCurrentUser, AuthUser } from '@/lib/auth'
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -20,11 +21,23 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [user, setUser] = useState<AuthUser | null>(null)
 
   useEffect(() => {
     fetchPosts()
     fetchCategories()
+    checkUser()
   }, [currentPage, selectedCategory, searchTerm])
+
+  const checkUser = async () => {
+    try {
+      const currentUser = await getCurrentUser()
+      setUser(currentUser)
+    } catch (error) {
+      // User not authenticated, that's fine for a public page
+      setUser(null)
+    }
+  }
 
   const fetchPosts = async () => {
     try {
@@ -101,7 +114,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-      <Header />
+      <Header user={user} />
       <main className="container mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-16">

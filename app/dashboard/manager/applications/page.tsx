@@ -382,18 +382,22 @@ export default function ManagerApplicationsPage() {
                 <div className="space-y-6">
                   {/* Basic Info */}
                   <div className="flex items-start space-x-4">
-                    <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-700">
                       {selectedApplication.users?.photo_url ? (
                         <img
                           src={selectedApplication.users.photo_url}
                           alt={`${selectedApplication.users?.name || 'Unknown'} ${selectedApplication.users?.surname || 'User'}`}
-                          className="w-16 h-16 rounded-full object-cover"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            // Hide the image and show the fallback icon if image fails to load
+                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                          }}
                         />
-                      ) : (
-                        <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
-                          <UserIcon className="h-8 w-8 text-gray-400" />
-                        </div>
-                      )}
+                      ) : null}
+                      <div className={`w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center ${selectedApplication.users?.photo_url ? 'hidden' : ''}`}>
+                        <UserIcon className="h-8 w-8 text-gray-400" />
+                      </div>
                     </div>
                     <div>
                       <div className="flex items-center gap-3 mb-1">
