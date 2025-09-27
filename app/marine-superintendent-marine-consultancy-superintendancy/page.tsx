@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'Marine Superintendent; Marine Consultancy, Superintendancy - #1 Professional Services',
@@ -207,8 +206,6 @@ export default function MarineSuperintendentConsultancyPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

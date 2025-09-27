@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'ShipinPort.com Marine Services - ISM ISPS MLC Audits, Vessel Inspections & Maritime Consulting',
@@ -343,8 +342,6 @@ export default function ServicesPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
-import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'About ShipinPort.com - Leading Marine Superintendent Platform & Vessel Management Solutions',
@@ -230,8 +229,6 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   )
 }

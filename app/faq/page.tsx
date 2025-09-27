@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'FAQ - Frequently Asked Questions | ShipinPort.com Marine Platform',
@@ -215,8 +214,6 @@ export default function FAQPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }

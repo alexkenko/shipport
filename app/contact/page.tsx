@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
-import { Footer } from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'Contact ShipinPort.com - Marine Superintendent Platform Support & Inquiries',
@@ -182,8 +181,6 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   )
 }

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -332,7 +331,6 @@ export default function BlogPage() {
           )}
         </div>
       </main>
-      <Footer />
     </div>
   )
 }
