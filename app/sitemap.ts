@@ -95,6 +95,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/auth/verify-email`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
     
     // Dashboard pages - Lower priority (behind auth)
     {
@@ -139,10 +145,47 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.4,
     },
+    {
+      url: `${baseUrl}/dashboard/manager/applications`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/dashboard/manager/my-posts`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/dashboard/superintendent/applications`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/dashboard/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/dashboard/blog/create`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.4,
+    },
+    {
+      url: `${baseUrl}/dashboard/admin/superintendents`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
   ]
 
   // Fetch blog posts dynamically
   let blogPosts: any[] = []
+  let blogEditPages: any[] = []
   try {
     const { data: posts } = await supabase
       .from('blog_posts')
@@ -155,6 +198,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(post.updated_at),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
+    })) || []
+
+    // Add blog edit pages for all posts (including drafts)
+    const { data: allPosts } = await supabase
+      .from('blog_posts')
+      .select('slug, updated_at')
+      .order('updated_at', { ascending: false })
+
+    blogEditPages = allPosts?.map(post => ({
+      url: `${baseUrl}/dashboard/blog/edit/${post.slug}`,
+      lastModified: new Date(post.updated_at),
+      changeFrequency: 'weekly' as const,
+      priority: 0.3,
     })) || []
   } catch (error) {
     console.error('Error fetching blog posts for sitemap:', error)
@@ -180,5 +236,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching profiles for sitemap:', error)
   }
 
-  return [...staticPages, ...blogPosts, ...profilePages]
+  return [...staticPages, ...blogPosts, ...blogEditPages, ...profilePages]
 }
