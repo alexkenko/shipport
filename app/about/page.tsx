@@ -43,7 +43,13 @@ export default function AboutPage() {
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             The premier platform connecting vessel managers with certified marine superintendents worldwide, 
-            revolutionizing maritime industry networking and professional services.
+            revolutionizing maritime industry networking and professional services. 
+            <Link href="/services" className="text-blue-400 hover:text-blue-300 underline ml-1">
+              Explore our services
+            </Link> or 
+            <Link href="/contact" className="text-blue-400 hover:text-blue-300 underline ml-1">
+              get in touch
+            </Link> to learn more.
           </p>
         </div>
 

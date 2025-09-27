@@ -126,7 +126,13 @@ export default function HomePage() {
               Professional Marine Services
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Comprehensive maritime services provided by certified professionals
+              Comprehensive maritime services provided by certified professionals. 
+              <Link href="/services" className="text-blue-400 hover:text-blue-300 underline ml-1">
+                View all our services
+              </Link> or 
+              <Link href="/about" className="text-blue-400 hover:text-blue-300 underline ml-1">
+                learn more about us
+              </Link>.
             </p>
           </div>
           
@@ -176,7 +182,13 @@ export default function HomePage() {
               How <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> Works
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Simple steps to connect with the right maritime professionals
+              Simple steps to connect with the right maritime professionals. 
+              <Link href="/faq" className="text-blue-400 hover:text-blue-300 underline ml-1">
+                Have questions?
+              </Link> Check our 
+              <Link href="/blog" className="text-blue-400 hover:text-blue-300 underline ml-1">
+                blog
+              </Link> for industry insights.
             </p>
           </div>
           

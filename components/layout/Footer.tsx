@@ -5,9 +5,9 @@ export function Footer() {
     <footer className="bg-dark-900 border-t border-dark-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
-          <div className="lg:col-span-1">
+          <div>
             <h3 className="text-2xl font-bold text-white mb-4">
               <span className="text-blue-700">Ship</span>
               <span className="text-red-500">in</span>
@@ -21,9 +21,51 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Main Pages */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-white mb-4">Main Pages</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="text-gray-400 hover:text-white transition-colors">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/marine-superintendent-marine-consultancy-superintendancy" className="text-gray-400 hover:text-white transition-colors">
+                  Marine Superintendent
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">
+                  FAQ
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Authentication & Support */}
+          <div>
+            <h4 className="text-lg font-semibold text-white mb-4">Account & Support</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/auth/login" className="text-gray-400 hover:text-white transition-colors">
@@ -36,31 +78,51 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">
-                  FAQ
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Support & Contact</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact Us
+                <Link href="/auth/verify-email" className="text-gray-400 hover:text-white transition-colors">
+                  Verify Email
                 </Link>
               </li>
               <li>
                 <a href="mailto:support@shipinport.com" className="text-gray-400 hover:text-white transition-colors">
                   support@shipinport.com
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal & Compliance */}
+          <div>
+            <h4 className="text-lg font-semibold text-white mb-4">Legal & Compliance</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookies" className="text-gray-400 hover:text-white transition-colors">
+                  Cookie Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/disclaimer" className="text-gray-400 hover:text-white transition-colors">
+                  Legal Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link href="/gdpr" className="text-gray-400 hover:text-white transition-colors">
+                  GDPR Compliance
+                </Link>
+              </li>
+              <li>
+                <Link href="/sitemap-page" className="text-gray-400 hover:text-white transition-colors">
+                  Site Map
+                </Link>
               </li>
             </ul>
           </div>
