@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
+import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 
 export const metadata: Metadata = {
   title: 'GDPR Compliance - ShipinPort.com Marine Platform',
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 export default function GDPRPage() {
   return (
     <div className="min-h-screen bg-dark-900">
-      <Header />
+      <HeaderWrapper />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="glass p-8 rounded-xl">
@@ -176,8 +175,6 @@ export default function GDPRPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }
