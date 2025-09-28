@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="bg-dark-900 border-t border-dark-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {/* Company Info */}
           <div>
             <h3 className="text-2xl font-bold text-white mb-4">
@@ -63,32 +63,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Authentication & Support */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Account & Support</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/auth/login" className="text-gray-400 hover:text-white transition-colors">
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/register" className="text-gray-400 hover:text-white transition-colors">
-                  Register
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/verify-email" className="text-gray-400 hover:text-white transition-colors">
-                  Verify Email
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:support@shipinport.com" className="text-gray-400 hover:text-white transition-colors">
-                  support@shipinport.com
-                </a>
-              </li>
-            </ul>
-          </div>
 
           {/* Legal & Compliance */}
           <div>

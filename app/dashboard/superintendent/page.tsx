@@ -8,10 +8,8 @@ import Link from 'next/link'
 import { getCurrentUser, getSuperintendentProfile } from '@/lib/auth'
 import { AuthUser } from '@/lib/auth'
 import { 
-  ClockIcon,
   UserGroupIcon,
   ChatBubbleLeftRightIcon,
-  BriefcaseIcon,
   UsersIcon,
   CheckCircleIcon,
   ChevronDownIcon,
@@ -261,67 +259,6 @@ export default function SuperintendentDashboard() {
           </Card>
         </div>
 
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>
-              Common tasks and navigation shortcuts
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link href="/dashboard/superintendent/search">
-                <Card className="hover:bg-dark-700/50 transition-colors cursor-pointer">
-                  <CardContent className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-primary-600 rounded-lg">
-                        <BriefcaseIcon className="h-6 w-6 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-white">Search Jobs</h3>
-                        <p className="text-sm text-gray-400">Find new opportunities</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-
-              <Link href="/dashboard/superintendent/applications">
-                <Card className="hover:bg-dark-700/50 transition-colors cursor-pointer">
-                  <CardContent className="p-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-green-600 rounded-lg">
-                        <CheckCircleIcon className="h-6 w-6 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-white">My Applications</h3>
-                        <p className="text-sm text-gray-400">Track your applications</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-
-              <Card 
-                className="hover:bg-dark-700/50 transition-colors cursor-pointer"
-                onClick={() => setShowChat(true)}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-purple-600 rounded-lg">
-                      <ChatBubbleLeftRightIcon className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-white">Superintendent Chat</h3>
-                      <p className="text-sm text-gray-400">Connect with peers</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Verification Tip */}
         <VerificationTip 
