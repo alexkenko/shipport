@@ -23,7 +23,7 @@ import { ChatPopup } from '@/components/ui/ChatPopup'
 
 // Mock data that increases daily
 const getMockStats = () => {
-  const baseDate = new Date('2024-12-01') // Base date for calculations (recent date)
+  const baseDate = new Date('2024-12-28') // Base date for calculations (today's date)
   const today = new Date()
   const daysSinceBase = Math.floor((today.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24))
   
