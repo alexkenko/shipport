@@ -227,9 +227,9 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
                   surname: userData.surname || '',
                   photo_url: userData.photo_url || '',
                   email: userData.email || '',
-                  reply_message: null,
-                  reply_user_name: null,
-                  reply_user_surname: null
+                  reply_message: undefined,
+                  reply_user_name: undefined,
+                  reply_user_surname: undefined
                 }
                 
                 setMessages(prev => [...prev, newMessage])
@@ -389,9 +389,9 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
       surname: user.surname || '',
       photo_url: user.photo_url || '',
       email: user.email || '',
-      reply_message: null,
-      reply_user_name: null,
-      reply_user_surname: null
+      reply_message: undefined,
+      reply_user_name: undefined,
+      reply_user_surname: undefined
     }
 
     setMessages(prev => [...prev, optimisticMessage])
@@ -422,9 +422,9 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           surname: user.surname || '',
           photo_url: user.photo_url || '',
           email: user.email || '',
-          reply_message: null,
-          reply_user_name: null,
-          reply_user_surname: null
+          reply_message: undefined,
+          reply_user_name: undefined,
+          reply_user_surname: undefined
         }
 
         setMessages(prev => prev.map(msg => 
