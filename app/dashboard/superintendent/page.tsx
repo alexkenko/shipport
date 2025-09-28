@@ -23,14 +23,14 @@ import { ChatPopup } from '@/components/ui/ChatPopup'
 
 // Mock data that increases daily
 const getMockStats = () => {
-  const baseDate = new Date('2024-12-28') // Base date for calculations (today's date)
+  const baseDate = new Date() // Use today as base date
   const today = new Date()
   const daysSinceBase = Math.floor((today.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24))
   
   return {
-    shipManagers: 65 + (daysSinceBase * 2), // Increases by 2 daily
-    completedJobs: 338 + (daysSinceBase * 3), // Increases by 3 daily
-    activeSuperintendents: 30 + (daysSinceBase * 1), // Increases by 1 daily
+    shipManagers: 667 + (daysSinceBase * 2), // Increases by 2 daily
+    completedJobs: 1241 + (daysSinceBase * 3), // Increases by 3 daily
+    activeSuperintendents: 331 + (daysSinceBase * 1), // Increases by 1 daily
   }
 }
 
