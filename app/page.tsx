@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 import { AnimatedHero } from '@/components/ui/AnimatedHero'
+import { Button } from '@/components/ui/Button'
 
 export const metadata: Metadata = {
   title: 'Marine Superintendent Jobs & Marine Consultancy Services | #1 Maritime Platform | ShipinPort.com',
