@@ -214,32 +214,32 @@ export function BlogCarousel({
                   )}
                 </div>
                 <CardContent className="p-3">
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-2">
                     {post.category && (
                       <span 
                         style={getCategoryColorClass(post.category.color)}
-                        className="text-white px-3 py-1 rounded-full text-sm font-medium"
+                        className="text-white px-2 py-1 rounded-full text-xs font-medium"
                       >
                         {post.category.name}
                       </span>
                     )}
-                    <div className="flex items-center text-gray-400 text-sm">
-                      <ClockIcon className="h-4 w-4 mr-1" />
+                    <div className="flex items-center text-gray-400 text-xs">
+                      <ClockIcon className="h-3 w-3 mr-1" />
                       <span>{post.reading_time || 5} min read</span>
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-white mb-3 line-clamp-2 group-hover:text-primary-400 transition-colors">
+                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors leading-tight">
                     {post.title}
                   </h3>
                   
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-3">
-                    {post.excerpt || post.content.substring(0, 120) + '...'}
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+                    {post.excerpt || post.content.substring(0, 100) + '...'}
                   </p>
                   
-                  <div className="flex items-center justify-between text-sm text-gray-400">
+                  <div className="flex items-center justify-between text-xs text-gray-400">
                     <div className="flex items-center">
-                      <CalendarIcon className="h-4 w-4 mr-1" />
+                      <CalendarIcon className="h-3 w-3 mr-1" />
                       <span>
                         {post.published_at ? new Date(post.published_at).toLocaleDateString('en-US', {
                           month: 'short',
