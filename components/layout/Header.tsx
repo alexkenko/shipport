@@ -218,8 +218,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
       {/* Mobile Navigation */}
         {!hideNavigation && isMobileMenuOpen && (
-          <div className="md:hidden border-t border-dark-700">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="md:hidden border-t border-dark-700 bg-dark-800/95 backdrop-blur-sm">
+            <div className="px-4 pt-3 pb-4 space-y-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
@@ -229,11 +229,11 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                   key={item.name}
                   href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${getColorClasses(item.color)} ${
-                      isActive ? 'bg-primary-600/20 text-primary-400' : ''
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 ${getColorClasses(item.color)} ${
+                      isActive ? 'bg-primary-600/20 text-primary-400' : 'hover:bg-dark-700/50'
                     }`}
                   >
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-5 w-5 flex-shrink-0" />
                   <span>{item.name}</span>
                 </Link>
               )

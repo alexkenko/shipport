@@ -14,14 +14,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor={inputId} className="block text-sm font-medium text-gray-300 mb-1 sm:mb-2">
             {label}
           </label>
         )}
         <input
           id={inputId}
           className={clsx(
-            'w-full px-4 py-3 bg-dark-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200',
+            'w-full px-3 py-3 sm:px-4 bg-dark-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 text-base sm:text-sm',
+            'touch-manipulation', // Optimize for touch
             error
               ? 'border-red-500 focus:ring-red-500'
               : 'border-dark-600 hover:border-dark-500',
