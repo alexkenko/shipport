@@ -104,12 +104,11 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <img
-                src="/logo.png"
-                alt="ShipinPort"
-                className="h-8 w-auto"
-              />
-              <span className="ml-2 text-xl font-bold text-white">ShipinPort.com</span>
+              <span className="text-2xl font-bold">
+                <span className="text-blue-400">Ship</span>
+                <span className="text-red-500">in</span>
+                <span className="text-blue-400">Port.com</span>
+              </span>
             </Link>
           </div>
 
