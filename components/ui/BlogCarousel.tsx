@@ -229,12 +229,12 @@ export function BlogCarousel({
                     </div>
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors leading-tight">
+                  <h3 className="text-base font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors leading-tight break-words">
                     {post.title}
                   </h3>
                   
-                  <p className="text-gray-300 text-sm mb-3 line-clamp-2">
-                    {post.excerpt || post.content.substring(0, 100) + '...'}
+                  <p className="text-gray-300 text-xs mb-2 line-clamp-1">
+                    {post.excerpt || post.content.substring(0, 80) + '...'}
                   </p>
                   
                   <div className="flex items-center justify-between text-xs text-gray-400">
