@@ -576,16 +576,16 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-dark-800 rounded-lg sm:rounded-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-0 sm:p-4">
+      <div className="bg-dark-800 rounded-none sm:rounded-2xl w-full h-full sm:w-full sm:max-w-4xl sm:h-auto sm:max-h-[90vh] overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-3 sm:p-4 border-b border-dark-700">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ChatBubbleLeftRightIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-400" />
+        <div className="flex items-center justify-between p-4 sm:p-4 border-b border-dark-700 bg-dark-800">
+          <div className="flex items-center gap-3">
+            <ChatBubbleLeftRightIcon className="h-6 w-6 text-primary-400" />
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-white">Superintendent Chat</h2>
-              <p className="text-xs sm:text-sm text-gray-400 hidden sm:block">
+              <h2 className="text-xl font-bold text-white">Superintendent Chat</h2>
+              <p className="text-sm text-gray-400 hidden sm:block">
                 Connect with fellow superintendents • Messages auto-delete after 24h
               </p>
             </div>
@@ -594,15 +594,15 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
             {/* Mobile sidebar toggle */}
             <button
               onClick={() => setShowSidebar(!showSidebar)}
-              className="sm:hidden p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
+              className="sm:hidden p-3 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
             >
               <UserGroupIcon className="h-5 w-5" />
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
+              className="p-3 text-white hover:text-red-400 transition-colors rounded-lg hover:bg-red-500/10 border border-gray-600 hover:border-red-400"
             >
-              <XMarkIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+              <XMarkIcon className="h-6 w-6" />
             </button>
           </div>
         </div>
@@ -670,7 +670,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           <div className="flex-1 flex flex-col">
             
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-3 sm:space-y-4">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
               {isLoading ? (
                 <div className="flex items-center justify-center h-32">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
@@ -705,7 +705,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
                       </div>
                     )}
 
-                    <div className={`max-w-xs lg:max-w-md ${message.user_id === user?.id ? 'order-first' : ''}`}>
+                    <div className={`max-w-xs sm:max-w-sm lg:max-w-md ${message.user_id === user?.id ? 'order-first' : ''}`}>
                       {/* Reply reference */}
                       {message.reply_to_message_id && (
                         <div className="mb-2 p-2 bg-dark-700/50 rounded-lg border-l-2 border-primary-400">
@@ -720,7 +720,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
 
                       {/* Message bubble */}
                       <div
-                        className={`p-3 rounded-lg ${
+                        className={`p-3 sm:p-4 rounded-lg ${
                           message.user_id === user?.id
                             ? 'bg-primary-600 text-white'
                             : 'bg-dark-700 text-gray-100'
@@ -831,14 +831,14 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
             )}
 
             {/* Message Input */}
-            <form onSubmit={sendMessage} className="p-4 border-t border-dark-700">
-              <div className="flex gap-3">
+            <form onSubmit={sendMessage} className="p-3 sm:p-4 border-t border-dark-700 bg-dark-800">
+              <div className="flex gap-2 sm:gap-3">
                 <div className="flex-1">
                   <Input
                     value={newMessage}
                     onChange={(e) => handleTyping(e.target.value)}
                     placeholder="Type a message to superintendents..."
-                    className="bg-dark-700 border-dark-600"
+                    className="bg-dark-700 border-dark-600 text-base"
                     disabled={isSending}
                   />
                 </div>
@@ -846,7 +846,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
                 <Button
                   type="submit"
                   disabled={!newMessage.trim() || isSending}
-                  className="px-4"
+                  className="px-4 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
                 >
                   {isSending ? (
                     <ClockIcon className="h-5 w-5 animate-spin" />
