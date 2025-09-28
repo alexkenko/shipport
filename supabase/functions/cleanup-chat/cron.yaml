@@ -1,0 +1,12 @@
+# Cron configuration for chat cleanup
+# This file defines when the cleanup function should run
+
+# Run cleanup every hour at minute 0
+# Format: minute hour day month day_of_week
+# 0 * * * * = every hour at minute 0
+schedule: "0 * * * *"
+
+# Alternative schedules:
+# "0 */2 * * *" = every 2 hours
+# "0 0 * * *" = once daily at midnight
+# "0 0 * * 0" = once weekly on Sunday at midnight
