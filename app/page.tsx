@@ -4,9 +4,9 @@ import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 import { AnimatedHero } from '@/components/ui/AnimatedHero'
 
 export const metadata: Metadata = {
-  title: 'Marine Superintendent; Marine Consultancy, Superintendancy | #1 Professional Marine Services Platform',
-  description: 'Leading Marine Superintendent and Marine Consultancy platform. Professional Superintendancy services for vessel inspections, ISM audits, marine consultancy, and maritime consulting worldwide. Find certified marine superintendents and marine consultancy experts.',
-  keywords: 'Marine Superintendent, Marine Consultancy, Superintendancy, marine superintendent services, marine consultancy services, superintendancy services, vessel superintendent, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent jobs, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform',
+  title: 'Marine Superintendent Jobs & Marine Consultancy Services | #1 Maritime Platform | ShipinPort.com',
+  description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform. Professional superintendency services for vessel inspections, ISM audits, marine jobs, and maritime consulting. Connect vessel managers with certified marine superintendents.',
+  keywords: 'marine superintendent jobs, marine superintendent, marine consultancy, superintendancy, marine superintendent services, marine superintendent positions, marine superintendent careers, vessel superintendent jobs, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent employment, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform, maritime jobs, shipping jobs, marine careers',
 }
 
 export default function HomePage() {
@@ -195,6 +195,48 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Marine Superintendent Jobs Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600/10 to-primary-600/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Find <span className="text-primary-400">Marine Superintendent Jobs</span> Worldwide
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+              Discover <strong className="text-white">1000+ marine superintendent positions</strong> with leading shipping companies. 
+              Browse <strong className="text-white">marine superintendent careers</strong> in ports worldwide.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/marine-superintendent-jobs">
+                <Button size="lg" className="bg-primary-600 hover:bg-primary-700">
+                  View All Marine Superintendent Jobs
+                </Button>
+              </Link>
+              <Link href="/marine-superintendent-singapore">
+                <Button variant="outline" size="lg">
+                  Singapore Marine Jobs
+                </Button>
+              </Link>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="text-center bg-dark-800/50 p-6 rounded-lg">
+              <div className="text-4xl font-bold text-blue-400 mb-2">1000+</div>
+              <div className="text-gray-300">Active Marine Superintendent Jobs</div>
+            </div>
+            <div className="text-center bg-dark-800/50 p-6 rounded-lg">
+              <div className="text-4xl font-bold text-green-400 mb-2">150+</div>
+              <div className="text-gray-300">Shipping Companies Hiring</div>
+            </div>
+            <div className="text-center bg-dark-800/50 p-6 rounded-lg">
+              <div className="text-4xl font-bold text-purple-400 mb-2">$500</div>
+              <div className="text-gray-300">Average Daily Rate</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SEO Content Section */}
       <section className="py-20 bg-dark-800/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -214,6 +256,13 @@ export default function HomePage() {
                 Our <strong className="text-white">marine superintendent</strong> network includes certified professionals with extensive 
                 experience in maritime safety, regulatory compliance, and vessel management operations.
               </p>
+              <div className="mt-6">
+                <Link href="/marine-superintendent-jobs">
+                  <Button className="bg-primary-600 hover:bg-primary-700">
+                    Find Marine Superintendent Jobs
+                  </Button>
+                </Link>
+              </div>
             </div>
             <div className="animate-slide-right">
               <h3 className="text-2xl font-bold text-white mb-6">
@@ -241,6 +290,13 @@ export default function HomePage() {
                   <span><strong className="text-white">Marine consultancy</strong> - Expert maritime operational guidance</span>
                 </li>
               </ul>
+              <div className="mt-6">
+                <Link href="/services">
+                  <Button variant="outline">
+                    View All Services
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
