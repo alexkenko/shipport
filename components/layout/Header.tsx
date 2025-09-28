@@ -20,10 +20,6 @@ import {
   Bars3Icon,
   XMarkIcon
 } from '@heroicons/react/24/outline'
-import { NotificationDropdown } from '@/components/ui/NotificationDropdown'
-import { useNotifications } from '@/hooks/useNotifications'
-import { useManagerNotifications } from '@/hooks/useManagerNotifications'
-import { ManagerNotificationDropdown } from '@/components/ui/ManagerNotificationDropdown'
 import toast from 'react-hot-toast'
 
 interface HeaderProps {
@@ -36,8 +32,6 @@ interface HeaderProps {
 export function Header({ user, onNotificationClick, unreadCount, hideNavigation }: HeaderProps) {
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { unreadCount: superintendentUnreadCount } = useNotifications()
-  const { unreadCount: managerUnreadCount } = useManagerNotifications()
 
   const handleSignOut = async () => {
     try {
@@ -51,36 +45,41 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
   }
 
   const getNavigationItems = () => {
-    if (!user) return []
+    if (!user) return [
+      { name: 'Home', href: '/', icon: HomeIcon, color: 'blue' },
+      { name: 'About', href: '/about', icon: UserGroupIcon, color: 'green' },
+      { name: 'Services', href: '/services', icon: BriefcaseIcon, color: 'yellow' },
+      { name: 'Blog', href: '/blog', icon: DocumentTextIcon, color: 'purple' },
+      { name: 'Contact', href: '/contact', icon: UserGroupIcon, color: 'red' },
+    ]
 
-    return user.role === 'manager'
-      ? [
-          { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon, color: 'blue' },
-          { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon, color: 'green' },
-          { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon, color: 'yellow' },
-          { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon, color: 'purple' },
-          { name: 'Applications', href: '/dashboard/manager/applications', icon: ClipboardDocumentListIcon, color: 'red' },
-          ...(user.email === 'kenkadzealex@gmail.com' ? [
-            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
-            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
-          ] : []),
-        ]
-      : [
-          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
-          { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green' },
-          { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red' },
-          ...(user.email === 'kenkadzealex@gmail.com' ? [
-            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
-            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
-          ] : []),
-        ]
-    : [
-        { name: 'Home', href: '/', icon: HomeIcon, color: 'blue' },
-        { name: 'About', href: '/about', icon: UserGroupIcon, color: 'green' },
-        { name: 'Services', href: '/services', icon: BriefcaseIcon, color: 'yellow' },
-        { name: 'Blog', href: '/blog', icon: DocumentTextIcon, color: 'purple' },
-        { name: 'Contact', href: '/contact', icon: UserGroupIcon, color: 'red' },
+    if (user.role === 'manager') {
+      return [
+        { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon, color: 'blue' },
+        { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon, color: 'green' },
+        { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon, color: 'yellow' },
+        { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon, color: 'purple' },
+        { name: 'Applications', href: '/dashboard/manager/applications', icon: ClipboardDocumentListIcon, color: 'red' },
+        ...(user.email === 'kenkadzealex@gmail.com' ? [
+          { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
+          { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+        ] : []),
       ]
+    }
+
+    if (user.role === 'superintendent') {
+      return [
+        { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
+        { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green' },
+        { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red' },
+        ...(user.email === 'kenkadzealex@gmail.com' ? [
+          { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
+          { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+        ] : []),
+      ]
+    }
+
+    return []
   }
 
   const getColorClasses = (color: string) => {
@@ -141,18 +140,6 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
           <div className="flex items-center space-x-4">
             {user && (
               <>
-                {/* Notifications */}
-                {user.role === 'superintendent' ? (
-                  <NotificationDropdown 
-                    unreadCount={superintendentUnreadCount}
-                    onNotificationClick={onNotificationClick}
-                  />
-                ) : (
-                  <ManagerNotificationDropdown 
-                    unreadCount={managerUnreadCount}
-                    onNotificationClick={onNotificationClick}
-                  />
-                )}
 
                 {/* User profile dropdown */}
                 <div className="relative group">

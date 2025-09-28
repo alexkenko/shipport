@@ -14,7 +14,7 @@ import {
   BriefcaseIcon,
   UsersIcon,
   CheckCircleIcon,
-  TrendingUpIcon
+  ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
@@ -109,7 +109,7 @@ export default function SuperintendentDashboard() {
                   <p className="text-sm font-medium text-blue-400">Ship Managers</p>
                   <p className="text-3xl font-bold text-white">{stats.shipManagers.toLocaleString()}</p>
                   <p className="text-xs text-blue-300 flex items-center gap-1">
-                    <TrendingUpIcon className="h-3 w-3" />
+                    <ArrowTrendingUpIcon className="h-3 w-3" />
                     +2 daily
                   </p>
                 </div>
@@ -125,7 +125,7 @@ export default function SuperintendentDashboard() {
                   <p className="text-sm font-medium text-green-400">Completed Jobs</p>
                   <p className="text-3xl font-bold text-white">{stats.completedJobs.toLocaleString()}</p>
                   <p className="text-xs text-green-300 flex items-center gap-1">
-                    <TrendingUpIcon className="h-3 w-3" />
+                    <ArrowTrendingUpIcon className="h-3 w-3" />
                     +3 daily
                   </p>
                 </div>
@@ -141,7 +141,7 @@ export default function SuperintendentDashboard() {
                   <p className="text-sm font-medium text-purple-400">Active Superintendents</p>
                   <p className="text-3xl font-bold text-white">{stats.activeSuperintendents.toLocaleString()}</p>
                   <p className="text-xs text-purple-300 flex items-center gap-1">
-                    <TrendingUpIcon className="h-3 w-3" />
+                    <ArrowTrendingUpIcon className="h-3 w-3" />
                     +1 daily
                   </p>
                 </div>
@@ -157,7 +157,7 @@ export default function SuperintendentDashboard() {
                   <p className="text-sm font-medium text-orange-400">Total Connections</p>
                   <p className="text-3xl font-bold text-white">{stats.totalConnections.toLocaleString()}</p>
                   <p className="text-xs text-orange-300 flex items-center gap-1">
-                    <TrendingUpIcon className="h-3 w-3" />
+                    <ArrowTrendingUpIcon className="h-3 w-3" />
                     +4 daily
                   </p>
                 </div>
@@ -175,7 +175,10 @@ export default function SuperintendentDashboard() {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     Profile Overview
-                    <PremiumBadge />
+                    <PremiumBadge 
+                      signupDate={user?.created_at || new Date()} 
+                      role={user?.role || 'superintendent'} 
+                    />
                   </CardTitle>
                   <CardDescription>
                     Your professional profile summary
@@ -339,7 +342,10 @@ export default function SuperintendentDashboard() {
         </Card>
 
         {/* Verification Tip */}
-        <VerificationTip />
+        <VerificationTip 
+          userRole="superintendent" 
+          userEmail={user?.email || ''} 
+        />
       </div>
 
       {/* Chat Popup */}
