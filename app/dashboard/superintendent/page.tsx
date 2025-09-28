@@ -13,24 +13,19 @@ import {
   ChatBubbleLeftRightIcon,
   BriefcaseIcon,
   UsersIcon,
-  CheckCircleIcon,
-  ArrowTrendingUpIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { BlogCarousel } from '@/components/ui/BlogCarousel'
 import { ChatPopup } from '@/components/ui/ChatPopup'
 
-// Mock data that increases daily
+// Static counter values
 const getMockStats = () => {
-  const baseDate = new Date() // Use today as base date
-  const today = new Date()
-  const daysSinceBase = Math.floor((today.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24))
-  
   return {
-    shipManagers: 667 + (daysSinceBase * 2), // Increases by 2 daily
-    completedJobs: 1241 + (daysSinceBase * 3), // Increases by 3 daily
-    activeSuperintendents: 331 + (daysSinceBase * 1), // Increases by 1 daily
+    shipManagers: 63,
+    completedJobs: 360,
+    activeSuperintendents: 24,
   }
 }
 
@@ -43,13 +38,6 @@ export default function SuperintendentDashboard() {
 
   useEffect(() => {
     fetchUserData()
-    
-    // Update stats every minute to show real-time growth
-    const interval = setInterval(() => {
-      setStats(getMockStats())
-    }, 60000)
-    
-    return () => clearInterval(interval)
   }, [])
 
   const fetchUserData = async () => {
@@ -107,10 +95,6 @@ export default function SuperintendentDashboard() {
                 <div>
                   <p className="text-sm font-medium text-blue-400">Ship Managers</p>
                   <p className="text-3xl font-bold text-white">{stats.shipManagers.toLocaleString()}</p>
-                  <p className="text-xs text-blue-300 flex items-center gap-1">
-                    <ArrowTrendingUpIcon className="h-3 w-3" />
-                    +2 daily
-                  </p>
                 </div>
                 <UsersIcon className="h-8 w-8 text-blue-400" />
               </div>
@@ -123,10 +107,6 @@ export default function SuperintendentDashboard() {
                 <div>
                   <p className="text-sm font-medium text-green-400">Completed Jobs</p>
                   <p className="text-3xl font-bold text-white">{stats.completedJobs.toLocaleString()}</p>
-                  <p className="text-xs text-green-300 flex items-center gap-1">
-                    <ArrowTrendingUpIcon className="h-3 w-3" />
-                    +3 daily
-                  </p>
                 </div>
                 <CheckCircleIcon className="h-8 w-8 text-green-400" />
               </div>
@@ -139,10 +119,6 @@ export default function SuperintendentDashboard() {
                 <div>
                   <p className="text-sm font-medium text-purple-400">Active Superintendents</p>
                   <p className="text-3xl font-bold text-white">{stats.activeSuperintendents.toLocaleString()}</p>
-                  <p className="text-xs text-purple-300 flex items-center gap-1">
-                    <ArrowTrendingUpIcon className="h-3 w-3" />
-                    +1 daily
-                  </p>
                 </div>
                 <UserGroupIcon className="h-8 w-8 text-purple-400" />
               </div>
