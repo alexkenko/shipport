@@ -4,6 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Blog post image styles */
+.prose img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  margin: 1.5rem auto;
+  display: block;
+}
+
+.prose img:not(.prose-img) {
+  max-height: 24rem;
+  object-fit: contain;
+}
+
 /* Custom animations for blog carousel */
 @keyframes fade-in {
   from {

@@ -260,19 +260,20 @@ export default function BlogPostPage() {
 
             {/* Featured Image */}
             {post.featured_image_url && (
-              <div className="relative h-64 md:h-96 w-full mb-8 rounded-lg overflow-hidden">
+              <div className="relative w-full mb-8 rounded-lg overflow-hidden">
                 <Image
                   src={post.featured_image_url}
                   alt={post.title}
-                  fill
-                  className="object-cover"
+                  width={800}
+                  height={400}
+                  className="w-full h-auto object-cover rounded-lg shadow-lg"
                 />
               </div>
             )}
 
             {/* Content */}
             <div 
-              className="prose prose-lg prose-invert max-w-none"
+              className="prose prose-lg prose-invert max-w-none prose-img:rounded-lg prose-img:w-full prose-img:h-auto prose-img:object-contain prose-img:max-h-96 prose-img:mx-auto prose-img:shadow-lg"
               dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }}
             />
 
@@ -315,12 +316,13 @@ export default function BlogPostPage() {
                   <Card key={relatedPost.id} variant="glass" className="hover:scale-105 transition-transform duration-200">
                     <CardHeader>
                       {relatedPost.featured_image_url && (
-                        <div className="relative h-32 w-full mb-4 rounded-lg overflow-hidden">
+                        <div className="relative w-full mb-4 rounded-lg overflow-hidden">
                           <Image
                             src={relatedPost.featured_image_url}
                             alt={relatedPost.title}
-                            fill
-                            className="object-cover"
+                            width={300}
+                            height={150}
+                            className="w-full h-32 object-cover rounded-lg"
                           />
                         </div>
                       )}
