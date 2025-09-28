@@ -25,7 +25,6 @@ import {
   ChevronUpIcon
 } from '@heroicons/react/24/outline'
 import { SearchPopup } from '@/components/ui/SearchPopup'
-import { MobileDatePicker } from '@/components/ui/MobileDatePicker'
 
 export default function SearchJobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -332,33 +331,19 @@ export default function SearchJobsPage() {
                   <CalendarIcon className="h-4 w-4 inline mr-1" />
                   Date Range
                 </label>
-                {isMobile ? (
-                  <MobileDatePicker
-                    selected={filters.date_range?.start}
-                    onChange={(date) => handleFilterChange('date_range', date ? {
-                      start: date,
-                      end: filters.date_range?.end || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                    } : undefined)}
-                    startDate={filters.date_range?.start}
-                    endDate={filters.date_range?.end}
-                    selectsRange
-                    placeholderText="Select date range"
-                  />
-                ) : (
-                  <DatePicker
-                    selected={filters.date_range?.start}
-                    onChange={(date) => handleFilterChange('date_range', date ? {
-                      start: date,
-                      end: filters.date_range?.end || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                    } : undefined)}
-                    startDate={filters.date_range?.start}
-                    endDate={filters.date_range?.end}
-                    selectsRange
-                    dateFormat="MMM dd, yyyy"
-                    className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
-                    placeholderText="Select date range"
-                  />
-                )}
+                <DatePicker
+                  selected={filters.date_range?.start}
+                  onChange={(date) => handleFilterChange('date_range', date ? {
+                    start: date,
+                    end: filters.date_range?.end || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                  } : undefined)}
+                  startDate={filters.date_range?.start}
+                  endDate={filters.date_range?.end}
+                  selectsRange
+                  dateFormat="MMM dd, yyyy"
+                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 text-base"
+                  placeholderText="Select date range"
+                />
               </div>
             </div>
 

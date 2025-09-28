@@ -129,30 +129,40 @@ export default function SuperintendentChatPage() {
 
   const fetchOnlineUsers = async () => {
     try {
-      const { data, error } = await supabase
+      // First get online users
+      const { data: onlineData, error: onlineError } = await supabase
         .from('superintendent_chat_online')
-        .select(`
-          user_id,
-          last_seen_at,
-          is_typing,
-          users!superintendent_chat_online_user_id_fkey (
-            name,
-            surname,
-            photo_url
-          )
-        `)
+        .select('user_id, last_seen_at, is_typing')
         .gt('last_seen_at', new Date(Date.now() - 5 * 60 * 1000).toISOString()) // 5 minutes
 
-      if (error) throw error
-      
-      const formattedUsers = data?.map(item => ({
-        user_id: item.user_id,
-        last_seen_at: item.last_seen_at,
-        is_typing: item.is_typing,
-        name: item.users?.name || '',
-        surname: item.users?.surname || '',
-        photo_url: item.users?.photo_url
-      })) || []
+      if (onlineError) throw onlineError
+
+      if (!onlineData || onlineData.length === 0) {
+        setOnlineUsers([])
+        return
+      }
+
+      // Then get user details for online users
+      const userIds = onlineData.map(item => item.user_id)
+      const { data: usersData, error: usersError } = await supabase
+        .from('users')
+        .select('id, name, surname, photo_url')
+        .in('id', userIds)
+
+      if (usersError) throw usersError
+
+      // Combine the data
+      const formattedUsers = onlineData.map(onlineItem => {
+        const userData = usersData?.find(user => user.id === onlineItem.user_id)
+        return {
+          user_id: onlineItem.user_id,
+          last_seen_at: onlineItem.last_seen_at,
+          is_typing: onlineItem.is_typing,
+          name: userData?.name || '',
+          surname: userData?.surname || '',
+          photo_url: userData?.photo_url
+        }
+      })
 
       setOnlineUsers(formattedUsers)
     } catch (error) {
@@ -386,7 +396,7 @@ export default function SuperintendentChatPage() {
 
   if (isLoading) {
     return (
-      <DashboardLayout user={user}>
+      <DashboardLayout requiredRole="superintendent">
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
@@ -395,7 +405,7 @@ export default function SuperintendentChatPage() {
   }
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout requiredRole="superintendent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-12rem)]">
           
