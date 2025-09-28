@@ -103,14 +103,36 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
 
   const fetchMessages = async () => {
     try {
+      // Fetch messages directly from the table with user details
       const { data, error } = await supabase
-        .from('chat_messages_with_users')
-        .select('*')
+        .from('superintendent_chat_messages')
+        .select(`
+          *,
+          users!inner(
+            name,
+            surname,
+            photo_url,
+            email
+          )
+        `)
         .order('created_at', { ascending: true })
         .limit(50) // Limit to recent messages
 
       if (error) throw error
-      setMessages(data || [])
+      
+      // Transform the data to match the expected format
+      const transformedData = data?.map(msg => ({
+        ...msg,
+        name: msg.users?.name || '',
+        surname: msg.users?.surname || '',
+        photo_url: msg.users?.photo_url || '',
+        email: msg.users?.email || '',
+        reply_message: null,
+        reply_user_name: null,
+        reply_user_surname: null
+      })) || []
+      
+      setMessages(transformedData)
     } catch (error) {
       console.error('Error fetching messages:', error)
       toast.error('Failed to load messages')
