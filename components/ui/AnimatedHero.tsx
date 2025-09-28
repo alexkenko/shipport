@@ -8,9 +8,10 @@ export function AnimatedHero() {
   const [isVisible, setIsVisible] = useState(false)
   
   const typingTexts = [
-    'Marine Superintendent;',
-    'Marine Consultancy,',
-    'Superintendancy'
+    'Marine Superintendent',
+    'Marine Consultancy',
+    'Superintendancy Services',
+    'Maritime Consulting'
   ]
 
   useEffect(() => {
@@ -57,26 +58,12 @@ export function AnimatedHero() {
           {/* Animated Headline */}
           <div className="mb-6">
             <h1 className="text-4xl md:text-6xl font-bold text-white">
-              <span 
-                className={`text-blue-400 block animate-slide-left ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+              <div 
+                className={`text-5xl md:text-7xl font-extrabold animate-typing ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{animationDelay: '0.2s'}}
               >
-                {typingTexts[currentText]}
-              </span>
-              <span 
-                className={`text-cyan-400 block animate-slide-right ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-                style={{animationDelay: '0.4s'}}
-              >
-                {currentText === 1 ? 'Marine Consultancy,' : (currentText === 2 ? 'Superintendancy' : 'Marine Consultancy,')}
-              </span>
-              {currentText !== 2 && (
-                <span 
-                  className={`text-green-400 block animate-slide-left ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-                  style={{animationDelay: '0.6s'}}
-                >
-                  Superintendancy
-                </span>
-              )}
+                <span className="text-blue-400">{typingTexts[currentText]}</span>
+              </div>
               <span 
                 className={`block text-2xl md:text-3xl font-normal text-gray-300 mt-4 animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{animationDelay: '0.8s'}}
