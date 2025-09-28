@@ -135,7 +135,7 @@ export default function SuperintendentChatPage() {
           user_id,
           last_seen_at,
           is_typing,
-          users!inner (
+          users!superintendent_chat_online_user_id_fkey (
             name,
             surname,
             photo_url
@@ -149,9 +149,9 @@ export default function SuperintendentChatPage() {
         user_id: item.user_id,
         last_seen_at: item.last_seen_at,
         is_typing: item.is_typing,
-        name: item.users.name,
-        surname: item.users.surname,
-        photo_url: item.users.photo_url
+        name: item.users?.name || '',
+        surname: item.users?.surname || '',
+        photo_url: item.users?.photo_url
       })) || []
 
       setOnlineUsers(formattedUsers)

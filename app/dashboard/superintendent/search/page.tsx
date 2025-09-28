@@ -12,14 +12,28 @@ import { Job, ATTENDANCE_TYPES, VESSEL_TYPES, SearchFilters } from '@/types'
 import toast from 'react-hot-toast'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { MapPinIcon, CalendarIcon, ClockIcon, UserIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
+import { 
+  MapPinIcon, 
+  CalendarIcon, 
+  ClockIcon, 
+  UserIcon, 
+  EnvelopeIcon, 
+  PhoneIcon,
+  FunnelIcon,
+  XMarkIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
+} from '@heroicons/react/24/outline'
 import { SearchPopup } from '@/components/ui/SearchPopup'
+import { MobileDatePicker } from '@/components/ui/MobileDatePicker'
 
 export default function SearchJobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isApplying, setIsApplying] = useState<string | null>(null)
   const [showSearchPopup, setShowSearchPopup] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const [filters, setFilters] = useState<SearchFilters>({
     port_name: '',
     attendance_type: '',
@@ -29,6 +43,16 @@ export default function SearchJobsPage() {
 
   useEffect(() => {
     fetchJobs()
+    
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   const fetchJobs = async () => {
@@ -221,83 +245,171 @@ export default function SearchJobsPage() {
         </div>
 
 
-        {/* Filters */}
+        {/* Mobile-First Filters */}
         <Card>
-          <CardHeader>
-            <CardTitle>Search Filters</CardTitle>
-            <CardDescription>
-              Filter jobs by location, service type, vessel type, and date range
-            </CardDescription>
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <FunnelIcon className="h-5 w-5" />
+                  Search Filters
+                </CardTitle>
+                <CardDescription>
+                  Filter jobs by location, service type, vessel type, and date range
+                </CardDescription>
+              </div>
+              {isMobile && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="flex items-center gap-2"
+                >
+                  {showFilters ? <ChevronUpIcon className="h-4 w-4" /> : <ChevronDownIcon className="h-4 w-4" />}
+                  {showFilters ? 'Hide' : 'Show'}
+                </Button>
+              )}
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <Input
-                label="Port Name"
-                value={filters.port_name || ''}
-                onChange={(e) => handleFilterChange('port_name', e.target.value)}
-                placeholder="e.g., Port of Rotterdam"
-              />
-
+          
+          <CardContent className={`${isMobile && !showFilters ? 'hidden' : ''}`}>
+            {/* Mobile-optimized filter layout */}
+            <div className="space-y-4 mb-6">
+              {/* Port Name - Always visible */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Attendance Type
+                  <MapPinIcon className="h-4 w-4 inline mr-1" />
+                  Port Name
+                </label>
+                <Input
+                  value={filters.port_name || ''}
+                  onChange={(e) => handleFilterChange('port_name', e.target.value)}
+                  placeholder="e.g., Port of Rotterdam"
+                  className="w-full"
+                />
+              </div>
+
+              {/* Attendance Type - Mobile dropdown */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <ClockIcon className="h-4 w-4 inline mr-1" />
+                  Service Type
                 </label>
                 <select
                   value={filters.attendance_type || ''}
                   onChange={(e) => handleFilterChange('attendance_type', e.target.value)}
-                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 text-base"
+                  style={{ fontSize: '16px' }} // Prevents zoom on iOS
                 >
-                  <option value="">All types</option>
+                  <option value="">All service types</option>
                   {ATTENDANCE_TYPES.map((type) => (
                     <option key={type} value={type}>{type}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Vessel Type - Mobile dropdown */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Vessel Type
+                  🚢 Vessel Type
                 </label>
                 <select
                   value={filters.vessel_type || ''}
                   onChange={(e) => handleFilterChange('vessel_type', e.target.value)}
-                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 text-base"
+                  style={{ fontSize: '16px' }} // Prevents zoom on iOS
                 >
-                  <option value="">All vessels</option>
+                  <option value="">All vessel types</option>
                   {VESSEL_TYPES.map((type) => (
                     <option key={type} value={type}>{type}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Date Range - Mobile-optimized */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <CalendarIcon className="h-4 w-4 inline mr-1" />
                   Date Range
                 </label>
-                <DatePicker
-                  selected={filters.date_range?.start}
-                  onChange={(date) => handleFilterChange('date_range', date ? {
-                    start: date,
-                    end: filters.date_range?.end || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                  } : undefined)}
-                  startDate={filters.date_range?.start}
-                  endDate={filters.date_range?.end}
-                  selectsRange
-                  dateFormat="MMM dd, yyyy"
-                  className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
-                  placeholderText="Select date range"
-                />
+                {isMobile ? (
+                  <MobileDatePicker
+                    selected={filters.date_range?.start}
+                    onChange={(date) => handleFilterChange('date_range', date ? {
+                      start: date,
+                      end: filters.date_range?.end || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                    } : undefined)}
+                    startDate={filters.date_range?.start}
+                    endDate={filters.date_range?.end}
+                    selectsRange
+                    placeholderText="Select date range"
+                  />
+                ) : (
+                  <DatePicker
+                    selected={filters.date_range?.start}
+                    onChange={(date) => handleFilterChange('date_range', date ? {
+                      start: date,
+                      end: filters.date_range?.end || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                    } : undefined)}
+                    startDate={filters.date_range?.start}
+                    endDate={filters.date_range?.end}
+                    selectsRange
+                    dateFormat="MMM dd, yyyy"
+                    className="w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                    placeholderText="Select date range"
+                  />
+                )}
               </div>
             </div>
 
-            <div className="flex gap-4 items-center">
-              <Button onClick={handleSearch} className="flex-1">
-                Search Jobs
+            {/* Action buttons - Mobile optimized */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button 
+                onClick={handleSearch} 
+                className="flex-1 py-3 text-base font-semibold"
+                size="lg"
+              >
+                🔍 Search Jobs
               </Button>
-              <Button variant="outline" onClick={clearFilters} className="px-6">
-                Clear Filters
+              <Button 
+                variant="outline" 
+                onClick={clearFilters} 
+                className="px-6 py-3 text-base"
+                size="lg"
+              >
+                <XMarkIcon className="h-4 w-4 mr-2" />
+                Clear All
               </Button>
             </div>
+
+            {/* Active filters display */}
+            {(filters.port_name || filters.attendance_type || filters.vessel_type || filters.date_range) && (
+              <div className="mt-4 p-3 bg-dark-800/50 rounded-lg">
+                <p className="text-sm text-gray-400 mb-2">Active filters:</p>
+                <div className="flex flex-wrap gap-2">
+                  {filters.port_name && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary-600 text-white">
+                      Port: {filters.port_name}
+                    </span>
+                  )}
+                  {filters.attendance_type && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary-600 text-white">
+                      Service: {filters.attendance_type}
+                    </span>
+                  )}
+                  {filters.vessel_type && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary-600 text-white">
+                      Vessel: {filters.vessel_type}
+                    </span>
+                  )}
+                  {filters.date_range && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-primary-600 text-white">
+                      Dates: {filters.date_range.start?.toLocaleDateString()} - {filters.date_range.end?.toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
