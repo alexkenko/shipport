@@ -13,7 +13,9 @@ import {
   ChatBubbleLeftRightIcon,
   BriefcaseIcon,
   UsersIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline'
 import { VerificationTip } from '@/components/ui/VerificationTip'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
@@ -35,6 +37,7 @@ export default function SuperintendentDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [showChat, setShowChat] = useState(false)
   const [stats, setStats] = useState(getMockStats())
+  const [isProfileExpanded, setIsProfileExpanded] = useState(false)
 
   useEffect(() => {
     fetchUserData()
@@ -146,20 +149,20 @@ export default function SuperintendentDashboard() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4">
               {profile ? (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {/* Profile Picture and Basic Info */}
-                  <div className="flex items-start space-x-4">
+                  <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0">
                       {user?.photo_url ? (
                         <img
                           src={user.photo_url}
                           alt={`${user.name} ${user.surname}`}
-                          className="h-16 w-16 rounded-full object-cover"
+                          className="h-12 w-12 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="h-16 w-16 rounded-full bg-primary-600 flex items-center justify-center text-white text-lg font-semibold">
+                        <div className="h-12 w-12 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold">
                           {user?.name?.charAt(0)}{user?.surname?.charAt(0)}
                         </div>
                       )}
@@ -169,35 +172,36 @@ export default function SuperintendentDashboard() {
                         {user?.name} {user?.surname}
                       </h3>
                       <p className="text-sm text-gray-400">{user?.company}</p>
-                      <p className="text-sm text-gray-300 mt-2 line-clamp-3">
+                      <p className={`text-sm text-gray-300 mt-1 ${isProfileExpanded ? '' : 'line-clamp-2'}`}>
                         {user?.bio}
                       </p>
                     </div>
                   </div>
 
-                  {/* Contact Information */}
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-white">CONTACT</h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-gray-400">EMAIL:</span>
-                        <span className="text-white">{user?.email}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-gray-400">PHONE:</span>
-                        <span className="text-white">{user?.phone}</span>
-                      </div>
+                  {/* Contact Information - Always visible but compact */}
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <span className="text-gray-400">EMAIL:</span>
+                      <span className="text-white truncate">{user?.email}</span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <span className="text-gray-400">PHONE:</span>
+                      <span className="text-white">{user?.phone}</span>
                     </div>
                   </div>
 
-                  {/* Company Information */}
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-white">COMPANY</h4>
-                    <p className="text-sm text-gray-300">{user?.company}</p>
-                  </div>
+                  {/* Expandable Additional Information */}
+                  {isProfileExpanded && (
+                    <div className="space-y-3 pt-2 border-t border-gray-700">
+                      <div className="space-y-2">
+                        <h4 className="font-semibold text-white text-sm">COMPANY</h4>
+                        <p className="text-sm text-gray-300">{user?.company}</p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Quick Actions */}
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     <Link href="/dashboard/superintendent/profile">
                       <Button variant="outline" size="sm">
                         Edit Profile
@@ -208,6 +212,24 @@ export default function SuperintendentDashboard() {
                         Find Jobs
                       </Button>
                     </Link>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsProfileExpanded(!isProfileExpanded)}
+                      className="ml-auto"
+                    >
+                      {isProfileExpanded ? (
+                        <>
+                          <ChevronUpIcon className="h-4 w-4 mr-1" />
+                          Less
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDownIcon className="h-4 w-4 mr-1" />
+                          More
+                        </>
+                      )}
+                    </Button>
                   </div>
                 </div>
               ) : (

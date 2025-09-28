@@ -132,11 +132,11 @@ export function BlogCarousel({
 
   return (
     <div 
-      className="bg-dark-800/50 backdrop-blur-sm rounded-2xl p-6"
+      className="bg-dark-800/50 backdrop-blur-sm rounded-2xl p-4"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">{title}</h2>
         <div className="flex items-center space-x-3">
           {posts.length > 1 && (
@@ -205,15 +205,15 @@ export function BlogCarousel({
                     <img 
                       src={post.featured_image_url} 
                       alt={post.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-48 bg-gradient-to-br from-primary-600 to-marine-600 flex items-center justify-center">
-                      <span className="text-white text-4xl font-bold">📝</span>
+                    <div className="w-full h-24 bg-gradient-to-br from-primary-600 to-marine-600 flex items-center justify-center">
+                      <span className="text-white text-2xl font-bold">📝</span>
                     </div>
                   )}
                 </div>
-                <CardContent className="p-6">
+                <CardContent className="p-3">
                   <div className="flex items-center justify-between mb-3">
                     {post.category && (
                       <span 
