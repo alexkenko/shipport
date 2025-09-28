@@ -8,6 +8,23 @@ export const metadata: Metadata = {
   title: 'Marine Superintendent Jobs & Marine Consultancy Services | #1 Maritime Platform | ShipinPort.com',
   description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform. Professional superintendency services for vessel inspections, ISM audits, marine jobs, and maritime consulting. Connect vessel managers with certified marine superintendents.',
   keywords: 'marine superintendent jobs, marine superintendent, marine consultancy, superintendancy, marine superintendent services, marine superintendent positions, marine superintendent careers, vessel superintendent jobs, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent employment, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform, maritime jobs, shipping jobs, marine careers',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Marine Superintendent Jobs & Marine Consultancy Services | ShipinPort.com',
+    description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform.',
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'ShipinPort.com',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Marine Superintendent Jobs & Marine Consultancy Services',
+    description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform.',
+  },
+  alternates: {
+    canonical: 'https://shipinport.com',
+  },
 }
 
 export default function HomePage() {
@@ -211,11 +228,6 @@ export default function HomePage() {
               <Link href="/marine-superintendent-jobs">
                 <Button size="lg" className="bg-primary-600 hover:bg-primary-700">
                   View All Marine Superintendent Jobs
-                </Button>
-              </Link>
-              <Link href="/marine-superintendent-singapore">
-                <Button variant="outline" size="lg">
-                  Singapore Marine Jobs
                 </Button>
               </Link>
             </div>
