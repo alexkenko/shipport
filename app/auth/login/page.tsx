@@ -60,28 +60,28 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900 flex items-center justify-center p-2 sm:p-4">
       <div className="w-full max-w-md">
         <Card variant="glass">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Welcome Back</CardTitle>
-            <CardDescription>
+          <CardHeader className="text-center p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl">Welcome Back</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
               Sign in to your <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span> account
             </CardDescription>
           </CardHeader>
           
           {/* Back to Home Link */}
-          <div className="px-6 pb-4">
+          <div className="px-4 sm:px-6 pb-2 sm:pb-4">
             <Link 
               href="/" 
-              className="inline-flex items-center text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+              className="inline-flex items-center text-gray-400 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
             >
               ← Back to Home
             </Link>
           </div>
           
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <CardContent className="p-4 sm:p-6">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <Input
                 label="Email"
                 type="email"

@@ -182,30 +182,30 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900 flex items-center justify-center p-2 sm:p-4">
       <div className="w-full max-w-2xl">
         <Card variant="glass">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">
+          <CardHeader className="text-center p-4 sm:p-6">
+            <CardTitle className="text-xl sm:text-2xl">
               Join <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port.com</span>
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm sm:text-base">
               {step === 1 ? 'Create your account' : 'Complete your profile'}
             </CardDescription>
           </CardHeader>
           
           {/* Back to Home Link */}
-          <div className="px-6 pb-4">
+          <div className="px-4 sm:px-6 pb-2 sm:pb-4">
             <Link 
               href="/" 
-              className="inline-flex items-center text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+              className="inline-flex items-center text-gray-400 hover:text-white transition-colors duration-200 text-xs sm:text-sm"
             >
               ← Back to Home
             </Link>
           </div>
           
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="p-4 sm:p-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {step === 1 && (
                 <>
                   <div className="space-y-4">
@@ -213,32 +213,32 @@ export default function RegisterPage() {
                       <label className="block text-sm font-medium text-gray-300 mb-3">
                         I am a:
                       </label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <button
                           type="button"
                           onClick={() => setUserType('manager')}
-                          className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
+                          className={`p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 text-left ${
                             userType === 'manager'
                               ? 'border-primary-500 bg-primary-500/10'
                               : 'border-dark-600 hover:border-primary-400'
                           }`}
                         >
-                          <h3 className="font-semibold text-white mb-2">Vessel Manager</h3>
-                          <p className="text-sm text-gray-400">
+                          <h3 className="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Vessel Manager</h3>
+                          <p className="text-xs sm:text-sm text-gray-400">
                             I need to find qualified marine superintendents for vessel inspections and services.
                           </p>
                         </button>
                         <button
                           type="button"
                           onClick={() => setUserType('superintendent')}
-                          className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
+                          className={`p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 text-left ${
                             userType === 'superintendent'
                               ? 'border-primary-500 bg-primary-500/10'
                               : 'border-dark-600 hover:border-primary-400'
                           }`}
                         >
-                          <h3 className="font-semibold text-white mb-2">Marine Superintendent</h3>
-                          <p className="text-sm text-gray-400">
+                          <h3 className="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Marine Superintendent</h3>
+                          <p className="text-xs sm:text-sm text-gray-400">
                             I provide marine inspection and consulting services to vessel managers.
                           </p>
                         </button>
@@ -280,7 +280,7 @@ export default function RegisterPage() {
 
               {step === 2 && (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <Input
                       label="First Name"
                       name="name"

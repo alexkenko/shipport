@@ -85,6 +85,13 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
       // Update online status every 30 seconds
       const onlineInterval = setInterval(updateOnlineStatus, 30000)
       
+      // Fallback polling every 5 seconds as backup to real-time subscriptions
+      const messagePollingInterval = setInterval(() => {
+        console.log('ChatPopup: Fallback polling for new messages...')
+        fetchMessages()
+        fetchOnlineUsers()
+      }, 5000)
+      
       // Set up subscriptions and get cleanup functions
       const unsubscribeMessages = subscribeToMessages()
       const unsubscribeOnlineUsers = subscribeToOnlineUsers()
@@ -93,6 +100,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
       // Clean up on unmount
       return () => {
         clearInterval(onlineInterval)
+        clearInterval(messagePollingInterval)
         if (typingTimeoutRef.current) {
           clearTimeout(typingTimeoutRef.current)
         }
