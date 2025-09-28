@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
+import { AnimatedHero } from '@/components/ui/AnimatedHero'
 
 export const metadata: Metadata = {
   title: 'Marine Superintendent; Marine Consultancy, Superintendancy | #1 Professional Marine Services Platform',
@@ -80,52 +81,17 @@ export default function HomePage() {
       {/* Header */}
       <HeaderWrapper />
       
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/waves.svg')] bg-cover bg-center opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              <span className="text-blue-400">Marine Superintendent;</span>
-              <span className="block text-cyan-400">Marine Consultancy,</span>
-              <span className="block text-green-400">Superintendancy</span>
-              <span className="block text-2xl md:text-3xl font-normal text-gray-300 mt-4">
-                <span className="text-blue-700">Ship</span>
-                <span className="text-red-500">in</span>
-                <span className="text-blue-700">Port.com</span>
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
-              #1 Professional <strong className="text-white">Marine Superintendent</strong> and <strong className="text-white">Marine Consultancy</strong> Platform. 
-              Leading <strong className="text-white">Superintendancy</strong> services including vessel inspections, ISM audits, 
-              <strong className="text-white"> marine consultancy</strong>, and maritime consulting worldwide.
-            </p>
-            <div className="flex flex-col gap-4 justify-center items-center">
-              <Link
-                href="/auth/register"
-                className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 w-full sm:w-auto"
-              >
-                Create Account
-              </Link>
-              <Link
-                href="/auth/login"
-                className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center"
-              >
-                Sign In
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Animated Hero Section */}
+      <AnimatedHero />
 
-      {/* Services Section */}
+      {/* Services Section with Enhanced Animations */}
       <section className="py-20 bg-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-slide-bottom">
               Professional Marine Services
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-slide-bottom stagger-1">
               Comprehensive maritime services provided by certified professionals. 
               <Link href="/services" className="text-blue-400 hover:text-blue-300 underline ml-1">
                 View all our services
@@ -164,8 +130,11 @@ export default function HomePage() {
                 icon: '📦'
               }
             ].map((service, index) => (
-              <div key={index} className="glass p-6 rounded-xl hover:bg-dark-700/50 transition-all duration-300">
-                <div className="text-4xl mb-4">{service.icon}</div>
+              <div 
+                key={index} 
+                className={`glass p-6 rounded-xl hover:bg-dark-700/50 transition-all duration-300 transform hover:scale-105 hover:rotate-1 animate-slide-bottom stagger-${index + 1}`}
+              >
+                <div className="text-4xl mb-4 animate-float" style={{animationDelay: `${index * 0.5}s`}}>{service.icon}</div>
                 <h3 className="text-xl font-semibold text-white mb-3">{service.title}</h3>
                 <p className="text-gray-300">{service.description}</p>
               </div>
@@ -193,8 +162,8 @@ export default function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="text-center animate-slide-left stagger-1">
+              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                 <span className="text-2xl font-bold text-white">1</span>
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Create Your Profile</h3>
@@ -203,8 +172,8 @@ export default function HomePage() {
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="text-center animate-slide-bottom stagger-2">
+              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" style={{animationDelay: '0.5s'}}>
                 <span className="text-2xl font-bold text-white">2</span>
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Find or Post Services</h3>
@@ -213,8 +182,8 @@ export default function HomePage() {
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="text-center animate-slide-right stagger-3">
+              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" style={{animationDelay: '1s'}}>
                 <span className="text-2xl font-bold text-white">3</span>
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Connect & Collaborate</h3>
@@ -230,7 +199,7 @@ export default function HomePage() {
       <section className="py-20 bg-dark-800/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
+            <div className="animate-slide-left">
               <h2 className="text-3xl font-bold text-white mb-6">
                 Professional <span className="text-primary-400">Marine Superintendent</span> Services
               </h2>
@@ -246,28 +215,28 @@ export default function HomePage() {
                 experience in maritime safety, regulatory compliance, and vessel management operations.
               </p>
             </div>
-            <div>
+            <div className="animate-slide-right">
               <h3 className="text-2xl font-bold text-white mb-6">
                 Comprehensive Maritime Inspection Services
               </h3>
               <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start">
+                <li className="flex items-start animate-slide-bottom stagger-1">
                   <span className="text-primary-400 mr-3">✓</span>
                   <span><strong className="text-white">Ship inspections and audits</strong> - ISM, ISPS, MLC compliance assessments</span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-start animate-slide-bottom stagger-2">
                   <span className="text-primary-400 mr-3">✓</span>
                   <span><strong className="text-white">Port state inspection</strong> - International regulation compliance verification</span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-start animate-slide-bottom stagger-3">
                   <span className="text-primary-400 mr-3">✓</span>
                   <span><strong className="text-white">Oil major inspection</strong> - Tanker and offshore vessel assessments</span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-start animate-slide-bottom stagger-4">
                   <span className="text-primary-400 mr-3">✓</span>
                   <span><strong className="text-white">SIRE 2.0 vetting</strong> - Advanced vessel risk evaluation systems</span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-start animate-slide-bottom" style={{animationDelay: '1s'}}>
                   <span className="text-primary-400 mr-3">✓</span>
                   <span><strong className="text-white">Marine consultancy</strong> - Expert maritime operational guidance</span>
                 </li>

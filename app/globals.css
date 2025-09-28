@@ -188,3 +188,262 @@ a {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ==================== HERO ANIMATIONS ==================== */
+
+/* Parallax and Hero Animations */
+.parallax-hero {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.parallax-bg {
+  transform: translateZ(-100px) scale(1.1);
+  will-change: transform;
+}
+
+.parallax-mid {
+  transform: translateZ(-50px) scale(1.05);
+  will-change: transform;
+}
+
+.parallax-front {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Typing Animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #3b82f6; }
+}
+
+.typing-animation {
+  overflow: hidden;
+  border-right: 3px solid #3b82f6;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+.typing-delay-1 {
+  animation-delay: 1s;
+  animation-fill-mode: both;
+}
+
+.typing-delay-2 {
+  animation-delay: 2s;
+  animation-fill-mode: both;
+}
+
+.typing-delay-3 {
+  animation-delay: 3s;
+  animation-fill-mode: both;
+}
+
+/* Floating Elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(20px); }
+}
+
+@keyframes float-horizontal {
+  0%, 100% { transform: translateX(0px); }
+  50% { transform: translateX(-15px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 8s ease-in-out infinite;
+}
+
+.animate-float-horizontal {
+  animation: float-horizontal 10s ease-in-out infinite;
+}
+
+/* Wave Animations */
+@keyframes wave {
+  0% { transform: translateX(0) translateY(0) scaleX(1); }
+  50% { transform: translateX(-25%) translateY(-10px) scaleX(1.1); }
+  100% { transform: translateX(-50%) translateY(0) scaleX(1); }
+}
+
+@keyframes wave-reverse {
+  0% { transform: translateX(0) translateY(0) scaleX(1); }
+  50% { transform: translateX(25%) translateY(10px) scaleX(0.9); }
+  100% { transform: translateX(50%) translateY(0) scaleX(1); }
+}
+
+.animate-wave {
+  animation: wave 15s linear infinite;
+}
+
+.animate-wave-reverse {
+  animation: wave-reverse 20s linear infinite;
+}
+
+/* Ship Animations */
+@keyframes ship-sail {
+  0% { transform: translateX(-100px) rotate(-2deg); }
+  50% { transform: translateX(50vw) rotate(1deg); }
+  100% { transform: translateX(calc(100vw + 100px)) rotate(-1deg); }
+}
+
+@keyframes ship-bob {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(1deg); }
+  75% { transform: translateY(8px) rotate(-1deg); }
+}
+
+.animate-ship-sail {
+  animation: ship-sail 30s linear infinite;
+}
+
+.animate-ship-bob {
+  animation: ship-bob 4s ease-in-out infinite;
+}
+
+/* Port/Crane Animations */
+@keyframes crane-swing {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.animate-crane-swing {
+  animation: crane-swing 8s ease-in-out infinite;
+}
+
+/* Hero Text Animations */
+@keyframes slideInFromLeft {
+  0% { transform: translateX(-100px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromRight {
+  0% { transform: translateX(100px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  0% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInScale {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-slide-left {
+  animation: slideInFromLeft 1s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slideInFromRight 1s ease-out forwards;
+}
+
+.animate-slide-bottom {
+  animation: slideInFromBottom 1s ease-out forwards;
+}
+
+.animate-fade-scale {
+  animation: fadeInScale 1s ease-out forwards;
+}
+
+/* Stagger animations */
+.stagger-1 { animation-delay: 0.2s; }
+.stagger-2 { animation-delay: 0.4s; }
+.stagger-3 { animation-delay: 0.6s; }
+.stagger-4 { animation-delay: 0.8s; }
+
+/* Background Particle Effects */
+@keyframes particles {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(180deg); opacity: 0; }
+}
+
+.animate-particles {
+  animation: particles 15s linear infinite;
+}
+
+/* Maritime-themed background animations */
+.maritime-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(45deg, 
+    rgba(59, 130, 246, 0.1) 0%, 
+    transparent 25%, 
+    transparent 50%, 
+    rgba(16, 185, 129, 0.1) 75%, 
+    transparent 100%
+  );
+  animation: wave-bg 20s linear infinite;
+}
+
+@keyframes wave-bg {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+/* ==================== CHAT ANIMATIONS ==================== */
+
+/* Chat Message Animations */
+@keyframes messageSlideIn {
+  0% { transform: translateX(-20px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes messageSlideInRight {
+  0% { transform: translateX(20px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.animate-message-in {
+  animation: messageSlideIn 0.3s ease-out forwards;
+}
+
+.animate-message-in-right {
+  animation: messageSlideInRight 0.3s ease-out forwards;
+}
+
+/* Typing indicator */
+@keyframes typingDots {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-10px); }
+}
+
+.typing-dot {
+  animation: typingDots 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Chat notification pulse */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
