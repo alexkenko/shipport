@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header'
 export const metadata: Metadata = {
   title: 'ShipinPort.com Marine Services - ISM ISPS MLC Audits, Vessel Inspections & Maritime Consulting',
   description: 'Comprehensive marine superintendent services including ISM ISPS MLC audits, pre-vetting inspections, vessel assessments, navigation audits, and maritime consulting. Professional marine industry services worldwide.',
-  // keywords: [
+  keywords: [
     'marine superintendent services',
     'ISM audit services',
     'ISPS audit services',
