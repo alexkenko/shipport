@@ -30,13 +30,24 @@ export function BlogCarousel({
 
   // Auto-rotation effect with smoother transitions
   useEffect(() => {
-    if (!isAutoPlaying || posts.length <= 1) return
+    if (!isAutoPlaying || posts.length <= 1) {
+      console.log('Carousel auto-rotation disabled:', { isAutoPlaying, postsLength: posts.length })
+      return
+    }
 
+    console.log('Starting carousel auto-rotation with', posts.length, 'posts')
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % posts.length)
-    }, 6000) // Rotate every 6 seconds for better UX
+      setCurrentIndex((prev) => {
+        const next = (prev + 1) % posts.length
+        console.log('Carousel rotating from', prev, 'to', next)
+        return next
+      })
+    }, 4000) // Rotate every 4 seconds
 
-    return () => clearInterval(interval)
+    return () => {
+      console.log('Clearing carousel interval')
+      clearInterval(interval)
+    }
   }, [isAutoPlaying, posts.length])
 
   const fetchBlogData = async () => {
@@ -50,7 +61,9 @@ export function BlogCarousel({
       // Fetch latest published posts
       const postsRes = await fetch('/api/blog/posts?status=published&limit=6')
       const postsData = await postsRes.json()
-      setPosts((postsData.posts || []).slice(0, maxPosts))
+      const fetchedPosts = (postsData.posts || []).slice(0, maxPosts)
+      console.log('BlogCarousel: Fetched posts:', fetchedPosts.length, fetchedPosts)
+      setPosts(fetchedPosts)
     } catch (error) {
       console.error('Error fetching blog data:', error)
     } finally {
@@ -165,7 +178,7 @@ export function BlogCarousel({
         )}
 
         {/* Blog Posts Carousel - One at a time */}
-        <div className="overflow-hidden relative">
+        <div className="overflow-hidden relative flex justify-center">
           <div 
             className="flex transition-transform duration-700 ease-in-out"
             style={{
@@ -176,10 +189,10 @@ export function BlogCarousel({
             {posts.map((post, index) => (
               <div 
                 key={post.id} 
-                className="flex-shrink-0 w-full px-4"
+                className="flex-shrink-0 w-full flex justify-center px-4"
               >
                 <Card 
-                  className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform hover:scale-105 hover:shadow-xl mx-auto max-w-4xl ${
+                  className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform hover:scale-105 hover:shadow-xl w-full max-w-4xl ${
                     index === currentIndex ? 'animate-slide-in' : ''
                   }`}
                   style={{
