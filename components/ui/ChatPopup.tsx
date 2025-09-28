@@ -210,8 +210,38 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           schema: 'public', 
           table: 'superintendent_chat_messages' 
         }, 
-        (payload) => {
-          fetchMessages() // Refresh messages to get user data
+        async (payload) => {
+          // Optimize: Only fetch the new message with user data instead of all messages
+          if (payload.new) {
+            try {
+              const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('name, surname, photo_url, email')
+                .eq('id', payload.new.user_id)
+                .single()
+
+              if (!userError && userData) {
+                const newMessage: ChatMessage = {
+                  ...payload.new,
+                  name: userData.name || '',
+                  surname: userData.surname || '',
+                  photo_url: userData.photo_url || '',
+                  email: userData.email || '',
+                  reply_message: null,
+                  reply_user_name: null,
+                  reply_user_surname: null
+                }
+                
+                setMessages(prev => [...prev, newMessage])
+              } else {
+                // Fallback to full refresh if user data fetch fails
+                fetchMessages()
+              }
+            } catch (error) {
+              console.error('Error fetching user data for new message:', error)
+              fetchMessages()
+            }
+          }
         }
       )
       .on('postgres_changes',
@@ -221,7 +251,12 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           table: 'superintendent_chat_messages'
         },
         (payload) => {
-          fetchMessages()
+          // Update specific message instead of refreshing all
+          if (payload.new) {
+            setMessages(prev => prev.map(msg => 
+              msg.id === payload.new.id ? { ...msg, ...payload.new } : msg
+            ))
+          }
         }
       )
       .subscribe()
@@ -240,8 +275,44 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           schema: 'public',
           table: 'superintendent_chat_online'
         },
-        (payload) => {
-          fetchOnlineUsers()
+        async (payload) => {
+          // Optimize: Update online users state directly instead of full refresh
+          if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+            try {
+              const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('id, name, surname, photo_url')
+                .eq('id', payload.new.user_id)
+                .single()
+
+              if (!userError && userData) {
+                const newOnlineUser: OnlineUser = {
+                  user_id: payload.new.user_id,
+                  last_seen_at: payload.new.last_seen_at,
+                  is_typing: payload.new.is_typing,
+                  name: userData.name || '',
+                  surname: userData.surname || '',
+                  photo_url: userData.photo_url
+                }
+
+                setOnlineUsers(prev => {
+                  const existing = prev.find(u => u.user_id === newOnlineUser.user_id)
+                  if (existing) {
+                    return prev.map(u => u.user_id === newOnlineUser.user_id ? newOnlineUser : u)
+                  } else {
+                    return [...prev, newOnlineUser]
+                  }
+                })
+              } else {
+                fetchOnlineUsers() // Fallback to full refresh
+              }
+            } catch (error) {
+              console.error('Error updating online user:', error)
+              fetchOnlineUsers()
+            }
+          } else if (payload.eventType === 'DELETE') {
+            setOnlineUsers(prev => prev.filter(u => u.user_id !== payload.old.user_id))
+          }
         }
       )
       .subscribe()
@@ -297,27 +368,78 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
     e.preventDefault()
     if (!newMessage.trim() || !user || isSending) return
 
+    const messageText = newMessage.trim()
     setIsSending(true)
+    
+    // Optimistically add message to UI immediately for better UX
+    const tempId = `temp-${Date.now()}`
+    const optimisticMessage: ChatMessage = {
+      id: tempId,
+      user_id: user.id,
+      message: messageText,
+      message_type: 'text',
+      file_url: null,
+      file_name: null,
+      reply_to_message_id: replyTo?.id || null,
+      edited_at: null,
+      is_deleted: false,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      name: user.name || '',
+      surname: user.surname || '',
+      photo_url: user.photo_url || '',
+      email: user.email || '',
+      reply_message: null,
+      reply_user_name: null,
+      reply_user_surname: null
+    }
+
+    setMessages(prev => [...prev, optimisticMessage])
+    setNewMessage('')
+    setReplyTo(null)
+    updateTypingStatus(false)
+
     try {
       const messageData = {
         user_id: user.id,
-        message: newMessage.trim(),
+        message: messageText,
         message_type: 'text',
         reply_to_message_id: replyTo?.id || null
       }
 
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('superintendent_chat_messages')
         .insert([messageData])
+        .select()
 
       if (error) throw error
 
-      setNewMessage('')
-      setReplyTo(null)
-      updateTypingStatus(false)
+      // Replace optimistic message with real message
+      if (data && data[0]) {
+        const realMessage: ChatMessage = {
+          ...data[0],
+          name: user.name || '',
+          surname: user.surname || '',
+          photo_url: user.photo_url || '',
+          email: user.email || '',
+          reply_message: null,
+          reply_user_name: null,
+          reply_user_surname: null
+        }
+
+        setMessages(prev => prev.map(msg => 
+          msg.id === tempId ? realMessage : msg
+        ))
+      }
     } catch (error) {
       console.error('Error sending message:', error)
       toast.error('Failed to send message')
+      
+      // Remove optimistic message on error
+      setMessages(prev => prev.filter(msg => msg.id !== tempId))
+      
+      // Restore message text
+      setNewMessage(messageText)
     } finally {
       setIsSending(false)
     }

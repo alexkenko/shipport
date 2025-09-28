@@ -28,13 +28,13 @@ export function BlogCarousel({
     fetchBlogData()
   }, [])
 
-  // Auto-rotation effect
+  // Auto-rotation effect with smoother transitions
   useEffect(() => {
     if (!isAutoPlaying || posts.length <= 3) return
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % Math.max(1, posts.length - 2))
-    }, 4000) // Rotate every 4 seconds
+    }, 5000) // Rotate every 5 seconds for better UX
 
     return () => clearInterval(interval)
   }, [isAutoPlaying, posts.length])
@@ -165,17 +165,28 @@ export function BlogCarousel({
         )}
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ease-in-out">
-          {posts.slice(currentIndex, currentIndex + 3).map((post, index) => (
-            <Card 
-              key={post.id} 
-              className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform ${
-                index === 0 ? 'animate-fade-in' : ''
-              }`}
-              style={{
-                animationDelay: `${index * 100}ms`
-              }}
-            >
+        <div className="overflow-hidden">
+          <div 
+            className="flex transition-transform duration-700 ease-in-out gap-6"
+            style={{
+              transform: `translateX(-${currentIndex * (100 / 3)}%)`,
+              width: `${(posts.length / 3) * 100}%`
+            }}
+          >
+            {posts.map((post, index) => (
+              <div 
+                key={post.id} 
+                className="flex-shrink-0 w-1/3"
+                style={{ minWidth: 'calc(33.333% - 1rem)' }}
+              >
+                <Card 
+                  className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform hover:scale-105 hover:shadow-xl ${
+                    index === currentIndex ? 'animate-slide-in' : ''
+                  }`}
+                  style={{
+                    animationDelay: `${index * 150}ms`
+                  }}
+                >
               <Link href={`/blog/${post.slug}`}>
                 <div className="overflow-hidden rounded-t-lg">
                   {post.featured_image_url ? (
@@ -231,22 +242,52 @@ export function BlogCarousel({
                   </div>
                 </CardContent>
               </Link>
-            </Card>
-          ))}
+                </Card>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Dots Indicator */}
         {posts.length > 3 && (
-          <div className="flex justify-center mt-6 space-x-2">
-            {Array.from({ length: Math.max(1, posts.length - 2) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                  index === currentIndex ? 'bg-primary-500' : 'bg-gray-600'
-                }`}
+          <div className="flex flex-col items-center mt-6 space-y-4">
+            {/* Progress Bar */}
+            <div className="w-full max-w-xs bg-gray-700 rounded-full h-1 overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full transition-all duration-500 ease-out"
+                style={{
+                  width: `${((currentIndex + 1) / Math.max(1, posts.length - 2)) * 100}%`
+                }}
               />
-            ))}
+            </div>
+            
+            {/* Dots */}
+            <div className="flex space-x-3">
+              {Array.from({ length: Math.max(1, posts.length - 2) }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`relative transition-all duration-300 ${
+                    index === currentIndex ? 'scale-125' : 'scale-100'
+                  }`}
+                >
+                  <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentIndex 
+                      ? 'bg-primary-500 animate-pulse-glow' 
+                      : 'bg-gray-600 hover:bg-gray-500'
+                  }`} />
+                  {index === currentIndex && (
+                    <div className="absolute inset-0 w-3 h-3 rounded-full bg-primary-300 animate-ping opacity-75" />
+                  )}
+                </button>
+              ))}
+            </div>
+            
+            {/* Auto-play indicator */}
+            <div className="flex items-center space-x-2 text-xs text-gray-400">
+              <div className={`w-2 h-2 rounded-full ${isAutoPlaying ? 'bg-green-500 animate-pulse' : 'bg-gray-500'}`} />
+              <span>{isAutoPlaying ? 'Auto-rotating' : 'Paused'}</span>
+            </div>
           </div>
         )}
       </div>
