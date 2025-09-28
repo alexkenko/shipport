@@ -72,6 +72,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
   const [isTyping, setIsTyping] = useState(false)
   const [reactions, setReactions] = useState<Record<string, Reaction[]>>({})
   const [replyTo, setReplyTo] = useState<ChatMessage | null>(null)
+  const [showSidebar, setShowSidebar] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -79,13 +80,15 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
     if (isOpen && user) {
       fetchMessages()
       fetchOnlineUsers()
-      subscribeToMessages()
-      subscribeToOnlineUsers()
-      subscribeToReactions()
       updateOnlineStatus()
 
       // Update online status every 30 seconds
       const onlineInterval = setInterval(updateOnlineStatus, 30000)
+      
+      // Set up subscriptions and get cleanup functions
+      const unsubscribeMessages = subscribeToMessages()
+      const unsubscribeOnlineUsers = subscribeToOnlineUsers()
+      const unsubscribeReactions = subscribeToReactions()
       
       // Clean up on unmount
       return () => {
@@ -93,6 +96,10 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
         if (typingTimeoutRef.current) {
           clearTimeout(typingTimeoutRef.current)
         }
+        // Clean up subscriptions
+        if (unsubscribeMessages) unsubscribeMessages()
+        if (unsubscribeOnlineUsers) unsubscribeOnlineUsers()
+        if (unsubscribeReactions) unsubscribeReactions()
       }
     }
   }, [isOpen, user])
@@ -217,6 +224,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
   }
 
   const subscribeToMessages = () => {
+    console.log('ChatPopup: Setting up message subscription...')
     const subscription = supabase
       .channel('chat_messages')
       .on('postgres_changes', 
@@ -226,6 +234,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           table: 'superintendent_chat_messages' 
         }, 
         async (payload) => {
+          console.log('ChatPopup: New message received via subscription:', payload)
           // Optimize: Only fetch the new message with user data instead of all messages
           if (payload.new) {
             try {
@@ -283,9 +292,12 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           }
         }
       )
-      .subscribe()
+      .subscribe((status) => {
+        console.log('ChatPopup: Message subscription status:', status)
+      })
 
     return () => {
+      console.log('ChatPopup: Cleaning up message subscription')
       supabase.removeChannel(subscription)
     }
   }
@@ -556,32 +568,52 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-dark-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-dark-800 rounded-lg sm:rounded-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dark-700">
-          <div className="flex items-center gap-3">
-            <ChatBubbleLeftRightIcon className="h-6 w-6 text-primary-400" />
+        <div className="flex items-center justify-between p-3 sm:p-4 border-b border-dark-700">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ChatBubbleLeftRightIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-400" />
             <div>
-              <h2 className="text-xl font-bold text-white">Superintendent Chat</h2>
-              <p className="text-sm text-gray-400">
+              <h2 className="text-lg sm:text-xl font-bold text-white">Superintendent Chat</h2>
+              <p className="text-xs sm:text-sm text-gray-400 hidden sm:block">
                 Connect with fellow superintendents • Messages auto-delete after 24h
               </p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
-          >
-            <XMarkIcon className="h-6 w-6" />
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Mobile sidebar toggle */}
+            <button
+              onClick={() => setShowSidebar(!showSidebar)}
+              className="sm:hidden p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
+            >
+              <UserGroupIcon className="h-5 w-5" />
+            </button>
+            <button
+              onClick={onClose}
+              className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
+            >
+              <XMarkIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-1 overflow-hidden">
           
           {/* Online Users Sidebar */}
-          <div className="w-64 border-r border-dark-700 p-4">
+          <div className={`${showSidebar ? 'fixed inset-0 z-10 sm:relative sm:inset-auto' : 'hidden sm:block'} w-full sm:w-64 border-r border-dark-700 p-4 bg-dark-800 sm:bg-transparent`}>
+            {showSidebar && (
+              <div className="sm:hidden flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-white">Online Users</h3>
+                <button
+                  onClick={() => setShowSidebar(false)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-dark-700"
+                >
+                  <XMarkIcon className="h-5 w-5" />
+                </button>
+              </div>
+            )}
             <div className="flex items-center gap-2 mb-4">
               <UserGroupIcon className="h-5 w-5 text-primary-400" />
               <h3 className="font-semibold text-white">
@@ -630,7 +662,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
           <div className="flex-1 flex flex-col">
             
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-3 sm:space-y-4">
               {isLoading ? (
                 <div className="flex items-center justify-center h-32">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
