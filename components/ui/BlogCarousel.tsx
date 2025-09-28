@@ -30,11 +30,11 @@ export function BlogCarousel({
 
   // Auto-rotation effect with smoother transitions
   useEffect(() => {
-    if (!isAutoPlaying || posts.length <= 3) return
+    if (!isAutoPlaying || posts.length <= 1) return
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % Math.max(1, posts.length - 2))
-    }, 5000) // Rotate every 5 seconds for better UX
+      setCurrentIndex((prev) => (prev + 1) % posts.length)
+    }, 6000) // Rotate every 6 seconds for better UX
 
     return () => clearInterval(interval)
   }, [isAutoPlaying, posts.length])
@@ -63,11 +63,11 @@ export function BlogCarousel({
   }
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.max(1, posts.length - 2))
+    setCurrentIndex((prev) => (prev + 1) % posts.length)
   }
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.max(1, posts.length - 2)) % Math.max(1, posts.length - 2))
+    setCurrentIndex((prev) => (prev - 1 + posts.length) % posts.length)
   }
 
   const handleMouseEnter = () => {
@@ -126,7 +126,7 @@ export function BlogCarousel({
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-white">{title}</h2>
         <div className="flex items-center space-x-3">
-          {posts.length > 3 && (
+          {posts.length > 1 && (
             <button
               onClick={toggleAutoPlay}
               className="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 text-white transition-colors"
@@ -147,40 +147,39 @@ export function BlogCarousel({
 
       <div className="relative">
         {/* Navigation Buttons */}
-        {posts.length > 3 && (
+        {posts.length > 1 && (
           <>
             <button
               onClick={prevSlide}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-dark-700 hover:bg-dark-600 text-white p-2 rounded-full shadow-lg transition-all duration-200"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-dark-700 hover:bg-dark-600 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
             >
-              <ChevronLeftIcon className="h-5 w-5" />
+              <ChevronLeftIcon className="h-6 w-6" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-dark-700 hover:bg-dark-600 text-white p-2 rounded-full shadow-lg transition-all duration-200"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-dark-700 hover:bg-dark-600 text-white p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
             >
-              <ChevronRightIcon className="h-5 w-5" />
+              <ChevronRightIcon className="h-6 w-6" />
             </button>
           </>
         )}
 
-        {/* Blog Posts Grid */}
-        <div className="overflow-hidden">
+        {/* Blog Posts Carousel - One at a time */}
+        <div className="overflow-hidden relative">
           <div 
-            className="flex transition-transform duration-700 ease-in-out gap-6"
+            className="flex transition-transform duration-700 ease-in-out"
             style={{
-              transform: `translateX(-${currentIndex * (100 / 3)}%)`,
-              width: `${(posts.length / 3) * 100}%`
+              transform: `translateX(-${currentIndex * 100}%)`,
+              width: `${posts.length * 100}%`
             }}
           >
             {posts.map((post, index) => (
               <div 
                 key={post.id} 
-                className="flex-shrink-0 w-1/3"
-                style={{ minWidth: 'calc(33.333% - 1rem)' }}
+                className="flex-shrink-0 w-full px-4"
               >
                 <Card 
-                  className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform hover:scale-105 hover:shadow-xl ${
+                  className={`bg-dark-700 hover:bg-dark-600 transition-all duration-500 group cursor-pointer transform hover:scale-105 hover:shadow-xl mx-auto max-w-4xl ${
                     index === currentIndex ? 'animate-slide-in' : ''
                   }`}
                   style={{
@@ -249,21 +248,21 @@ export function BlogCarousel({
         </div>
 
         {/* Dots Indicator */}
-        {posts.length > 3 && (
+        {posts.length > 1 && (
           <div className="flex flex-col items-center mt-6 space-y-4">
             {/* Progress Bar */}
             <div className="w-full max-w-xs bg-gray-700 rounded-full h-1 overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full transition-all duration-500 ease-out"
                 style={{
-                  width: `${((currentIndex + 1) / Math.max(1, posts.length - 2)) * 100}%`
+                  width: `${((currentIndex + 1) / posts.length) * 100}%`
                 }}
               />
             </div>
             
             {/* Dots */}
             <div className="flex space-x-3">
-              {Array.from({ length: Math.max(1, posts.length - 2) }).map((_, index) => (
+              {posts.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
