@@ -120,7 +120,7 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
       }
 
       // Then fetch user details for all unique user IDs
-      const userIds = [...new Set(messagesData.map(msg => msg.user_id))]
+      const userIds = Array.from(new Set(messagesData.map(msg => msg.user_id)))
       const { data: usersData, error: usersError } = await supabase
         .from('users')
         .select('id, name, surname, photo_url, email')
