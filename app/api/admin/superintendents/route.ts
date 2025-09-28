@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     
     console.log('📊 Query params:', { search, page, limit })
 
-    // Build query for superintendents - simplified without profiles for now
+    // Build query for superintendents with verification data
     let query = supabase
       .from('users')
       .select(`
@@ -59,7 +59,11 @@ export async function GET(request: NextRequest) {
         twitter,
         facebook,
         created_at,
-        role
+        role,
+        email_verifications(
+          is_verified,
+          verified_at
+        )
       `)
       .eq('role', 'superintendent')
 

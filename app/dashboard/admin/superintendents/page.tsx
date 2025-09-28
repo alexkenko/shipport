@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { MagnifyingGlassIcon, UserIcon, BuildingOfficeIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon, CalendarIcon } from '@heroicons/react/24/outline'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import { VerificationBadge } from '@/components/ui/VerificationBadge'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 
@@ -25,6 +26,10 @@ interface Superintendent {
   facebook?: string
   created_at: string
   role: string
+  email_verifications?: {
+    is_verified: boolean
+    verified_at: string
+  }[]
 }
 
 export default function AdminSuperintendentsPage() {
@@ -216,11 +221,17 @@ export default function AdminSuperintendentsPage() {
                             </p>
                           </div>
                         </div>
-                        <PremiumBadge 
-                          signupDate={superintendent.created_at} 
-                          role={superintendent.role}
-                          size="sm"
-                        />
+                        <div className="flex flex-col gap-2">
+                          <PremiumBadge 
+                            signupDate={superintendent.created_at} 
+                            role={superintendent.role}
+                            size="sm"
+                          />
+                          <VerificationBadge 
+                            isVerified={superintendent.email_verifications?.[0]?.is_verified || false}
+                            size="sm"
+                          />
+                        </div>
                       </div>
                     </CardHeader>
                     
