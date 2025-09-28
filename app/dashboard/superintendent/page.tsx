@@ -258,7 +258,7 @@ export default function SuperintendentDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <BlogCarousel />
+              <BlogCarousel showViewAll={false} />
             </CardContent>
           </Card>
         </div>
