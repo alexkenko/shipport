@@ -32,7 +32,7 @@ interface HeaderProps {
 export function Header({ user, onNotificationClick, unreadCount, hideNavigation }: HeaderProps) {
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
+  
   const handleSignOut = async () => {
     try {
       await signOut()
@@ -55,27 +55,27 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
     if (user.role === 'manager') {
       return [
-        { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon, color: 'blue' },
-        { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon, color: 'green' },
+          { name: 'Dashboard', href: '/dashboard/manager', icon: HomeIcon, color: 'blue' },
+          { name: 'Post Job', href: '/dashboard/manager/post-job', icon: PlusIcon, color: 'green' },
         { name: 'Search Superintendents', href: '/dashboard/manager/search', icon: MagnifyingGlassIcon, color: 'yellow' },
         { name: 'My Posts', href: '/dashboard/manager/my-posts', icon: DocumentTextIcon, color: 'purple' },
         { name: 'Applications', href: '/dashboard/manager/applications', icon: ClipboardDocumentListIcon, color: 'red' },
-        ...(user.email === 'kenkadzealex@gmail.com' ? [
-          { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
-          { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
-        ] : []),
-      ]
+          ...(user.email === 'kenkadzealex@gmail.com' ? [
+            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
+            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+          ] : []),
+        ]
     }
 
     if (user.role === 'superintendent') {
       return [
-        { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
-        { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green' },
-        { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red' },
-        ...(user.email === 'kenkadzealex@gmail.com' ? [
-          { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
-          { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
-        ] : []),
+          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
+          { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green' },
+          { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red' },
+          ...(user.email === 'kenkadzealex@gmail.com' ? [
+            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
+            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+          ] : []),
       ]
     }
 
@@ -103,14 +103,14 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
+            <Link href={user ? `/dashboard/${user.role}` : '/'} className="flex items-center">
               <span className="text-2xl font-bold">
                 <span className="text-blue-400">Ship</span>
-                <span className="text-red-500">in</span>
+        <span className="text-red-500">in</span>
                 <span className="text-blue-400">Port.com</span>
-              </span>
-            </Link>
-          </div>
+                  </span>
+                </Link>
+              </div>
 
           {/* Desktop Navigation */}
           {!hideNavigation && (
@@ -118,20 +118,20 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
-                
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
+              
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
                     className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2 ${getColorClasses(item.color)} ${
                       isActive ? 'bg-primary-600/20 text-primary-400' : ''
                     }`}
                   >
                     <Icon className="h-4 w-4" />
                     <span>{item.name}</span>
-                  </Link>
-                )
-              })}
+                </Link>
+              )
+            })}
             </nav>
           )}
 
@@ -189,13 +189,13 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                   <Button variant="outline" size="sm">
                     Sign In
                   </Button>
-                </Link>
+                  </Link>
                 <Link href="/auth/register">
                   <Button size="sm">
                     Get Started
                   </Button>
-                </Link>
-              </div>
+                  </Link>
+                </div>
             )}
 
             {/* Mobile menu button */}
@@ -214,33 +214,33 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               </div>
             )}
           </div>
-        </div>
+      </div>
 
-        {/* Mobile Navigation */}
+      {/* Mobile Navigation */}
         {!hideNavigation && isMobileMenuOpen && (
           <div className="md:hidden border-t border-dark-700">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
-                
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
+              
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${getColorClasses(item.color)} ${
                       isActive ? 'bg-primary-600/20 text-primary-400' : ''
                     }`}
                   >
                     <Icon className="h-5 w-5" />
-                    <span>{item.name}</span>
-                  </Link>
-                )
-              })}
-            </div>
+                  <span>{item.name}</span>
+                </Link>
+              )
+            })}
           </div>
-        )}
+        </div>
+      )}
       </div>
     </header>
   )
