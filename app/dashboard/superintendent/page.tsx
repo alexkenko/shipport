@@ -28,10 +28,9 @@ const getMockStats = () => {
   const daysSinceBase = Math.floor((today.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24))
   
   return {
-    shipManagers: 1247 + (daysSinceBase * 2), // Increases by 2 daily
-    completedJobs: 8934 + (daysSinceBase * 3), // Increases by 3 daily
-    activeSuperintendents: 456 + (daysSinceBase * 1), // Increases by 1 daily
-    totalConnections: 15678 + (daysSinceBase * 4), // Increases by 4 daily
+    shipManagers: 63 + (daysSinceBase * 2), // Increases by 2 daily
+    completedJobs: 435 + (daysSinceBase * 3), // Increases by 3 daily
+    activeSuperintendents: 29 + (daysSinceBase * 1), // Increases by 1 daily
   }
 }
 
@@ -101,7 +100,7 @@ export default function SuperintendentDashboard() {
         </div>
 
         {/* Platform Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 border-blue-500/30">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -150,21 +149,6 @@ export default function SuperintendentDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-orange-600/20 to-orange-800/20 border-orange-500/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-orange-400">Total Connections</p>
-                  <p className="text-3xl font-bold text-white">{stats.totalConnections.toLocaleString()}</p>
-                  <p className="text-xs text-orange-300 flex items-center gap-1">
-                    <ArrowTrendingUpIcon className="h-3 w-3" />
-                    +4 daily
-                  </p>
-                </div>
-                <BriefcaseIcon className="h-8 w-8 text-orange-400" />
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
