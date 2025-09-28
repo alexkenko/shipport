@@ -96,7 +96,7 @@ export default function SuperintendentChatPage() {
   const checkUser = async () => {
     try {
       const currentUser = await getCurrentUser()
-      if (!currentUser || currentUser.role !== 'superintendent' || currentUser.verification_status !== 'approved') {
+      if (!currentUser || currentUser.role !== 'superintendent' || !currentUser.email_verified) {
         toast.error('Access denied. Only verified superintendents can access the chat.')
         window.location.href = '/dashboard/superintendent'
         return

@@ -62,7 +62,6 @@ CREATE POLICY "Only superintendents can view chat messages" ON superintendent_ch
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
@@ -73,7 +72,6 @@ CREATE POLICY "Only superintendents can insert chat messages" ON superintendent_
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
@@ -84,7 +82,6 @@ CREATE POLICY "Users can update their own messages" ON superintendent_chat_messa
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
@@ -95,7 +92,6 @@ CREATE POLICY "Users can delete their own messages" ON superintendent_chat_messa
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
@@ -106,7 +102,6 @@ CREATE POLICY "Only superintendents can manage online status" ON superintendent_
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
@@ -117,7 +112,6 @@ CREATE POLICY "Only superintendents can manage reactions" ON superintendent_chat
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
@@ -128,7 +122,6 @@ CREATE POLICY "Only superintendents can manage read status" ON superintendent_ch
       SELECT 1 FROM users 
       WHERE users.id = auth.uid() 
       AND users.role = 'superintendent'
-      AND users.verification_status = 'approved'
     )
   );
 
