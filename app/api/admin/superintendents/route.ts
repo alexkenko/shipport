@@ -59,11 +59,7 @@ export async function GET(request: NextRequest) {
         twitter,
         facebook,
         created_at,
-        role,
-        email_verifications(
-          is_verified,
-          verified_at
-        )
+        role
       `)
       .eq('role', 'superintendent')
 
@@ -107,8 +103,29 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to fetch superintendents' }, { status: 500 })
     }
 
+    // Fetch verification data for all superintendents
+    let superintendentsWithVerification = superintendents || []
+    if (superintendents && superintendents.length > 0) {
+      const userIds = superintendents.map(s => s.id)
+      const { data: verifications, error: verificationError } = await supabase
+        .from('email_verifications')
+        .select('user_id, is_verified, verified_at')
+        .in('user_id', userIds)
+
+      if (verificationError) {
+        console.error('❌ Error fetching verifications:', verificationError)
+        // Continue without verification data rather than failing
+      } else {
+        // Add verification data to superintendents
+        superintendentsWithVerification = superintendents.map(superintendent => ({
+          ...superintendent,
+          email_verifications: verifications?.filter(v => v.user_id === superintendent.id) || []
+        }))
+      }
+    }
+
     return NextResponse.json({
-      superintendents: superintendents || [],
+      superintendents: superintendentsWithVerification,
       pagination: {
         page,
         limit,
