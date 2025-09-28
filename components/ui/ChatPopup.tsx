@@ -103,35 +103,48 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
 
   const fetchMessages = async () => {
     try {
-      // Fetch messages directly from the table with user details
-      const { data, error } = await supabase
+      console.log('ChatPopup: Fetching messages...')
+      // First fetch messages
+      const { data: messagesData, error: messagesError } = await supabase
         .from('superintendent_chat_messages')
-        .select(`
-          *,
-          users!inner(
-            name,
-            surname,
-            photo_url,
-            email
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: true })
-        .limit(50) // Limit to recent messages
+        .limit(50)
 
-      if (error) throw error
+      console.log('ChatPopup: Messages query result:', { messagesData, messagesError })
+      if (messagesError) throw messagesError
+
+      if (!messagesData || messagesData.length === 0) {
+        setMessages([])
+        return
+      }
+
+      // Then fetch user details for all unique user IDs
+      const userIds = [...new Set(messagesData.map(msg => msg.user_id))]
+      const { data: usersData, error: usersError } = await supabase
+        .from('users')
+        .select('id, name, surname, photo_url, email')
+        .in('id', userIds)
+
+      console.log('ChatPopup: Users query result:', { usersData, usersError })
+      if (usersError) throw usersError
+
+      // Combine the data
+      const transformedData = messagesData.map(msg => {
+        const userData = usersData?.find(user => user.id === msg.user_id)
+        return {
+          ...msg,
+          name: userData?.name || '',
+          surname: userData?.surname || '',
+          photo_url: userData?.photo_url || '',
+          email: userData?.email || '',
+          reply_message: undefined,
+          reply_user_name: undefined,
+          reply_user_surname: undefined
+        }
+      })
       
-      // Transform the data to match the expected format
-      const transformedData = data?.map(msg => ({
-        ...msg,
-        name: msg.users?.name || '',
-        surname: msg.users?.surname || '',
-        photo_url: msg.users?.photo_url || '',
-        email: msg.users?.email || '',
-        reply_message: null,
-        reply_user_name: null,
-        reply_user_surname: null
-      })) || []
-      
+      console.log('ChatPopup: Transformed data:', transformedData)
       setMessages(transformedData)
     } catch (error) {
       console.error('Error fetching messages:', error)
@@ -143,12 +156,14 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
 
   const fetchOnlineUsers = async () => {
     try {
+      console.log('ChatPopup: Fetching online users...')
       // First get online users
       const { data: onlineData, error: onlineError } = await supabase
         .from('superintendent_chat_online')
         .select('user_id, last_seen_at, is_typing')
         .gt('last_seen_at', new Date(Date.now() - 5 * 60 * 1000).toISOString()) // 5 minutes
 
+      console.log('ChatPopup: Online users query result:', { onlineData, onlineError })
       if (onlineError) throw onlineError
 
       if (!onlineData || onlineData.length === 0) {
