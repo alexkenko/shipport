@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header'
 export const metadata: Metadata = {
   title: 'ShipinPort.com Marine Services - ISM ISPS MLC Audits, Vessel Inspections & Maritime Consulting',
   description: 'Comprehensive marine superintendent services including ISM ISPS MLC audits, pre-vetting inspections, vessel assessments, navigation audits, and maritime consulting. Professional marine industry services worldwide.',
-  keywords: [
+  // keywords: [
     'marine superintendent services',
     'ISM audit services',
     'ISPS audit services',
@@ -46,8 +46,7 @@ export default function ServicesPage() {
         'Safety equipment inspection',
         'Documentation review',
         'Operational readiness evaluation'
-      ],
-      keywords: 'pre-vetting inspection, charter inspection, vessel assessment, charter compliance'
+      ]
     },
     {
       title: 'ISM, ISPS, MLC Audits',
@@ -60,7 +59,6 @@ export default function ServicesPage() {
         'Documentation verification',
         'Corrective action planning'
       ],
-      keywords: 'ISM audit, ISPS audit, MLC audit, maritime compliance audit, safety management audit'
     },
     {
       title: 'Marine Consultancy',
@@ -73,7 +71,6 @@ export default function ServicesPage() {
         'Risk assessment and mitigation',
         'Performance optimization'
       ],
-      keywords: 'marine consultancy, maritime consulting, vessel operations consulting, marine safety consulting'
     },
     {
       title: 'TMSA Preparation',
@@ -86,7 +83,6 @@ export default function ServicesPage() {
         'Training and implementation',
         'Continuous improvement planning'
       ],
-      keywords: 'TMSA preparation, tanker management, self assessment, TMSA compliance, tanker safety'
     },
     {
       title: 'Navigation Audits',
@@ -99,7 +95,6 @@ export default function ServicesPage() {
         'Training assessment',
         'Compliance documentation'
       ],
-      keywords: 'navigation audit, bridge audit, navigation safety, maritime navigation, bridge procedures'
     },
     {
       title: 'Cargo Supervision',
@@ -112,7 +107,6 @@ export default function ServicesPage() {
         'Documentation verification',
         'Risk assessment'
       ],
-      keywords: 'cargo supervision, cargo handling, marine cargo, cargo safety, stowage supervision'
     },
     {
       title: 'Bulk Vessel Inspections',
@@ -125,7 +119,6 @@ export default function ServicesPage() {
         'Safety system verification',
         'Operational readiness check'
       ],
-      keywords: 'bulk vessel inspection, bulk carrier inspection, cargo vessel inspection, bulk cargo inspection'
     },
     {
       title: 'Pre Purchase Inspections',
@@ -138,7 +131,6 @@ export default function ServicesPage() {
         'Operational capability review',
         'Investment risk analysis'
       ],
-      keywords: 'pre purchase inspection, vessel survey, marine survey, ship inspection, vessel appraisal'
     },
     {
       title: 'Flag State Inspections',
@@ -151,7 +143,6 @@ export default function ServicesPage() {
         'Crew certification verification',
         'Corrective action coordination'
       ],
-      keywords: 'flag state inspection, maritime regulation compliance, flag state audit, national maritime compliance'
     },
     {
       title: 'VDR Analysis',
@@ -164,7 +155,6 @@ export default function ServicesPage() {
         'Root cause investigation',
         'Preventive measure recommendations'
       ],
-      keywords: 'VDR analysis, voyage data recorder, incident investigation, marine incident analysis, VDR data analysis'
     },
     {
       title: 'Accident Investigation',
@@ -177,7 +167,6 @@ export default function ServicesPage() {
         'Root cause determination',
         'Preventive recommendations'
       ],
-      keywords: 'marine accident investigation, ship accident investigation, maritime incident analysis, marine safety investigation'
     },
     {
       title: 'Safety & Compliance Supervision',
@@ -190,7 +179,6 @@ export default function ServicesPage() {
         'Risk assessment and mitigation',
         'Continuous improvement planning'
       ],
-      keywords: 'marine safety supervision, maritime compliance supervision, safety management, compliance monitoring'
     }
   ]
 
@@ -225,9 +213,6 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
-              <div className="text-xs text-primary-300 font-medium">
-                Keywords: {service.keywords}
-              </div>
             </div>
           ))}
         </div>

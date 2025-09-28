@@ -53,19 +53,19 @@ export function AnimatedHero() {
       </div>
 
       {/* Main Hero Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 parallax-front">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 parallax-front">
         <div className="text-center">
           {/* Animated Headline */}
-          <div className="mb-6">
-            <h1 className="text-4xl md:text-6xl font-bold text-white">
+          <div className="mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white">
               <div 
-                className={`text-5xl md:text-7xl font-extrabold animate-typing ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                className={`text-3xl sm:text-5xl md:text-7xl font-extrabold animate-typing ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{animationDelay: '0.2s'}}
               >
                 <span className="text-blue-400">{typingTexts[currentText]}</span>
               </div>
               <span 
-                className={`block text-2xl md:text-3xl font-normal text-gray-300 mt-4 animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                className={`block text-lg sm:text-2xl md:text-3xl font-normal text-gray-300 mt-2 sm:mt-4 animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{animationDelay: '0.8s'}}
               >
                 <span className="text-blue-700">Ship</span>
@@ -77,7 +77,7 @@ export function AnimatedHero() {
 
           {/* Animated Description */}
           <p 
-            className={`text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto animate-slide-bottom ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`text-sm sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto px-2 animate-slide-bottom ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             style={{animationDelay: '1s'}}
           >
             #1 Professional <strong className="text-white">Marine Superintendent</strong> and <strong className="text-white">Marine Consultancy</strong> Platform. 
@@ -87,18 +87,18 @@ export function AnimatedHero() {
 
           {/* Animated Buttons */}
           <div 
-            className={`flex flex-col gap-4 justify-center items-center animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             style={{animationDelay: '1.2s'}}
           >
             <Link
               href="/auth/register"
-              className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 w-full sm:w-auto btn-hover transform hover:scale-105"
+              className="bg-primary-600 hover:bg-primary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto btn-hover transform hover:scale-105 text-center"
             >
               Create Account
             </Link>
             <Link
               href="/auth/login"
-              className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center btn-hover transform hover:scale-105"
+              className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center btn-hover transform hover:scale-105"
             >
               Sign In
             </Link>
