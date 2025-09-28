@@ -28,9 +28,9 @@ const getMockStats = () => {
   const daysSinceBase = Math.floor((today.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24))
   
   return {
-    shipManagers: 63 + (daysSinceBase * 2), // Increases by 2 daily
-    completedJobs: 435 + (daysSinceBase * 3), // Increases by 3 daily
-    activeSuperintendents: 29 + (daysSinceBase * 1), // Increases by 1 daily
+    shipManagers: 65 + (daysSinceBase * 2), // Increases by 2 daily
+    completedJobs: 338 + (daysSinceBase * 3), // Increases by 3 daily
+    activeSuperintendents: 30 + (daysSinceBase * 1), // Increases by 1 daily
   }
 }
 
