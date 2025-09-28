@@ -205,11 +205,11 @@ export function BlogCarousel({
                     <img 
                       src={post.featured_image_url} 
                       alt={post.title}
-                      className="w-full h-24 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-20 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-24 bg-gradient-to-br from-primary-600 to-marine-600 flex items-center justify-center">
-                      <span className="text-white text-2xl font-bold">📝</span>
+                    <div className="w-full h-20 bg-gradient-to-br from-primary-600 to-marine-600 flex items-center justify-center">
+                      <span className="text-white text-xl font-bold">📝</span>
                     </div>
                   )}
                 </div>
@@ -229,12 +229,12 @@ export function BlogCarousel({
                     </div>
                   </div>
                   
-                  <h3 className="text-base font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors leading-tight break-words">
+                  <h3 className="text-sm sm:text-base font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors leading-tight break-words line-clamp-2">
                     {post.title}
                   </h3>
                   
                   <p className="text-gray-300 text-xs mb-2 line-clamp-1">
-                    {post.excerpt || post.content.substring(0, 80) + '...'}
+                    {post.excerpt || post.content.substring(0, 60) + '...'}
                   </p>
                   
                   <div className="flex items-center justify-between text-xs text-gray-400">
