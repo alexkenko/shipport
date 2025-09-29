@@ -7,17 +7,22 @@ Sitemap: https://shipinport.com/sitemap.xml
 # Crawl delay for better server performance
 Crawl-delay: 1
 
-# Block admin and private areas
-Disallow: /dashboard/
+# Block only truly private areas
 Disallow: /api/
-Disallow: /auth/
 Disallow: /_next/
-Disallow: /admin/
 
-# Allow important SEO pages
+# Allow all public pages including auth pages for SEO
+Allow: /auth/login
+Allow: /auth/register
+Allow: /auth/verify-email
+
+# Allow all important SEO pages
 Allow: /marine-superintendent-marine-consultancy-superintendancy
+Allow: /marine-superintendent-jobs
+Allow: /marine-superintendent-faq
 Allow: /services
 Allow: /about
 Allow: /contact
 Allow: /blog
 Allow: /profile/
+Allow: /dashboard/
