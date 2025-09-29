@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'),
   alternates: {
-    canonical: '/',
+    canonical: 'https://shipinport.com',
   },
         openGraph: {
           title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy Services',

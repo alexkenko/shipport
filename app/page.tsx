@@ -22,9 +22,6 @@ export const metadata: Metadata = {
     title: 'Marine Superintendent Jobs & Marine Consultancy Services',
     description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform.',
   },
-  alternates: {
-    canonical: 'https://shipinport.com',
-  },
 }
 
 export default function HomePage() {
