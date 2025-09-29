@@ -114,85 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     
-    // Dashboard pages - Lower priority (behind auth)
-    {
-      url: `${baseUrl}/dashboard/manager`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/dashboard/superintendent`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/dashboard/manager/post-job`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/dashboard/superintendent/search`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/dashboard/manager/search`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/dashboard/manager/profile`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/dashboard/superintendent/profile`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/dashboard/manager/applications`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/dashboard/manager/my-posts`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/dashboard/superintendent/applications`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/dashboard/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/dashboard/blog/create`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.4,
-    },
-    {
-      url: `${baseUrl}/dashboard/admin/superintendents`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
+    // Dashboard pages removed from sitemap (blocked by robots.txt)
   ]
 
   // Fetch blog posts dynamically
@@ -212,18 +134,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })) || []
 
-    // Add blog edit pages for all posts (including drafts)
-    const { data: allPosts } = await supabase
-      .from('blog_posts')
-      .select('slug, updated_at')
-      .order('updated_at', { ascending: false })
-
-    blogEditPages = allPosts?.map(post => ({
-      url: `${baseUrl}/dashboard/blog/edit/${post.slug}`,
-      lastModified: new Date(post.updated_at),
-      changeFrequency: 'weekly' as const,
-      priority: 0.3,
-    })) || []
+    // Blog edit pages removed from sitemap (dashboard pages)
   } catch (error) {
     console.error('Error fetching blog posts for sitemap:', error)
   }
@@ -248,5 +159,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching profiles for sitemap:', error)
   }
 
-  return [...staticPages, ...blogPosts, ...blogEditPages, ...profilePages]
+  return [...staticPages, ...blogPosts, ...profilePages]
 }
