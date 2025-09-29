@@ -4,7 +4,7 @@ import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 
 export const metadata: Metadata = {
   title: 'About ShipinPort.com - Leading Marine Superintendent Platform & Vessel Management Solutions',
-  description: 'Learn about ShipinPort, the premier platform connecting vessel managers with certified marine superintendents. Discover our mission to revolutionize maritime industry networking and professional services.',
+  description: 'Discover ShipinPort - the leading marine superintendent platform connecting vessel managers with certified professionals worldwide. Expert ISM, ISPS, MLC audits, pre-vetting inspections & maritime consulting services.',
   keywords: [
     'about shipinport',
     'marine superintendent platform',

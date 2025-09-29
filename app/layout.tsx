@@ -55,14 +55,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'),
   alternates: {
     canonical: '/',
   },
         openGraph: {
           title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy Services',
           description: 'Professional Marine Superintendent and Marine Consultancy services. Connect with certified superintendents for vessel inspections, audits, and maritime consulting worldwide.',
-          url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com',
+          url: process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com',
           siteName: 'ShipinPort',
     images: [
       {
@@ -107,6 +107,46 @@ export default function RootLayout({
         <meta name="theme-color" content="#0f172a" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="ShipinPort" />
+        <meta name="msapplication-TileColor" content="#0f172a" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "ShipinPort",
+              "url": "https://shipinport.com",
+              "logo": "https://shipinport.com/logo.png",
+              "description": "Professional Marine Superintendent and Marine Consultancy services",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "url": "https://shipinport.com/contact"
+              },
+              "sameAs": [
+                "https://shipinport.com"
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "Global"
+              },
+              "serviceType": [
+                "Marine Superintendent Services",
+                "Marine Consultancy",
+                "Superintendancy",
+                "Vessel Inspections",
+                "ISM ISPS MLC Audits",
+                "Pre-vetting Inspections",
+                "Maritime Consulting"
+              ]
+            })
+          }}
+        />
       </head>
       <body className={`${inter.className} bg-dark-900 text-white min-h-screen`}>
         <GoogleAnalytics />

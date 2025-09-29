@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { BlogPost, BlogCategory } from '@/types'
@@ -23,6 +23,9 @@ export function BlogCarousel({
   const [isLoading, setIsLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchBlogData()
@@ -93,6 +96,30 @@ export function BlogCarousel({
 
   const toggleAutoPlay = () => {
     setIsAutoPlaying(!isAutoPlaying)
+  }
+
+  // Touch handling for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe && posts.length > 1) {
+      nextSlide()
+    }
+    if (isRightSwipe && posts.length > 1) {
+      prevSlide()
+    }
   }
 
   if (isLoading) {
@@ -178,7 +205,13 @@ export function BlogCarousel({
         )}
 
         {/* Blog Posts Carousel - One at a time */}
-        <div className="overflow-hidden relative flex justify-center">
+        <div 
+          ref={carouselRef}
+          className="overflow-hidden relative flex justify-center touch-pan-x"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div 
             className="flex transition-transform duration-700 ease-in-out"
             style={{

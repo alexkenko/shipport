@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 interface SearchPopupProps {
   isOpen: boolean
@@ -8,6 +8,10 @@ interface SearchPopupProps {
 }
 
 export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+  const popupRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     if (isOpen) {
       // Auto-close after 3 seconds
@@ -19,11 +23,37 @@ export function SearchPopup({ isOpen, onClose }: SearchPopupProps) {
     }
   }, [isOpen, onClose])
 
+  // Touch handling for swipe gestures
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientY)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientY)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isUpSwipe = distance < -100 // Swipe up to close
+
+    if (isUpSwipe) {
+      onClose()
+    }
+  }
+
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-yellow-900/90 to-yellow-800/80 rounded-xl shadow-2xl border border-yellow-600/50 max-w-md w-full mx-4 p-8 text-center animate-in fade-in-0 zoom-in-95 duration-300">
+      <div 
+        ref={popupRef}
+        className="bg-gradient-to-br from-yellow-900/90 to-yellow-800/80 rounded-xl shadow-2xl border border-yellow-600/50 max-w-md w-full mx-4 p-8 text-center animate-in fade-in-0 zoom-in-95 duration-300 touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Close button */}
         <button
           onClick={onClose}

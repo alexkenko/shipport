@@ -4,6 +4,41 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile Touch Optimizations */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+  }
+  
+  /* Improve touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Smooth scrolling */
+  * {
+    scroll-behavior: smooth;
+  }
+  
+  /* Hide scrollbars on mobile but keep functionality */
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+  }
+}
+
 /* Blog post image styles */
 .prose img {
   max-width: 100% !important;
