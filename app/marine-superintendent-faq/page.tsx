@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     'marine superintendent career',
     'marine superintendent salary',
     'marine superintendent requirements',
-    'maritime employment FAQ'
+    'maritime employment FAQ',
   ],
   openGraph: {
     title: 'Marine Superintendent FAQ - Your Questions Answered | ShipinPort.com',
@@ -43,8 +43,8 @@ export default function MarineSuperintendentFAQPage() {
       answer: "To become a marine superintendent, you typically need a marine engineering degree or equivalent maritime qualification, minimum 3-5 years of maritime experience, valid STCW certificates, and specialized training in areas like ISM/ISPS/MLC audits. Additional certifications in port state inspections, oil major vetting, and marine consultancy are highly valued by employers."
     },
     {
-      question: "What are the typical rates for marine superintendent jobs?",
-      answer: "Marine superintendent rates vary based on experience, location, and assignment type. Typical daily rates range from $300-800 USD, with senior superintendents commanding $600-1000+ per day. Factors affecting rates include vessel type (tanker, bulk carrier, container), location (Singapore, Rotterdam, Hamburg), and specialization (ISM audits, port state inspections, SIRE 2.0 vetting)."
+      question: "What are the typical rates and salary for marine superintendent jobs?",
+      answer: "Marine superintendent compensation varies significantly by experience and location. Monthly salaries range from $12,000-$15,000 USD in major maritime hubs like Singapore, Rotterdam, and Dubai. Daily contract rates are $300-800 USD, with senior superintendents earning $600-1000+ per day. Annual salaries for full-time positions typically range from $120,000-$180,000 USD, with bonuses and benefits. Factors affecting compensation include vessel type (tanker superintendents earn premium rates), specialization (SIRE 2.0, oil major vetting), and company size (major shipping companies offer higher packages)."
     },
     {
       question: "What types of marine superintendent jobs are available?",
@@ -93,7 +93,7 @@ export default function MarineSuperintendentFAQPage() {
     {
       question: "What is marine consultancy and how does it differ from superintendency?",
       answer: "Marine consultancy involves providing expert advisory services on maritime operations, regulatory compliance, risk management, and technical matters. Marine superintendency focuses on hands-on vessel management, inspections, and operational oversight. Many marine superintendents also offer consultancy services, leveraging their practical experience to advise clients on maritime best practices."
-    }
+    },
   ]
 
   const structuredData = {
@@ -181,12 +181,12 @@ export default function MarineSuperintendentFAQPage() {
               </Card>
             </Link>
             
-            <Link href="/marine-superintendent-singapore">
+            <Link href="/marine-superintendent-marine-consultancy-superintendancy">
               <Card className="hover:bg-dark-700/50 transition-colors cursor-pointer">
                 <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-4">🇸🇬</div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Singapore Jobs</h3>
-                  <p className="text-gray-300 text-sm">Find marine superintendent jobs in Singapore</p>
+                  <div className="text-4xl mb-4">⚓</div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Marine Consultancy</h3>
+                  <p className="text-gray-300 text-sm">Professional marine superintendent services</p>
                 </CardContent>
               </Card>
             </Link>
