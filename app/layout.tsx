@@ -8,6 +8,13 @@ import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+}
+
 export const metadata: Metadata = {
   title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy Services',
   description: 'Professional Marine Superintendent and Marine Consultancy services. Connect with certified superintendents for vessel inspections, ISM ISPS MLC audits, pre-vetting inspections, and maritime consulting worldwide.',
@@ -107,7 +114,6 @@ export default function RootLayout({
         <meta name="theme-color" content="#0f172a" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="ShipinPort" />

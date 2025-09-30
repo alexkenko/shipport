@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
+// Force this API route to run at runtime, not build time
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   console.log('🚀 Admin superintendents API called')
   try {

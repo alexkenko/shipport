@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 
+// Force this API route to run at runtime, not build time
+export const dynamic = 'force-dynamic'
+
 export interface NewsArticle {
   title: string;
   description: string;
