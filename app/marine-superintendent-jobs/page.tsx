@@ -14,8 +14,8 @@ import {
 } from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
-  title: 'Marine Superintendent Jobs - Find Marine Superintendent Positions Worldwide | ShipinPort.com',
-  description: 'Discover marine superintendent jobs worldwide. Browse 1000+ marine superintendent positions, vessel management roles, and maritime superintendent careers. Apply for marine superintendent jobs with leading shipping companies.',
+  title: 'Marine Superintendent Jobs - 1000+ Marine Superintendent Positions Worldwide | ShipinPort.com',
+  description: 'Find marine superintendent jobs worldwide. Browse 1000+ marine superintendent positions, vessel superintendent jobs, maritime superintendent careers. Apply for marine superintendent jobs with top shipping companies. $300-800/day rates.',
   keywords: [
     'marine superintendent jobs',
     'marine superintendent positions',
@@ -43,23 +43,68 @@ export const metadata: Metadata = {
 export default function MarineSuperintendentJobsPage() {
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "JobPosting",
-    "title": "Marine Superintendent Jobs",
-    "description": "Find marine superintendent positions worldwide. Browse opportunities for vessel inspections, ISM audits, port state inspections, and maritime consulting.",
-    "employmentType": ["FULL_TIME", "PART_TIME", "CONTRACTOR"],
-    "industry": "Maritime Transportation",
-    "occupationalCategory": "Marine Superintendent",
-    "workHours": "Varies by assignment",
-    "jobBenefits": "Competitive rates, worldwide assignments, professional development",
-    "hiringOrganization": {
-      "@type": "Organization",
-      "name": "ShipinPort.com",
-      "url": "https://shipinport.com"
-    },
-    "jobLocation": {
-      "@type": "Place",
-      "name": "Worldwide"
-    }
+    "@type": "JobBoard",
+    "name": "Marine Superintendent Jobs",
+    "description": "Find marine superintendent positions worldwide. Browse 1000+ marine superintendent jobs, vessel superintendent positions, maritime superintendent careers with leading shipping companies.",
+    "url": "https://shipinport.com/marine-superintendent-jobs",
+    "jobPosting": [
+      {
+        "@type": "JobPosting",
+        "title": "Marine Superintendent - ISM/ISPS Audits",
+        "description": "Conduct comprehensive ship audits and compliance assessments for ISM, ISPS, and MLC regulations.",
+        "employmentType": "CONTRACTOR",
+        "industry": "Maritime Transportation",
+        "occupationalCategory": "Marine Superintendent",
+        "workHours": "Varies by assignment",
+        "baseSalary": {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": {
+            "@type": "QuantitativeValue",
+            "minValue": 300,
+            "maxValue": 800,
+            "unitText": "DAY"
+          }
+        },
+        "jobBenefits": "Competitive daily rates, worldwide assignments, professional development",
+        "hiringOrganization": {
+          "@type": "Organization",
+          "name": "ShipinPort.com",
+          "url": "https://shipinport.com"
+        },
+        "jobLocation": {
+          "@type": "Place",
+          "name": "Worldwide"
+        }
+      },
+      {
+        "@type": "JobPosting",
+        "title": "Vessel Superintendent - Port State Inspections",
+        "description": "Prepare vessels for port state control inspections and ensure compliance with international regulations.",
+        "employmentType": "CONTRACTOR",
+        "industry": "Maritime Transportation",
+        "occupationalCategory": "Marine Superintendent",
+        "baseSalary": {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": {
+            "@type": "QuantitativeValue",
+            "minValue": 350,
+            "maxValue": 700,
+            "unitText": "DAY"
+          }
+        },
+        "hiringOrganization": {
+          "@type": "Organization",
+          "name": "ShipinPort.com",
+          "url": "https://shipinport.com"
+        },
+        "jobLocation": {
+          "@type": "Place",
+          "name": "Worldwide"
+        }
+      }
+    ]
   }
 
   const jobCategories = [
