@@ -271,6 +271,23 @@ a {
   .mobile-scroll-picker::-webkit-calendar-picker-indicator {
     display: none;
   }
+  
+  /* Enhanced mobile button interactions */
+  button, .btn-hover {
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3);
+    touch-action: manipulation;
+  }
+  
+  /* Improved mobile button sizing */
+  .min-h-\[44px\] {
+    min-height: 44px;
+  }
+  
+  /* Better mobile touch feedback */
+  button:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-in-out;
+  }
 }
 
 /* Animation utilities */
@@ -319,6 +336,47 @@ a {
 .btn-hover:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced button animations */
+.bg-size-200 {
+  background-size: 200% 200%;
+}
+
+.bg-pos-0 {
+  background-position: 0% 50%;
+}
+
+.hover\:bg-pos-100:hover {
+  background-position: 100% 50%;
+}
+
+/* Button glow effects */
+@keyframes button-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+  }
+}
+
+.button-glow {
+  animation: button-glow 2s ease-in-out infinite;
+}
+
+/* Shimmer effect for buttons */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.button-shimmer {
+  animation: shimmer 2s infinite;
 }
 
 /* News carousel animation */
