@@ -1,88 +1,109 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { BlogPost, BlogCategory } from '@/types'
-import { CalendarIcon, ClockIcon, UserIcon, TagIcon, ArrowLeftIcon, ShareIcon } from '@heroicons/react/24/outline'
+import { BlogPost } from '@/types'
+import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getCurrentUser } from '@/lib/auth'
 import { trackBlogPostView } from '@/lib/analytics'
+import { getBlogPost, getRelatedPosts, getAllBlogSlugs } from '@/lib/blog'
+import { ShareButton } from '@/components/blog/ShareButton'
 
-export default function BlogPostPage() {
-  const params = useParams()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [user, setUser] = useState<any>(null)
+interface BlogPostPageProps {
+  params: { slug: string }
+}
 
-  useEffect(() => {
-    if (params.slug) {
-      fetchPost(params.slug as string)
-    }
-    checkUser()
-  }, [params.slug])
+export async function generateStaticParams() {
+  try {
+    const slugs = await getAllBlogSlugs()
+    return slugs.map((slug) => ({
+      slug: slug,
+    }))
+  } catch (error) {
+    console.log('Error fetching blog slugs during build:', error)
+    // Return empty array during build if database is not available
+    // Pages will be generated on-demand
+    return []
+  }
+}
 
-  const checkUser = async () => {
-    try {
-      const currentUser = await getCurrentUser()
-      setUser(currentUser)
-    } catch (error) {
-      console.log('No user logged in')
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const post = await getBlogPost(params.slug)
+  
+  if (!post) {
+    return {
+      title: 'Blog Post Not Found',
+      description: 'The requested blog post could not be found.',
     }
   }
 
-  const fetchPost = async (slug: string) => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(`/api/blog/posts/${slug}`)
-      
-      if (!response.ok) {
-        if (response.status === 404) {
-          setError('Blog post not found')
-        } else {
-          setError('Failed to load blog post')
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'
+  const postUrl = `${baseUrl}/blog/${post.slug}`
+  
+  return {
+    title: post.meta_title || post.title,
+    description: post.meta_description || post.excerpt || `Read about ${post.title} on ShipinPort.com`,
+    keywords: post.tags?.join(', ') || 'marine superintendent, maritime, shipping',
+    authors: post.author ? [{ name: `${post.author.name} ${post.author.surname}` }] : undefined,
+    openGraph: {
+      title: post.meta_title || post.title,
+      description: post.meta_description || post.excerpt || `Read about ${post.title} on ShipinPort.com`,
+      url: postUrl,
+      siteName: 'ShipinPort',
+      type: 'article',
+      publishedTime: post.published_at || undefined,
+      modifiedTime: post.updated_at,
+      authors: post.author ? [`${post.author.name} ${post.author.surname}`] : undefined,
+      tags: post.tags,
+      images: post.featured_image_url ? [
+        {
+          url: post.featured_image_url,
+          width: 1200,
+          height: 630,
+          alt: post.title,
         }
-        return
-      }
+      ] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.meta_title || post.title,
+      description: post.meta_description || post.excerpt || `Read about ${post.title} on ShipinPort.com`,
+      images: post.featured_image_url ? [post.featured_image_url] : undefined,
+    },
+    alternates: {
+      canonical: postUrl,
+    },
+  }
+}
 
-      const data = await response.json()
-      setPost(data.post)
-      
-      // Track blog post view
-      if (data.post) {
-        trackBlogPostView(data.post.title, data.post.slug)
-      }
-      
-      // Fetch related posts
-      if (data.post.category_id) {
-        fetchRelatedPosts(data.post.category_id, data.post.id)
-      }
-    } catch (error) {
-      console.error('Error fetching blog post:', error)
-      setError('Failed to load blog post')
-    } finally {
-      setIsLoading(false)
-    }
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const post = await getBlogPost(params.slug)
+  
+  if (!post) {
+    notFound()
   }
 
-  const fetchRelatedPosts = async (categoryId: string, excludeId: string) => {
-    try {
-      const response = await fetch(`/api/blog/posts?category=${categoryId}&limit=3`)
-      const data = await response.json()
-      
-      // Filter out the current post
-      const filtered = data.posts?.filter((p: BlogPost) => p.id !== excludeId) || []
-      setRelatedPosts(filtered.slice(0, 3))
-    } catch (error) {
-      console.error('Error fetching related posts:', error)
-    }
+  // Track blog post view (client-side)
+  if (typeof window !== 'undefined') {
+    trackBlogPostView(post.title, post.slug)
+  }
+
+  // Fetch related posts
+  const relatedPosts = post.category_id 
+    ? await getRelatedPosts(post.category_id, post.id)
+    : []
+
+  // Check if user is logged in
+  let user = null
+  try {
+    user = await getCurrentUser()
+  } catch (error) {
+    // User not logged in, continue without user context
   }
 
   const formatDate = (dateString: string) => {
@@ -91,92 +112,6 @@ export default function BlogPostPage() {
       month: 'long',
       day: 'numeric'
     })
-  }
-
-  const sharePost = async () => {
-    if (navigator.share && post) {
-      try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt || '',
-          url: window.location.href,
-        })
-      } catch (error) {
-        console.log('Error sharing:', error)
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href)
-      // You could add a toast notification here
-    }
-  }
-
-  if (isLoading) {
-    const LoadingContent = () => (
-      <div className="max-w-4xl mx-auto">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-700 rounded mb-4"></div>
-          <div className="h-4 bg-gray-700 rounded w-3/4 mb-8"></div>
-          <div className="h-64 bg-gray-700 rounded mb-8"></div>
-          <div className="space-y-4">
-            <div className="h-4 bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-700 rounded w-5/6"></div>
-          </div>
-        </div>
-      </div>
-    )
-
-    if (user) {
-      return (
-        <DashboardLayout>
-          <LoadingContent />
-        </DashboardLayout>
-      )
-    }
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-        <Header />
-        <main className="container mx-auto px-4 py-16">
-          <LoadingContent />
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
-  if (error || !post) {
-    const ErrorContent = () => (
-      <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
-        <p className="text-gray-300 mb-8">{error || 'The blog post you are looking for does not exist.'}</p>
-        <Link href="/blog">
-          <Button>
-            <ArrowLeftIcon className="h-4 w-4 mr-2" />
-            Back to Blog
-          </Button>
-        </Link>
-      </div>
-    )
-
-    if (user) {
-      return (
-        <DashboardLayout>
-          <ErrorContent />
-        </DashboardLayout>
-      )
-    }
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-        <Header />
-        <main className="container mx-auto px-4 py-16">
-          <ErrorContent />
-        </main>
-        <Footer />
-      </div>
-    )
   }
 
   const BlogContent = () => (
@@ -246,15 +181,11 @@ export default function BlogPostPage() {
 
               {/* Share Button */}
               <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={sharePost}
-                  className="flex items-center gap-2"
-                >
-                  <ShareIcon className="h-4 w-4" />
-                  Share
-                </Button>
+                <ShareButton 
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  url={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'}/blog/${post.slug}`}
+                />
               </div>
             </header>
 
