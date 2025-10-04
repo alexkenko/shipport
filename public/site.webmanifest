@@ -1,0 +1,23 @@
+{
+  "name": "ShipinPort - Marine Superintendent Services",
+  "short_name": "ShipinPort",
+  "description": "Professional Marine Superintendent and Marine Consultancy services",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}

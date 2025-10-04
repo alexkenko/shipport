@@ -178,7 +178,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                         Sign out
                       </button>
                     </div>
-                  </div>
+                </div>
                 </div>
               </>
             )}
