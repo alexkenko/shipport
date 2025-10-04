@@ -110,15 +110,27 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        {/* Favicon and Icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        
+        {/* Web App Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Theme and Mobile App Meta Tags */}
         <meta name="theme-color" content="#0f172a" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="ShipinPort" />
+        
+        {/* Microsoft Tiles */}
         <meta name="msapplication-TileColor" content="#0f172a" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="msapplication-TileImage" content="/icon-192.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
