@@ -202,8 +202,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                       <svg className="w-4 h-4 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
-                      <span className="hidden xs:inline">Get Started</span>
-                      <span className="xs:hidden">Start</span>
+                      <span className="hidden xs:inline">Sign Up</span>
+                      <span className="xs:hidden">Sign Up</span>
                     </span>
                   </Button>
                 </Link>
