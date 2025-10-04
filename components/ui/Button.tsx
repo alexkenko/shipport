@@ -27,7 +27,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             'hover:bg-gradient-to-r hover:from-dark-700/50 hover:to-dark-600/50 text-white hover:text-gray-100 focus:ring-primary-500 transform hover:scale-105 active:scale-95 backdrop-blur-sm': variant === 'ghost',
             
             // Gradient - Beautiful gradient with animation
-            'bg-gradient-to-r from-primary-500 via-marine-500 to-primary-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white shadow-lg hover:shadow-primary-500/30 focus:ring-primary-500 transform hover:scale-105 active:scale-95': variant === 'gradient',
+            'bg-gradient-to-r from-primary-500 via-marine-500 to-primary-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white shadow-lg hover:shadow-primary-500/40 focus:ring-primary-500 transform hover:scale-105 active:scale-95 border border-primary-400/30 hover:border-primary-300/50': variant === 'gradient',
             
             // Glass - Glassmorphism effect
             'bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:border-white/30 text-white shadow-lg hover:shadow-white/10 focus:ring-white/50 transform hover:scale-105 active:scale-95': variant === 'glass',

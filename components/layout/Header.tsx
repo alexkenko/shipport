@@ -184,18 +184,28 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
             )}
 
             {!user && (
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4">
                 <Link href="/auth/login">
-                  <Button variant="glass" size="sm">
-                    Sign In
+                  <Button variant="glass" size="sm" className="group relative overflow-hidden">
+                    <span className="flex items-center">
+                      <svg className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                      </svg>
+                      Sign In
+                    </span>
                   </Button>
-                  </Link>
+                </Link>
                 <Link href="/auth/register">
-                  <Button variant="gradient" size="sm">
-                    Get Started
+                  <Button variant="gradient" size="sm" className="group relative overflow-hidden shadow-lg hover:shadow-primary-500/30">
+                    <span className="flex items-center">
+                      <svg className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Get Started
+                    </span>
                   </Button>
-                  </Link>
-                </div>
+                </Link>
+              </div>
             )}
 
             {/* Mobile menu button */}
