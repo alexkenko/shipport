@@ -280,6 +280,29 @@ export default function BlogPostPage() {
               dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }}
             />
 
+            {/* Call-to-Action Section */}
+            <div className="mt-12 p-6 bg-gradient-to-r from-blue-900/30 to-primary-900/30 rounded-lg border border-blue-800/30">
+              <h3 className="text-xl font-semibold text-white mb-3">
+                Looking for Marine Superintendent Opportunities?
+              </h3>
+              <p className="text-gray-300 mb-4">
+                Connect with vessel managers and shipping companies on our <Link href="/" className="text-blue-400 hover:text-blue-300 underline">marine superintendent</Link> platform. 
+                Find your next assignment and grow your maritime career.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/marine-superintendent-jobs">
+                  <Button className="bg-primary-600 hover:bg-primary-700">
+                    Browse Jobs
+                  </Button>
+                </Link>
+                <Link href="/auth/register">
+                  <Button variant="outline">
+                    Create Profile
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
             {/* Author Bio */}
             {post.author && (
               <div className="mt-12 p-6 bg-gray-800/50 rounded-lg">
