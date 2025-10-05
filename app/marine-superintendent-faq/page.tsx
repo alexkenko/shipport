@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     'marine superintendent requirements',
     'maritime employment FAQ',
   ],
+  alternates: {
+    canonical: 'https://shipinport.com/marine-superintendent-faq',
+  },
   openGraph: {
     title: 'Marine Superintendent FAQ - Your Questions Answered | ShipinPort.com',
     description: 'Find answers to common questions about marine superintendent jobs, qualifications, rates, and services. Expert guidance on maritime careers.',

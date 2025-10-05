@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform. Professional superintendency services for vessel inspections, ISM audits, marine jobs, and maritime consulting. Connect vessel managers with certified marine superintendents.',
   keywords: 'marine superintendent jobs, marine superintendent, marine consultancy, superintendancy, marine superintendent services, marine superintendent positions, marine superintendent careers, vessel superintendent jobs, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent employment, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform, maritime jobs, shipping jobs, marine careers',
   robots: 'index, follow',
+  alternates: {
+    canonical: 'https://shipinport.com',
+  },
   openGraph: {
     title: 'Marine Superintendent Jobs & Marine Consultancy Services | ShipinPort.com',
     description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform.',

@@ -16,7 +16,10 @@ export const metadata: Metadata = {
     'marine industry support',
     'shipping platform contact'
   ],
-    openGraph: {
+  alternates: {
+    canonical: 'https://shipinport.com/contact',
+  },
+  openGraph: {
       title: 'Contact ShipinPort.com - Marine Professional Platform Support',
       description: 'Get in touch with ShipinPort for support, inquiries, or partnership opportunities.',
       type: 'website',

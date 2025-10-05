@@ -63,9 +63,6 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'),
-  alternates: {
-    canonical: 'https://shipinport.com',
-  },
         openGraph: {
           title: 'ShipinPort.com - Marine Superintendent; Marine Consultancy, Superintendancy Services',
           description: 'Professional Marine Superintendent and Marine Consultancy services. Connect with certified superintendents for vessel inspections, audits, and maritime consulting worldwide.',

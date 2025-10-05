@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     'maritime professional platform',
     'marine superintendent network'
   ],
+  alternates: {
+    canonical: 'https://shipinport.com/about',
+  },
   openGraph: {
     title: 'About ShipinPort.com - Leading Marine Superintendent Platform',
     description: 'Discover how ShipinPort connects vessel managers with certified marine superintendents worldwide.',

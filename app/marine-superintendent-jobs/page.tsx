@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     'marine engineer jobs',
     'vessel operations jobs'
   ],
+  alternates: {
+    canonical: 'https://shipinport.com/marine-superintendent-jobs',
+  },
   openGraph: {
     title: 'Marine Superintendent Jobs - Find Your Next Marine Career | ShipinPort.com',
     description: 'Explore marine superintendent jobs worldwide. Connect with vessel managers seeking qualified marine superintendents for inspections, audits, and vessel management.',

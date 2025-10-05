@@ -181,11 +181,14 @@ export default function BlogPostPage() {
 
   const BlogContent = () => (
     <div className="max-w-4xl mx-auto">
-      {/* Back Button */}
-      <Link href="/blog" className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
-        <ArrowLeftIcon className="h-4 w-4 mr-2" />
-        Back to Blog
-      </Link>
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
+        <Link href="/" className="hover:text-white transition-colors">Home</Link>
+        <span>/</span>
+        <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+        <span>/</span>
+        <span className="text-gray-300">{post.title}</span>
+      </nav>
 
           {/* Article Header */}
           <article className="mb-12">

@@ -124,6 +124,10 @@ export default function BlogPage() {
             Stay updated with the latest insights, industry news, and expert advice 
             from marine superintendents and maritime professionals.
           </p>
+          <p className="text-gray-400 max-w-3xl mx-auto mb-6">
+            Discover career opportunities on our <Link href="/" className="text-blue-400 hover:text-blue-300 underline">marine superintendent</Link> platform 
+            and connect with industry professionals worldwide.
+          </p>
           <Button
             onClick={() => {
               setCurrentPage(1)

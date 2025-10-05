@@ -134,16 +134,16 @@ export default function SuperintendentDashboard() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="flex items-center gap-2">
-                    Profile Overview
-                    <PremiumBadge 
+              <CardTitle className="flex items-center gap-2">
+                Profile Overview
+                  <PremiumBadge 
                       signupDate={user?.created_at || new Date()} 
                       role={user?.role || 'superintendent'} 
-                    />
-                  </CardTitle>
-                  <CardDescription>
-                    Your professional profile summary
-                  </CardDescription>
+                  />
+              </CardTitle>
+              <CardDescription>
+                Your professional profile summary
+              </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -153,35 +153,35 @@ export default function SuperintendentDashboard() {
                   {/* Profile Picture and Basic Info */}
                   <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0">
-                      {user?.photo_url ? (
-                        <img
-                          src={user.photo_url}
-                          alt={`${user.name} ${user.surname}`}
+                    {user?.photo_url ? (
+                      <img
+                        src={user.photo_url}
+                        alt={`${user.name} ${user.surname}`}
                           className="h-12 w-12 rounded-full object-cover"
-                        />
-                      ) : (
+                      />
+                    ) : (
                         <div className="h-12 w-12 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold">
                           {user?.name?.charAt(0)}{user?.surname?.charAt(0)}
                         </div>
-                      )}
-                    </div>
+                    )}
+                  </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-lg font-semibold text-white">
                         {user?.name} {user?.surname}
-                      </h3>
+                    </h3>
                       <p className="text-sm text-gray-400">{user?.company}</p>
                       <p className={`text-sm text-gray-300 mt-1 ${isProfileExpanded ? '' : 'line-clamp-2'}`}>
                         {user?.bio}
-                      </p>
-                    </div>
+                    </p>
                   </div>
+                </div>
 
                   {/* Contact Information - Always visible but compact */}
-                  <div className="space-y-2">
+                    <div className="space-y-2">
                     <div className="flex items-center space-x-2 text-sm">
                       <span className="text-gray-400">EMAIL:</span>
                       <span className="text-white truncate">{user?.email}</span>
-                    </div>
+                      </div>
                     <div className="flex items-center space-x-2 text-sm">
                       <span className="text-gray-400">PHONE:</span>
                       <span className="text-white">{user?.phone}</span>
@@ -194,8 +194,8 @@ export default function SuperintendentDashboard() {
                       <div className="space-y-2">
                         <h4 className="font-semibold text-white text-sm">COMPANY</h4>
                         <p className="text-sm text-gray-300">{user?.company}</p>
-                      </div>
                     </div>
+                  </div>
                   )}
 
                   {/* Quick Actions */}
@@ -236,7 +236,7 @@ export default function SuperintendentDashboard() {
                   <Link href="/dashboard/superintendent/profile">
                     <Button>Complete Profile</Button>
                   </Link>
-                </div>
+              </div>
               )}
             </CardContent>
           </Card>
@@ -264,8 +264,8 @@ export default function SuperintendentDashboard() {
         <VerificationTip 
           userRole="superintendent" 
           userEmail={user?.email || ''} 
-        />
-      </div>
+            />
+          </div>
 
       {/* Chat Popup */}
       <ChatPopup 

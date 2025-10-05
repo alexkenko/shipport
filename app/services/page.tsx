@@ -27,7 +27,10 @@ export const metadata: Metadata = {
     'marine compliance audit',
     'vessel safety inspection'
   ],
-    openGraph: {
+  alternates: {
+    canonical: 'https://shipinport.com/services',
+  },
+  openGraph: {
       title: 'ShipinPort.com Marine Services - Professional Maritime Solutions',
       description: 'Professional marine superintendent services including audits, inspections, and maritime consulting worldwide.',
       type: 'website',

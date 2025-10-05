@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     'maritime employment',
     'vessel management careers'
   ],
+  alternates: {
+    canonical: 'https://shipinport.com/blog/how-to-find-marine-superintendent-jobs',
+  },
   openGraph: {
     title: 'How to Find Marine Superintendent Jobs: Complete Guide 2025 | ShipinPort.com',
     description: 'Expert guide to finding marine superintendent jobs worldwide. Learn job search strategies, application tips, and career advancement in maritime industry.',
@@ -161,6 +164,11 @@ export default function HowToFindMarineSuperintendentJobsPage() {
               With over <strong className="text-white">1000+ marine superintendent positions</strong> available worldwide, 
               knowing where to look and how to apply can make all the difference in your career. This comprehensive 
               guide will help you navigate the marine superintendent job market and land your ideal position.
+            </p>
+            <p className="text-gray-300 mt-4">
+              For the most up-to-date job listings and direct connections with vessel managers, 
+              visit our <Link href="/" className="text-blue-400 hover:text-blue-300 underline">marine superintendent</Link> platform 
+              where you can browse opportunities and create your professional profile.
             </p>
           </div>
         </div>
