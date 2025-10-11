@@ -5,16 +5,8 @@ const nextConfig = {
   poweredByHeader: false,
   generateEtags: true,
   
-  // Force production mode for proper SEO
-  env: {
-    NODE_ENV: 'production'
-  },
-  
   // Ensure proper SEO in production
   trailingSlash: false,
-  generateBuildId: async () => {
-    return 'build-' + Date.now()
-  },
   
   images: {
     domains: [
