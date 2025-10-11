@@ -8,6 +8,9 @@ const nextConfig = {
   // Ensure proper SEO in production
   trailingSlash: false,
   
+  // Force production mode for SEO
+  reactStrictMode: true,
+  
   images: {
     domains: [
       'localhost', 
