@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipport.com'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'
   
   return {
     rules: [
@@ -10,11 +10,12 @@ export default function robots(): MetadataRoute.Robots {
         allow: [
           '/',
           '/profile/',  // Allow public profile pages
+          '/auth/',     // Allow auth pages for SEO
+          '/dashboard/', // Allow dashboard pages for SEO
         ],
         disallow: [
-          '/dashboard/',
           '/api/',
-          '/auth/',
+          '/_next/',
         ],
       },
     ],

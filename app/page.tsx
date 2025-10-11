@@ -5,8 +5,8 @@ import { AnimatedHero } from '@/components/ui/AnimatedHero'
 import { Button } from '@/components/ui/Button'
 
 export const metadata: Metadata = {
-  title: 'Marine Superintendent Jobs & Marine Consultancy Services | #1 Maritime Platform | ShipinPort.com',
-  description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform. Professional superintendency services for vessel inspections, ISM audits, marine jobs, and maritime consulting. Connect vessel managers with certified marine superintendents.',
+  title: 'Marine Superintendent - Jobs, Services & Career Guide | ShipinPort.com',
+  description: 'Complete marine superintendent resource: jobs, services, and career guidance. Professional marine superintendent platform connecting vessel managers with certified superintendents. ISM, ISPS, MLC audits, vessel inspections, and maritime consulting worldwide.',
   keywords: 'marine superintendent jobs, marine superintendent, marine consultancy, superintendancy, marine superintendent services, marine superintendent positions, marine superintendent careers, vessel superintendent jobs, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent employment, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform, maritime jobs, shipping jobs, marine careers',
   robots: 'index, follow',
   alternates: {

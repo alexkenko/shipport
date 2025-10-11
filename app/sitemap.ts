@@ -132,7 +132,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     
-    // Dashboard pages removed from sitemap (blocked by robots.txt)
+    // Dashboard pages - now allowed in robots.txt but kept out of sitemap for privacy
   ]
 
   // Fetch blog posts dynamically
