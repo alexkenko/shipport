@@ -13,10 +13,11 @@ const nextConfig = {
   
   images: {
     domains: [
-      'localhost', 
-      process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, ''),
+      'localhost',
+      'shipinport.com',
+      'www.shipinport.com',
       'xumhixssblldxhteyakk.supabase.co'
-    ].filter(Boolean),
+    ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
