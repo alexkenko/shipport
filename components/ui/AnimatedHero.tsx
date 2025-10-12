@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 export function AnimatedHero() {
   const [currentText, setCurrentText] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   
   const typingTexts = [
     'Marine Superintendent',
@@ -15,13 +16,32 @@ export function AnimatedHero() {
   ]
 
   useEffect(() => {
+    setIsMounted(true)
     setIsVisible(true)
+    
     const interval = setInterval(() => {
       setCurrentText((prev) => (prev + 1) % typingTexts.length)
     }, 3000)
     
     return () => clearInterval(interval)
   }, [])
+  
+  // Prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <section className="relative overflow-hidden parallax-hero min-h-screen flex items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24">
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white">
+              <div className="text-3xl sm:text-5xl md:text-7xl font-extrabold">
+                <span className="text-blue-400">{typingTexts[0]}</span>
+              </div>
+            </h1>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="relative overflow-hidden parallax-hero min-h-screen flex items-center">
