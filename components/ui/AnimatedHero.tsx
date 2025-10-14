@@ -107,20 +107,41 @@ export function AnimatedHero() {
 
           {/* Animated Buttons */}
           <div 
-            className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             style={{animationDelay: '1.2s'}}
           >
             <Link
               href="/auth/register"
-              className="bg-primary-600 hover:bg-primary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto btn-hover transform hover:scale-105 text-center"
+              className="group relative overflow-hidden bg-gradient-to-r from-primary-600 via-primary-500 to-marine-600 hover:from-primary-500 hover:via-primary-400 hover:to-marine-500 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold transition-all duration-300 w-full sm:w-auto text-center shadow-2xl hover:shadow-primary-500/30 transform hover:scale-105 active:scale-95 border border-primary-400/20"
             >
-              Create Account
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+              
+              {/* Button content */}
+              <span className="relative z-10 flex items-center justify-center">
+                <span className="mr-2">🚀</span>
+                Create Account
+              </span>
+              
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-600 to-marine-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl" />
             </Link>
+            
             <Link
               href="/auth/login"
-              className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center btn-hover transform hover:scale-105"
+              className="group relative overflow-hidden bg-white/10 backdrop-blur-md border-2 border-primary-400/50 hover:border-primary-300 text-primary-300 hover:text-white px-8 sm:px-10 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl font-bold transition-all duration-300 w-full sm:w-auto text-center shadow-xl hover:shadow-primary-400/20 transform hover:scale-105 active:scale-95 hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-marine-500/20"
             >
-              Sign In
+              {/* Glassmorphism effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-marine-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+              
+              {/* Button content */}
+              <span className="relative z-10 flex items-center justify-center">
+                <span className="mr-2">✨</span>
+                Sign In
+              </span>
+              
+              {/* Subtle glow */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-400 to-marine-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-lg" />
             </Link>
           </div>
         </div>

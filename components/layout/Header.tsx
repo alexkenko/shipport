@@ -84,13 +84,13 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
   const getColorClasses = (color: string) => {
     const colorMap: Record<string, string> = {
-      blue: 'text-blue-400 hover:text-blue-300 hover:bg-blue-400/10',
-      green: 'text-green-400 hover:text-green-300 hover:bg-green-400/10',
-      yellow: 'text-yellow-400 hover:text-yellow-300 hover:bg-yellow-400/10',
-      red: 'text-red-400 hover:text-red-300 hover:bg-red-400/10',
-      purple: 'text-purple-400 hover:text-purple-300 hover:bg-purple-400/10',
-      indigo: 'text-indigo-400 hover:text-indigo-300 hover:bg-indigo-400/10',
-      teal: 'text-teal-400 hover:text-teal-300 hover:bg-teal-400/10',
+      blue: 'text-blue-300 hover:text-blue-200 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-blue-600/20 hover:shadow-blue-500/20 hover:shadow-lg',
+      green: 'text-green-300 hover:text-green-200 hover:bg-gradient-to-r hover:from-green-500/20 hover:to-green-600/20 hover:shadow-green-500/20 hover:shadow-lg',
+      yellow: 'text-yellow-300 hover:text-yellow-200 hover:bg-gradient-to-r hover:from-yellow-500/20 hover:to-yellow-600/20 hover:shadow-yellow-500/20 hover:shadow-lg',
+      red: 'text-red-300 hover:text-red-200 hover:bg-gradient-to-r hover:from-red-500/20 hover:to-red-600/20 hover:shadow-red-500/20 hover:shadow-lg',
+      purple: 'text-purple-300 hover:text-purple-200 hover:bg-gradient-to-r hover:from-purple-500/20 hover:to-purple-600/20 hover:shadow-purple-500/20 hover:shadow-lg',
+      indigo: 'text-indigo-300 hover:text-indigo-200 hover:bg-gradient-to-r hover:from-indigo-500/20 hover:to-indigo-600/20 hover:shadow-indigo-500/20 hover:shadow-lg',
+      teal: 'text-teal-300 hover:text-teal-200 hover:bg-gradient-to-r hover:from-teal-500/20 hover:to-teal-600/20 hover:shadow-teal-500/20 hover:shadow-lg',
     }
     return colorMap[color] || colorMap.blue
   }
@@ -114,7 +114,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
           {/* Desktop Navigation */}
           {!hideNavigation && (
-            <nav className="hidden md:flex space-x-1">
+            <nav className="hidden md:flex space-x-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
@@ -123,8 +123,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                 <Link
                   key={item.name}
                   href={item.href}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2 ${getColorClasses(item.color)} ${
-                      isActive ? 'bg-primary-600/20 text-primary-400' : ''
+                    className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center space-x-2 backdrop-blur-sm border border-transparent hover:border-current/20 transform hover:scale-105 active:scale-95 ${getColorClasses(item.color)} ${
+                      isActive ? 'bg-gradient-to-r from-primary-500/30 to-primary-600/30 text-primary-300 border-primary-400/30 shadow-lg shadow-primary-500/20' : ''
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -142,37 +142,37 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
                 {/* User profile dropdown */}
                 <div className="relative group">
-                  <button className="flex items-center space-x-3 text-white hover:text-gray-300 transition-colors">
+                  <button className="flex items-center space-x-3 p-2 rounded-xl bg-gradient-to-r from-dark-700/50 to-dark-600/50 backdrop-blur-sm border border-dark-600/50 text-white hover:text-gray-100 hover:border-primary-400/50 hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/20 transition-all duration-300 transform hover:scale-105 active:scale-95">
                     <div className="flex items-center space-x-2">
                       {user.photo_url ? (
                         <img
                           src={user.photo_url}
                           alt={`${user.name} ${user.surname}`}
-                          className="h-8 w-8 rounded-full object-cover"
+                          className="h-8 w-8 rounded-full object-cover ring-2 ring-primary-500/30"
                         />
                       ) : (
                         <UserCircleIcon className="h-8 w-8 text-gray-400" />
                       )}
                       <div className="hidden sm:block text-left">
-                        <p className="text-sm font-medium">{user.name} {user.surname}</p>
+                        <p className="text-sm font-semibold">{user.name} {user.surname}</p>
                         <p className="text-xs text-gray-400 capitalize">{user.role}</p>
                       </div>
                     </div>
                   </button>
 
                   {/* Dropdown menu */}
-                  <div className="absolute right-0 mt-2 w-48 bg-dark-700 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-dark-600">
-                    <div className="py-1">
+                  <div className="absolute right-0 mt-3 w-52 bg-gradient-to-b from-dark-700/95 to-dark-800/95 backdrop-blur-md rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-dark-600/50 overflow-hidden">
+                    <div className="py-2">
                       <Link
                         href={`/dashboard/${user.role}/profile`}
-                        className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-dark-600 hover:text-white transition-colors"
+                        className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/20 hover:text-white transition-all duration-200 hover:translate-x-1"
                       >
                         <UserCircleIcon className="h-4 w-4 mr-3" />
                         Profile
                       </Link>
                       <button
                         onClick={handleSignOut}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-dark-600 hover:text-white transition-colors"
+                        className="flex items-center w-full px-4 py-3 text-sm text-gray-300 hover:bg-gradient-to-r hover:from-red-500/20 hover:to-red-600/20 hover:text-white transition-all duration-200 hover:translate-x-1"
                       >
                         <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
                         Sign out
@@ -184,18 +184,29 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
             )}
 
             {!user && (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <Link href="/auth/login">
-                  <Button variant="outline" size="sm">
-                    Sign In
+                  <Button variant="glass" size="sm" className="group relative overflow-hidden min-h-[44px] px-3 sm:px-4 py-2.5 sm:py-2.5">
+                    <span className="flex items-center text-sm sm:text-sm">
+                      <svg className="w-4 h-4 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                      </svg>
+                      <span className="hidden xs:inline">Sign In</span>
+                      <span className="xs:hidden">Sign In</span>
+                    </span>
                   </Button>
-                  </Link>
+                </Link>
                 <Link href="/auth/register">
-                  <Button size="sm">
-                    Get Started
+                  <Button variant="gradient" size="sm" className="group relative overflow-hidden shadow-lg hover:shadow-primary-500/30 min-h-[44px] px-3 sm:px-4 py-2.5 sm:py-2.5">
+                    <span className="flex items-center text-sm sm:text-sm">
+                      <svg className="w-4 h-4 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Sign Up
+                    </span>
                   </Button>
-                  </Link>
-                </div>
+                </Link>
+              </div>
             )}
 
             {/* Mobile menu button */}
@@ -203,7 +214,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               <div className="md:hidden">
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="p-2 rounded-xl bg-gradient-to-r from-dark-700/50 to-dark-600/50 backdrop-blur-sm border border-dark-600/50 text-gray-300 hover:text-white hover:border-primary-400/50 hover:bg-gradient-to-r hover:from-primary-500/20 hover:to-primary-600/20 transition-all duration-300 transform hover:scale-105 active:scale-95"
                 >
                   {isMobileMenuOpen ? (
                     <XMarkIcon className="h-6 w-6" />
@@ -218,8 +229,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
       {/* Mobile Navigation */}
         {!hideNavigation && isMobileMenuOpen && (
-          <div className="md:hidden border-t border-dark-700 bg-dark-800/95 backdrop-blur-sm">
-            <div className="px-4 pt-3 pb-4 space-y-2">
+          <div className="md:hidden border-t border-dark-700/50 bg-gradient-to-b from-dark-800/95 to-dark-900/95 backdrop-blur-md">
+            <div className="px-4 pt-4 pb-6 space-y-3">
               {navigationItems.map((item) => {
                 const Icon = item.icon
                 const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
@@ -229,8 +240,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                   key={item.name}
                   href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 ${getColorClasses(item.color)} ${
-                      isActive ? 'bg-primary-600/20 text-primary-400' : 'hover:bg-dark-700/50'
+                    className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-all duration-300 backdrop-blur-sm border border-transparent hover:border-current/20 transform hover:scale-105 active:scale-95 ${getColorClasses(item.color)} ${
+                      isActive ? 'bg-gradient-to-r from-primary-500/30 to-primary-600/30 text-primary-300 border-primary-400/30 shadow-lg shadow-primary-500/20' : 'hover:bg-gradient-to-r hover:from-dark-700/50 hover:to-dark-600/50'
                     }`}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
