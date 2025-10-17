@@ -8,7 +8,18 @@ export const metadata: Metadata = {
   title: 'Marine Superintendent - Jobs, Services & Career Guide | ShipinPort.com',
   description: 'Complete marine superintendent resource: jobs, services, and career guidance. Professional marine superintendent platform connecting vessel managers with certified superintendents. ISM, ISPS, MLC audits, vessel inspections, and maritime consulting worldwide.',
   keywords: 'marine superintendent jobs, marine superintendent, marine consultancy, superintendancy, marine superintendent services, marine superintendent positions, marine superintendent careers, vessel superintendent jobs, marine inspection services, ISM audit, ISPS audit, MLC audit, pre-vetting inspection, marine consultancy experts, maritime consulting, ship inspection, marine superintendent employment, vessel management, maritime professional services, marine compliance audit, vessel safety inspection, marine certification, marine superintendent platform, maritime jobs, shipping jobs, marine careers',
-  robots: 'index, follow',
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   alternates: {
     canonical: 'https://shipinport.com',
   },
@@ -18,13 +29,26 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: 'ShipinPort.com',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ShipinPort - Marine Superintendent Jobs & Services',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Marine Superintendent Jobs & Marine Consultancy Services',
     description: 'Find marine superintendent jobs worldwide. Leading marine superintendent and marine consultancy platform.',
+    images: ['/og-image.jpg'],
   },
 }
+
+// Force static generation
+export const dynamic = 'force-static'
+export const revalidate = 3600 // Revalidate every hour
 
 export default function HomePage() {
   const structuredData = {

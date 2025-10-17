@@ -31,10 +31,24 @@ export const metadata: Metadata = {
     canonical: 'https://shipinport.com/services',
   },
   openGraph: {
-      title: 'ShipinPort.com Marine Services - Professional Maritime Solutions',
-      description: 'Professional marine superintendent services including audits, inspections, and maritime consulting worldwide.',
-      type: 'website',
-    },
+    title: 'ShipinPort.com Marine Services - Professional Maritime Solutions',
+    description: 'Professional marine superintendent services including audits, inspections, and maritime consulting worldwide.',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ShipinPort Marine Services - ISM ISPS MLC Audits & Vessel Inspections',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ShipinPort.com Marine Services',
+    description: 'Professional marine superintendent services including audits, inspections, and maritime consulting worldwide.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default function ServicesPage() {
