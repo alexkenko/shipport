@@ -12,6 +12,7 @@ import toast from 'react-hot-toast'
 import { MapPinIcon, UserCircleIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
 import { SearchPopup } from '@/components/ui/SearchPopup'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import { PortSearch } from '@/components/ui/PortSearch'
 
 interface SuperintendentProfile {
   id: string
@@ -38,6 +39,10 @@ interface SuperintendentProfile {
     facebook: string | null
     created_at: string
     role: string
+  }
+  home_ports?: {
+    port_name: string
+    country: string
   }
   email_verifications?: {
     is_verified: boolean
@@ -77,8 +82,16 @@ export default function SearchSuperintendentsPage() {
             company,
             bio,
             photo_url,
+            website,
+            linkedin,
+            twitter,
+            facebook,
             role,
             created_at
+          ),
+          home_ports (
+            port_name,
+            country
           )
         `)
         .order('created_at', { ascending: false })
@@ -288,12 +301,17 @@ export default function SearchSuperintendentsPage() {
                 </select>
               </div>
 
-              <Input
-                label="Port/City"
-                value={filters.port}
-                onChange={(e) => handleFilterChange('port', e.target.value)}
-                placeholder="e.g., Rotterdam"
-              />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-300">
+                  Port Coverage
+                </label>
+                <PortSearch
+                  selectedPorts={filters.port ? [filters.port] : []}
+                  onPortsChange={(ports) => handleFilterChange('port', ports[0] || '')}
+                  placeholder="Search by port coverage..."
+                  maxResults={10}
+                />
+              </div>
             </div>
 
             <div className="flex gap-4 items-center">
@@ -464,6 +482,21 @@ export default function SearchSuperintendentsPage() {
                                 +{superintendent.services.length - 2} more
                               </span>
                             )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Homebase */}
+                      {superintendent.home_ports && (
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-300 mb-2 flex items-center">
+                            <MapPinIcon className="h-4 w-4 mr-1" />
+                            Homebase
+                          </h4>
+                          <div className="flex flex-wrap gap-1">
+                            <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                              {superintendent.home_ports.port_name}, {superintendent.home_ports.country}
+                            </span>
                           </div>
                         </div>
                       )}
