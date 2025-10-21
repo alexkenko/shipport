@@ -20,6 +20,11 @@ export interface Database {
           company: string
           bio: string
           photo_url: string | null
+          website: string | null
+          linkedin: string | null
+          twitter: string | null
+          facebook: string | null
+          homebase: string | null
           created_at: string
           updated_at: string
         }
@@ -33,6 +38,11 @@ export interface Database {
           company: string
           bio: string
           photo_url?: string | null
+          website?: string | null
+          linkedin?: string | null
+          twitter?: string | null
+          facebook?: string | null
+          homebase?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -46,6 +56,11 @@ export interface Database {
           company?: string
           bio?: string
           photo_url?: string | null
+          website?: string | null
+          linkedin?: string | null
+          twitter?: string | null
+          facebook?: string | null
+          homebase?: string | null
           created_at?: string
           updated_at?: string
         }
