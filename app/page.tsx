@@ -57,7 +57,7 @@ export default function HomePage() {
     "name": "ShipinPort - Marine Superintendent; Marine Consultancy, Superintendancy",
     "description": "Leading Marine Superintendent and Marine Consultancy platform. Professional Superintendancy services for vessel inspections, ISM audits, marine consultancy, and maritime consulting worldwide.",
     "url": "https://shipinport.com",
-    "logo": "https://shipinport.com/logo.png",
+    "logo": "https://shipinport.com/logo.jpg",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+1-555-SHIPPORT",

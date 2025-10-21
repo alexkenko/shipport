@@ -19,7 +19,7 @@ export function OptimizedLogo({
   const logoElement = (
     <div className={`flex items-center ${className}`}>
       <Image
-        src="/logo.png"
+        src="/logo.jpg"
         alt="ShipinPort Logo"
         width={width}
         height={height}
