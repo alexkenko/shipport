@@ -98,10 +98,22 @@ export function PortSearch({
   const handleAddCustomPort = () => {
     const customPort = searchTerm.trim()
     if (customPort && !selectedPorts.includes(customPort)) {
-      onPortsChange([...selectedPorts, customPort])
-      setSearchTerm('')
-      setShowResults(false)
-      inputRef.current?.focus()
+      // Only allow adding if the port is found in search results
+      const isInSearchResults = searchResults.some(port => 
+        port.main_port_name.toLowerCase() === customPort.toLowerCase() ||
+        port.alternate_port_name?.toLowerCase() === customPort.toLowerCase()
+      )
+      
+      if (isInSearchResults) {
+        onPortsChange([...selectedPorts, customPort])
+        setSearchTerm('')
+        setShowResults(false)
+        inputRef.current?.focus()
+      } else {
+        // Clear the input if not a valid port
+        setSearchTerm('')
+        inputRef.current?.focus()
+      }
     }
   }
 
@@ -156,7 +168,10 @@ export function PortSearch({
         <button
           type="button"
           onClick={handleAddCustomPort}
-          disabled={!searchTerm.trim()}
+          disabled={!searchTerm.trim() || !searchResults.some(port => 
+            port.main_port_name.toLowerCase() === searchTerm.toLowerCase() ||
+            port.alternate_port_name?.toLowerCase() === searchTerm.toLowerCase()
+          )}
           className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors duration-200 whitespace-nowrap"
         >
           Add
