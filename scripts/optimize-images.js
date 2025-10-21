@@ -16,7 +16,7 @@ faviconSizes.forEach(size => {
   // Copy the original logo as placeholder
   // In a real optimization, you'd resize and compress here
   if (!fs.existsSync(filepath)) {
-    const originalLogo = path.join(__dirname, '..', 'public', 'logo.jpg');
+    const originalLogo = path.join(__dirname, '..', 'public', 'logo.png');
     if (fs.existsSync(originalLogo)) {
       fs.copyFileSync(originalLogo, filepath);
       console.log(`✅ Created ${filename}`);

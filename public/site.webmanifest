@@ -4,7 +4,7 @@
   "description": "Professional Marine Superintendent and Marine Consultancy services",
   "icons": [
     {
-      "src": "/logo.jpg",
+      "src": "/logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

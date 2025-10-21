@@ -18,23 +18,15 @@ export function OptimizedLogo({
 }: OptimizedLogoProps) {
   const logoElement = (
     <div className={`flex items-center ${className}`}>
-      <div 
-        className="rounded overflow-hidden"
-        style={{
-          backgroundColor: 'transparent',
-          backgroundImage: 'linear-gradient(45deg, transparent 0%, transparent 100%)'
-        }}
-      >
-        <Image
-          src="/logo.jpg"
-          alt="ShipinPort Logo"
-          width={width}
-          height={height}
-          priority={priority}
-          className="rounded"
-          sizes="(max-width: 768px) 50px, 75px"
-        />
-      </div>
+      <Image
+        src="/logo.png"
+        alt="ShipinPort Logo"
+        width={width}
+        height={height}
+        priority={priority}
+        className="rounded"
+        sizes="(max-width: 768px) 50px, 75px"
+      />
     </div>
   )
 
