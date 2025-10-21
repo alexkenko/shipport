@@ -94,6 +94,17 @@ export function PortSearch({
     onPortsChange(selectedPorts.filter(port => port !== portToRemove))
   }
 
+  // Handle adding custom port
+  const handleAddCustomPort = () => {
+    const customPort = searchTerm.trim()
+    if (customPort && !selectedPorts.includes(customPort)) {
+      onPortsChange([...selectedPorts, customPort])
+      setSearchTerm('')
+      setShowResults(false)
+      inputRef.current?.focus()
+    }
+  }
+
   // Handle input focus
   const handleInputFocus = () => {
     if (searchResults.length > 0) {
@@ -115,25 +126,41 @@ export function PortSearch({
 
   return (
     <div className="relative">
-      {/* Search Input */}
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-        </div>
-        <input
-          ref={inputRef}
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onFocus={handleInputFocus}
-          placeholder={placeholder}
-          className="w-full pl-10 pr-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
-        />
-        {isSearching && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
+      {/* Search Input with Add Button */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
           </div>
-        )}
+          <input
+            ref={inputRef}
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={handleInputFocus}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && searchTerm.trim()) {
+                e.preventDefault()
+                handleAddCustomPort()
+              }
+            }}
+            placeholder={placeholder}
+            className="w-full pl-10 pr-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+          />
+          {isSearching && (
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500"></div>
+            </div>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={handleAddCustomPort}
+          disabled={!searchTerm.trim()}
+          className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors duration-200 whitespace-nowrap"
+        >
+          Add
+        </button>
       </div>
 
       {/* Search Results Dropdown */}
@@ -166,24 +193,17 @@ export function PortSearch({
 
       {/* Selected Ports */}
       {selectedPorts.length > 0 && (
-        <div className="mt-4 space-y-3">
-          <div className="flex items-center space-x-2 text-green-400 text-sm">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span>{selectedPorts.length} port{selectedPorts.length > 1 ? 's' : ''} selected</span>
-          </div>
+        <div className="mt-4">
           <div className="flex flex-wrap gap-2">
             {selectedPorts.map((port, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm border border-primary-500"
+                className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm"
               >
-                <MapPinIcon className="h-4 w-4" />
-                <span className="font-medium">{port}</span>
+                <span>{port}</span>
                 <button
                   onClick={() => handlePortRemove(port)}
-                  className="hover:bg-primary-700 rounded-full p-1 transition-colors duration-200"
+                  className="hover:bg-blue-700 rounded-full p-0.5 transition-colors duration-200"
                 >
                   <XMarkIcon className="h-3 w-3" />
                 </button>
