@@ -126,13 +126,13 @@ export default function HomePage() {
       <AnimatedHero />
 
       {/* Services Section with Enhanced Animations */}
-      <section className="py-20 bg-dark-800/50">
+      <section className="py-12 sm:py-16 md:py-20 bg-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-slide-bottom">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 animate-slide-bottom">
               Professional Marine Services
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-slide-bottom stagger-1">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto animate-slide-bottom stagger-1 leading-relaxed">
               Comprehensive maritime services provided by certified professionals. 
               <Link href="/services" className="text-blue-400 hover:text-blue-300 underline ml-1">
                 View all our services

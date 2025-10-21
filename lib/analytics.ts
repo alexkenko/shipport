@@ -12,33 +12,49 @@ export const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID || 
 export const initGA = () => {
   if (typeof window === 'undefined') return
 
-  // Load gtag script
-  const script = document.createElement('script')
-  script.async = true
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`
-  document.head.appendChild(script)
+  try {
+    // Load gtag script with error handling
+    const script = document.createElement('script')
+    script.async = true
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`
+    script.onerror = () => {
+      console.warn('Failed to load Google Analytics script')
+    }
+    document.head.appendChild(script)
 
-  // Initialize gtag
-  window.dataLayer = window.dataLayer || []
-  window.gtag = function gtag() {
-    window.dataLayer.push(arguments)
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function gtag() {
+      try {
+        window.dataLayer.push(arguments)
+      } catch (error) {
+        console.warn('Google Analytics error:', error)
+      }
+    }
+    
+    window.gtag('js', new Date())
+    window.gtag('config', GA4_MEASUREMENT_ID, {
+      page_title: document.title,
+      page_location: window.location.href,
+      send_page_view: false, // We'll handle this manually
+    })
+  } catch (error) {
+    console.warn('Google Analytics initialization failed:', error)
   }
-  
-  window.gtag('js', new Date())
-  window.gtag('config', GA4_MEASUREMENT_ID, {
-    page_title: document.title,
-    page_location: window.location.href,
-  })
 }
 
 // Track page views
 export const trackPageView = (url: string, title?: string) => {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
 
-  window.gtag('config', GA4_MEASUREMENT_ID, {
-    page_path: url,
-    page_title: title || document.title,
-  })
+  try {
+    window.gtag('event', 'page_view', {
+      page_path: url,
+      page_title: title || document.title,
+    })
+  } catch (error) {
+    console.warn('Google Analytics page view tracking failed:', error)
+  }
 }
 
 // Track custom events

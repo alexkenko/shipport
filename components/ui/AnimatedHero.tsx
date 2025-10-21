@@ -77,15 +77,15 @@ export function AnimatedHero() {
         <div className="text-center">
           {/* Animated Headline */}
           <div className="mb-4 sm:mb-6">
-            <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white">
+            <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white">
               <div 
-                className={`text-3xl sm:text-5xl md:text-7xl font-extrabold animate-typing ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                className={`text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold animate-typing ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{animationDelay: '0.2s'}}
               >
                 <span className="text-blue-400">{typingTexts[currentText]}</span>
               </div>
               <span 
-                className={`block text-lg sm:text-2xl md:text-3xl font-normal text-gray-300 mt-2 sm:mt-4 animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                className={`block text-sm sm:text-lg md:text-2xl lg:text-3xl font-normal text-gray-300 mt-2 sm:mt-4 animate-fade-scale ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{animationDelay: '0.8s'}}
               >
                 <span className="text-blue-700">Ship</span>
@@ -97,7 +97,7 @@ export function AnimatedHero() {
 
           {/* Animated Description */}
           <p 
-            className={`text-sm sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto px-2 animate-slide-bottom ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`text-xs sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto px-2 animate-slide-bottom leading-relaxed ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             style={{animationDelay: '1s'}}
           >
             #1 Professional <strong className="text-white">Marine Superintendent</strong> and <strong className="text-white">Marine Consultancy</strong> Platform. 
@@ -112,13 +112,13 @@ export function AnimatedHero() {
           >
             <Link
               href="/auth/register"
-              className="bg-primary-600 hover:bg-primary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto btn-hover transform hover:scale-105 text-center"
+              className="bg-primary-600 hover:bg-primary-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-lg text-sm sm:text-base md:text-lg font-semibold transition-all duration-200 w-full sm:w-auto btn-hover transform hover:scale-105 text-center"
             >
               Create Account
             </Link>
             <Link
               href="/auth/login"
-              className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center btn-hover transform hover:scale-105"
+              className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-lg text-sm sm:text-base md:text-lg font-semibold transition-all duration-200 w-full sm:w-auto text-center btn-hover transform hover:scale-105"
             >
               Sign In
             </Link>
