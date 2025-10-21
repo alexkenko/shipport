@@ -33,14 +33,16 @@ export function PortSearch({
   const [searchResults, setSearchResults] = useState<Port[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [showResults, setShowResults] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(-1)
   const searchTimeoutRef = useRef<NodeJS.Timeout>()
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Search for ports
   useEffect(() => {
-    if (searchTerm.length < 2) {
+    if (searchTerm.length < 1) {
       setSearchResults([])
       setShowResults(false)
+      setSelectedIndex(-1)
       return
     }
 
@@ -63,13 +65,14 @@ export function PortSearch({
         if (error) throw error
         setSearchResults(data || [])
         setShowResults(true)
+        setSelectedIndex(-1) // Reset selection when new results come in
       } catch (error) {
         console.error('Error searching ports:', error)
         setSearchResults([])
       } finally {
         setIsSearching(false)
       }
-    }, 300) // 300ms delay
+    }, 150) // Reduced delay for more responsive predictions
 
     return () => {
       if (searchTimeoutRef.current) {
@@ -121,6 +124,33 @@ export function PortSearch({
   const handleInputFocus = () => {
     if (searchResults.length > 0) {
       setShowResults(true)
+    } else if (searchTerm.length > 0) {
+      // Trigger search if there's text but no results yet
+      handleSearch()
+    }
+  }
+
+  // Handle search trigger
+  const handleSearch = async () => {
+    if (searchTerm.length < 1) return
+    
+    setIsSearching(true)
+    try {
+      const { data, error } = await supabase
+        .from('ports')
+        .select('id, main_port_name, alternate_port_name, country_name, region_name, latitude, longitude, harbor_size, harbor_type')
+        .ilike('search_text', `%${searchTerm.toLowerCase()}%`)
+        .order('main_port_name')
+        .limit(maxResults)
+
+      if (error) throw error
+      setSearchResults(data || [])
+      setShowResults(true)
+    } catch (error) {
+      console.error('Error searching ports:', error)
+      setSearchResults([])
+    } finally {
+      setIsSearching(false)
     }
   }
 
@@ -150,10 +180,25 @@ export function PortSearch({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onFocus={handleInputFocus}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && searchTerm.trim()) {
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
                 e.preventDefault()
-                handleAddCustomPort()
+                if (selectedIndex >= 0 && searchResults[selectedIndex]) {
+                  handlePortSelect(searchResults[selectedIndex])
+                } else {
+                  handleAddCustomPort()
+                }
+              } else if (e.key === 'ArrowDown') {
+                e.preventDefault()
+                setSelectedIndex(prev => 
+                  prev < searchResults.length - 1 ? prev + 1 : prev
+                )
+              } else if (e.key === 'ArrowUp') {
+                e.preventDefault()
+                setSelectedIndex(prev => prev > 0 ? prev - 1 : -1)
+              } else if (e.key === 'Escape') {
+                setShowResults(false)
+                setSelectedIndex(-1)
               }
             }}
             placeholder={placeholder}
@@ -181,19 +226,29 @@ export function PortSearch({
       {/* Search Results Dropdown */}
       {showResults && searchResults.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-dark-800 border border-dark-600 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-          {searchResults.map((port) => (
+          {searchResults.map((port, index) => (
             <button
               key={port.id}
               onClick={() => handlePortSelect(port)}
-              className="w-full px-4 py-3 text-left hover:bg-dark-700 transition-colors duration-200 border-b border-dark-600 last:border-b-0"
+              className={`w-full px-4 py-3 text-left transition-colors duration-200 border-b border-dark-600 last:border-b-0 ${
+                index === selectedIndex 
+                  ? 'bg-primary-600 text-white' 
+                  : 'hover:bg-dark-700'
+              }`}
             >
               <div className="flex items-center space-x-3">
-                <MapPinIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                <MapPinIcon className={`h-5 w-5 flex-shrink-0 ${
+                  index === selectedIndex ? 'text-white' : 'text-gray-400'
+                }`} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-white font-medium truncate">
+                  <div className={`font-medium truncate ${
+                    index === selectedIndex ? 'text-white' : 'text-white'
+                  }`}>
                     {port.alternate_port_name || port.main_port_name}
                   </div>
-                  <div className="text-sm text-gray-400 truncate">
+                  <div className={`text-sm truncate ${
+                    index === selectedIndex ? 'text-primary-100' : 'text-gray-400'
+                  }`}>
                     {port.region_name && `${port.region_name}, `}
                     {port.country_name}
                     {port.harbor_size && ` • ${port.harbor_size}`}
@@ -213,12 +268,12 @@ export function PortSearch({
             {selectedPorts.map((port, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm"
+                className="flex items-center space-x-2 bg-green-600 text-white px-3 py-1.5 rounded-full text-sm"
               >
                 <span>{port}</span>
                 <button
                   onClick={() => handlePortRemove(port)}
-                  className="hover:bg-blue-700 rounded-full p-0.5 transition-colors duration-200"
+                  className="hover:bg-green-700 rounded-full p-0.5 transition-colors duration-200"
                 >
                   <XMarkIcon className="h-3 w-3" />
                 </button>
