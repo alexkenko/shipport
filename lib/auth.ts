@@ -223,7 +223,7 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
   }
   
   // Map company field to company_name for managers table
-  const mappedUpdates = { ...updates }
+  const mappedUpdates: any = { ...updates }
   if (mappedUpdates.company) {
     mappedUpdates.company_name = mappedUpdates.company
     delete mappedUpdates.company
