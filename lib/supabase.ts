@@ -326,35 +326,6 @@ export interface Database {
           created_at?: string
         }
       }
-      ports: {
-        Row: {
-          id: string
-          name: string
-          country: string
-          city: string
-          code: string
-          coordinates: any | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          country: string
-          city: string
-          code: string
-          coordinates?: any | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          country?: string
-          city?: string
-          code?: string
-          coordinates?: any | null
-          created_at?: string
-        }
-      }
     }
   }
 }
