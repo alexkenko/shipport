@@ -22,9 +22,10 @@ export function OptimizedLogo({
         src="/logo-horizontal.png"
         alt="ShipinPort Logo"
         width={width * 2.30375}
-        height={height}
+        height={height * 0.95}
         priority={priority}
         className="rounded"
+        style={{ marginTop: '-1mm' }}
         sizes="(max-width: 768px) 250px, 375px"
         quality={85}
         placeholder="blur"
