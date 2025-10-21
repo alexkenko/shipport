@@ -149,7 +149,7 @@ export async function signIn(email: string, password: string) {
       const { data: userData, error: userError } = await supabase
         .from('managers')
         .select('*')
-        .eq('id', data.user.id)
+        .eq('auth_user_id', data.user.id)
         .single()
 
       if (userError) {
@@ -180,15 +180,29 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   if (!user) return null
 
   const { data: userData, error } = await supabase
-    .from('users')
+    .from('managers')
     .select('*')
-    .eq('id', user.id)
+    .eq('auth_user_id', user.id)
     .single()
 
   if (error) throw error
   
   return {
-    ...userData,
+    id: userData.auth_user_id,
+    email: userData.email,
+    role: userData.role as UserRole,
+    name: userData.name,
+    surname: userData.surname || '',
+    phone: userData.phone || '',
+    company: userData.company_name,
+    bio: userData.bio || '',
+    photo_url: userData.photo_url,
+    website: userData.website,
+    linkedin: userData.linkedin,
+    twitter: userData.twitter,
+    facebook: userData.facebook,
+    homebase: userData.homebase,
+    created_at: userData.created_at,
     email_verified: user.email_confirmed_at !== null
   }
 }
@@ -208,13 +222,20 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     throw new Error(`User ID mismatch: auth user ${authUser.id} trying to update ${userId}`)
   }
   
+  // Map company field to company_name for managers table
+  const mappedUpdates = { ...updates }
+  if (mappedUpdates.company) {
+    mappedUpdates.company_name = mappedUpdates.company
+    delete mappedUpdates.company
+  }
+
   const { data, error } = await supabase
-    .from('users')
+    .from('managers')
     .update({
-      ...updates,
+      ...mappedUpdates,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', userId)
+    .eq('auth_user_id', userId)
     .select()
 
   console.log('🔍 Update result:', { data, error })
