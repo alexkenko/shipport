@@ -25,7 +25,8 @@ export function OptimizedLogo({
         height={height}
         priority={priority}
         className="rounded"
-        sizes="(max-width: 768px) 24px, 32px"
+        sizes="(max-width: 768px) 40px, 60px"
+        style={{ backgroundColor: 'transparent' }}
       />
     </div>
   )
