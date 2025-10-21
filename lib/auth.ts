@@ -82,15 +82,15 @@ export async function signUp(email: string, password: string, userData: {
 
   if (authData.user) {
     const { data: insertedUser, error: userError } = await supabase
-      .from('managers')
+      .from('users')
       .insert({
-        auth_user_id: authData.user.id,
+        id: authData.user.id,
         email: emailValidation.sanitizedValue!,
         role: userData.role,
         name: nameValidation.sanitizedValue!,
         surname: surnameValidation.sanitizedValue!,
         phone: phoneValidation.sanitizedValue!,
-        company_name: companyValidation.sanitizedValue!,
+        company: companyValidation.sanitizedValue!,
         bio: bioValidation.sanitizedValue!,
       })
       .select()
@@ -147,9 +147,9 @@ export async function signIn(email: string, password: string) {
     if (data.user) {
       console.log('🔐 User authenticated, fetching user data...')
       const { data: userData, error: userError } = await supabase
-        .from('managers')
+        .from('users')
         .select('*')
-        .eq('auth_user_id', data.user.id)
+        .eq('id', data.user.id)
         .single()
 
       if (userError) {
@@ -180,21 +180,21 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   if (!user) return null
 
   const { data: userData, error } = await supabase
-    .from('managers')
+    .from('users')
     .select('*')
-    .eq('auth_user_id', user.id)
+    .eq('id', user.id)
     .single()
 
   if (error) throw error
   
   return {
-    id: userData.auth_user_id,
+    id: userData.id,
     email: userData.email,
     role: userData.role as UserRole,
     name: userData.name,
     surname: userData.surname || '',
     phone: userData.phone || '',
-    company: userData.company_name,
+    company: userData.company,
     bio: userData.bio || '',
     photo_url: userData.photo_url,
     website: userData.website,
@@ -222,20 +222,13 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     throw new Error(`User ID mismatch: auth user ${authUser.id} trying to update ${userId}`)
   }
   
-  // Map company field to company_name for managers table
-  const mappedUpdates: any = { ...updates }
-  if (mappedUpdates.company) {
-    mappedUpdates.company_name = mappedUpdates.company
-    delete mappedUpdates.company
-  }
-
   const { data, error } = await supabase
-    .from('managers')
+    .from('users')
     .update({
-      ...mappedUpdates,
+      ...updates,
       updated_at: new Date().toISOString(),
     })
-    .eq('auth_user_id', userId)
+    .eq('id', userId)
     .select()
 
   console.log('🔍 Update result:', { data, error })
