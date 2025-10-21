@@ -152,19 +152,32 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
       </label>
       
       {currentHomePort ? (
-        <div className="flex items-center justify-between p-3 bg-primary-600 rounded-lg">
-          <div className="flex items-center space-x-2">
-            <MapPinIcon className="h-5 w-5 text-white" />
-            <span className="text-white font-medium">
-              {currentHomePort.port_name}, {currentHomePort.country}
-            </span>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between p-4 bg-primary-600 rounded-lg border border-primary-500">
+            <div className="flex items-center space-x-3">
+              <MapPinIcon className="h-5 w-5 text-white" />
+              <div>
+                <span className="text-white font-medium text-lg">
+                  {currentHomePort.port_name}
+                </span>
+                <div className="text-primary-100 text-sm">
+                  {currentHomePort.country}
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleRemovePort}
+              className="text-white hover:text-red-300 transition-colors p-1 rounded-full hover:bg-primary-700"
+            >
+              <XMarkIcon className="h-5 w-5" />
+            </button>
           </div>
-          <button
-            onClick={handleRemovePort}
-            className="text-white hover:text-red-300 transition-colors"
-          >
-            <XMarkIcon className="h-5 w-5" />
-          </button>
+          <div className="text-sm text-green-400 flex items-center space-x-1">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>Homebase port saved successfully</span>
+          </div>
         </div>
       ) : (
         <div className="relative">

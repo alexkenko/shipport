@@ -8,7 +8,7 @@ interface Port {
   id: string
   main_port_name: string
   alternate_port_name?: string
-  country_code?: string
+  country_name?: string
   region_name?: string
   latitude?: number
   longitude?: number
@@ -55,8 +55,8 @@ export function PortSearch({
       try {
         const { data, error } = await supabase
           .from('ports')
-          .select('id, main_port_name, alternate_port_name, country_code, region_name, latitude, longitude, harbor_size, harbor_type')
-          .or(`main_port_name.ilike.%${searchTerm}%,alternate_port_name.ilike.%${searchTerm}%,region_name.ilike.%${searchTerm}%,country_code.ilike.%${searchTerm}%`)
+          .select('id, main_port_name, alternate_port_name, country_name, region_name, latitude, longitude, harbor_size, harbor_type')
+          .ilike('search_text', `%${searchTerm.toLowerCase()}%`)
           .order('main_port_name')
           .limit(maxResults)
 
@@ -153,7 +153,7 @@ export function PortSearch({
                   </div>
                   <div className="text-sm text-gray-400 truncate">
                     {port.region_name && `${port.region_name}, `}
-                    {port.country_code}
+                    {port.country_name}
                     {port.harbor_size && ` • ${port.harbor_size}`}
                     {port.harbor_type && ` • ${port.harbor_type}`}
                   </div>
@@ -166,18 +166,24 @@ export function PortSearch({
 
       {/* Selected Ports */}
       {selectedPorts.length > 0 && (
-        <div className="mt-3">
+        <div className="mt-4 space-y-3">
+          <div className="flex items-center space-x-2 text-green-400 text-sm">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>{selectedPorts.length} port{selectedPorts.length > 1 ? 's' : ''} selected</span>
+          </div>
           <div className="flex flex-wrap gap-2">
             {selectedPorts.map((port, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm"
+                className="flex items-center space-x-2 bg-primary-600 text-white px-4 py-2 rounded-lg text-sm border border-primary-500"
               >
                 <MapPinIcon className="h-4 w-4" />
-                <span>{port}</span>
+                <span className="font-medium">{port}</span>
                 <button
                   onClick={() => handlePortRemove(port)}
-                  className="hover:bg-primary-700 rounded-full p-0.5 transition-colors duration-200"
+                  className="hover:bg-primary-700 rounded-full p-1 transition-colors duration-200"
                 >
                   <XMarkIcon className="h-3 w-3" />
                 </button>
