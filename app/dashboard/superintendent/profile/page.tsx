@@ -487,7 +487,7 @@ export default function SuperintendentProfilePage() {
                       type="checkbox"
                       checked={formData.vesselTypes.includes(type)}
                       onChange={() => handleMultiSelectChange('vesselTypes', type)}
-                      className="rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                      className="w-4 h-4 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                     />
                     <span className="text-sm text-gray-300">{type}</span>
                   </label>
@@ -518,7 +518,7 @@ export default function SuperintendentProfilePage() {
                           type="checkbox"
                           checked={formData.certifications.includes(cert)}
                           onChange={() => handleMultiSelectChange('certifications', cert)}
-                          className="rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                          className="w-4 h-4 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                         />
                         <span className="text-sm text-gray-300">{cert}</span>
                       </label>
@@ -596,7 +596,7 @@ export default function SuperintendentProfilePage() {
                       type="checkbox"
                       checked={formData.services.includes(service)}
                       onChange={() => handleMultiSelectChange('services', service)}
-                      className="rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                      className="w-4 h-4 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                     />
                     <span className="text-sm text-gray-300">{service}</span>
                   </label>
