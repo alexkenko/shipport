@@ -21,7 +21,7 @@ export function OptimizedLogo({
       <Image
         src="/logo-horizontal.png"
         alt="ShipinPort Logo"
-        width={width * 2.5}
+        width={width * 2.425}
         height={height}
         priority={priority}
         className="rounded"

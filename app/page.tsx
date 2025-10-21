@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 import { AnimatedHero } from '@/components/ui/AnimatedHero'
 import { Button } from '@/components/ui/Button'
+import { HomePageContent } from '@/components/ui/HomePageContent'
 
 export const metadata: Metadata = {
   title: 'Marine Superintendent - Jobs, Services & Career Guide | ShipinPort.com',
