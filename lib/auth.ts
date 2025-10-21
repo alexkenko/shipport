@@ -16,6 +16,7 @@ export interface AuthUser {
   linkedin?: string
   twitter?: string
   facebook?: string
+  homebase?: string
   created_at: string
   email_verified?: boolean
 }
