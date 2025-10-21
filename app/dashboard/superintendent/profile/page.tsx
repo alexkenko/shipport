@@ -15,6 +15,7 @@ import { CameraIcon, UserCircleIcon, MapPinIcon, CheckBadgeIcon, StarIcon } from
 import { EmailVerification } from '@/components/ui/EmailVerification'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { PortSearch } from '@/components/ui/PortSearch'
+import { HomePortSearch } from '@/components/ui/HomePortSearch'
 
 
 export default function SuperintendentProfilePage() {
@@ -37,7 +38,6 @@ export default function SuperintendentProfilePage() {
     linkedin: '',
     twitter: '',
     facebook: '',
-    homebase: '',
     vesselTypes: [] as string[],
     certifications: [] as string[],
     portsCovered: [] as string[],
@@ -46,6 +46,7 @@ export default function SuperintendentProfilePage() {
     pricePerIdleDay: '',
     serviceType: 'gangway_to_gangway' as 'door_to_door' | 'gangway_to_gangway',
   })
+  const [homePort, setHomePort] = useState<{ port_name: string; country: string; latitude: number; longitude: number } | null>(null)
 
   useEffect(() => {
     if (viewUserId) {
@@ -96,7 +97,6 @@ export default function SuperintendentProfilePage() {
           linkedin: profileData.users.linkedin || '',
           twitter: profileData.users.twitter || '',
           facebook: profileData.users.facebook || '',
-          homebase: profileData.users.homebase || '',
           vesselTypes: profileData.vessel_types || [],
           certifications: profileData.certifications || [],
           portsCovered: profileData.ports_covered || [],
@@ -133,7 +133,6 @@ export default function SuperintendentProfilePage() {
           linkedin: currentUser.linkedin || '',
           twitter: currentUser.twitter || '',
           facebook: currentUser.facebook || '',
-          homebase: currentUser.homebase || '',
           vesselTypes: superintendentProfile?.vessel_types || [],
           certifications: superintendentProfile?.certifications || [],
           portsCovered: superintendentProfile?.ports_covered || [],
@@ -220,7 +219,6 @@ export default function SuperintendentProfilePage() {
         linkedin: formData.linkedin,
         twitter: formData.twitter,
         facebook: formData.facebook,
-        homebase: formData.homebase,
       })
 
       await updateSuperintendentProfile(user.id, {
@@ -378,12 +376,9 @@ export default function SuperintendentProfilePage() {
                   required
                 />
 
-                <Input
-                  label="Homebase Port"
-                  name="homebase"
-                  value={formData.homebase}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Port of Singapore, Rotterdam, etc."
+                <HomePortSearch
+                  userId={user?.id || ''}
+                  onPortChange={setHomePort}
                 />
 
                 <div className="md:col-span-2">
