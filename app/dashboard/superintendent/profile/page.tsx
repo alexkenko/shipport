@@ -14,13 +14,8 @@ import { AuthUser } from '@/lib/auth'
 import { CameraIcon, UserCircleIcon, MapPinIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
 import { EmailVerification } from '@/components/ui/EmailVerification'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import { PortSearch } from '@/components/ui/PortSearch'
 
-interface Port {
-  id: string
-  name: string
-  country: string
-  city: string
-}
 
 export default function SuperintendentProfilePage() {
   const searchParams = useSearchParams()
@@ -31,10 +26,7 @@ export default function SuperintendentProfilePage() {
   const [isSaving, setIsSaving] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [isExternalView, setIsExternalView] = useState(false)
-  const [ports, setPorts] = useState<Port[]>([])
-  const [searchPort, setSearchPort] = useState('')
   const [customCertification, setCustomCertification] = useState('')
-  const [customPort, setCustomPort] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -45,6 +37,7 @@ export default function SuperintendentProfilePage() {
     linkedin: '',
     twitter: '',
     facebook: '',
+    homebase: '',
     vesselTypes: [] as string[],
     certifications: [] as string[],
     portsCovered: [] as string[],
@@ -61,7 +54,6 @@ export default function SuperintendentProfilePage() {
     } else {
       loadUserProfile()
     }
-    loadPorts()
   }, [viewUserId])
 
   const loadExternalProfile = async (userId: string) => {
@@ -104,6 +96,7 @@ export default function SuperintendentProfilePage() {
           linkedin: profileData.users.linkedin || '',
           twitter: profileData.users.twitter || '',
           facebook: profileData.users.facebook || '',
+          homebase: profileData.users.homebase || '',
           vesselTypes: profileData.vessel_types || [],
           certifications: profileData.certifications || [],
           portsCovered: profileData.ports_covered || [],
@@ -140,6 +133,7 @@ export default function SuperintendentProfilePage() {
           linkedin: currentUser.linkedin || '',
           twitter: currentUser.twitter || '',
           facebook: currentUser.facebook || '',
+          homebase: currentUser.homebase || '',
           vesselTypes: superintendentProfile?.vessel_types || [],
           certifications: superintendentProfile?.certifications || [],
           portsCovered: superintendentProfile?.ports_covered || [],
@@ -157,20 +151,6 @@ export default function SuperintendentProfilePage() {
     }
   }
 
-  const loadPorts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('ports')
-        .select('*')
-        .order('name')
-        .limit(100)
-
-      if (error) throw error
-      setPorts(data || [])
-    } catch (error) {
-      console.error('Error loading ports:', error)
-    }
-  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -188,23 +168,6 @@ export default function SuperintendentProfilePage() {
     }))
   }
 
-  const handlePortAdd = (port: Port) => {
-    const portString = `${port.name}, ${port.city}, ${port.country}`
-    if (!formData.portsCovered.includes(portString)) {
-      setFormData(prev => ({
-        ...prev,
-        portsCovered: [...prev.portsCovered, portString]
-      }))
-    }
-    setSearchPort('')
-  }
-
-  const handlePortRemove = (port: string) => {
-    setFormData(prev => ({
-      ...prev,
-      portsCovered: prev.portsCovered.filter(p => p !== port)
-    }))
-  }
 
   const handleAddCustomCertification = () => {
     if (customCertification.trim() && !formData.certifications.includes(customCertification.trim())) {
@@ -216,15 +179,6 @@ export default function SuperintendentProfilePage() {
     }
   }
 
-  const handleAddCustomPort = () => {
-    if (customPort.trim() && !formData.portsCovered.includes(customPort.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        portsCovered: [...prev.portsCovered, customPort.trim()]
-      }))
-      setCustomPort('')
-    }
-  }
 
   const handleRemoveCertification = (cert: string) => {
     setFormData(prev => ({
@@ -266,6 +220,7 @@ export default function SuperintendentProfilePage() {
         linkedin: formData.linkedin,
         twitter: formData.twitter,
         facebook: formData.facebook,
+        homebase: formData.homebase,
       })
 
       await updateSuperintendentProfile(user.id, {
@@ -295,11 +250,6 @@ export default function SuperintendentProfilePage() {
     }
   }
 
-  const filteredPorts = ports.filter(port =>
-    port.name.toLowerCase().includes(searchPort.toLowerCase()) ||
-    port.city.toLowerCase().includes(searchPort.toLowerCase()) ||
-    port.country.toLowerCase().includes(searchPort.toLowerCase())
-  ).slice(0, 10)
 
   if (isLoading) {
     return (
@@ -426,6 +376,14 @@ export default function SuperintendentProfilePage() {
                   value={formData.company}
                   onChange={handleInputChange}
                   required
+                />
+
+                <Input
+                  label="Homebase Port"
+                  name="homebase"
+                  value={formData.homebase}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Port of Singapore, Rotterdam, etc."
                 />
 
                 <div className="md:col-span-2">
@@ -744,87 +702,17 @@ export default function SuperintendentProfilePage() {
             <CardHeader>
               <CardTitle>Ports Covered</CardTitle>
               <CardDescription>
-                Add ports and regions where you can provide services
+                Add ports and regions where you can provide services using our comprehensive ports database
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {/* Port Search from Database */}
-                <div>
-                  <Input
-                    label="Search from Port Database"
-                    value={searchPort}
-                    onChange={(e) => setSearchPort(e.target.value)}
-                    placeholder="Type to search for ports..."
-                  />
-                  
-                  {searchPort && filteredPorts.length > 0 && (
-                    <div className="mt-2 max-h-48 overflow-y-auto border border-dark-600 rounded-lg bg-dark-800">
-                      {filteredPorts.map((port) => (
-                        <button
-                          key={port.id}
-                          type="button"
-                          onClick={() => handlePortAdd(port)}
-                          className="w-full px-4 py-2 text-left text-gray-300 hover:bg-dark-700 hover:text-white transition-colors"
-                        >
-                          {port.name}, {port.city}, {port.country}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Custom Port Input */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-3">
-                    Add Custom Port Name
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={customPort}
-                      onChange={(e) => setCustomPort(e.target.value)}
-                      placeholder="e.g., Port of Singapore, Rotterdam, etc."
-                      className="flex-1 px-4 py-3 bg-dark-800 border border-dark-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomPort())}
-                    />
-                    <Button
-                      type="button"
-                      onClick={handleAddCustomPort}
-                      disabled={!customPort.trim()}
-                      variant="outline"
-                    >
-                      Add
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Selected Ports Display */}
-                {formData.portsCovered.length > 0 && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-3">
-                      Your Ports Covered
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                      {formData.portsCovered.map((port, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center space-x-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm"
-                        >
-                          <MapPinIcon className="h-4 w-4" />
-                          <span>{port}</span>
-                          <button
-                            type="button"
-                            onClick={() => handlePortRemove(port)}
-                            className="ml-1 hover:text-red-300 transition-colors"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <PortSearch
+                  selectedPorts={formData.portsCovered}
+                  onPortsChange={(ports) => setFormData(prev => ({ ...prev, portsCovered: ports }))}
+                  placeholder="Search from our database of 3,000+ ports worldwide..."
+                  maxResults={15}
+                />
               </div>
             </CardContent>
           </Card>

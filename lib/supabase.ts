@@ -81,6 +81,7 @@ export interface Database {
           certifications: string[]
           ports_covered: string[]
           services: string[]
+          homebase?: string
           created_at: string
           updated_at: string
         }
@@ -91,6 +92,7 @@ export interface Database {
           certifications: string[]
           ports_covered: string[]
           services: string[]
+          homebase?: string
           created_at?: string
           updated_at?: string
         }
@@ -101,6 +103,120 @@ export interface Database {
           certifications?: string[]
           ports_covered?: string[]
           services?: string[]
+          homebase?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      ports: {
+        Row: {
+          id: string
+          world_port_index?: string
+          region_name?: string
+          main_port_name: string
+          alternate_port_name?: string
+          un_locode?: string
+          country_code?: string
+          country_name?: string
+          world_water_body?: string
+          iho_sea_area?: string
+          latitude?: number
+          longitude?: number
+          harbor_size?: string
+          harbor_type?: string
+          harbor_use?: string
+          shelter_afforded?: string
+          tidal_range?: number
+          entrance_width?: number
+          channel_depth?: number
+          anchorage_depth?: number
+          cargo_pier_depth?: number
+          max_vessel_length?: number
+          max_vessel_beam?: number
+          max_vessel_draft?: number
+          pilotage_compulsory: boolean
+          pilotage_available: boolean
+          tugs_assistance: boolean
+          facilities_wharves: boolean
+          facilities_anchorage: boolean
+          facilities_container: boolean
+          facilities_oil_terminal: boolean
+          facilities_lng_terminal: boolean
+          search_text?: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          world_port_index?: string
+          region_name?: string
+          main_port_name: string
+          alternate_port_name?: string
+          un_locode?: string
+          country_code?: string
+          country_name?: string
+          world_water_body?: string
+          iho_sea_area?: string
+          latitude?: number
+          longitude?: number
+          harbor_size?: string
+          harbor_type?: string
+          harbor_use?: string
+          shelter_afforded?: string
+          tidal_range?: number
+          entrance_width?: number
+          channel_depth?: number
+          anchorage_depth?: number
+          cargo_pier_depth?: number
+          max_vessel_length?: number
+          max_vessel_beam?: number
+          max_vessel_draft?: number
+          pilotage_compulsory?: boolean
+          pilotage_available?: boolean
+          tugs_assistance?: boolean
+          facilities_wharves?: boolean
+          facilities_anchorage?: boolean
+          facilities_container?: boolean
+          facilities_oil_terminal?: boolean
+          facilities_lng_terminal?: boolean
+          search_text?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          world_port_index?: string
+          region_name?: string
+          main_port_name?: string
+          alternate_port_name?: string
+          un_locode?: string
+          country_code?: string
+          country_name?: string
+          world_water_body?: string
+          iho_sea_area?: string
+          latitude?: number
+          longitude?: number
+          harbor_size?: string
+          harbor_type?: string
+          harbor_use?: string
+          shelter_afforded?: string
+          tidal_range?: number
+          entrance_width?: number
+          channel_depth?: number
+          anchorage_depth?: number
+          cargo_pier_depth?: number
+          max_vessel_length?: number
+          max_vessel_beam?: number
+          max_vessel_draft?: number
+          pilotage_compulsory?: boolean
+          pilotage_available?: boolean
+          tugs_assistance?: boolean
+          facilities_wharves?: boolean
+          facilities_anchorage?: boolean
+          facilities_container?: boolean
+          facilities_oil_terminal?: boolean
+          facilities_lng_terminal?: boolean
+          search_text?: string
           created_at?: string
           updated_at?: string
         }
