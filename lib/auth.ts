@@ -82,15 +82,15 @@ export async function signUp(email: string, password: string, userData: {
 
   if (authData.user) {
     const { data: insertedUser, error: userError } = await supabase
-      .from('users')
+      .from('managers')
       .insert({
-        id: authData.user.id,
+        auth_user_id: authData.user.id,
         email: emailValidation.sanitizedValue!,
         role: userData.role,
         name: nameValidation.sanitizedValue!,
         surname: surnameValidation.sanitizedValue!,
         phone: phoneValidation.sanitizedValue!,
-        company: companyValidation.sanitizedValue!,
+        company_name: companyValidation.sanitizedValue!,
         bio: bioValidation.sanitizedValue!,
       })
       .select()
@@ -147,7 +147,7 @@ export async function signIn(email: string, password: string) {
     if (data.user) {
       console.log('🔐 User authenticated, fetching user data...')
       const { data: userData, error: userError } = await supabase
-        .from('users')
+        .from('managers')
         .select('*')
         .eq('id', data.user.id)
         .single()
