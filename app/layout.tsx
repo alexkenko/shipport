@@ -165,7 +165,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} bg-dark-900 text-white min-h-screen`}>
+      <body className={`${inter.className} bg-dark-900 text-white min-h-screen overflow-x-hidden`}>
         <GoogleAnalytics />
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">
