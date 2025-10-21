@@ -32,6 +32,7 @@ interface HeaderProps {
 export function Header({ user, onNotificationClick, unreadCount, hideNavigation }: HeaderProps) {
   const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
   
   const handleSignOut = async () => {
     try {
@@ -141,8 +142,13 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               <>
 
                 {/* User profile dropdown */}
-                <div className="relative group">
-                  <button className="flex items-center space-x-3 text-white hover:text-gray-300 transition-colors">
+                <div className="relative">
+                  <button
+                    onClick={() => setIsProfileOpen((v) => !v)}
+                    aria-expanded={isProfileOpen}
+                    aria-haspopup="menu"
+                    className="flex items-center space-x-3 text-white hover:text-gray-300 transition-colors"
+                  >
                     <div className="flex items-center space-x-2">
                       {user.photo_url ? (
                         <img
@@ -160,42 +166,45 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                     </div>
                   </button>
 
-                  {/* Dropdown menu */}
-                  <div className="absolute right-0 mt-2 w-48 bg-dark-700 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-dark-600">
-                    <div className="py-1">
-                      <Link
-                        href={`/dashboard/${user.role}/profile`}
-                        className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-dark-600 hover:text-white transition-colors"
-                      >
-                        <UserCircleIcon className="h-4 w-4 mr-3" />
-                        Profile
-                      </Link>
-                      <button
-                        onClick={handleSignOut}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-dark-600 hover:text-white transition-colors"
-                      >
-                        <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
-                        Sign out
-                      </button>
+                  {/* Dropdown menu - tap friendly */}
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-dark-700 rounded-md shadow-lg border border-dark-600 z-50">
+                      <div className="py-1">
+                        <Link
+                          href={`/dashboard/${user.role}/profile`}
+                          onClick={() => setIsProfileOpen(false)}
+                          className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-dark-600 hover:text-white transition-colors"
+                        >
+                          <UserCircleIcon className="h-4 w-4 mr-3" />
+                          Profile
+                        </Link>
+                        <button
+                          onClick={() => { setIsProfileOpen(false); handleSignOut() }}
+                          className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-dark-600 hover:text-white transition-colors"
+                        >
+                          <ArrowRightOnRectangleIcon className="h-4 w-4 mr-3" />
+                          Sign out
+                        </button>
+                      </div>
                     </div>
-                </div>
+                  )}
                 </div>
               </>
             )}
 
             {!user && (
-              <div className="flex items-center space-x-2">
-                <Link href="/auth/login">
-                  <Button variant="outline" size="sm">
+              <div className="flex items-center gap-2">
+                <Link href="/auth/login" className="shrink-0">
+                  <Button variant="outline" size="sm" className="px-3 py-2">
                     Sign In
                   </Button>
-                  </Link>
-                <Link href="/auth/register">
-                  <Button size="sm">
+                </Link>
+                <Link href="/auth/register" className="shrink-0">
+                  <Button size="sm" className="px-3 py-2">
                     Get Started
                   </Button>
-                  </Link>
-                </div>
+                </Link>
+              </div>
             )}
 
             {/* Mobile menu button */}
