@@ -107,9 +107,10 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
           <div className="flex-shrink-0">
             <OptimizedLogo 
               href={user ? `/dashboard/${user.role}` : '/'} 
-              width={150} 
-              height={60} 
+              width={150}
+              height={60}
               priority={true}
+              className="items-center"
             />
           </div>
 
