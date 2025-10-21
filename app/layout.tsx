@@ -123,6 +123,12 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="ShipinPort" />
         <meta name="msapplication-TileColor" content="#0f172a" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
+        
+        {/* Performance optimizations */}
+        <link rel="preload" href="/logo-horizontal.png" as="image" type="image/png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://xumhixssblldxhteyakk.supabase.co" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
