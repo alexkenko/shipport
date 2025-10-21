@@ -24,7 +24,6 @@ export interface Database {
           linkedin: string | null
           twitter: string | null
           facebook: string | null
-          homebase: string | null
           created_at: string
           updated_at: string
         }
@@ -42,7 +41,6 @@ export interface Database {
           linkedin?: string | null
           twitter?: string | null
           facebook?: string | null
-          homebase?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -60,7 +58,6 @@ export interface Database {
           linkedin?: string | null
           twitter?: string | null
           facebook?: string | null
-          homebase?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -96,7 +93,6 @@ export interface Database {
           certifications: string[]
           ports_covered: string[]
           services: string[]
-          homebase?: string
           created_at: string
           updated_at: string
         }
@@ -107,7 +103,6 @@ export interface Database {
           certifications: string[]
           ports_covered: string[]
           services: string[]
-          homebase?: string
           created_at?: string
           updated_at?: string
         }
@@ -118,7 +113,6 @@ export interface Database {
           certifications?: string[]
           ports_covered?: string[]
           services?: string[]
-          homebase?: string
           created_at?: string
           updated_at?: string
         }

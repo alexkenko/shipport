@@ -201,7 +201,6 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     linkedin: userData.linkedin,
     twitter: userData.twitter,
     facebook: userData.facebook,
-    homebase: userData.homebase,
     created_at: userData.created_at,
     email_verified: user.email_confirmed_at !== null
   }
