@@ -103,28 +103,11 @@ export function Footer() {
         </div>
 
 
-        {/* Legal Links */}
+        {/* Copyright */}
         <div className="border-t border-dark-700 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-sm text-gray-500 mb-4 md:mb-0">
+          <div className="text-center">
+            <div className="text-sm text-gray-500">
               © 2024 ShipinPort. All rights reserved.
-            </div>
-            <div className="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
-              <Link href="/terms" className="text-gray-500 hover:text-white transition-colors">
-                Terms of Service
-              </Link>
-              <Link href="/privacy" className="text-gray-500 hover:text-white transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/cookies" className="text-gray-500 hover:text-white transition-colors">
-                Cookie Policy
-              </Link>
-              <Link href="/disclaimer" className="text-gray-500 hover:text-white transition-colors">
-                Legal Disclaimer
-              </Link>
-              <Link href="/gdpr" className="text-gray-500 hover:text-white transition-colors">
-                GDPR Compliance
-              </Link>
             </div>
           </div>
         </div>

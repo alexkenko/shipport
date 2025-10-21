@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signOut, getCurrentUser } from '@/lib/auth'
 import { Button } from '@/components/ui/Button'
+import { OptimizedLogo } from '@/components/ui/OptimizedLogo'
 import { AuthUser } from '@/lib/auth'
 import { 
   BellIcon, 
@@ -104,14 +105,13 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href={user ? `/dashboard/${user.role}` : '/'} className="flex items-center">
-              <span className="text-2xl font-bold">
-                <span className="text-blue-400">Ship</span>
-        <span className="text-red-500">in</span>
-                <span className="text-blue-400">Port.com</span>
-                  </span>
-                </Link>
-              </div>
+            <OptimizedLogo 
+              href={user ? `/dashboard/${user.role}` : '/'} 
+              width={40} 
+              height={40} 
+              priority={true}
+            />
+          </div>
 
           {/* Desktop Navigation */}
           {!hideNavigation && (
