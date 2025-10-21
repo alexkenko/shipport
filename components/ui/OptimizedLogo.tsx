@@ -25,7 +25,7 @@ export function OptimizedLogo({
         height={height * 0.85}
         priority={priority}
         className="rounded"
-        style={{ marginTop: '-1mm' }}
+        style={{ marginTop: '-2mm' }}
         sizes="(max-width: 768px) 250px, 375px"
         quality={85}
         placeholder="blur"
