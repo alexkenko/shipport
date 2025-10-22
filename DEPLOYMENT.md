@@ -229,8 +229,9 @@ Railway provides full-stack deployment with database hosting.
 Create a `.env.local` file in your project root (for local development):
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://xumhixssblldxhteyakk.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1bWhpeHNzYmxsZHhodGV5YWtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzNTg0MTUsImV4cCI6MjA3MzkzNDQxNX0.WcIb_9hvXW9VARkO-V8EgltsUUMfXQRGa2xtrAt5KU8
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+# Never commit real keys. Rotate immediately if accidentally exposed.
 ```
 
 ## Local Development Setup
