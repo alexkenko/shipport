@@ -170,6 +170,15 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
           <Input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                // If there are search results, select the first one
+                if (searchResults.length > 0) {
+                  handleSelectPort(searchResults[0])
+                }
+              }
+            }}
             placeholder="Search for your homebase port..."
           />
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
