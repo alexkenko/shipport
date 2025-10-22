@@ -23,12 +23,12 @@ async function executeAllAsianPortBatches() {
         console.log(`📤 Executing batch ${i}/${totalBatches}...`);
         
         // Execute the batch using fetch to Supabase
-        const response = await fetch('https://xumhixssblldxhteyakk.supabase.co/rest/v1/rpc/execute_sql', {
+        const response = await fetch(process.env.SUPABASE_REST_EXECUTE_SQL_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1bWhpeHNzYmxsc2R4aHRleWFrayIsInJvbGUiOiJzZXJ2aWNlX3JvbGUiLCJpYXQiOjE3MzQ4MjQ4NzQsImV4cCI6MjA1MDQwMDg3NH0.7QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh1bWhpeHNzYmxsc2R4aHRleWFrayIsInJvbGUiOiJzZXJ2aWNlX3JvbGUiLCJpYXQiOjE3MzQ4MjQ4NzQsImV4cCI6MjA1MDQwMDg3NH0.7QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8QJ8'
+            'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+            'apikey': process.env.SUPABASE_SERVICE_ROLE_KEY
           },
           body: JSON.stringify({ query: batchSql })
         });

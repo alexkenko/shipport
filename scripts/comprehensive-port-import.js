@@ -3,11 +3,16 @@ const csv = require('csv-parser');
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config({ path: '.env.local' });
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zurnrxtkmqtbcofwtild.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp1cm5yeHRrbXF0YmNvZnd0aWxkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTM4NTIxMSwiZXhwIjoyMDc0OTYxMjExfQ.YourServiceRoleKey'
-);
+// Initialize Supabase client strictly from env vars
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !serviceRoleKey) {
+  console.error('Missing required environment variables. Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, serviceRoleKey);
 
 // Country code to name mapping
 const countryMap = {
