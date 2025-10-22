@@ -25,6 +25,8 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
   const [isSearching, setIsSearching] = useState(false)
   const [currentHomePort, setCurrentHomePort] = useState<{ port_name: string; country: string; latitude: number; longitude: number } | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedPort, setSelectedPort] = useState<Port | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
 
   // Load current home port
   useEffect(() => {
@@ -86,36 +88,53 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
     }
   }
 
-  const handleSelectPort = async (port: Port) => {
+  const handleSelectPort = (port: Port) => {
+    setSelectedPort(port)
+    setSearchTerm('')
+    setSearchResults([])
+  }
+
+  const handleSavePort = async () => {
+    if (!selectedPort) return
+    
+    setIsSaving(true)
     try {
       // Save to home_ports table
       const { error } = await supabase
         .from('home_ports')
         .upsert({
           user_id: userId,
-          port_name: port.main_port_name,
-          country: port.country_name,
-          latitude: port.latitude,
-          longitude: port.longitude
+          port_name: selectedPort.main_port_name,
+          country: selectedPort.country_name,
+          latitude: selectedPort.latitude,
+          longitude: selectedPort.longitude
         })
 
       if (error) throw error
 
       // Update local state
       const homePort = {
-        port_name: port.main_port_name,
-        country: port.country_name,
-        latitude: port.latitude,
-        longitude: port.longitude
+        port_name: selectedPort.main_port_name,
+        country: selectedPort.country_name,
+        latitude: selectedPort.latitude,
+        longitude: selectedPort.longitude
       }
       
       setCurrentHomePort(homePort)
+      setSelectedPort(null)
       onPortChange(homePort)
-      setSearchTerm('')
-      setSearchResults([])
     } catch (error) {
       console.error('Error saving home port:', error)
+    } finally {
+      setIsSaving(false)
     }
+  }
+
+  const handleChangePort = () => {
+    setCurrentHomePort(null)
+    setSelectedPort(null)
+    setSearchTerm('')
+    setSearchResults([])
   }
 
   const handleRemovePort = async () => {
@@ -154,15 +173,51 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
       {currentHomePort ? (
         <div className="mt-2">
           <div className="flex flex-wrap gap-2">
-            <div className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm">
+            <div className="flex items-center space-x-2 bg-green-600 text-white px-3 py-1.5 rounded-full text-sm">
               <span>{currentHomePort.port_name}, {currentHomePort.country}</span>
               <button
                 onClick={handleRemovePort}
-                className="hover:bg-blue-700 rounded-full p-0.5 transition-colors duration-200"
+                className="hover:bg-green-700 rounded-full p-0.5 transition-colors duration-200"
               >
                 <XMarkIcon className="h-3 w-3" />
               </button>
             </div>
+          </div>
+          <div className="mt-3">
+            <Button
+              onClick={handleChangePort}
+              variant="outline"
+              size="sm"
+              className="text-gray-300 border-gray-600 hover:bg-gray-700"
+            >
+              Change
+            </Button>
+          </div>
+        </div>
+      ) : selectedPort ? (
+        <div className="mt-2">
+          <div className="flex flex-wrap gap-2">
+            <div className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm">
+              <span>{selectedPort.main_port_name}, {selectedPort.country_name}</span>
+            </div>
+          </div>
+          <div className="mt-3 flex gap-2">
+            <Button
+              onClick={handleSavePort}
+              disabled={isSaving}
+              size="sm"
+              className="bg-green-600 hover:bg-green-700"
+            >
+              {isSaving ? 'Saving...' : 'Save'}
+            </Button>
+            <Button
+              onClick={() => setSelectedPort(null)}
+              variant="outline"
+              size="sm"
+              className="text-gray-300 border-gray-600 hover:bg-gray-700"
+            >
+              Cancel
+            </Button>
           </div>
         </div>
       ) : (
