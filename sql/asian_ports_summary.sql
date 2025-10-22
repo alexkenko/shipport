@@ -1,0 +1,136 @@
+-- Asian Ports Import Summary
+-- Countries: China, Japan, South Korea, Philippines, Malaysia, Indonesia, Singapore
+-- Total ports: 6026
+-- Generated: 2025-10-22T07:43:59.310Z
+
+-- Country breakdown:
+-- China: 918 ports
+-- Indonesia: 1474 ports
+-- Japan: 2032 ports
+-- South Korea: 546 ports
+-- Malaysia: 423 ports
+-- Philippines: 555 ports
+-- Singapore: 78 ports
+
+-- Execute all batch files in order:
+-- sql/asian_ports_batch_001.sql
+-- sql/asian_ports_batch_002.sql
+-- sql/asian_ports_batch_003.sql
+-- sql/asian_ports_batch_004.sql
+-- sql/asian_ports_batch_005.sql
+-- sql/asian_ports_batch_006.sql
+-- sql/asian_ports_batch_007.sql
+-- sql/asian_ports_batch_008.sql
+-- sql/asian_ports_batch_009.sql
+-- sql/asian_ports_batch_010.sql
+-- sql/asian_ports_batch_011.sql
+-- sql/asian_ports_batch_012.sql
+-- sql/asian_ports_batch_013.sql
+-- sql/asian_ports_batch_014.sql
+-- sql/asian_ports_batch_015.sql
+-- sql/asian_ports_batch_016.sql
+-- sql/asian_ports_batch_017.sql
+-- sql/asian_ports_batch_018.sql
+-- sql/asian_ports_batch_019.sql
+-- sql/asian_ports_batch_020.sql
+-- sql/asian_ports_batch_021.sql
+-- sql/asian_ports_batch_022.sql
+-- sql/asian_ports_batch_023.sql
+-- sql/asian_ports_batch_024.sql
+-- sql/asian_ports_batch_025.sql
+-- sql/asian_ports_batch_026.sql
+-- sql/asian_ports_batch_027.sql
+-- sql/asian_ports_batch_028.sql
+-- sql/asian_ports_batch_029.sql
+-- sql/asian_ports_batch_030.sql
+-- sql/asian_ports_batch_031.sql
+-- sql/asian_ports_batch_032.sql
+-- sql/asian_ports_batch_033.sql
+-- sql/asian_ports_batch_034.sql
+-- sql/asian_ports_batch_035.sql
+-- sql/asian_ports_batch_036.sql
+-- sql/asian_ports_batch_037.sql
+-- sql/asian_ports_batch_038.sql
+-- sql/asian_ports_batch_039.sql
+-- sql/asian_ports_batch_040.sql
+-- sql/asian_ports_batch_041.sql
+-- sql/asian_ports_batch_042.sql
+-- sql/asian_ports_batch_043.sql
+-- sql/asian_ports_batch_044.sql
+-- sql/asian_ports_batch_045.sql
+-- sql/asian_ports_batch_046.sql
+-- sql/asian_ports_batch_047.sql
+-- sql/asian_ports_batch_048.sql
+-- sql/asian_ports_batch_049.sql
+-- sql/asian_ports_batch_050.sql
+-- sql/asian_ports_batch_051.sql
+-- sql/asian_ports_batch_052.sql
+-- sql/asian_ports_batch_053.sql
+-- sql/asian_ports_batch_054.sql
+-- sql/asian_ports_batch_055.sql
+-- sql/asian_ports_batch_056.sql
+-- sql/asian_ports_batch_057.sql
+-- sql/asian_ports_batch_058.sql
+-- sql/asian_ports_batch_059.sql
+-- sql/asian_ports_batch_060.sql
+-- sql/asian_ports_batch_061.sql
+-- sql/asian_ports_batch_062.sql
+-- sql/asian_ports_batch_063.sql
+-- sql/asian_ports_batch_064.sql
+-- sql/asian_ports_batch_065.sql
+-- sql/asian_ports_batch_066.sql
+-- sql/asian_ports_batch_067.sql
+-- sql/asian_ports_batch_068.sql
+-- sql/asian_ports_batch_069.sql
+-- sql/asian_ports_batch_070.sql
+-- sql/asian_ports_batch_071.sql
+-- sql/asian_ports_batch_072.sql
+-- sql/asian_ports_batch_073.sql
+-- sql/asian_ports_batch_074.sql
+-- sql/asian_ports_batch_075.sql
+-- sql/asian_ports_batch_076.sql
+-- sql/asian_ports_batch_077.sql
+-- sql/asian_ports_batch_078.sql
+-- sql/asian_ports_batch_079.sql
+-- sql/asian_ports_batch_080.sql
+-- sql/asian_ports_batch_081.sql
+-- sql/asian_ports_batch_082.sql
+-- sql/asian_ports_batch_083.sql
+-- sql/asian_ports_batch_084.sql
+-- sql/asian_ports_batch_085.sql
+-- sql/asian_ports_batch_086.sql
+-- sql/asian_ports_batch_087.sql
+-- sql/asian_ports_batch_088.sql
+-- sql/asian_ports_batch_089.sql
+-- sql/asian_ports_batch_090.sql
+-- sql/asian_ports_batch_091.sql
+-- sql/asian_ports_batch_092.sql
+-- sql/asian_ports_batch_093.sql
+-- sql/asian_ports_batch_094.sql
+-- sql/asian_ports_batch_095.sql
+-- sql/asian_ports_batch_096.sql
+-- sql/asian_ports_batch_097.sql
+-- sql/asian_ports_batch_098.sql
+-- sql/asian_ports_batch_099.sql
+-- sql/asian_ports_batch_100.sql
+-- sql/asian_ports_batch_101.sql
+-- sql/asian_ports_batch_102.sql
+-- sql/asian_ports_batch_103.sql
+-- sql/asian_ports_batch_104.sql
+-- sql/asian_ports_batch_105.sql
+-- sql/asian_ports_batch_106.sql
+-- sql/asian_ports_batch_107.sql
+-- sql/asian_ports_batch_108.sql
+-- sql/asian_ports_batch_109.sql
+-- sql/asian_ports_batch_110.sql
+-- sql/asian_ports_batch_111.sql
+-- sql/asian_ports_batch_112.sql
+-- sql/asian_ports_batch_113.sql
+-- sql/asian_ports_batch_114.sql
+-- sql/asian_ports_batch_115.sql
+-- sql/asian_ports_batch_116.sql
+-- sql/asian_ports_batch_117.sql
+-- sql/asian_ports_batch_118.sql
+-- sql/asian_ports_batch_119.sql
+-- sql/asian_ports_batch_120.sql
+-- sql/asian_ports_batch_121.sql
