@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Input } from './Input'
 import { Button } from './Button'
-import { MapPinIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 interface HomePortSearchProps {
   userId: string
@@ -35,7 +35,6 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
       }
 
       if (data) {
-        console.log('Loaded homebase from DB:', data.homebase)
         setHomebase(data.homebase)
         onPortChange(data.homebase)
       }
@@ -46,11 +45,9 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
     }
   }
 
-  const handleSaveHomebase = async () => {
+  const saveHomebase = async () => {
     if (!homebase.trim()) return
     
-    console.log('handleSaveHomebase called with:', homebase.trim())
-    console.log('Saving homebase:', homebase.trim())
     setIsSaving(true)
     try {
       const { error } = await supabase
@@ -62,7 +59,6 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
 
       if (error) throw error
 
-      console.log('Successfully saved homebase:', homebase.trim())
       onPortChange(homebase.trim())
     } catch (error) {
       console.error('Error saving homebase:', error)
@@ -71,12 +67,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
     }
   }
 
-  const handleChangeHomebase = () => {
-    setHomebase('')
-    onPortChange(null)
-  }
-
-  const handleRemoveHomebase = async () => {
+  const removeHomebase = async () => {
     try {
       const { error } = await supabase
         .from('home_ports')
@@ -95,9 +86,6 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Homebase Port
-        </label>
         <div className="animate-pulse bg-dark-700 h-10 rounded-lg"></div>
       </div>
     )
@@ -105,17 +93,13 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
 
   return (
     <div className="space-y-4">
-      <label className="block text-sm font-medium text-gray-300 mb-2">
-        Homebase Port
-      </label>
-      
       {homebase ? (
-        <div className="mt-2">
-          <div className="flex flex-wrap gap-2">
+        <div>
+          <div className="flex items-center gap-2">
             <div className="flex items-center space-x-2 bg-green-600 text-white px-3 py-1.5 rounded-full text-sm">
               <span>{homebase}</span>
               <button
-                onClick={handleRemoveHomebase}
+                onClick={removeHomebase}
                 className="hover:bg-green-700 rounded-full p-0.5 transition-colors duration-200"
               >
                 <XMarkIcon className="h-3 w-3" />
@@ -125,11 +109,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
           <div className="mt-3">
             <Button
               type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                handleChangeHomebase()
-              }}
+              onClick={() => setHomebase('')}
               variant="outline"
               size="sm"
               className="text-gray-300 border-gray-600 hover:bg-gray-700"
@@ -139,39 +119,22 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
           </div>
         </div>
       ) : (
-        <div className="space-y-3">
-          <div className="flex gap-2">
-            <Input
-              value={homebase}
-              onChange={(e) => {
-                console.log('Input changed:', e.target.value)
-                setHomebase(e.target.value)
-              }}
-              onKeyDown={(e) => {
-                // Only save on Enter key, prevent any other form submission
-                if (e.key === 'Enter') {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  handleSaveHomebase()
-                }
-              }}
-              placeholder="Enter your homebase port..."
-              className="flex-1"
-            />
-            <Button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                handleSaveHomebase()
-              }}
-              disabled={!homebase.trim() || isSaving}
-              size="sm"
-              className="bg-green-600 hover:bg-green-700 text-white font-medium"
-            >
-              {isSaving ? 'Saving...' : 'Save'}
-            </Button>
-          </div>
+        <div className="flex gap-2">
+          <Input
+            value={homebase}
+            onChange={(e) => setHomebase(e.target.value)}
+            placeholder="Enter your homebase port..."
+            className="flex-1"
+          />
+          <Button
+            type="button"
+            onClick={saveHomebase}
+            disabled={!homebase.trim() || isSaving}
+            size="sm"
+            className="bg-green-600 hover:bg-green-700 text-white font-medium"
+          >
+            {isSaving ? 'Saving...' : 'Save'}
+          </Button>
         </div>
       )}
     </div>
