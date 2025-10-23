@@ -282,22 +282,6 @@ export default function SuperintendentProfilePage() {
           </p>
         </div>
 
-        {/* Homebase Port - Outside form to prevent auto-save issues */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Homebase Port</CardTitle>
-            <CardDescription>
-              Set your primary homebase port location
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <HomePortSearch
-              userId={user?.id || ''}
-              onPortChange={setHomePort}
-            />
-          </CardContent>
-        </Card>
-
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Profile Photo */}
           <Card>
@@ -392,6 +376,10 @@ export default function SuperintendentProfilePage() {
                   required
                 />
 
+                <HomePortSearch
+                  userId={user?.id || ''}
+                  onPortChange={setHomePort}
+                />
 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-300 mb-2">
