@@ -32,6 +32,7 @@ export default function SuperintendentProfilePage() {
     surname: '',
     phone: '',
     company: '',
+    homebase: '',
     bio: '',
     website: '',
     linkedin: '',
@@ -126,6 +127,7 @@ export default function SuperintendentProfilePage() {
           surname: currentUser.surname,
           phone: currentUser.phone,
           company: currentUser.company,
+          homebase: currentUser.homebase || '',
           bio: currentUser.bio,
           website: currentUser.website || '',
           linkedin: currentUser.linkedin || '',
@@ -212,6 +214,7 @@ export default function SuperintendentProfilePage() {
         surname: formData.surname,
         phone: formData.phone,
         company: formData.company,
+        homebase: formData.homebase,
         bio: formData.bio,
         website: formData.website,
         linkedin: formData.linkedin,
@@ -374,6 +377,13 @@ export default function SuperintendentProfilePage() {
                   required
                 />
 
+                <Input
+                  label="Homebase"
+                  name="homebase"
+                  value={formData.homebase}
+                  onChange={handleInputChange}
+                  placeholder="Enter your homebase port or location"
+                />
 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-300 mb-2">
