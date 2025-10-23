@@ -15,7 +15,6 @@ import { CameraIcon, UserCircleIcon, MapPinIcon, CheckBadgeIcon, StarIcon } from
 import { EmailVerification } from '@/components/ui/EmailVerification'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { PortSearch } from '@/components/ui/PortSearch'
-import { HomePortSearch } from '@/components/ui/HomePortSearch'
 
 
 export default function SuperintendentProfilePage() {
@@ -46,7 +45,6 @@ export default function SuperintendentProfilePage() {
     pricePerIdleDay: '',
     serviceType: 'gangway_to_gangway' as 'door_to_door' | 'gangway_to_gangway',
   })
-  const [homePort, setHomePort] = useState<string | null>(null)
 
   useEffect(() => {
     if (viewUserId) {
@@ -376,10 +374,6 @@ export default function SuperintendentProfilePage() {
                   required
                 />
 
-                <HomePortSearch
-                  userId={user?.id || ''}
-                  onPortChange={setHomePort}
-                />
 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-300 mb-2">
