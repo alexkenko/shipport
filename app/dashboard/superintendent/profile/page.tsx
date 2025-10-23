@@ -46,7 +46,7 @@ export default function SuperintendentProfilePage() {
     pricePerIdleDay: '',
     serviceType: 'gangway_to_gangway' as 'door_to_door' | 'gangway_to_gangway',
   })
-  const [homePort, setHomePort] = useState<{ port_name: string; country: string; latitude: number; longitude: number } | null>(null)
+  const [homePort, setHomePort] = useState<string | null>(null)
 
   useEffect(() => {
     if (viewUserId) {
