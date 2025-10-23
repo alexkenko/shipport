@@ -125,7 +125,11 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
           <div className="mt-3">
             <Button
               type="button"
-              onClick={handleChangeHomebase}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleChangeHomebase()
+              }}
               variant="outline"
               size="sm"
               className="text-gray-300 border-gray-600 hover:bg-gray-700"
@@ -143,10 +147,11 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
                 console.log('Input changed:', e.target.value)
                 setHomebase(e.target.value)
               }}
-              onKeyPress={(e) => {
-                // Only save on Enter key, not on every keystroke
+              onKeyDown={(e) => {
+                // Only save on Enter key, prevent any other form submission
                 if (e.key === 'Enter') {
                   e.preventDefault()
+                  e.stopPropagation()
                   handleSaveHomebase()
                 }
               }}
@@ -155,7 +160,11 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
             />
             <Button
               type="button"
-              onClick={handleSaveHomebase}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleSaveHomebase()
+              }}
               disabled={!homebase.trim() || isSaving}
               size="sm"
               className="bg-green-600 hover:bg-green-700 text-white font-medium"
