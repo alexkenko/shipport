@@ -309,7 +309,6 @@ export default function SearchSuperintendentsPage() {
                   selectedPorts={filters.port ? [filters.port] : []}
                   onPortsChange={(ports) => handleFilterChange('port', ports[0] || '')}
                   placeholder="Search by port coverage..."
-                  maxResults={10}
                 />
               </div>
             </div>

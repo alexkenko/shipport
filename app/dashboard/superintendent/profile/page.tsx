@@ -697,7 +697,7 @@ export default function SuperintendentProfilePage() {
             <CardHeader>
               <CardTitle>Ports Covered</CardTitle>
               <CardDescription>
-                Add ports and regions where you can provide services using our comprehensive ports database
+                Add ports and regions where you can provide services
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -705,8 +705,7 @@ export default function SuperintendentProfilePage() {
                 <PortSearch
                   selectedPorts={formData.portsCovered}
                   onPortsChange={(ports) => setFormData(prev => ({ ...prev, portsCovered: ports }))}
-                  placeholder="Search from our database of 3,000+ ports worldwide..."
-                  maxResults={15}
+                  placeholder="Enter ports where you can provide services..."
                 />
               </div>
             </CardContent>
