@@ -11,7 +11,7 @@ import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES, SERVICE_TYP
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
-import { CameraIcon, UserCircleIcon, MapPinIcon, CheckBadgeIcon, StarIcon } from '@heroicons/react/24/outline'
+import { CameraIcon, UserCircleIcon, MapPinIcon, StarIcon } from '@heroicons/react/24/outline'
 import { EmailVerification } from '@/components/ui/EmailVerification'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { PortSearch } from '@/components/ui/PortSearch'
@@ -487,7 +487,7 @@ export default function SuperintendentProfilePage() {
                       type="checkbox"
                       checked={formData.vesselTypes.includes(type)}
                       onChange={() => handleMultiSelectChange('vesselTypes', type)}
-                      className="w-4 h-4 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                      className="w-3 h-3 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                     />
                     <span className="text-sm text-gray-300">{type}</span>
                   </label>
@@ -518,7 +518,7 @@ export default function SuperintendentProfilePage() {
                           type="checkbox"
                           checked={formData.certifications.includes(cert)}
                           onChange={() => handleMultiSelectChange('certifications', cert)}
-                          className="w-4 h-4 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                          className="w-3 h-3 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                         />
                         <span className="text-sm text-gray-300">{cert}</span>
                       </label>
@@ -596,7 +596,7 @@ export default function SuperintendentProfilePage() {
                       type="checkbox"
                       checked={formData.services.includes(service)}
                       onChange={() => handleMultiSelectChange('services', service)}
-                      className="w-4 h-4 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                      className="w-3 h-3 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                     />
                     <span className="text-sm text-gray-300">{service}</span>
                   </label>
@@ -680,7 +680,7 @@ export default function SuperintendentProfilePage() {
                       value={type.toLowerCase().replace(/\s+/g, '_')}
                       checked={formData.serviceType === type.toLowerCase().replace(/\s+/g, '_')}
                       onChange={(e) => setFormData(prev => ({ ...prev, serviceType: e.target.value as 'door_to_door' | 'gangway_to_gangway' }))}
-                      className="text-primary-600 focus:ring-primary-500"
+                      className="w-3 h-3 text-primary-600 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-medium text-gray-300">{type}</span>

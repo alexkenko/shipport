@@ -10,6 +10,7 @@ export interface User {
   company: string;
   bio: string;
   photo_url?: string;
+  homebase?: string;
   website?: string;
   linkedin?: string;
   twitter?: string;
