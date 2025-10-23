@@ -224,7 +224,17 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
   const { data, error } = await supabase
     .from('users')
     .update({
-      ...updates,
+      // Do NOT include homebase here to avoid schema cache issues
+      name: updates.name,
+      surname: updates.surname,
+      phone: updates.phone,
+      company: updates.company,
+      bio: updates.bio,
+      photo_url: updates.photo_url,
+      website: updates.website,
+      linkedin: updates.linkedin,
+      twitter: updates.twitter,
+      facebook: updates.facebook,
       updated_at: new Date().toISOString(),
     })
     .eq('id', userId)
@@ -249,7 +259,6 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
       phone: updates.phone || '',
       company: updates.company || '',
       bio: updates.bio || '',
-      homebase: updates.homebase || '',
       photo_url: updates.photo_url,
       website: updates.website,
       linkedin: updates.linkedin,
@@ -277,6 +286,19 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     return newUser
   }
   
+  // Upsert homebase into separate table to avoid schema cache issues on users table
+  if (typeof updates.homebase === 'string') {
+    const hb = updates.homebase.trim()
+    if (hb.length > 0) {
+      const { error: hbError } = await supabase
+        .from('user_homebase')
+        .upsert({ user_id: userId, homebase: hb })
+      if (hbError) {
+        console.error('🔍 Homebase upsert error:', hbError)
+      }
+    }
+  }
+
   if (error) {
     console.error('🔍 Update error details:', error)
     throw error

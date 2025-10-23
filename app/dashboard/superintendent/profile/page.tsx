@@ -128,7 +128,7 @@ export default function SuperintendentProfilePage() {
           surname: currentUser.surname,
           phone: currentUser.phone,
           company: currentUser.company,
-          homebase: currentUser.homebase || '',
+          homebase: '',
           bio: currentUser.bio,
           website: currentUser.website || '',
           linkedin: currentUser.linkedin || '',
@@ -215,13 +215,19 @@ export default function SuperintendentProfilePage() {
         surname: formData.surname,
         phone: formData.phone,
         company: formData.company,
-        homebase: formData.homebase,
         bio: formData.bio,
         website: formData.website,
         linkedin: formData.linkedin,
         twitter: formData.twitter,
         facebook: formData.facebook,
       })
+
+      // Save homebase separately to user_homebase
+      if (formData.homebase && formData.homebase.trim().length > 0) {
+        await supabase
+          .from('user_homebase')
+          .upsert({ user_id: user.id, homebase: formData.homebase.trim() })
+      }
 
       await updateSuperintendentProfile(user.id, {
         vesselTypes: formData.vesselTypes,
