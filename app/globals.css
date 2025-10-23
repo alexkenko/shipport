@@ -29,6 +29,12 @@
     min-height: 44px;
     min-width: 44px;
   }
+
+  /* Reduce size for form controls that should be compact */
+  input[type="checkbox"], input[type="radio"] {
+    min-height: 16px; /* override large base target */
+    min-width: 16px;
+  }
   
   /* Smooth scrolling */
   * {

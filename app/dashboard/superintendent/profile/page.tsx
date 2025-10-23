@@ -493,7 +493,7 @@ export default function SuperintendentProfilePage() {
                       type="checkbox"
                       checked={formData.vesselTypes.includes(type)}
                       onChange={() => handleMultiSelectChange('vesselTypes', type)}
-                      className="w-3 h-3 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                      className="w-2.5 h-2.5 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                     />
                     <span className="text-sm text-gray-300">{type}</span>
                   </label>
@@ -524,7 +524,7 @@ export default function SuperintendentProfilePage() {
                           type="checkbox"
                           checked={formData.certifications.includes(cert)}
                           onChange={() => handleMultiSelectChange('certifications', cert)}
-                          className="w-3 h-3 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
+                          className="w-2.5 h-2.5 rounded border-dark-600 bg-dark-800 text-primary-600 focus:ring-primary-500"
                         />
                         <span className="text-sm text-gray-300">{cert}</span>
                       </label>
@@ -686,7 +686,7 @@ export default function SuperintendentProfilePage() {
                       value={type.toLowerCase().replace(/\s+/g, '_')}
                       checked={formData.serviceType === type.toLowerCase().replace(/\s+/g, '_')}
                       onChange={(e) => setFormData(prev => ({ ...prev, serviceType: e.target.value as 'door_to_door' | 'gangway_to_gangway' }))}
-                      className="w-3 h-3 text-primary-600 focus:ring-primary-500"
+                      className="w-2.5 h-2.5 text-primary-600 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-medium text-gray-300">{type}</span>
