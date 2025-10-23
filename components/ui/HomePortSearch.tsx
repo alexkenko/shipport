@@ -35,6 +35,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
       }
 
       if (data) {
+        console.log('Loaded homebase from DB:', data.homebase)
         setHomebase(data.homebase)
         onPortChange(data.homebase)
       }
@@ -48,6 +49,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
   const handleSaveHomebase = async () => {
     if (!homebase.trim()) return
     
+    console.log('Saving homebase:', homebase.trim())
     setIsSaving(true)
     try {
       const { error } = await supabase
@@ -59,6 +61,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
 
       if (error) throw error
 
+      console.log('Successfully saved homebase:', homebase.trim())
       onPortChange(homebase.trim())
     } catch (error) {
       console.error('Error saving homebase:', error)
@@ -134,7 +137,10 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
           <div className="flex gap-2">
             <Input
               value={homebase}
-              onChange={(e) => setHomebase(e.target.value)}
+              onChange={(e) => {
+                console.log('Input changed:', e.target.value)
+                setHomebase(e.target.value)
+              }}
               placeholder="Enter your homebase port..."
               className="flex-1"
             />
