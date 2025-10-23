@@ -91,6 +91,7 @@ export default function SuperintendentProfilePage() {
           surname: profileData.users.surname,
           phone: profileData.users.phone,
           company: profileData.users.company,
+          homebase: profileData.users.homebase || '',
           bio: profileData.users.bio,
           website: profileData.users.website || '',
           linkedin: profileData.users.linkedin || '',
