@@ -49,6 +49,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
   const handleSaveHomebase = async () => {
     if (!homebase.trim()) return
     
+    console.log('handleSaveHomebase called with:', homebase.trim())
     console.log('Saving homebase:', homebase.trim())
     setIsSaving(true)
     try {
@@ -123,6 +124,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
           </div>
           <div className="mt-3">
             <Button
+              type="button"
               onClick={handleChangeHomebase}
               variant="outline"
               size="sm"
@@ -141,10 +143,18 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
                 console.log('Input changed:', e.target.value)
                 setHomebase(e.target.value)
               }}
+              onKeyPress={(e) => {
+                // Only save on Enter key, not on every keystroke
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  handleSaveHomebase()
+                }
+              }}
               placeholder="Enter your homebase port..."
               className="flex-1"
             />
             <Button
+              type="button"
               onClick={handleSaveHomebase}
               disabled={!homebase.trim() || isSaving}
               size="sm"
