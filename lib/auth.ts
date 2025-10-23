@@ -232,6 +232,44 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
 
   console.log('🔍 Update result:', { data, error })
   
+  // If user doesn't exist, create them
+  if (error && error.code === 'PGRST116') {
+    console.log('🔍 User not found, creating new user record')
+    
+    const { data: authData } = await supabase.auth.getUser()
+    if (!authData.user) throw new Error('No authenticated user found')
+    
+    const { data: newUser, error: createError } = await supabase
+      .from('users')
+      .insert({
+        id: authData.user.id,
+        email: authData.user.email!,
+        role: 'superintendent', // Default role
+        name: updates.name || '',
+        surname: updates.surname || '',
+        phone: updates.phone || '',
+        company: updates.company || '',
+        bio: updates.bio || '',
+        homebase: updates.homebase || '',
+        photo_url: updates.photo_url,
+        website: updates.website,
+        linkedin: updates.linkedin,
+        twitter: updates.twitter,
+        facebook: updates.facebook,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .select()
+      .single()
+    
+    if (createError) {
+      console.error('🔍 Create error details:', createError)
+      throw createError
+    }
+    
+    return newUser
+  }
+  
   if (error) {
     console.error('🔍 Update error details:', error)
     throw error
