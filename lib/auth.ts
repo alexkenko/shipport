@@ -231,36 +231,43 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     .select()
 
   console.log('🔍 Update result:', { data, error })
+  console.log('🔍 Error details:', error)
   
   // If user doesn't exist, create them
-  if (error && error.code === 'PGRST116') {
+  if (error && (error.code === 'PGRST116' || error.message?.includes('No rows found'))) {
     console.log('🔍 User not found, creating new user record')
     
     const { data: authData } = await supabase.auth.getUser()
     if (!authData.user) throw new Error('No authenticated user found')
     
+    const userData = {
+      id: authData.user.id,
+      email: authData.user.email!,
+      role: 'superintendent', // Default role
+      name: updates.name || '',
+      surname: updates.surname || '',
+      phone: updates.phone || '',
+      company: updates.company || '',
+      bio: updates.bio || '',
+      homebase: updates.homebase || '',
+      photo_url: updates.photo_url,
+      website: updates.website,
+      linkedin: updates.linkedin,
+      twitter: updates.twitter,
+      facebook: updates.facebook,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
+    
+    console.log('🔍 Creating user with data:', userData)
+    
     const { data: newUser, error: createError } = await supabase
       .from('users')
-      .insert({
-        id: authData.user.id,
-        email: authData.user.email!,
-        role: 'superintendent', // Default role
-        name: updates.name || '',
-        surname: updates.surname || '',
-        phone: updates.phone || '',
-        company: updates.company || '',
-        bio: updates.bio || '',
-        homebase: updates.homebase || '',
-        photo_url: updates.photo_url,
-        website: updates.website,
-        linkedin: updates.linkedin,
-        twitter: updates.twitter,
-        facebook: updates.facebook,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
+      .insert(userData)
       .select()
       .single()
+    
+    console.log('🔍 Create result:', { newUser, createError })
     
     if (createError) {
       console.error('🔍 Create error details:', createError)
