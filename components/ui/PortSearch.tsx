@@ -19,8 +19,10 @@ interface Port {
 interface PortSearchProps {
   selectedPorts: string[]
   onPortsChange: (ports: string[]) => void
+  onSave?: () => void
   placeholder?: string
   maxResults?: number
+  showSaveButton?: boolean
 }
 
 export function PortSearch({ 

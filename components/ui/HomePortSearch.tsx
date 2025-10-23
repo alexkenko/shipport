@@ -274,7 +274,7 @@ export function HomePortSearch({ userId, onPortChange }: HomePortSearchProps) {
                 size="sm"
                 className="bg-green-600 hover:bg-green-700 text-white font-medium"
               >
-                Save First Result
+                Save Homebase Port
               </Button>
               <Button
                 onClick={() => setSearchTerm('')}
