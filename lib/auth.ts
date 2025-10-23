@@ -230,6 +230,7 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
       phone: updates.phone,
       company: updates.company,
       bio: updates.bio,
+      homebase: updates.homebase,
       photo_url: updates.photo_url,
       website: updates.website,
       linkedin: updates.linkedin,
@@ -259,6 +260,7 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
       phone: updates.phone || '',
       company: updates.company || '',
       bio: updates.bio || '',
+      homebase: updates.homebase || '',
       photo_url: updates.photo_url,
       website: updates.website,
       linkedin: updates.linkedin,
@@ -286,18 +288,7 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
     return newUser
   }
   
-  // Upsert homebase into separate table to avoid schema cache issues on users table
-  if (typeof updates.homebase === 'string') {
-    const hb = updates.homebase.trim()
-    if (hb.length > 0) {
-      const { error: hbError } = await supabase
-        .from('user_homebase')
-        .upsert({ user_id: userId, homebase: hb })
-      if (hbError) {
-        console.error('🔍 Homebase upsert error:', hbError)
-      }
-    }
-  }
+  // Homebase is updated directly in users table above
 
   if (error) {
     console.error('🔍 Update error details:', error)

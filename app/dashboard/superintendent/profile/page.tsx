@@ -222,12 +222,7 @@ export default function SuperintendentProfilePage() {
         facebook: formData.facebook,
       })
 
-      // Save homebase separately to user_homebase
-      if (formData.homebase && formData.homebase.trim().length > 0) {
-        await supabase
-          .from('user_homebase')
-          .upsert({ user_id: user.id, homebase: formData.homebase.trim() })
-      }
+      // Homebase is saved together with other user fields via updateUserProfile
 
       await updateSuperintendentProfile(user.id, {
         vesselTypes: formData.vesselTypes,
