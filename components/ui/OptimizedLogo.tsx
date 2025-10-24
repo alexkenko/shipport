@@ -21,12 +21,15 @@ export function OptimizedLogo({
       <Image
         src="/logo-horizontal.png"
         alt="ShipinPort Logo"
-        width={width * 2.30375 * 0.8} // 20% smaller
-        height={height * 0.8}
+        width={width}
+        height={height}
         priority={priority}
-        className="rounded max-w-full h-auto"
-        style={{ marginTop: '0' }}
-        sizes="(max-width: 768px) 250px, 375px"
+        className="rounded max-w-full h-auto object-contain"
+        style={{ 
+          marginTop: '0',
+          backgroundColor: 'transparent'
+        }}
+        sizes="(max-width: 640px) 120px, (max-width: 768px) 160px, 200px"
         quality={85}
         placeholder="blur"
         blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="

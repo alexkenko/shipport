@@ -108,10 +108,10 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
           <div className="flex-shrink-0">
             <OptimizedLogo 
               href={user ? `/dashboard/${user.role}` : '/'} 
-              width={140}
-              height={50}
+              width={120}
+              height={40}
               priority={true}
-              className="w-auto h-8 sm:h-10 md:h-12"
+              className="w-auto h-6 sm:h-8 md:h-10 max-w-[120px] sm:max-w-[140px] md:max-w-[160px]"
             />
           </div>
 
@@ -252,7 +252,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
         `}>
           <div className="px-4 pt-5 pb-4 space-y-2">
             <div className="flex justify-between items-center mb-4">
-              <OptimizedLogo href="/" width={120} height={40} />
+              <OptimizedLogo href="/" width={100} height={35} className="h-6" />
               <button 
                 onClick={() => setIsMobileMenuOpen(false)} 
                 className="text-gray-400 hover:text-white p-2 -m-2"
