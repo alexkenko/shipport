@@ -569,7 +569,7 @@ export default function SuperintendentProfilePage() {
                       {formData.certifications.map((cert, index) => (
                         <div
                           key={index}
-                          className="flex items-center space-x-1.5 bg-primary-600 text-white pl-2.5 pr-1.5 py-0.5 rounded-full text-sm font-medium"
+                          className="flex items-center space-x-1 bg-primary-600 text-white pl-2 pr-1 py-0.5 rounded-full text-sm font-medium"
                         >
                           <span>{cert}</span>
                           <button
