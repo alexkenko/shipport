@@ -61,14 +61,14 @@ export function PortSearch({ selectedPorts, onPortsChange, placeholder = "Search
             {selectedPorts.map((port, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-green-600 text-white px-2 py-1 rounded-full text-sm"
+                className="flex items-center space-x-1.5 bg-green-600 text-white pl-2.5 pr-1.5 py-0.5 rounded-full text-sm font-medium"
               >
                 <span>{port}</span>
                 <button
                   onClick={() => handleRemovePort(port)}
-                  className="hover:bg-green-700 rounded-full p-0.5 transition-colors duration-200"
+                  className="hover:bg-green-700 rounded-full transition-colors duration-200"
                 >
-                  <XMarkIcon className="h-3 w-3" />
+                  <XMarkIcon className="h-4 w-4" />
                 </button>
               </div>
             ))}

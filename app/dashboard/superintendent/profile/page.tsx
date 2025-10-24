@@ -11,7 +11,7 @@ import { VESSEL_TYPES, SUPERINTENDENT_SERVICES, CERTIFICATION_TYPES, SERVICE_TYP
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
-import { CameraIcon, UserCircleIcon, MapPinIcon, StarIcon } from '@heroicons/react/24/outline'
+import { CameraIcon, UserCircleIcon, MapPinIcon, StarIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { EmailVerification } from '@/components/ui/EmailVerification'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { PortSearch } from '@/components/ui/PortSearch'
@@ -569,15 +569,15 @@ export default function SuperintendentProfilePage() {
                       {formData.certifications.map((cert, index) => (
                         <div
                           key={index}
-                          className="flex items-center space-x-2 bg-primary-600 text-white px-2 py-1 rounded-full text-sm"
+                          className="flex items-center space-x-1.5 bg-primary-600 text-white pl-2.5 pr-1.5 py-0.5 rounded-full text-sm font-medium"
                         >
                           <span>{cert}</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveCertification(cert)}
-                            className="ml-1 hover:text-red-300 transition-colors"
+                            className="hover:bg-primary-700 rounded-full transition-colors"
                           >
-                            ×
+                            <XMarkIcon className="h-4 w-4" />
                           </button>
                         </div>
                       ))}
