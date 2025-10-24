@@ -196,6 +196,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     phone: userData.phone || '',
     company: userData.company,
     bio: userData.bio || '',
+    homebase: userData.homebase || '',
     photo_url: userData.photo_url,
     website: userData.website,
     linkedin: userData.linkedin,

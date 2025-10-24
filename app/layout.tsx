@@ -175,6 +175,7 @@ export default function RootLayout({
         </div>
         <Toaster
           position="top-right"
+          containerStyle={{ top: 96 }}
           toastOptions={{
             duration: 4000,
             style: {

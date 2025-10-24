@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -284,6 +285,15 @@ export default function AdminSuperintendentsPage() {
                       <div className="flex items-center text-xs text-gray-400 pt-2 border-t border-dark-600">
                         <CalendarIcon className="h-3 w-3 mr-1" />
                         <span>Joined {formatDate(superintendent.created_at)}</span>
+                      </div>
+
+                      {/* View Profile */}
+                      <div className="flex justify-end pt-2">
+                        <Link href={`/profile/superintendent/${superintendent.id}`}>
+                          <Button variant="secondary" size="sm">
+                            View Profile
+                          </Button>
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>
