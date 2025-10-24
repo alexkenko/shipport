@@ -215,6 +215,7 @@ export default function SuperintendentProfilePage() {
         surname: formData.surname,
         phone: formData.phone,
         company: formData.company,
+        homebase: formData.homebase,
         bio: formData.bio,
         website: formData.website,
         linkedin: formData.linkedin,
@@ -240,6 +241,7 @@ export default function SuperintendentProfilePage() {
         surname: formData.surname,
         phone: formData.phone,
         company: formData.company,
+        homebase: formData.homebase,
         bio: formData.bio,
       } : null)
 
