@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { CheckBadgeIcon, StarIcon, MapPinIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 import Image from 'next/image';
 
 interface Port {
@@ -46,6 +47,7 @@ export default function PublicSuperintendentProfile() {
             phone,
             company,
             bio,
+            homebase,
             photo_url,
             website,
             linkedin,
@@ -79,29 +81,34 @@ export default function PublicSuperintendentProfile() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-      </div>
+      <HeaderWrapper>
+        <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+        </div>
+      </HeaderWrapper>
     )
   }
 
   if (!profileData) {
     return (
-      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Profile Not Found</h1>
-          <p className="text-gray-400">The requested profile could not be found.</p>
+      <HeaderWrapper>
+        <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-white mb-4">Profile Not Found</h1>
+            <p className="text-gray-400">The requested profile could not be found.</p>
+          </div>
         </div>
-      </div>
+      </HeaderWrapper>
     )
   }
 
   const { users: user, ...profile } = profileData
 
   return (
-    <div className="min-h-screen bg-dark-900">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+    <HeaderWrapper>
+      <div className="min-h-screen bg-dark-900">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
           <Card className="bg-dark-800 border-dark-700">
             <CardHeader>
               <div className="flex items-start space-x-6">
@@ -137,11 +144,25 @@ export default function PublicSuperintendentProfile() {
                   <div className="text-sm text-gray-400 space-y-1">
                     <div>📧 {user.email}</div>
                     <div>📞 {user.phone}</div>
+                    {user.homebase && <div>🏠 {user.homebase}</div>}
                   </div>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Homebase */}
+              {user.homebase && (
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                    <MapPinIcon className="h-5 w-5 mr-2" />
+                    Homebase
+                  </h3>
+                  <div className="bg-blue-600 text-white px-4 py-2 rounded-lg inline-block">
+                    {user.homebase}
+                  </div>
+                </div>
+              )}
+
               {/* Bio */}
               {user.bio && (
                 <div>
@@ -267,8 +288,9 @@ export default function PublicSuperintendentProfile() {
 
             </CardContent>
           </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </HeaderWrapper>
   )
 }
