@@ -103,7 +103,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
   return (
     <header className="border-b sticky top-0 z-50 bg-dark-800 border-dark-700">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
+        <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <OptimizedLogo 
@@ -111,7 +111,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               width={140}
               height={50}
               priority={true}
-              className="w-auto h-10 md:h-12"
+              className="w-auto h-8 sm:h-10 md:h-12"
             />
           </div>
 
@@ -199,14 +199,14 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
             )}
 
             {!user && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <Link href="/auth/login" className="shrink-0">
-                  <Button variant="outline" size="sm" className="px-3 py-2">
+                  <Button variant="outline" size="sm" className="px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm">
                     Sign In
                   </Button>
                 </Link>
                 <Link href="/auth/register" className="shrink-0">
-                  <Button size="sm" className="px-3 py-2">
+                  <Button size="sm" className="px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm">
                     Get Started
                   </Button>
                 </Link>
@@ -218,7 +218,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               <div className="md:hidden">
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors p-2 -m-2"
+                  aria-label="Toggle mobile menu"
                 >
                   {isMobileMenuOpen ? (
                     <XMarkIcon className="h-6 w-6" />
@@ -252,7 +253,11 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
           <div className="px-4 pt-5 pb-4 space-y-2">
             <div className="flex justify-between items-center mb-4">
               <OptimizedLogo href="/" width={120} height={40} />
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-white">
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className="text-gray-400 hover:text-white p-2 -m-2"
+                aria-label="Close mobile menu"
+              >
                 <XMarkIcon className="h-6 w-6" />
               </button>
             </div>

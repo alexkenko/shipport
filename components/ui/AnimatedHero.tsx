@@ -61,17 +61,17 @@ export function AnimatedHero() {
 
         {/* Buttons */}
         <div 
-          className={`mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center transition-opacity duration-1000 delay-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+          className={`mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center transition-opacity duration-1000 delay-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         >
           <Link
             href="/auth/register"
-            className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-transform transform hover:scale-105 w-full sm:w-auto"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 sm:px-8 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto min-h-[48px] flex items-center justify-center"
           >
             Create Account
           </Link>
           <Link
             href="/auth/login"
-            className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-8 py-3 rounded-lg text-lg font-semibold transition-transform transform hover:scale-105 w-full sm:w-auto"
+            className="border-2 border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-900 px-6 py-3 sm:px-8 rounded-lg text-base sm:text-lg font-semibold transition-all duration-200 w-full sm:w-auto min-h-[48px] flex items-center justify-center"
           >
             Sign In
           </Link>
