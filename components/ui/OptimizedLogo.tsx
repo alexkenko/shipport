@@ -27,7 +27,7 @@ export function OptimizedLogo({
         className="rounded max-w-full h-auto object-contain"
         style={{ 
           marginTop: '0',
-          backgroundColor: '#1e293b'
+          backgroundColor: '#003160'
         }}
         sizes="(max-width: 640px) 120px, (max-width: 768px) 160px, 200px"
         quality={85}

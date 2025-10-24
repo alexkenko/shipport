@@ -101,7 +101,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
   const navigationItems = getNavigationItems()
 
   return (
-    <header className="border-b sticky top-0 z-50 bg-dark-800 border-dark-700">
+    <header className="border-b sticky top-0 z-50 border-dark-700" style={{ backgroundColor: '#003160' }}>
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
           {/* Logo */}
@@ -246,10 +246,10 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
       
       {!hideNavigation && (
         <div className={`
-          md:hidden fixed top-0 left-0 h-full w-64 bg-dark-800 z-50
+          md:hidden fixed top-0 left-0 h-full w-64 z-50
           transform transition-transform duration-300 ease-in-out
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}>
+        `} style={{ backgroundColor: '#003160' }}>
           <div className="px-4 pt-5 pb-4 space-y-2">
             <div className="flex justify-between items-center mb-4">
               <OptimizedLogo href="/" width={100} height={35} className="h-6" />
