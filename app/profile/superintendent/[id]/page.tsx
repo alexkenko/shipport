@@ -28,6 +28,11 @@ export default function PublicSuperintendentProfile() {
   }, [userId])
 
   const loadProfile = async () => {
+    if (!userId) {
+      setIsLoading(false)
+      return
+    }
+    
     try {
       const { data: profileData, error } = await supabase
         .from('superintendent_profiles')
@@ -53,10 +58,16 @@ export default function PublicSuperintendentProfile() {
         .eq('user_id', userId)
         .single()
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
 
       if (profileData && profileData.users) {
         setProfileData(profileData)
+      } else {
+        console.error('No profile data found for user:', userId)
+        setProfileData(null)
       }
     } catch (error) {
       console.error('Error loading profile:', error)
@@ -95,10 +106,10 @@ export default function PublicSuperintendentProfile() {
             <CardHeader>
               <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0">
-                  {profile.users.photo_url ? (
+                  {user.photo_url ? (
                     <Image
-                      src={profile.users.photo_url}
-                      alt={`${profile.users.name} ${profile.users.surname}'s profile photo`}
+                      src={user.photo_url}
+                      alt={`${user.name} ${user.surname}'s profile photo`}
                       width={128}
                       height={128}
                       className="h-32 w-32 rounded-full object-cover border-4 border-dark-700 shadow-lg"
