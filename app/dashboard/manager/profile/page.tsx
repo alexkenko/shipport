@@ -12,6 +12,7 @@ import toast from 'react-hot-toast'
 import { AuthUser } from '@/lib/auth'
 import { CameraIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { EmailVerification } from '@/components/ui/EmailVerification'
+import Image from 'next/image';
 
 export default function ManagerProfilePage() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -181,10 +182,14 @@ export default function ManagerProfilePage() {
               <div className="flex items-center space-x-6">
                 <div className="relative">
                   {user.photo_url ? (
-                    <img
+                    <Image
                       src={user.photo_url}
-                      alt={`${user.name} ${user.surname}`}
+                      alt={`${user.name} ${user.surname}'s profile photo`}
+                      width={96}
+                      height={96}
                       className="h-24 w-24 rounded-full object-cover"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                     />
                   ) : (
                     <UserCircleIcon className="h-24 w-24 text-gray-400" />

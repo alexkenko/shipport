@@ -19,6 +19,7 @@ import { VerificationTip } from '@/components/ui/VerificationTip'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { BlogCarousel } from '@/components/ui/BlogCarousel'
 import { ChatPopup } from '@/components/ui/ChatPopup'
+import Image from 'next/image'
 
 // Static counter values
 const getMockStats = () => {
@@ -153,18 +154,22 @@ export default function SuperintendentDashboard() {
                   {/* Profile Picture and Basic Info */}
                   <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0">
-                    {user?.photo_url ? (
-                      <img
-                        src={user.photo_url}
-                        alt={`${user.name} ${user.surname}`}
-                          className="h-12 w-12 rounded-full object-cover"
-                      />
-                    ) : (
-                        <div className="h-12 w-12 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold">
+                  {user?.photo_url ? (
+                    <Image
+                      src={user.photo_url}
+                      alt={`${user.name}'s profile photo`}
+                      width={80}
+                      height={80}
+                      className="h-20 w-20 rounded-full object-cover"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
+                    />
+                  ) : (
+                    <div className="h-20 w-20 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold">
                           {user?.name?.charAt(0)}{user?.surname?.charAt(0)}
                         </div>
-                    )}
-                  </div>
+                  )}
+                </div>
                     <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-semibold text-white">
                         {user?.name} {user?.surname}

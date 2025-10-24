@@ -6,11 +6,12 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { MagnifyingGlassIcon, UserIcon, BuildingOfficeIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon, CalendarIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, UserIcon, BuildingOfficeIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon, CalendarIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { VerificationBadge } from '@/components/ui/VerificationBadge'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 interface Superintendent {
   id: string
@@ -194,23 +195,19 @@ export default function AdminSuperintendentsPage() {
                     <CardHeader className="pb-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-full flex items-center justify-center flex-shrink-0 border border-primary-500/30">
+                          <div className="flex-shrink-0 h-10 w-10">
                             {superintendent.photo_url ? (
-                              <img
+                              <Image
                                 src={superintendent.photo_url}
-                                alt={`${superintendent.name} ${superintendent.surname}`}
-                                className="w-12 h-12 rounded-full object-cover"
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.style.display = 'none';
-                                  const parent = target.parentElement;
-                                  if (parent) {
-                                    parent.innerHTML = `<svg class="h-6 w-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
-                                  }
-                                }}
+                                alt={`${superintendent.name}'s profile photo`}
+                                width={40}
+                                height={40}
+                                className="h-10 w-10 rounded-full object-cover"
+                                placeholder="blur"
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                               />
                             ) : (
-                              <UserIcon className="h-6 w-6 text-primary-400" />
+                              <UserCircleIcon className="h-10 w-10 text-gray-400" />
                             )}
                           </div>
                           <div className="flex-1 min-w-0">

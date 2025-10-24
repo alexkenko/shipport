@@ -20,9 +20,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             'hover:bg-dark-800 text-white focus:ring-primary-500': variant === 'ghost',
           },
           {
-            'px-2 py-1.5 text-xs': size === 'sm',
-            'px-3 py-2 text-sm': size === 'md',
-            'px-4 py-2.5 text-base': size === 'lg',
+            'px-3 py-1.5 text-sm': size === 'sm',
+            'px-4 py-2 text-base': size === 'md',
+            'px-5 py-2.5 text-lg': size === 'lg',
           },
           className
         )}

@@ -11,6 +11,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase'
+import Image from 'next/image';
 
 export default function EditBlogPostPage() {
   const router = useRouter()
@@ -331,15 +332,25 @@ export default function EditBlogPostPage() {
                 <label className="block text-sm font-medium text-gray-300 mb-2">Featured Image</label>
                 
                 {/* Image Preview */}
-                {formData.featured_image_url && (
-                  <div className="mb-4">
-                    <img
-                      src={formData.featured_image_url}
-                      alt="Featured image preview"
-                      className="w-full h-48 object-cover rounded-lg border border-dark-600"
-                    />
-                  </div>
-                )}
+                <div className="mt-4">
+                  <p className="block text-sm font-medium text-gray-300 mb-2">
+                    Featured Image Preview
+                  </p>
+                  {formData.featured_image_url ? (
+                    <div className="relative w-full h-56 rounded-lg overflow-hidden border border-dark-600">
+                      <Image
+                        src={formData.featured_image_url}
+                        alt="Featured image preview"
+                        layout="fill"
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full h-56 rounded-lg bg-dark-800 flex items-center justify-center">
+                      <p className="text-gray-400">No image uploaded</p>
+                    </div>
+                  )}
+                </div>
 
                 {/* Upload Button */}
                 <div className="space-y-3">

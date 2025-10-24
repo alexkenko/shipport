@@ -1,6 +1,20 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { 
+  MagnifyingGlassCircleIcon, 
+  ClipboardDocumentCheckIcon, 
+  CogIcon, 
+  BeakerIcon, 
+  MapIcon, 
+  CubeIcon,
+  BuildingStorefrontIcon,
+  BanknotesIcon,
+  FlagIcon,
+  ChartBarIcon,
+  ExclamationTriangleIcon,
+  ShieldCheckIcon
+} from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
   title: 'ShipinPort.com Marine Services - ISM ISPS MLC Audits, Vessel Inspections & Maritime Consulting',
@@ -56,7 +70,7 @@ export default function ServicesPage() {
     {
       title: 'Pre-Vetting Inspections',
       description: 'Comprehensive vessel assessments for charter requirements and compliance verification. Our certified marine superintendents conduct thorough pre-vetting inspections to ensure your vessels meet the highest industry standards.',
-      icon: '🔍',
+      icon: MagnifyingGlassCircleIcon,
       features: [
         'Charter party compliance verification',
         'Vessel condition assessment',
@@ -68,7 +82,7 @@ export default function ServicesPage() {
     {
       title: 'ISM, ISPS, MLC Audits',
       description: 'Certified audits ensuring compliance with international maritime safety standards. Our experienced auditors provide comprehensive ISM, ISPS, and MLC audits to maintain regulatory compliance.',
-      icon: '📋',
+      icon: ClipboardDocumentCheckIcon,
       features: [
         'ISM Code compliance audits',
         'ISPS Code security audits',
@@ -80,7 +94,7 @@ export default function ServicesPage() {
     {
       title: 'Marine Consultancy',
       description: 'Expert advice on vessel operations, safety management, and regulatory compliance. Our marine consultants provide strategic guidance to optimize your maritime operations and ensure regulatory compliance.',
-      icon: '⚓',
+      icon: CogIcon,
       features: [
         'Operational efficiency consulting',
         'Safety management systems',
@@ -92,7 +106,7 @@ export default function ServicesPage() {
     {
       title: 'TMSA Preparation',
       description: 'Preparation and implementation of Tanker Management and Self Assessment programs. Our specialists help you achieve and maintain TMSA compliance with comprehensive preparation services.',
-      icon: '🛢️',
+      icon: BeakerIcon,
       features: [
         'TMSA gap analysis',
         'Management system development',
@@ -104,7 +118,7 @@ export default function ServicesPage() {
     {
       title: 'Navigation Audits',
       description: 'Comprehensive navigation system assessments and safety evaluations. Our navigation experts conduct detailed audits to ensure your vessels navigation systems meet international standards.',
-      icon: '🧭',
+      icon: MapIcon,
       features: [
         'Navigation equipment audit',
         'Bridge procedures review',
@@ -116,7 +130,7 @@ export default function ServicesPage() {
     {
       title: 'Cargo Supervision',
       description: 'Professional oversight of cargo operations ensuring safety and compliance. Our cargo specialists provide comprehensive supervision services for all types of marine cargo operations.',
-      icon: '📦',
+      icon: CubeIcon,
       features: [
         'Cargo loading supervision',
         'Stowage planning oversight',
@@ -128,7 +142,7 @@ export default function ServicesPage() {
     {
       title: 'Bulk Vessel Inspections',
       description: 'Specialized inspections for bulk carriers and cargo vessels. Our bulk vessel experts provide comprehensive inspections tailored to the unique requirements of bulk cargo operations.',
-      icon: '🚢',
+      icon: BuildingStorefrontIcon,
       features: [
         'Cargo hold inspection',
         'Loading equipment assessment',
@@ -140,7 +154,7 @@ export default function ServicesPage() {
     {
       title: 'Pre Purchase Inspections',
       description: 'Comprehensive vessel inspections before purchase decisions. Our marine surveyors provide detailed pre-purchase inspections to ensure you make informed investment decisions.',
-      icon: '💰',
+      icon: BanknotesIcon,
       features: [
         'Hull and machinery survey',
         'Condition assessment',
@@ -152,7 +166,7 @@ export default function ServicesPage() {
     {
       title: 'Flag State Inspections',
       description: 'Official flag state inspections and compliance verification. Our certified inspectors conduct flag state inspections to ensure compliance with national maritime regulations.',
-      icon: '🏁',
+      icon: FlagIcon,
       features: [
         'Flag state compliance audit',
         'Regulatory documentation review',
@@ -164,7 +178,7 @@ export default function ServicesPage() {
     {
       title: 'VDR Analysis',
       description: 'Voyage Data Recorder analysis and incident investigation. Our VDR specialists provide comprehensive analysis services for incident investigation and operational improvement.',
-      icon: '📊',
+      icon: ChartBarIcon,
       features: [
         'VDR data extraction',
         'Incident timeline reconstruction',
@@ -176,7 +190,7 @@ export default function ServicesPage() {
     {
       title: 'Accident Investigation',
       description: 'Professional marine accident investigation and analysis services. Our investigators provide comprehensive accident analysis to determine causes and prevent future incidents.',
-      icon: '🔍',
+      icon: ExclamationTriangleIcon,
       features: [
         'Accident scene investigation',
         'Evidence collection and analysis',
@@ -188,7 +202,7 @@ export default function ServicesPage() {
     {
       title: 'Safety & Compliance Supervision',
       description: 'Comprehensive safety and compliance supervision services. Our safety specialists ensure your operations meet all international maritime safety and compliance standards.',
-      icon: '🛡️',
+      icon: ShieldCheckIcon,
       features: [
         'Safety system implementation',
         'Compliance monitoring',
@@ -218,8 +232,8 @@ export default function ServicesPage() {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {services.map((service, index) => (
-            <div key={index} className="glass p-6 rounded-xl hover:bg-dark-700/50 transition-all duration-300">
-              <div className="text-4xl mb-4">{service.icon}</div>
+            <div key={index} className="bg-dark-800 p-6 rounded-xl">
+              <service.icon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">{service.title}</h3>
               <p className="text-gray-300 mb-4">{service.description}</p>
               <ul className="space-y-2 mb-6">
@@ -238,32 +252,32 @@ export default function ServicesPage() {
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-white mb-8 text-center">Service Categories</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="glass p-6 rounded-xl text-center">
-              <div className="text-3xl mb-4">🔍</div>
+            <div className="bg-dark-800 p-6 rounded-xl text-center">
+              <MagnifyingGlassCircleIcon className="h-8 w-8 text-primary-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Inspections</h3>
               <p className="text-gray-300 text-sm">
                 Pre-vetting, bulk vessel, and pre-purchase inspections
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl text-center">
-              <div className="text-3xl mb-4">📋</div>
+            <div className="bg-dark-800 p-6 rounded-xl text-center">
+              <ClipboardDocumentCheckIcon className="h-8 w-8 text-primary-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Audits</h3>
               <p className="text-gray-300 text-sm">
                 ISM, ISPS, MLC, and compliance audits
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl text-center">
-              <div className="text-3xl mb-4">⚓</div>
+            <div className="bg-dark-800 p-6 rounded-xl text-center">
+              <CogIcon className="h-8 w-8 text-primary-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Consultancy</h3>
               <p className="text-gray-300 text-sm">
                 Marine consultancy and operational guidance
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl text-center">
-              <div className="text-3xl mb-4">🛡️</div>
+            <div className="bg-dark-800 p-6 rounded-xl text-center">
+              <ShieldCheckIcon className="h-8 w-8 text-primary-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Safety</h3>
               <p className="text-gray-300 text-sm">
                 Safety supervision and compliance monitoring

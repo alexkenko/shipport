@@ -61,7 +61,7 @@ export function PortSearch({ selectedPorts, onPortsChange, placeholder = "Search
             {selectedPorts.map((port, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-green-600 text-white px-3 py-1.5 rounded-full text-sm"
+                className="flex items-center space-x-2 bg-green-600 text-white px-2 py-1 rounded-full text-sm"
               >
                 <span>{port}</span>
                 <button

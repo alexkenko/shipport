@@ -1,6 +1,18 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
+import { 
+  UsersIcon, 
+  CheckBadgeIcon, 
+  GlobeAltIcon, 
+  MagnifyingGlassCircleIcon, 
+  ShieldCheckIcon, 
+  SparklesIcon,
+  HeartIcon,
+  StarIcon,
+  HandThumbUpIcon,
+  RocketLaunchIcon
+} from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
   title: 'About ShipinPort.com - Leading Marine Superintendent Platform & Vessel Management Solutions',
@@ -90,8 +102,8 @@ export default function AboutPage() {
         <section className="mb-16">
           <h2 className="text-3xl font-bold text-white mb-8 text-center">What We Do</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="glass p-6 rounded-xl">
-              <div className="text-4xl mb-4">🔗</div>
+            <div className="bg-dark-800 p-6 rounded-xl">
+              <UsersIcon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">Professional Networking</h3>
               <p className="text-gray-300">
                 Connect vessel managers with certified marine superintendents through our secure, 
@@ -99,8 +111,8 @@ export default function AboutPage() {
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl">
-              <div className="text-4xl mb-4">✅</div>
+            <div className="bg-dark-800 p-6 rounded-xl">
+              <CheckBadgeIcon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">Verified Professionals</h3>
               <p className="text-gray-300">
                 All marine superintendents on our platform are verified professionals with 
@@ -108,8 +120,8 @@ export default function AboutPage() {
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl">
-              <div className="text-4xl mb-4">🌍</div>
+            <div className="bg-dark-800 p-6 rounded-xl">
+              <GlobeAltIcon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">Global Coverage</h3>
               <p className="text-gray-300">
                 Access marine superintendents and vessel managers from ports worldwide, 
@@ -117,8 +129,8 @@ export default function AboutPage() {
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl">
-              <div className="text-4xl mb-4">🔍</div>
+            <div className="bg-dark-800 p-6 rounded-xl">
+              <MagnifyingGlassCircleIcon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">Specialized Services</h3>
               <p className="text-gray-300">
                 Find experts for pre-vetting inspections, marine consultancy, TMSA preparation, 
@@ -126,8 +138,8 @@ export default function AboutPage() {
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl">
-              <div className="text-4xl mb-4">📋</div>
+            <div className="bg-dark-800 p-6 rounded-xl">
+              <ShieldCheckIcon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">Compliance Focus</h3>
               <p className="text-gray-300">
                 Ensure your vessels meet international maritime regulations with access to 
@@ -135,8 +147,8 @@ export default function AboutPage() {
               </p>
             </div>
             
-            <div className="glass p-6 rounded-xl">
-              <div className="text-4xl mb-4">⚡</div>
+            <div className="bg-dark-800 p-6 rounded-xl">
+              <SparklesIcon className="h-10 w-10 text-primary-400 mb-4" />
               <h3 className="text-xl font-semibold text-white mb-3">Efficient Matching</h3>
               <p className="text-gray-300">
                 Our intelligent platform matches vessel managers with superintendents based on 
@@ -180,8 +192,8 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🛡️</span>
+              <div className="w-20 h-20 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                <HeartIcon className="h-10 w-10 text-primary-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">Safety First</h3>
               <p className="text-gray-300 text-sm">
@@ -190,8 +202,8 @@ export default function AboutPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⭐</span>
+              <div className="w-20 h-20 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                <StarIcon className="h-10 w-10 text-primary-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">Excellence</h3>
               <p className="text-gray-300 text-sm">
@@ -200,8 +212,8 @@ export default function AboutPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🤝</span>
+              <div className="w-20 h-20 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                <HandThumbUpIcon className="h-10 w-10 text-primary-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">Trust</h3>
               <p className="text-gray-300 text-sm">
@@ -210,8 +222,8 @@ export default function AboutPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🌊</span>
+              <div className="w-20 h-20 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                <RocketLaunchIcon className="h-10 w-10 text-primary-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">Innovation</h3>
               <p className="text-gray-300 text-sm">

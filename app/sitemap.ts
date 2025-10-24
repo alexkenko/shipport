@@ -38,18 +38,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/marine-superintendent-jobs/singapore`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/marine-superintendent-jobs/rotterdam`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -111,33 +99,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.5,
     },
-    
-    // Authentication pages
-    {
-      url: `${baseUrl}/auth/login`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/auth/register`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/auth/verify-email`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    
-    // Dashboard pages - now allowed in robots.txt but kept out of sitemap for privacy
   ]
 
   // Fetch blog posts dynamically
   let blogPosts: any[] = []
-  let blogEditPages: any[] = []
   try {
     const { data: posts } = await supabase
       .from('blog_posts')
@@ -157,25 +122,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching blog posts for sitemap:', error)
   }
 
-  // Fetch public superintendent profiles dynamically
-  let profilePages: any[] = []
-  try {
-    const { data: profiles } = await supabase
-      .from('users')
-      .select('id, updated_at')
-      .eq('role', 'superintendent')
-      .eq('is_public', true) // Only include public profiles
-      .order('updated_at', { ascending: false })
-
-    profilePages = profiles?.map(profile => ({
-      url: `${baseUrl}/profile/superintendent/${profile.id}`,
-      lastModified: new Date(profile.updated_at),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    })) || []
-  } catch (error) {
-    console.error('Error fetching profiles for sitemap:', error)
-  }
-
-  return [...staticPages, ...blogPosts, ...profilePages]
+  return [...staticPages, ...blogPosts]
 }

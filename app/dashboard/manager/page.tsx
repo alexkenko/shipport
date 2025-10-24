@@ -14,6 +14,7 @@ import {
 import { getManagerProfile } from '@/lib/auth'
 import { VerificationTip } from '@/components/ui/VerificationTip'
 import { BlogCarousel } from '@/components/ui/BlogCarousel'
+import Image from 'next/image';
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -184,27 +185,23 @@ export default function ManagerDashboard() {
               <div className="space-y-6">
                 {/* Profile Photo Header */}
                 <div className="flex items-center space-x-4 pb-4 border-b border-gradient-to-r from-primary-500/20 to-transparent">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-full flex items-center justify-center flex-shrink-0 border border-primary-500/30">
-                    {user?.photo_url ? (
-                      <img
-                        src={user.photo_url}
-                        alt={`${user.name} ${user.surname}`}
-                        className="w-16 h-16 rounded-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `<svg class="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>`;
-                          }
-                        }}
-                      />
-                    ) : (
-                      <svg className="h-8 w-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    )}
-                  </div>
+                  <div className="flex-shrink-0">
+                  {user.photo_url ? (
+                    <Image
+                      src={user.photo_url}
+                      alt={`${user.name}'s profile photo`}
+                      width={80}
+                      height={80}
+                      className="h-20 w-20 rounded-full object-cover"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
+                    />
+                  ) : (
+                    <div className="h-20 w-20 rounded-full bg-primary-600 flex items-center justify-center text-white text-2xl font-semibold">
+                      {user.name?.charAt(0)}{user.surname?.charAt(0)}
+                    </div>
+                  )}
+                </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-white">
                       {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}

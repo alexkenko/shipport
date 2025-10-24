@@ -14,10 +14,12 @@ import {
   UserGroupIcon,
   CheckIcon,
   CheckBadgeIcon,
-  ClockIcon
+  ClockIcon,
+  UserCircleIcon
 } from '@heroicons/react/24/outline'
 import { formatDistanceToNow } from 'date-fns'
 import toast from 'react-hot-toast'
+import Image from 'next/image';
 
 interface ChatMessage {
   id: string
@@ -423,9 +425,11 @@ export default function SuperintendentChatPage() {
                 <div key={onlineUser.user_id} className="flex items-center gap-3 p-2 rounded-lg bg-dark-700/50">
                   <div className="relative">
                     {onlineUser.photo_url ? (
-                      <img
+                      <Image
                         src={onlineUser.photo_url}
                         alt={`${onlineUser.name} ${onlineUser.surname}`}
+                        width={32}
+                        height={32}
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     ) : (
@@ -476,15 +480,15 @@ export default function SuperintendentChatPage() {
                   {message.user_id !== user?.id && (
                     <div className="flex-shrink-0">
                       {message.photo_url ? (
-                        <img
+                        <Image
                           src={message.photo_url}
                           alt={`${message.name} ${message.surname}`}
-                          className="w-8 h-8 rounded-full object-cover"
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-semibold">
-                          {message.name.charAt(0)}{message.surname.charAt(0)}
-                        </div>
+                        <UserCircleIcon className="w-10 h-10 text-gray-400" />
                       )}
                     </div>
                   )}

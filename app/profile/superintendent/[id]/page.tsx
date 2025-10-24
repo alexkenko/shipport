@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import { CheckBadgeIcon, StarIcon, MapPinIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import Image from 'next/image';
 
 interface Port {
   id: string
@@ -93,15 +94,21 @@ export default function PublicSuperintendentProfile() {
           <Card className="bg-dark-800 border-dark-700">
             <CardHeader>
               <div className="flex items-start space-x-6">
-                {user.photo_url ? (
-                  <img
-                    src={user.photo_url}
-                    alt={`${user.name} ${user.surname}`}
-                    className="h-24 w-24 rounded-full object-cover"
-                  />
-                ) : (
-                  <UserCircleIcon className="h-24 w-24 text-gray-400" />
-                )}
+                <div className="flex-shrink-0">
+                  {profile.users.photo_url ? (
+                    <Image
+                      src={profile.users.photo_url}
+                      alt={`${profile.users.name} ${profile.users.surname}'s profile photo`}
+                      width={128}
+                      height={128}
+                      className="h-32 w-32 rounded-full object-cover border-4 border-dark-700 shadow-lg"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
+                    />
+                  ) : (
+                    <UserCircleIcon className="h-32 w-32 text-gray-400" />
+                  )}
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <CardTitle className="text-2xl text-white">

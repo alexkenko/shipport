@@ -13,6 +13,7 @@ import { MapPinIcon, UserCircleIcon, CheckBadgeIcon, StarIcon } from '@heroicons
 import { SearchPopup } from '@/components/ui/SearchPopup'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { PortSearch } from '@/components/ui/PortSearch'
+import Image from 'next/image'
 
 interface SuperintendentProfile {
   id: string
@@ -350,20 +351,20 @@ export default function SearchSuperintendentsPage() {
                 <Card key={superintendent.id} variant="elevated">
                   <CardHeader>
                     <div className="flex items-start space-x-4">
-                      <div className="h-16 w-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-700">
+                      <div className="flex-shrink-0">
                         {superintendent.users.photo_url ? (
-                          <img
+                          <Image
                             src={superintendent.users.photo_url}
-                            alt={`${superintendent.users.name} ${superintendent.users.surname}`}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              // Hide the image and show the fallback icon if image fails to load
-                              e.currentTarget.style.display = 'none';
-                              e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                            }}
+                            alt={`${superintendent.users.name}'s profile photo`}
+                            width={80}
+                            height={80}
+                            className="h-20 w-20 rounded-full object-cover"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                           />
-                        ) : null}
-                        <UserCircleIcon className={`h-16 w-16 text-gray-400 ${superintendent.users.photo_url ? 'hidden' : ''}`} />
+                        ) : (
+                          <UserCircleIcon className="h-20 w-20 text-gray-400" />
+                        )}
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">

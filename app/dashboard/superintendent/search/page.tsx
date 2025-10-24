@@ -25,6 +25,7 @@ import {
   ChevronUpIcon
 } from '@heroicons/react/24/outline'
 import { SearchPopup } from '@/components/ui/SearchPopup'
+import Image from 'next/image'
 
 export default function SearchJobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -445,10 +446,14 @@ export default function SearchJobsPage() {
                         <div className="flex items-center space-x-3 p-3 bg-dark-800/50 rounded-lg">
                           <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
                             {job.users?.photo_url ? (
-                              <img
+                              <Image
                                 src={job.users.photo_url}
-                                alt={`${job.users.name} ${job.users.surname}`}
-                                className="w-10 h-10 rounded-full object-cover"
+                                alt={`${job.users.name} ${job.users.surname}'s profile photo`}
+                                width={48}
+                                height={48}
+                                className="h-12 w-12 rounded-full object-cover"
+                                placeholder="blur"
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                               />
                             ) : (
                               <UserIcon className="h-5 w-5 text-gray-400" />

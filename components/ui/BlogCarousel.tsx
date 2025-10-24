@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { BlogPost, BlogCategory } from '@/types'
 import { ChevronLeftIcon, ChevronRightIcon, ClockIcon, CalendarIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import Image from 'next/image';
 
 interface BlogCarouselProps {
   title?: string
@@ -233,18 +234,15 @@ export function BlogCarousel({
                   }}
                 >
               <Link href={`/blog/${post.slug}`}>
-                <div className="overflow-hidden rounded-t-lg">
-                  {post.featured_image_url ? (
-                    <img 
-                      src={post.featured_image_url} 
-                      alt={post.title}
-                      className="w-full h-20 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-20 bg-gradient-to-br from-primary-600 to-marine-600 flex items-center justify-center">
-                      <span className="text-white text-xl font-bold">📝</span>
-                    </div>
-                  )}
+                <div className="relative w-full h-48 sm:h-56 rounded-t-lg overflow-hidden">
+                  <Image
+                    src={post.featured_image_url || '/placeholder.jpg'}
+                    alt={post.title}
+                    layout="fill"
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
                 <CardContent className="p-3">
                   <div className="flex items-center justify-between mb-2">

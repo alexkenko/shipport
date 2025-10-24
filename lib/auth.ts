@@ -225,7 +225,6 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
   const { data, error } = await supabase
     .from('users')
     .update({
-      // Do NOT include homebase here to avoid schema cache issues
       name: updates.name,
       surname: updates.surname,
       phone: updates.phone,

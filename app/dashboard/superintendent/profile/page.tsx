@@ -15,6 +15,7 @@ import { CameraIcon, UserCircleIcon, MapPinIcon, StarIcon } from '@heroicons/rea
 import { EmailVerification } from '@/components/ui/EmailVerification'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
 import { PortSearch } from '@/components/ui/PortSearch'
+import Image from 'next/image'
 
 
 export default function SuperintendentProfilePage() {
@@ -128,7 +129,7 @@ export default function SuperintendentProfilePage() {
           surname: currentUser.surname,
           phone: currentUser.phone,
           company: currentUser.company,
-          homebase: '',
+          homebase: currentUser.homebase || '',
           bio: currentUser.bio,
           website: currentUser.website || '',
           linkedin: currentUser.linkedin || '',
@@ -300,10 +301,14 @@ export default function SuperintendentProfilePage() {
               <div className="flex items-center space-x-6">
                 <div className="relative">
                   {user.photo_url ? (
-                    <img
+                    <Image
                       src={user.photo_url}
-                      alt={`${user.name} ${user.surname}`}
+                      alt={`${user.name} ${user.surname}'s profile photo`}
+                      width={96}
+                      height={96}
                       className="h-24 w-24 rounded-full object-cover"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                     />
                   ) : (
                     <UserCircleIcon className="h-24 w-24 text-gray-400" />
@@ -564,7 +569,7 @@ export default function SuperintendentProfilePage() {
                       {formData.certifications.map((cert, index) => (
                         <div
                           key={index}
-                          className="flex items-center space-x-2 bg-primary-600 text-white px-3 py-1 rounded-full text-sm"
+                          className="flex items-center space-x-2 bg-primary-600 text-white px-2 py-1 rounded-full text-sm"
                         >
                           <span>{cert}</span>
                           <button

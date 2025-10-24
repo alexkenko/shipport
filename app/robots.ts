@@ -7,14 +7,14 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        // Public site should be crawlable
-        allow: ['/', '/blog', '/services', '/about', '/contact', '/privacy', '/terms', '/cookies', '/faq', '/marine-superintendent-jobs', '/marine-superintendent-faq', '/marine-superintendent-marine-consultancy-superintendancy', '/profile/'],
-        // Keep private and system paths out of the index
+        allow: '/',
         disallow: [
-          '/dashboard/', // private app area, requires auth
+          '/dashboard/',
+          '/profile/superintendent/',
           '/api/',
           '/_next/',
           '/static/',
+          '/auth/',
         ],
       },
     ],

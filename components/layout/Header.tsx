@@ -22,6 +22,7 @@ import {
   XMarkIcon
 } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 interface HeaderProps {
   user?: AuthUser | null
@@ -100,17 +101,17 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
   const navigationItems = getNavigationItems()
 
   return (
-    <header className="border-b sticky top-0 z-50" style={{ backgroundColor: '#00315F', borderColor: '#002A4F' }}>
+    <header className="border-b sticky top-0 z-50 bg-dark-800 border-dark-700">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center" style={{ height: '5.25rem' }}>
-          {/* Logo - moved all the way to the left */}
+        <div className="flex justify-between items-center h-16 md:h-20">
+          {/* Logo */}
           <div className="flex-shrink-0">
             <OptimizedLogo 
               href={user ? `/dashboard/${user.role}` : '/'} 
-              width={150}
-              height={60}
+              width={140}
+              height={50}
               priority={true}
-              className="items-center"
+              className="w-auto h-10 md:h-12"
             />
           </div>
 
@@ -152,10 +153,14 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
                   >
                     <div className="flex items-center space-x-2">
                       {user.photo_url ? (
-                        <img
+                        <Image
                           src={user.photo_url}
-                          alt={`${user.name} ${user.surname}`}
+                          alt={`${user.name} ${user.surname}'s profile photo`}
+                          width={32}
+                          height={32}
                           className="h-8 w-8 rounded-full object-cover"
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                         />
                       ) : (
                         <UserCircleIcon className="h-8 w-8 text-gray-400" />
@@ -224,34 +229,54 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               </div>
             )}
           </div>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
-        {!hideNavigation && isMobileMenuOpen && (
-          <div className="md:hidden border-t border-dark-700 bg-dark-800/95 backdrop-blur-sm">
-            <div className="px-4 pt-3 pb-4 space-y-2">
-              {navigationItems.map((item) => {
-                const Icon = item.icon
-                const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
-              
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg text-base font-medium transition-colors duration-200 ${getColorClasses(item.color)} ${
-                      isActive ? 'bg-primary-600/20 text-primary-400' : 'hover:bg-dark-700/50'
-                    }`}
-                  >
-                    <Icon className="h-5 w-5 flex-shrink-0" />
-                  <span>{item.name}</span>
-                </Link>
-              )
-            })}
-          </div>
+      {!hideNavigation && (
+        <div
+          className={`
+            md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity
+            ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+          `}
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+      )}
+      
+      {!hideNavigation && (
+        <div className={`
+          md:hidden fixed top-0 left-0 h-full w-64 bg-dark-800 z-50
+          transform transition-transform duration-300 ease-in-out
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}>
+          <div className="px-4 pt-5 pb-4 space-y-2">
+            <div className="flex justify-between items-center mb-4">
+              <OptimizedLogo href="/" width={120} height={40} />
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-white">
+                <XMarkIcon className="h-6 w-6" />
+              </button>
+            </div>
+            {navigationItems.map((item) => {
+              const Icon = item.icon
+              const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
+            
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg text-base font-medium transition-colors duration-200 ${getColorClasses(item.color)} ${
+                    isActive ? 'bg-primary-600/20 text-primary-400' : 'hover:bg-dark-700'
+                  }`}
+                >
+                  <Icon className="h-5 w-5 flex-shrink-0" />
+                <span>{item.name}</span>
+              </Link>
+            )
+          })}
+        </div>
         </div>
       )}
-      </div>
     </header>
   )
 }

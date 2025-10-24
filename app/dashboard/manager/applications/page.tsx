@@ -18,6 +18,8 @@ import {
   ClockIcon as PendingIcon
 } from '@heroicons/react/24/outline'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
+import Image from 'next/image';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 
 interface ApplicationWithDetails {
   id: string
@@ -384,15 +386,14 @@ export default function ManagerApplicationsPage() {
                   <div className="flex items-start space-x-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-700">
                       {selectedApplication.users?.photo_url ? (
-                        <img
+                        <Image
                           src={selectedApplication.users.photo_url}
                           alt={`${selectedApplication.users?.name || 'Unknown'} ${selectedApplication.users?.surname || 'User'}`}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            // Hide the image and show the fallback icon if image fails to load
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                          }}
+                          width={40}
+                          height={40}
+                          className="h-10 w-10 rounded-full object-cover"
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
                         />
                       ) : null}
                       <div className={`w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center ${selectedApplication.users?.photo_url ? 'hidden' : ''}`}>

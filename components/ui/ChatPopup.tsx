@@ -11,11 +11,13 @@ import {
   ClockIcon,
   UserGroupIcon,
   HeartIcon,
-  FaceSmileIcon
+  FaceSmileIcon,
+  UserCircleIcon
 } from '@heroicons/react/24/outline'
 import { formatDistanceToNow } from 'date-fns'
 import { supabase } from '@/lib/supabase'
 import { AuthUser } from '@/lib/auth'
+import Image from 'next/image';
 
 interface ChatMessage {
   id: string
@@ -543,9 +545,11 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
                 {message.user_id !== user?.id && (
                   <div className="flex-shrink-0">
                     {message.photo_url ? (
-                      <img
+                      <Image
                         src={message.photo_url}
                         alt={`${message.name} ${message.surname}`}
+                        width={24}
+                        height={24}
                         className="w-6 h-6 rounded-full object-cover"
                       />
                     ) : (
@@ -644,9 +648,11 @@ export function ChatPopup({ isOpen, onClose, user }: ChatPopupProps) {
               {onlineUsers.slice(0, 6).map((onlineUser) => (
                 <div key={onlineUser.user_id} className="relative">
                   {onlineUser.photo_url ? (
-                    <img
+                    <Image
                       src={onlineUser.photo_url}
                       alt={`${onlineUser.name} ${onlineUser.surname}`}
+                      width={20}
+                      height={20}
                       className="w-5 h-5 rounded-full object-cover"
                     />
                   ) : (

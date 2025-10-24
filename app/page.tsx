@@ -3,7 +3,16 @@ import { Metadata } from 'next'
 import { HeaderWrapper } from '@/components/layout/HeaderWrapper'
 import { AnimatedHero } from '@/components/ui/AnimatedHero'
 import { Button } from '@/components/ui/Button'
-import { HomePageContent } from '@/components/ui/HomePageContent'
+import { 
+  ClipboardDocumentCheckIcon, 
+  MagnifyingGlassIcon, 
+  ShieldCheckIcon, 
+  CogIcon, 
+  CubeIcon,
+  UserPlusIcon,
+  BriefcaseIcon,
+  PaperAirplaneIcon
+} from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
   title: 'Marine Superintendent - Jobs, Services & Career Guide | ShipinPort.com',
@@ -112,8 +121,54 @@ export default function HomePage() {
     }
   }
 
+  const services = [
+    {
+      title: 'Ship Inspections and Audits',
+      description: 'Professional ship inspections and audits including ISM, ISPS, MLC compliance assessments by Qualified marine Superintendents.',
+      icon: ClipboardDocumentCheckIcon
+    },
+    {
+      title: 'Port State Inspection',
+      description: 'Expert port state inspection preparation services ensuring vessel compliance with international regulations by qualified Marine Superintendents.',
+      icon: MagnifyingGlassIcon
+    },
+    {
+      title: 'SIRE 2.0 Vetting',
+      description: 'Advanced SIRE 2.0 vetting preparation services by certified Marine Superintendents.',
+      icon: ShieldCheckIcon
+    },
+    {
+      title: 'Marine Consultancy',
+      description: 'Expert marine consultancy services for vessel operations, safety management, and regulatory compliance by certified Consultants.',
+      icon: CogIcon
+    },
+    {
+      title: 'Marine Superintendent Services',
+      description: 'Professional marine superintendent services including vessel management and maritime consulting.',
+      icon: CubeIcon
+    }
+  ]
+
+  const howItWorksSteps = [
+    {
+      title: 'Create Your Profile',
+      description: 'Register as a Vessel Manager or Marine Superintendent and create your professional profile.',
+      icon: UserPlusIcon
+    },
+    {
+      title: 'Find or Post Services',
+      description: 'Managers post job requirements while Superintendents search for opportunities that match their expertise.',
+      icon: BriefcaseIcon
+    },
+    {
+      title: 'Connect & Collaborate',
+      description: 'Get notified when there\'s a match and connect directly to discuss your maritime project needs.',
+      icon: PaperAirplaneIcon
+    }
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-marine-950 to-dark-900">
+    <div className="min-h-screen bg-dark-900">
       {/* Structured Data */}
       <script
         type="application/ld+json"
@@ -126,57 +181,25 @@ export default function HomePage() {
       {/* Animated Hero Section */}
       <AnimatedHero />
 
-      {/* Services Section with Enhanced Animations */}
-      <section className="py-12 sm:py-16 md:py-20 bg-dark-800/50">
+      {/* Services Section */}
+      <section className="py-20 bg-dark-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 animate-slide-bottom">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Professional Marine Services
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto animate-slide-bottom stagger-1 leading-relaxed">
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
               Comprehensive maritime services provided by certified professionals. 
               <Link href="/services" className="text-blue-400 hover:text-blue-300 underline ml-1">
                 View all our services
-              </Link> or 
-              <Link href="/about" className="text-blue-400 hover:text-blue-300 underline ml-1">
-                learn more about us
               </Link>.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Ship Inspections and Audits',
-                description: 'Professional ship inspections and audits including ISM, ISPS, MLC compliance assessments by Qualified marine Superintendents.',
-                icon: '📋'
-              },
-              {
-                title: 'Port State Inspection',
-                description: 'Expert port state inspection preparation services ensuring vessel compliance with international regulations by qualified Marine Superintendents.',
-                icon: '🔍'
-              },
-              {
-                title: 'SIRE 2.0 Vetting',
-                description: 'Advanced SIRE 2.0 vetting preparation services by certified Marine Superintendents.',
-                icon: '⚓'
-              },
-              {
-                title: 'Marine Consultancy',
-                description: 'Expert marine consultancy services for vessel operations, safety management, and regulatory compliance by certified Consultants.',
-                icon: '🧭'
-              },
-              {
-                title: 'Marine Superintendent Services',
-                description: 'Professional marine superintendent services including vessel management and maritime consulting.',
-                icon: '📦'
-              }
-            ].map((service, index) => (
-              <div 
-                key={index} 
-                className={`glass p-6 rounded-xl hover:bg-dark-700/50 transition-all duration-300 transform hover:scale-105 hover:rotate-1 animate-slide-bottom stagger-${index + 1}`}
-              >
-                <div className="text-4xl mb-4 animate-float" style={{animationDelay: `${index * 0.5}s`}}>{service.icon}</div>
+            {services.map((service, index) => (
+              <div key={index} className="bg-dark-700 p-8 rounded-xl transition-transform transform hover:scale-105">
+                <service.icon className="h-10 w-10 text-primary-400 mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-3">{service.title}</h3>
                 <p className="text-gray-300">{service.description}</p>
               </div>
@@ -190,150 +213,94 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              How <span className="text-blue-700">Ship</span><span className="text-red-500">in</span><span className="text-blue-700">Port</span> Works
+              How ShipinPort Works
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Simple steps to connect with the right maritime professionals. 
-              <Link href="/faq" className="text-blue-400 hover:text-blue-300 underline ml-1">
-                Have questions?
-              </Link> Check our 
-              <Link href="/blog" className="text-blue-400 hover:text-blue-300 underline ml-1">
-                blog
-              </Link> for industry insights.
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+              Simple steps to connect with the right maritime professionals.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center animate-slide-left stagger-1">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-                <span className="text-2xl font-bold text-white">1</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {howItWorksSteps.map((step, index) => (
+              <div key={index}>
+                <div className="flex items-center justify-center h-20 w-20 bg-primary-600 rounded-full mx-auto mb-6">
+                  <step.icon className="h-10 w-10 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+                <p className="text-gray-300">{step.description}</p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Create Your Profile</h3>
-              <p className="text-gray-300">
-                Register as a Vessel Manager or Marine Superintendent and create your professional profile.
-              </p>
-            </div>
-            
-            <div className="text-center animate-slide-bottom stagger-2">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" style={{animationDelay: '0.5s'}}>
-                <span className="text-2xl font-bold text-white">2</span>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Find or Post Services</h3>
-              <p className="text-gray-300">
-                Managers post job requirements while Superintendents search for opportunities that match their expertise.
-              </p>
-            </div>
-            
-            <div className="text-center animate-slide-right stagger-3">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" style={{animationDelay: '1s'}}>
-                <span className="text-2xl font-bold text-white">3</span>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Connect & Collaborate</h3>
-              <p className="text-gray-300">
-                Get notified when there's a match and connect directly to discuss your maritime project needs.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Marine Superintendent Jobs Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600/10 to-primary-600/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Find <span className="text-primary-400">Marine Superintendent Jobs</span> Worldwide
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Discover <strong className="text-white">1000+ marine superintendent positions</strong> with leading shipping companies. 
-              Browse <strong className="text-white">marine superintendent careers</strong> in ports worldwide.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/marine-superintendent-jobs">
-                <Button size="lg" className="bg-primary-600 hover:bg-primary-700">
-                  View All Marine Superintendent Jobs
-                </Button>
-              </Link>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center bg-dark-800/50 p-6 rounded-lg">
-              <div className="text-4xl font-bold text-blue-400 mb-2">1000+</div>
-              <div className="text-gray-300">Active Marine Superintendent Jobs</div>
-            </div>
-            <div className="text-center bg-dark-800/50 p-6 rounded-lg">
-              <div className="text-4xl font-bold text-green-400 mb-2">150+</div>
-              <div className="text-gray-300">Shipping Companies Hiring</div>
-            </div>
-            <div className="text-center bg-dark-800/50 p-6 rounded-lg">
-              <div className="text-4xl font-bold text-purple-400 mb-2">$500</div>
-              <div className="text-gray-300">Average Daily Rate</div>
-            </div>
-          </div>
+      <section className="py-20 bg-blue-900/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Find <span className="text-primary-400">Marine Superintendent Jobs</span> Worldwide
+          </h2>
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-8">
+            Discover thousands of marine superintendent positions with leading shipping companies and advance your career in ports across the globe.
+          </p>
+          <Link href="/marine-superintendent-jobs">
+            <Button size="lg">
+              View All Marine Superintendent Jobs
+            </Button>
+          </Link>
         </div>
       </section>
 
       {/* SEO Content Section */}
-      <section className="py-20 bg-dark-800/30">
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="animate-slide-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
               <h2 className="text-3xl font-bold text-white mb-6">
-                Professional <span className="text-primary-400">Marine Superintendent</span> Services
+                Your <span className="text-primary-400">Trusted Partner</span> in Maritime Excellence
               </h2>
               <p className="text-gray-300 mb-4">
-                Our platform connects vessel managers with certified <strong className="text-white">marine superintendents</strong> 
-                specializing in comprehensive <strong className="text-white">ship inspections and audits</strong>. Our professionals 
-                provide expert <strong className="text-white">marine consultancy</strong> services including <strong className="text-white">port state inspection</strong>, 
-                <strong className="text-white"> oil major inspection</strong>, and <strong className="text-white">vetting</strong> services.
+                Our platform connects vessel managers with certified marine superintendents who specialize in comprehensive ship inspections and audits. Our professionals provide expert marine consultancy, including port state inspections, oil major inspections, and vetting services.
               </p>
-              <p className="text-gray-300 mb-4">
-                We specialize in <strong className="text-white">SIRE 2.0</strong> compliance and advanced vessel risk assessments. 
-                Our <strong className="text-white">marine superintendent</strong> network includes certified professionals with extensive 
-                experience in maritime safety, regulatory compliance, and vessel management operations.
+              <p className="text-gray-300 mb-6">
+                We are at the forefront of SIRE 2.0 compliance and advanced vessel risk assessments. Our network consists of certified professionals with extensive experience in maritime safety, regulatory compliance, and efficient vessel management.
               </p>
-              <div className="mt-6">
+              <div className="flex flex-wrap gap-4">
                 <Link href="/marine-superintendent-jobs">
-                  <Button className="bg-primary-600 hover:bg-primary-700">
-                    Find Marine Superintendent Jobs
+                  <Button>
+                    Find Superintendent Jobs
+                  </Button>
+                </Link>
+                <Link href="/services">
+                  <Button variant="outline">
+                    Explore Our Services
                   </Button>
                 </Link>
               </div>
             </div>
-            <div className="animate-slide-right">
-              <h3 className="text-2xl font-bold text-white mb-6">
-                Comprehensive Maritime Inspection Services
-              </h3>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start animate-slide-bottom stagger-1">
-                  <span className="text-primary-400 mr-3">✓</span>
-                  <span><strong className="text-white">Ship inspections and audits</strong> - ISM, ISPS, MLC compliance assessments</span>
+            <div>
+              <ul className="space-y-4 text-gray-300">
+                <li className="flex items-start">
+                  <ShieldCheckIcon className="h-6 w-6 text-primary-400 mr-3 mt-1 flex-shrink-0" />
+                  <span><strong className="text-white">Ship Inspections & Audits:</strong> Full ISM, ISPS, and MLC compliance assessments.</span>
                 </li>
-                <li className="flex items-start animate-slide-bottom stagger-2">
-                  <span className="text-primary-400 mr-3">✓</span>
-                  <span><strong className="text-white">Port state inspection</strong> - International regulation compliance verification</span>
+                <li className="flex items-start">
+                  <ShieldCheckIcon className="h-6 w-6 text-primary-400 mr-3 mt-1 flex-shrink-0" />
+                  <span><strong className="text-white">Port State Inspection:</strong> Verifying compliance with all international regulations.</span>
                 </li>
-                <li className="flex items-start animate-slide-bottom stagger-3">
-                  <span className="text-primary-400 mr-3">✓</span>
-                  <span><strong className="text-white">Oil major inspection</strong> - Tanker and offshore vessel assessments</span>
+                <li className="flex items-start">
+                  <ShieldCheckIcon className="h-6 w-6 text-primary-400 mr-3 mt-1 flex-shrink-0" />
+                  <span><strong className="text-white">Oil Major Inspection:</strong> Specialized assessments for tanker and offshore vessels.</span>
                 </li>
-                <li className="flex items-start animate-slide-bottom stagger-4">
-                  <span className="text-primary-400 mr-3">✓</span>
-                  <span><strong className="text-white">SIRE 2.0 vetting</strong> - Advanced vessel risk evaluation systems</span>
+                <li className="flex items-start">
+                  <ShieldCheckIcon className="h-6 w-6 text-primary-400 mr-3 mt-1 flex-shrink-0" />
+                  <span><strong className="text-white">SIRE 2.0 Vetting:</strong> Advanced vessel risk evaluation and compliance.</span>
                 </li>
-                <li className="flex items-start animate-slide-bottom" style={{animationDelay: '1s'}}>
-                  <span className="text-primary-400 mr-3">✓</span>
-                  <span><strong className="text-white">Marine consultancy</strong> - Expert maritime operational guidance</span>
+                <li className="flex items-start">
+                  <ShieldCheckIcon className="h-6 w-6 text-primary-400 mr-3 mt-1 flex-shrink-0" />
+                  <span><strong className="text-white">Marine Consultancy:</strong> Expert guidance on all maritime operations.</span>
                 </li>
               </ul>
-              <div className="mt-6">
-                <Link href="/services">
-                  <Button variant="outline">
-                    View All Services
-                  </Button>
-                </Link>
-              </div>
             </div>
           </div>
         </div>
