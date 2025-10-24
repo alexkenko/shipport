@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { MagnifyingGlassIcon, UserIcon, BuildingOfficeIcon, PhoneIcon, EnvelopeIcon, GlobeAltIcon, CalendarIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import { PremiumBadge } from '@/components/ui/PremiumBadge'
-import { VerificationBadge } from '@/components/ui/VerificationBadge'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
@@ -225,10 +224,15 @@ export default function AdminSuperintendentsPage() {
                             role={superintendent.role}
                             size="sm"
                           />
-                          <VerificationBadge 
-                            isVerified={superintendent.email_verifications?.[0]?.is_verified || false}
-                            size="sm"
-                          />
+                          {superintendent.email_verifications?.[0]?.is_verified ? (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              ⭐ Verified
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                              ⚪ Unverified
+                            </span>
+                          )}
                         </div>
                       </div>
                     </CardHeader>
