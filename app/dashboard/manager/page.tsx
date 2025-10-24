@@ -184,32 +184,44 @@ export default function ManagerDashboard() {
             <CardContent>
               <div className="space-y-6">
                 {/* Profile Photo Header */}
-                <div className="flex items-center space-x-4 pb-4 border-b border-gradient-to-r from-primary-500/20 to-transparent">
-                  <div className="flex-shrink-0">
-                  {user.photo_url ? (
-                    <Image
-                      src={user.photo_url}
-                      alt={`${user.name}'s profile photo`}
-                      width={80}
-                      height={80}
-                      className="h-20 w-20 rounded-full object-cover"
-                      placeholder="blur"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
-                    />
-                  ) : (
-                    <div className="h-20 w-20 rounded-full bg-primary-600 flex items-center justify-center text-white text-2xl font-semibold">
-                      {user.name?.charAt(0)}{user.surname?.charAt(0)}
-                    </div>
-                  )}
-                </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white">
-                      {isLoading ? 'Loading...' : user ? `${user.name} ${user.surname}` : 'Profile'}
-                    </h3>
-                    <p className="text-sm text-primary-400 font-medium">
-                      {isLoading ? 'Loading...' : user?.company || 'No company specified'}
-                    </p>
-                  </div>
+                <div className="flex items-center space-x-4 pb-4 border-b border-dark-600/50">
+                  {isLoading ? (
+                    <>
+                      <div className="h-20 w-20 rounded-full bg-dark-700 animate-pulse"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 bg-dark-700 rounded w-3/4 animate-pulse"></div>
+                        <div className="h-3 bg-dark-700 rounded w-1/2 animate-pulse"></div>
+                      </div>
+                    </>
+                  ) : user ? (
+                    <>
+                      <div className="flex-shrink-0">
+                        {user.photo_url ? (
+                          <Image
+                            src={user.photo_url}
+                            alt={`${user.name}'s profile photo`}
+                            width={80}
+                            height={80}
+                            className="h-20 w-20 rounded-full object-cover"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNsqgcAAYkBAQTpDPMAAAAASUVORK5CYII="
+                          />
+                        ) : (
+                          <div className="h-20 w-20 rounded-full bg-primary-600 flex items-center justify-center text-white text-2xl font-semibold">
+                            {user.name?.charAt(0)}{user.surname?.charAt(0)}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-white">
+                          {user.name} {user.surname}
+                        </h3>
+                        <p className="text-sm text-primary-400 font-medium">
+                          {user.company || 'No company specified'}
+                        </p>
+                      </div>
+                    </>
+                  ) : null}
                 </div>
 
                 {/* Professional Info */}
