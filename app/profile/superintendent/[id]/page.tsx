@@ -81,34 +81,36 @@ export default function PublicSuperintendentProfile() {
 
   if (isLoading) {
     return (
-      <HeaderWrapper>
-        <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+      <div className="min-h-screen bg-dark-900">
+        <HeaderWrapper />
+        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
         </div>
-      </HeaderWrapper>
+      </div>
     )
   }
 
   if (!profileData) {
     return (
-      <HeaderWrapper>
-        <div className="min-h-screen bg-dark-900 flex items-center justify-center">
+      <div className="min-h-screen bg-dark-900">
+        <HeaderWrapper />
+        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-white mb-4">Profile Not Found</h1>
             <p className="text-gray-400">The requested profile could not be found.</p>
           </div>
         </div>
-      </HeaderWrapper>
+      </div>
     )
   }
 
   const { users: user, ...profile } = profileData
 
   return (
-    <HeaderWrapper>
-      <div className="min-h-screen bg-dark-900">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-dark-900">
+      <HeaderWrapper />
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
           <Card className="bg-dark-800 border-dark-700">
             <CardHeader>
               <div className="flex items-start space-x-6">
@@ -288,9 +290,8 @@ export default function PublicSuperintendentProfile() {
 
             </CardContent>
           </Card>
-          </div>
         </div>
       </div>
-    </HeaderWrapper>
+    </div>
   )
 }
