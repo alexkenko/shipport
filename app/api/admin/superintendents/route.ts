@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 
 // Force this API route to run at runtime, not build time
@@ -37,6 +38,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized. Only admin users can access this endpoint.' }, { status: 401 })
     }
 
+    // Create an authenticated Supabase client with the user's token  
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    
+    // For admin operations, we can use the anon key since we've already verified the user
+    // The RLS policy should allow authenticated users to read verification records
+    const client = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    })
+
     // Get search parameters
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search') || ''
@@ -46,7 +61,7 @@ export async function GET(request: NextRequest) {
     console.log('📊 Query params:', { search, page, limit })
 
     // Build query for superintendents with verification data
-    let query = supabase
+    let query = client
       .from('users')
       .select(`
         id,
@@ -78,7 +93,7 @@ export async function GET(request: NextRequest) {
     console.log('🔢 Pagination:', { from, to, limit })
 
     // Get count separately for pagination
-    let countQuery = supabase
+    let countQuery = client
       .from('users')
       .select('*', { count: 'exact', head: true })
       .eq('role', 'superintendent')
@@ -110,21 +125,23 @@ export async function GET(request: NextRequest) {
     let superintendentsWithVerification = superintendents || []
     if (superintendents && superintendents.length > 0) {
       const userIds = superintendents.map(s => s.id)
-      const { data: verifications, error: verificationError } = await supabase
+      
+      // Get custom email_verifications
+      const { data: verifications } = await client
         .from('email_verifications')
         .select('user_id, is_verified, verified_at')
         .in('user_id', userIds)
 
-      if (verificationError) {
-        console.error('❌ Error fetching verifications:', verificationError)
-        // Continue without verification data rather than failing
-      } else {
-        // Add verification data to superintendents
-        superintendentsWithVerification = superintendents.map(superintendent => ({
+      console.log('📧 Verifications data:', verifications)
+
+      // Add verification data to superintendents
+      superintendentsWithVerification = superintendents.map(superintendent => {
+        const verification = verifications?.find(v => v.user_id === superintendent.id)
+        return {
           ...superintendent,
-          email_verifications: verifications?.filter(v => v.user_id === superintendent.id) || []
-        }))
-      }
+          email_verifications: verification ? [verification] : []
+        }
+      })
     }
 
     return NextResponse.json({

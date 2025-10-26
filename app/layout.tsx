@@ -4,6 +4,7 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { Footer } from '@/components/layout/Footer'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/react'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -186,6 +187,7 @@ export default function RootLayout({
           }}
         />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )
