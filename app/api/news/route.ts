@@ -36,32 +36,16 @@ export async function GET(request: Request) {
 async function fetchRealMaritimeNews(limit: number): Promise<NewsArticle[]> {
   const newsSources = [
     {
-      name: 'gCaptain RSS',
-      fetch: () => fetchFromRSSFeed('https://gcaptain.com/feed/', 'gCaptain')
+      name: 'Marine Insight',
+      fetch: () => fetchFromMarineInsight()
     },
     {
-      name: 'Maritime Executive RSS',
-      fetch: () => fetchFromRSSFeed('https://www.maritime-executive.com/rss', 'Maritime Executive')
+      name: 'OCIMF',
+      fetch: () => fetchFromOCIMF()
     },
     {
-      name: 'Splash 24/7 RSS',
-      fetch: () => fetchFromRSSFeed('https://splash247.com/feed/', 'Splash 24/7')
-    },
-    {
-      name: 'World Maritime News RSS',
-      fetch: () => fetchFromRSSFeed('https://worldmaritimenews.com/feed/', 'World Maritime News')
-    },
-    {
-      name: 'Ship Technology RSS',
-      fetch: () => fetchFromRSSFeed('https://www.ship-technology.com/feed/', 'Ship Technology')
-    },
-    {
-      name: 'gCaptain Direct',
-      fetch: () => fetchFromGCaptainDirect()
-    },
-    {
-      name: 'Maritime News API',
-      fetch: () => fetchFromNewsAPI()
+      name: 'IMO',
+      fetch: () => fetchFromIMO()
     }
   ];
 
@@ -355,6 +339,165 @@ async function fetchFromNewsAPI(): Promise<NewsArticle[]> {
     console.error('Error fetching from NewsAPI:', error);
     throw error;
   }
+}
+
+// Fetch from Marine Insight
+async function fetchFromMarineInsight(): Promise<NewsArticle[]> {
+  try {
+    const response = await fetch('https://www.marineinsight.com/category/shipping-news/', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Marine Insight: ${response.status}`);
+    }
+
+    const html = await response.text();
+    return parseMarineInsightHTML(html);
+  } catch (error) {
+    console.error('Error fetching from Marine Insight:', error);
+    throw error;
+  }
+}
+
+function parseMarineInsightHTML(html: string): NewsArticle[] {
+  const articles: NewsArticle[] = [];
+  
+  try {
+    // Parse article titles and links
+    const titlePattern = /<h[1-6][^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>[\s\S]*?<\/h[1-6]>/gi;
+    const matches = html.match(titlePattern) || [];
+    
+    for (const match of matches.slice(0, 10)) {
+      const urlMatch = match.match(/href="([^"]+)"/);
+      const titleMatch = match.match(/>([^<]+)</);
+      
+      if (urlMatch && titleMatch) {
+        const url = urlMatch[1].startsWith('http') ? urlMatch[1] : `https://www.marineinsight.com${urlMatch[1]}`;
+        const title = cleanText(titleMatch[1]);
+        
+        articles.push({
+          title,
+          description: title,
+          url,
+          urlToImage: getDefaultMaritimeImage(),
+          publishedAt: new Date().toISOString(),
+          source: { name: 'Marine Insight' },
+          category: getCategoryFromTitle(title)
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error parsing Marine Insight HTML:', error);
+  }
+
+  return articles;
+}
+
+// Fetch from OCIMF
+async function fetchFromOCIMF(): Promise<NewsArticle[]> {
+  try {
+    const response = await fetch('https://www.ocimf.org/news-and-events/news/newsletter', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch OCIMF: ${response.status}`);
+    }
+
+    const html = await response.text();
+    return parseOCIMFHTML(html);
+  } catch (error) {
+    console.error('Error fetching from OCIMF:', error);
+    throw error;
+  }
+}
+
+function parseOCIMFHTML(html: string): NewsArticle[] {
+  const articles: NewsArticle[] = [];
+  
+  try {
+    // Parse newsletter items
+    const itemPattern = /<a[^>]*class="[^"]*newsletter-item[^"]*"[^>]*href="([^"]+)"[^>]*>[\s\S]*?<h[1-6][^>]*>([^<]+)<\/h[1-6]>[\s\S]*?<p[^>]*>([^<]+)<\/p>/gi;
+    const matches = Array.from(html.matchAll(itemPattern));
+    
+    for (const match of matches.slice(0, 10)) {
+      const url = match[1].startsWith('http') ? match[1] : `https://www.ocimf.org${match[1]}`;
+      const title = cleanText(match[2]);
+      const description = cleanText(match[3]);
+      
+      articles.push({
+        title,
+        description,
+        url,
+        urlToImage: getDefaultMaritimeImage(),
+        publishedAt: new Date().toISOString(),
+        source: { name: 'OCIMF' },
+        category: getCategoryFromTitle(title)
+      });
+    }
+  } catch (error) {
+    console.error('Error parsing OCIMF HTML:', error);
+  }
+
+  return articles;
+}
+
+// Fetch from IMO
+async function fetchFromIMO(): Promise<NewsArticle[]> {
+  try {
+    const response = await fetch('https://www.imo.org/en/mediacentre/pages/whatsnew.aspx', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch IMO: ${response.status}`);
+    }
+
+    const html = await response.text();
+    return parseIMOHTML(html);
+  } catch (error) {
+    console.error('Error fetching from IMO:', error);
+    throw error;
+  }
+}
+
+function parseIMOHTML(html: string): NewsArticle[] {
+  const articles: NewsArticle[] = [];
+  
+  try {
+    // Parse news items
+    const itemPattern = /<article[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>[\s\S]*?<h[1-6][^>]*>([^<]+)<\/h[1-6]>[\s\S]*?<\/article>/gi;
+    const matches = Array.from(html.matchAll(itemPattern));
+    
+    for (const match of matches.slice(0, 10)) {
+      const url = match[1].startsWith('http') ? match[1] : `https://www.imo.org${match[1]}`;
+      const title = cleanText(match[2]);
+      
+      articles.push({
+        title,
+        description: title,
+        url,
+        urlToImage: getDefaultMaritimeImage(),
+        publishedAt: new Date().toISOString(),
+        source: { name: 'IMO' },
+        category: getCategoryFromTitle(title)
+      });
+    }
+  } catch (error) {
+    console.error('Error parsing IMO HTML:', error);
+  }
+
+  return articles;
 }
 
 function isMaritimeRelated(title: string, description: string): boolean {
