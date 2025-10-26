@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { GoogleGenerativeAI } from '@google/generative-ai'
 
 export const dynamic = 'force-dynamic'
 
 const GEMINI_API_KEY = 'AIzaSyAUm4wcXczS7BNJ0gILAH9HrBzSS8N_umo'
-const CRON_SECRET = process.env.CRON_SECRET || 'manual-trigger-secret'
 
 export async function GET(request: Request) {
   try {
@@ -100,9 +98,6 @@ async function generateBlogPostWithGemini(sourceArticle: any) {
     // Generate AI image using Unsplash API (free)
     const imageUrl = await generateMarineThemedImage(sourceArticle.title)
     
-    const gemini = new GoogleGenerativeAI(GEMINI_API_KEY)
-    const model = gemini.getGenerativeModel({ model: 'gemini-pro' })
-
     const prompt = `You are an expert maritime industry content writer specializing in marine superintendent topics.
 
 Based on this maritime news article:
@@ -134,9 +129,35 @@ Write a comprehensive 1500-word SEO-optimized blog post that:
 
 Generate the blog post in Markdown format with proper H2, H3 headers.`
 
-    const result = await model.generateContent(prompt)
-    const response = result.response
-    const generatedContent = response.text()
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: prompt
+            }]
+          }],
+          generationConfig: {
+            temperature: 0.7,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 3000,
+          }
+        })
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`Gemini API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    const generatedContent = data.candidates?.[0]?.content?.parts?.[0]?.text
     
     if (!generatedContent) {
       throw new Error('No content generated from Gemini')
