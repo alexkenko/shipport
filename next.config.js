@@ -12,12 +12,27 @@ const nextConfig = {
   reactStrictMode: true,
   
   images: {
-    domains: [
-      'localhost',
-      'shipinport.com',
-      'www.shipinport.com',
-      'xumhixssblldxhteyakk.supabase.co',
-      'images.unsplash.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.shipinport.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'shipinport.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
