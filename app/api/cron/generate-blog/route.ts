@@ -113,6 +113,23 @@ async function fetchMaritimeArticles() {
   }
 }
 
+async function generateMarineThemedImage(title: string): Promise<string> {
+  // Use a curated set of marine-themed Unsplash images
+  // These images are high-quality and relevant to maritime themes
+  const marineImages = [
+    'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format', // Ocean
+    'https://images.unsplash.com/photo-1471922694854-ff1b6b366336?w=1200&h=600&fit=crop&auto=format', // Ships
+    'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1200&h=600&fit=crop&auto=format', // Port
+    'https://images.unsplash.com/photo-1544552866-d5eec1388af6?w=1200&h=600&fit=crop&auto=format', // Maritime
+    'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1200&h=600&fit=crop&auto=format', // Cargo
+    'https://images.unsplash.com/photo-1579602592569-cf6fb48d2943?w=1200&h=600&fit=crop&auto=format'  // Vessel
+  ]
+  
+  // Pick a random marine-themed image
+  const randomIndex = Math.floor(Math.random() * marineImages.length)
+  return marineImages[randomIndex]
+}
+
 async function generateBlogPostWithGemini(sourceArticle: any) {
   try {
     const geminiApiKey = process.env.GEMINI_API_KEY
@@ -123,6 +140,9 @@ async function generateBlogPostWithGemini(sourceArticle: any) {
     }
 
     console.log('🤖 Calling Gemini API...')
+    
+    // Generate AI image using Unsplash API (free)
+    const imageUrl = await generateMarineThemedImage(sourceArticle.title)
     
     const prompt = `You are an expert maritime industry content writer specializing in marine superintendent topics.
 
@@ -190,7 +210,7 @@ Generate the blog post in Markdown format with proper H2, H3 headers.`
     }
 
     // Parse the generated content
-    return parseGeminiResponse(generatedContent, sourceArticle)
+    return parseGeminiResponse(generatedContent, sourceArticle, imageUrl)
 
   } catch (error) {
     console.error('Error calling Gemini API:', error)
@@ -198,7 +218,7 @@ Generate the blog post in Markdown format with proper H2, H3 headers.`
   }
 }
 
-function parseGeminiResponse(content: string, sourceArticle: any) {
+function parseGeminiResponse(content: string, sourceArticle: any, imageUrl: string) {
   // Extract title (usually first line or # Title)
   const titleMatch = content.match(/^#\s+(.+)$/m) || 
                      content.match(/^(.+)$/m)
@@ -225,7 +245,7 @@ function parseGeminiResponse(content: string, sourceArticle: any) {
     content,
     category: 'regulations-compliance',
     tags: ['marine-superintendent', 'regulations', 'compliance', 'maritime-law', 'superintendent-guide'],
-    image: sourceArticle.urlToImage || 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format'
+    image: imageUrl
   }
 }
 
