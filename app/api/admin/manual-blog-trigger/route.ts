@@ -22,13 +22,11 @@ export async function GET(request: Request) {
     console.log(`📰 Found ${articles.length} articles`)
 
     // Step 2: Use Gemini AI to generate blog post
-    const blogPost = await generateBlogPostWithGemini(articles[0])
+    let blogPost = await generateBlogPostWithGemini(articles[0])
     
     if (!blogPost) {
-      return NextResponse.json({ 
-        success: false, 
-        message: 'Failed to generate blog post' 
-      })
+      console.log('⚠️ Gemini failed, using fallback blog post')
+      blogPost = createFallbackBlogPost(articles[0])
     }
 
     console.log(`✍️ Generated blog: ${blogPost.title}`)
@@ -169,6 +167,59 @@ Generate the blog post in Markdown format with proper H2, H3 headers.`
   } catch (error) {
     console.error('Error calling Gemini API:', error)
     return null
+  }
+}
+
+function createFallbackBlogPost(sourceArticle: any) {
+  const title = `Marine Superintendent Guide: ${sourceArticle.title}`
+  const slug = title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 100)
+
+  const content = `# ${title}
+
+## Executive Summary
+
+${sourceArticle.description}
+
+This article provides marine superintendents with insights into recent maritime industry developments and their practical implications for daily operations.
+
+## Key Implications for Marine Superintendents
+
+As a marine superintendent, staying informed about maritime regulations and industry developments is crucial for maintaining compliance and operational excellence. This recent development in the maritime sector has several important implications:
+
+### Operational Impact
+
+Marine superintendents must understand how these changes affect vessel operations, port state control requirements, and regulatory compliance. The evolving nature of maritime regulations requires continuous education and adaptation.
+
+### Compliance Requirements
+
+Marine superintendents are responsible for ensuring vessels comply with international maritime regulations. This development emphasizes the importance of:
+
+- Regular vessel inspections
+- Documentation compliance
+- Crew competency verification
+- Emergency preparedness
+- Environmental compliance
+
+## Conclusion
+
+Marine superintendents play a vital role in ensuring maritime safety and compliance. Stay updated with the latest regulations and best practices to excel in your role.
+
+*Source: ${sourceArticle.source?.name || 'Maritime News'}*
+
+For more marine superintendent resources, visit [ShipPort.com](/).`
+
+  return {
+    title,
+    slug,
+    excerpt: sourceArticle.description.substring(0, 150) + '...',
+    content,
+    category: 'regulations-compliance',
+    tags: ['marine-superintendent', 'regulations', 'compliance'],
+    image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format'
   }
 }
 
