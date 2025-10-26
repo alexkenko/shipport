@@ -16,7 +16,8 @@ const nextConfig = {
       'localhost',
       'shipinport.com',
       'www.shipinport.com',
-      'xumhixssblldxhteyakk.supabase.co'
+      'xumhixssblldxhteyakk.supabase.co',
+      'images.unsplash.com'
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
