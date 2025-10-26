@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 
 const GEMINI_API_KEY = 'AIzaSyAUm4wcXczS7BNJ0gILAH9HrBzSS8N_umo'
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   try {
     console.log('🚀 Manual blog generation triggered...')
     
