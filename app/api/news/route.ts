@@ -367,18 +367,16 @@ function parseMarineInsightHTML(html: string): NewsArticle[] {
   const articles: NewsArticle[] = [];
   
   try {
-    // Parse article titles and links
-    const titlePattern = /<h[1-6][^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>[\s\S]*?<\/h[1-6]>/gi;
-    const matches = html.match(titlePattern) || [];
+    // More specific pattern for Marine Insight articles
+    // Look for article entries in their listing pages
+    const articlePattern = /<h[2-6][^>]*class="[^"]*entry-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>[\s\S]*?<\/h[2-6]>/gi;
+    const matches = Array.from(html.matchAll(articlePattern));
     
     for (const match of matches.slice(0, 10)) {
-      const urlMatch = match.match(/href="([^"]+)"/);
-      const titleMatch = match.match(/>([^<]+)</);
+      const url = match[1].startsWith('http') ? match[1] : `https://www.marineinsight.com${match[1]}`;
+      const title = cleanText(match[2]);
       
-      if (urlMatch && titleMatch) {
-        const url = urlMatch[1].startsWith('http') ? urlMatch[1] : `https://www.marineinsight.com${urlMatch[1]}`;
-        const title = cleanText(titleMatch[1]);
-        
+      if (title && title.length > 10 && !title.toLowerCase().includes('shipping news') && !url.includes('/category/')) {
         articles.push({
           title,
           description: title,
@@ -388,6 +386,35 @@ function parseMarineInsightHTML(html: string): NewsArticle[] {
           source: { name: 'Marine Insight' },
           category: getCategoryFromTitle(title)
         });
+      }
+    }
+    
+    // Fallback: Try to find any article links
+    if (articles.length === 0) {
+      const linkPattern = /<a[^>]*href="(https:\/\/www\.marineinsight\.com\/[^"]+)"[^>]*>([^<]+)<\/a>/gi;
+      const linkMatches = Array.from(html.matchAll(linkPattern));
+      
+      for (const match of linkMatches.slice(0, 10)) {
+        const url = match[1];
+        const title = cleanText(match[2]);
+        
+        // Skip category pages and generic links
+        if (title && title.length > 10 && 
+            !url.includes('/category/') && 
+            !url.includes('/tag/') &&
+            !url.includes('/about/') &&
+            !url.includes('/contact/') &&
+            url.includes('/shipping-news/')) {
+          articles.push({
+            title,
+            description: title,
+            url,
+            urlToImage: getDefaultMaritimeImage(),
+            publishedAt: new Date().toISOString(),
+            source: { name: 'Marine Insight' },
+            category: getCategoryFromTitle(title)
+          });
+        }
       }
     }
   } catch (error) {
