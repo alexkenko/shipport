@@ -151,27 +151,31 @@ Title: ${sourceArticle.title}
 Description: ${sourceArticle.description}
 Source: ${sourceArticle.source?.name || 'Maritime News'}
 
-Write a comprehensive 1500-word SEO-optimized blog post that:
+Write a comprehensive 1500-word ORIGINAL analysis-focused blog post that:
 
-1. Targets the keyword "marine superintendent" naturally throughout
-2. Incorporates the news content with analysis relevant to marine superintendents
-3. Follows this structure:
-   - Executive Summary (200 words)
-   - Key Implications for Marine Superintendents (400 words)
-   - How This Affects Daily Superintendent Responsibilities (300 words)
-   - Compliance Requirements and Best Practices (400 words)
+1. DO NOT COPY the original article. Write your own analysis and interpretation
+2. Focus on implications for marine superintendents specifically
+3. Add your own insights, examples, and maritime industry expertise
+4. Target the keyword "marine superintendent" naturally throughout
+5. Follow this structure:
+   - Executive Summary with YOUR analysis (200 words)
+   - Key Implications for Marine Superintendents - deep analysis (400 words)
+   - How This Affects Daily Superintendent Responsibilities - original insights (300 words)
+   - Compliance Requirements and Best Practices - your expert recommendations (400 words)
    - Conclusion with Actionable Takeaways (200 words)
 
-4. Include 3-5 internal links to these pages:
+6. Include 3-5 internal links to these pages:
    - /what-is-marine-superintendent
    - /marine-superintendent-faq
    - /marine-superintendent-jobs
    - /services
    - /marine-superintendent-marine-consultancy-superintendancy
 
-5. Use professional, expert tone suitable for experienced marine professionals
-6. Include specific examples and practical applications
-7. Optimize for search engines with natural keyword usage
+7. Use professional, expert tone suitable for experienced marine professionals
+8. Include specific examples, case studies, and practical applications
+9. Optimize for search engines with natural keyword usage
+
+IMPORTANT: Write original content - analyze the news topic but provide your own insights, not a summary of the original article.
 
 Generate the blog post in Markdown format with proper H2, H3 headers.`
 
