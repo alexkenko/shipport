@@ -230,6 +230,11 @@ async function saveBlogPost(post: any) {
     category = newCategory
   }
 
+  // Ensure category exists
+  if (!category) {
+    throw new Error('Failed to get or create category')
+  }
+
   // Get superadmin user
   const { data: adminUser } = await supabase
     .from('users')
