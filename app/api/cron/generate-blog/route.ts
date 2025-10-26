@@ -225,7 +225,7 @@ function parseGeminiResponse(content: string, sourceArticle: any) {
     content,
     category: 'regulations-compliance',
     tags: ['marine-superintendent', 'regulations', 'compliance', 'maritime-law', 'superintendent-guide'],
-    image: sourceArticle.urlToImage || 'https://images.unsplash.com/photo-1544552866-d5eec1388af6?w=1200&h=600&fit=crop'
+    image: sourceArticle.urlToImage || 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format'
   }
 }
 
@@ -302,7 +302,7 @@ For more marine superintendent resources, visit [ShipPort.com](/).`
     content,
     category: 'regulations-compliance',
     tags: ['marine-superintendent', 'regulations', 'compliance'],
-    image: sourceArticle.urlToImage || 'https://images.unsplash.com/photo-1544552866-d5eec1388af6?w=1200&h=600&fit=crop'
+    image: sourceArticle.urlToImage || 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format'
   }
 }
 
