@@ -76,17 +76,9 @@ async function fetchMaritimeArticles() {
 }
 
 async function generateMarineThemedImage(title: string): Promise<string> {
-  const marineImages = [
-    'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1471922694854-ff1b6b366336?w=1200&h=600&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=1200&h=600&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1544552866-d5eec1388af6?w=1200&h=600&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1200&h=600&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1579602592569-cf6fb48d2943?w=1200&h=600&fit=crop&auto=format'
-  ]
-  
-  const randomIndex = Math.floor(Math.random() * marineImages.length)
-  return marineImages[randomIndex]
+  // Use our logo instead of random images
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'
+  return `${siteUrl}/logo.jpg`
 }
 
 async function generateBlogPostWithGemini(sourceArticle: any) {
@@ -212,6 +204,7 @@ Marine superintendents play a vital role in ensuring maritime safety and complia
 
 For more marine superintendent resources, visit [ShipPort.com](/).`
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'
   return {
     title,
     slug,
@@ -219,7 +212,7 @@ For more marine superintendent resources, visit [ShipPort.com](/).`
     content,
     category: 'regulations-compliance',
     tags: ['marine-superintendent', 'regulations', 'compliance'],
-    image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=600&fit=crop&auto=format'
+    image: `${siteUrl}/logo.jpg`
   }
 }
 
