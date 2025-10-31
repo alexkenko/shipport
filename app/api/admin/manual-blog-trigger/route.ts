@@ -174,69 +174,94 @@ function createFallbackBlogPost(sourceArticle: any) {
     .replace(/^-+|-+$/g, '')
     .substring(0, 100)
 
-  // Create unique content by incorporating the actual news description
-  const newsSummary = sourceArticle.description || `Recent maritime industry developments require attention from marine superintendents.`
-  
+  const description = (sourceArticle.description || '').trim()
+  const extendedText = `${description} ${sourceArticle.content || ''}`.replace(/\s+/g, ' ').trim()
+  const sentences = extendedText
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.replace(/\[[^\]]*\]/g, '').trim())
+    .filter((sentence) => sentence.length > 0)
+
+  const keyInsights = sentences.slice(0, 4)
+  const riskNotes = sentences.slice(4, 8)
+  const sourceName = sourceArticle.source?.name || 'Maritime News'
+  const publishedAt = sourceArticle.publishedAt ? new Date(sourceArticle.publishedAt) : null
+  const formattedDate = publishedAt ? publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'recent developments'
+
+  const actionVerbs = ['audit', 'coordinate', 'verify', 'document', 'brief']
+  const titleKeywords = Array.from(new Set(
+    (sourceArticle.title || '')
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((keyword: string) => keyword.length > 3)
+  ))
+
+  const actionItems = actionVerbs.slice(0, 3).map((verb, index) => {
+    const keyword = titleKeywords[index] || 'compliance'
+    return `- **${verb.charAt(0).toUpperCase() + verb.slice(1)}** controls linked to "${keyword}" and log superintendent follow-up tasks.`
+  })
+
+  const executiveSummary = description.length > 0
+    ? description
+    : `A fresh update from ${sourceName} highlights operational considerations superintendents should evaluate immediately.`
+
+  const insightList = keyInsights.length > 0
+    ? keyInsights.map((insight) => `- ${insight}`).join('\n')
+    : '- Assess how this development influences crew routines and resource allocation.\n- Map the news to ongoing KPIs in the superintendent dashboard.'
+
+  const riskList = riskNotes.length > 0
+    ? riskNotes.map((note) => `- ${note}`).join('\n')
+    : '- Double-check statutory certificates approaching renewal windows.\n- Align voyage planning with any regulatory advisories referenced in the report.'
+
+  const referenceTag = `${slug}-fallback`
+
   const content = `# ${title}
 
-## Executive Summary
+## Executive Briefing
 
-${newsSummary}
+${executiveSummary}
 
-Marine superintendents play a vital role in vessel operations, port state control coordination, and regulatory compliance. This development has specific implications for daily superintendent responsibilities and requires proactive attention to ensure operational continuity.
+**Source evaluated:** ${sourceName}${publishedAt ? ` • Published ${formattedDate}` : ''}
 
-## Key Implications for Marine Superintendents
+## Situation Snapshot
 
-The maritime industry evolves continuously, and marine superintendents must adapt their operations to maintain compliance and efficiency. Key considerations include:
+${insightList}
 
-### Operational Responsibilities
+## Superintendent Response Planner
 
-Marine superintendents must:
-- Coordinate vessel arrivals and port state control inspections
-- Ensure proper documentation for all ship operations
-- Liaise with port authorities, classification societies, and regulatory bodies
-- Monitor vessel performance and maintenance schedules
-- Respond to emergencies and incidents
+${actionItems.join('\n')}
+- **Engage** masters and chief engineers to capture on-board feedback linked to "${sourceArticle.title}".
+- **Update** HSQE and commercial stakeholders with a concise situational note.
 
-### Regulatory Compliance Challenges
+## Compliance & Risk Guardrails
 
-This development highlights several compliance areas that marine superintendents must navigate:
-- Ensuring vessel operations meet current regulations
-- Preparing for potential changes in enforcement
-- Documenting compliance activities
-- Coordinating with crew and shore-based teams
-- Managing port state control inspections
+${riskList}
 
-### Strategic Recommendations
+### Coordination Notes
 
-Marine superintendents should:
-1. Review current operational procedures for necessary updates
-2. Communicate with vessel operators about this development
-3. Enhance documentation and record-keeping practices
-4. Stay informed about evolving regulations and enforcement
-5. Network with industry peers for best practices
+- Touch base with classification or flag representatives about any alerts tied to ${titleKeywords[0] || 'the highlighted topic'}.
+- Validate crewing readiness, emergency drills, and record-keeping against this news item.
 
-## Practical Applications
+## Resource Hub for Superintendents
 
-For marine superintendents working in port operations, vessel management, or marine consultancy, this development requires:
-- Enhanced attention to operational planning
-- Clear communication channels with stakeholders
-- Proactive risk assessment and mitigation
-- Robust compliance verification processes
+- [What is a Marine Superintendent?](/what-is-marine-superintendent)
+- [Marine Superintendent FAQ](/marine-superintendent-faq)
+- [Marine Superintendent Jobs](/marine-superintendent-jobs)
+- [Consultancy & Superintendancy Services](/marine-superintendent-marine-consultancy-superintendancy)
 
-## Conclusion
+## Quick Links
 
-Marine superintendents are key professionals in ensuring vessel safety, regulatory compliance, and operational excellence. Staying informed about industry developments and maintaining expertise is essential for career success and effective ship management.
+- Original report: ${sourceArticle.url ? `[${sourceName}](${sourceArticle.url})` : sourceName}
+- Reference tag: \`${referenceTag}\`
 
-**Source:** This analysis is based on reporting from ${sourceArticle.source?.name || 'Maritime News'}. [View original article](${sourceArticle.url || '#'})
+---
 
-For more resources and career opportunities in marine superintendency, visit [ShipPort.com](/).`
+Marine superintendents who log these insights today will be ready for stakeholder questions tomorrow.`
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'
   return {
     title,
     slug,
-    excerpt: sourceArticle.description.substring(0, 150) + '...',
+    excerpt: (description || extendedText || title).split(/\s+/).slice(0, 60).join(' ') + '...',
     content,
     category: 'regulations-compliance',
     tags: ['marine-superintendent', 'regulations', 'compliance'],

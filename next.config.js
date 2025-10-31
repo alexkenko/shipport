@@ -66,7 +66,6 @@ const nextConfig = {
       { source: '/job', destination: '/marine-superintendent-jobs', permanent: true },
       { source: '/privacy-policy', destination: '/privacy', permanent: true },
       { source: '/terms-of-service', destination: '/terms', permanent: true },
-      { source: '/sitemap.xml', destination: '/sitemap', permanent: true },
     ]
   },
   
