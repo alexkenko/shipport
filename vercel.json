@@ -64,10 +64,6 @@
     {
       "path": "/api/sitemap/ping",
       "schedule": "0 2 * * *"
-    },
-    {
-      "path": "/api/cron/generate-blog",
-      "schedule": "45 12 * * *"
     }
   ]
 }

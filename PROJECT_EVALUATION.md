@@ -128,8 +128,6 @@
 ### 7. Automation & DevOps: 9/10 🤖
 
 **Strengths:**
-- ✅ Automated blog generation (daily at 12:45 UTC)
-- ✅ AI-powered content creation with Gemini
 - ✅ Automatic sitemap updates
 - ✅ Cron jobs for maintenance
 - ✅ CI/CD with Vercel

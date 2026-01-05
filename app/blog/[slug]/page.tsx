@@ -1,407 +1,215 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
+import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
-import { BlogPost, BlogCategory } from '@/types'
-import { CalendarIcon, ClockIcon, UserIcon, TagIcon, ArrowLeftIcon, ShareIcon } from '@heroicons/react/24/outline'
+import { BlogPost } from '@/types'
+import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getCurrentUser } from '@/lib/auth'
-import { trackBlogPostView } from '@/lib/analytics'
+import BlogContent from './BlogContent'
+import { Button } from '@/components/ui/Button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 
-export default function BlogPostPage() {
-  const params = useParams()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [user, setUser] = useState<any>(null)
+type Props = {
+  params: { slug: string }
+}
 
-  useEffect(() => {
-    if (params.slug) {
-      fetchPost(params.slug as string)
+async function getPost(slug: string): Promise<BlogPost | null> {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*, category:blog_categories(name, slug, color), author:users(name, surname, photo_url)')
+      .eq('slug', slug)
+      .eq('status', 'published')
+      .single()
+
+    if (error || !data) {
+      return null
     }
-    checkUser()
-  }, [params.slug])
-
-  const checkUser = async () => {
-    try {
-      const currentUser = await getCurrentUser()
-      setUser(currentUser)
-    } catch (error) {
-      console.log('No user logged in')
-    }
+    return data as BlogPost
+  } catch (error) {
+    console.error('Error fetching post:', error)
+    return null
   }
+}
 
-  const fetchPost = async (slug: string) => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(`/api/blog/posts/${slug}`)
+async function getRelatedPosts(categoryId: string, excludeId: string): Promise<BlogPost[]> {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*, category:blog_categories(name, slug, color)')
+      .eq('category_id', categoryId)
+      .neq('id', excludeId)
+      .eq('status', 'published')
+      .limit(3)
+      .order('published_at', { ascending: false })
       
-      if (!response.ok) {
-        if (response.status === 404) {
-          setError('Blog post not found')
-        } else {
-          setError('Failed to load blog post')
-        }
-        return
-      }
+    if (error) return []
+    return (data as BlogPost[]) || []
+  } catch (error) {
+    console.error('Error fetching related posts:', error)
+    return []
+  }
+}
 
-      const data = await response.json()
-      setPost(data.post)
-      
-      // Track blog post view
-      if (data.post) {
-        trackBlogPostView(data.post.title, data.post.slug)
-      }
-      
-      // Fetch related posts
-      if (data.post.category_id) {
-        fetchRelatedPosts(data.post.category_id, data.post.id)
-      }
-    } catch (error) {
-      console.error('Error fetching blog post:', error)
-      setError('Failed to load blog post')
-    } finally {
-      setIsLoading(false)
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = await getPost(params.slug)
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+      description: 'This blog post could not be found.',
     }
   }
 
-  const fetchRelatedPosts = async (categoryId: string, excludeId: string) => {
-    try {
-      const response = await fetch(`/api/blog/posts?category=${categoryId}&limit=3`)
-      const data = await response.json()
-      
-      // Filter out the current post
-      const filtered = data.posts?.filter((p: BlogPost) => p.id !== excludeId) || []
-      setRelatedPosts(filtered.slice(0, 3))
-    } catch (error) {
-      console.error('Error fetching related posts:', error)
-    }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shipinport.com'
+  const imageUrl = post.featured_image_url || `${siteUrl}/og-image.jpg`
+
+  return {
+    title: post.seo_title || post.title,
+    description: post.meta_description || post.excerpt,
+    keywords: post.tags,
+    alternates: {
+      canonical: `${siteUrl}/blog/${post.slug}`,
+    },
+    openGraph: {
+      title: post.seo_title || post.title,
+      description: post.meta_description || post.excerpt || '',
+      url: `${siteUrl}/blog/${post.slug}`,
+      type: 'article',
+      publishedTime: post.published_at || new Date().toISOString(),
+      authors: post.author ? [`${post.author.name} ${post.author.surname}`] : ['ShipinPort Team'],
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.seo_title || post.title,
+      description: post.meta_description || post.excerpt || '',
+      images: [imageUrl],
+    },
   }
+}
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
+export default async function BlogPostPage({ params }: Props) {
+  const [post, user] = await Promise.all([
+    getPost(params.slug),
+    getCurrentUser().catch(() => null)
+  ])
+
+  if (!post) {
+    notFound()
   }
+  
+  const relatedPosts = post.category_id ? await getRelatedPosts(post.category_id, post.id) : []
 
-  const sharePost = async () => {
-    if (navigator.share && post) {
-      try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt || '',
-          url: window.location.href,
-        })
-      } catch (error) {
-        console.log('Error sharing:', error)
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href)
-      // You could add a toast notification here
-    }
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': post.title,
+    'description': post.meta_description || post.excerpt,
+    'image': post.featured_image_url || `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.jpg`,
+    'author': {
+      '@type': 'Person',
+      'name': post.author ? `${post.author.name} ${post.author.surname}` : 'ShipinPort Team',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'ShipinPort',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': `${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`,
+      },
+    },
+    'datePublished': post.published_at,
+    'dateModified': post.updated_at,
   }
-
-  if (isLoading) {
-    const LoadingContent = () => (
-      <div className="max-w-4xl mx-auto">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-700 rounded mb-4"></div>
-          <div className="h-4 bg-gray-700 rounded w-3/4 mb-8"></div>
-          <div className="h-64 bg-gray-700 rounded mb-8"></div>
-          <div className="space-y-4">
-            <div className="h-4 bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-700 rounded w-5/6"></div>
-          </div>
-        </div>
-      </div>
-    )
-
+  
+  const PageLayout = ({ children }: { children: React.ReactNode }) => {
     if (user) {
-      return (
-        <DashboardLayout>
-          <LoadingContent />
-        </DashboardLayout>
-      )
+      return <DashboardLayout>{children}</DashboardLayout>
     }
-
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
         <Header />
-        <main className="container mx-auto px-4 py-16">
-          <LoadingContent />
-        </main>
+        <main className="container mx-auto px-4 py-16">{children}</main>
         <Footer />
       </div>
-    )
-  }
-
-  if (error || !post) {
-    const ErrorContent = () => (
-      <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
-        <p className="text-gray-300 mb-8">{error || 'The blog post you are looking for does not exist.'}</p>
-        <Link href="/blog">
-          <Button>
-            <ArrowLeftIcon className="h-4 w-4 mr-2" />
-            Back to Blog
-          </Button>
-        </Link>
-      </div>
-    )
-
-    if (user) {
-      return (
-        <DashboardLayout>
-          <ErrorContent />
-        </DashboardLayout>
-      )
-    }
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-        <Header />
-        <main className="container mx-auto px-4 py-16">
-          <ErrorContent />
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
-  const BlogContent = () => (
-    <div className="max-w-4xl mx-auto">
-      {/* Breadcrumb Navigation */}
-      <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
-        <Link href="/" className="hover:text-white transition-colors">Home</Link>
-        <span>/</span>
-        <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-        <span>/</span>
-        <span className="text-gray-300">{post.title}</span>
-      </nav>
-
-          {/* Article Header */}
-          <article className="mb-12">
-            <header className="mb-8">
-              {/* Category and Meta */}
-              <div className="flex items-center gap-4 mb-4">
-                {post.category && (
-                  <span
-                    className="px-3 py-1 text-sm font-medium rounded-full text-white"
-                    style={{ backgroundColor: post.category.color }}
-                  >
-                    {post.category.name}
-                  </span>
-                )}
-                <div className="flex items-center gap-4 text-sm text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <CalendarIcon className="h-4 w-4" />
-                    {formatDate(post.published_at || post.created_at)}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <ClockIcon className="h-4 w-4" />
-                    {post.reading_time} min read
-                  </div>
-                  {post.author && (
-                    <div className="flex items-center gap-1">
-                      <UserIcon className="h-4 w-4" />
-                      {post.author.name} {post.author.surname}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Title */}
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                {post.title}
-              </h1>
-
-              {/* Excerpt */}
-              {post.excerpt && (
-                <p className="text-xl text-gray-300 mb-6 leading-relaxed">
-                  {post.excerpt}
-                </p>
-              )}
-
-              {/* Tags */}
-              {post.tags && post.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {post.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-gray-700 text-gray-300 text-sm rounded-full"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Share Button */}
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={sharePost}
-                  className="flex items-center gap-2"
-                >
-                  <ShareIcon className="h-4 w-4" />
-                  Share
-                </Button>
-              </div>
-            </header>
-
-            {/* Featured Image */}
-            {post.featured_image_url && (
-              <div className="relative w-full mb-8 rounded-lg overflow-hidden">
-                <Image
-                  src={post.featured_image_url}
-                  alt={post.title}
-                  width={800}
-                  height={400}
-                  className="w-full h-auto object-cover rounded-lg shadow-lg"
-                />
-              </div>
-            )}
-
-            {/* Content */}
-            <div 
-              className="prose prose-lg prose-invert max-w-none prose-img:rounded-lg prose-img:w-full prose-img:h-auto prose-img:object-contain prose-img:max-h-96 prose-img:mx-auto prose-img:shadow-lg"
-              dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }}
-            />
-
-            {/* Call-to-Action Section */}
-            <div className="mt-12 p-6 bg-gradient-to-r from-blue-900/30 to-primary-900/30 rounded-lg border border-blue-800/30">
-              <h3 className="text-xl font-semibold text-white mb-3">
-                Looking for Marine Superintendent Opportunities?
-              </h3>
-              <p className="text-gray-300 mb-4">
-                Connect with vessel managers and shipping companies on our <Link href="/" className="text-blue-400 hover:text-blue-300 underline">marine superintendent</Link> platform. 
-                Find your next assignment and grow your maritime career.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/marine-superintendent-jobs">
-                  <Button className="bg-primary-600 hover:bg-primary-700">
-                    Browse Jobs
-                  </Button>
-                </Link>
-                <Link href="/auth/register">
-                  <Button variant="outline">
-                    Create Profile
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            {/* Author Bio */}
-            {post.author && (
-              <div className="mt-12 p-6 bg-gray-800/50 rounded-lg">
-                <div className="flex items-start gap-4">
-                  {post.author.photo_url ? (
-                    <Image
-                      src={post.author.photo_url}
-                      alt={`${post.author.name} ${post.author.surname}`}
-                      width={64}
-                      height={64}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
-                      <UserIcon className="h-8 w-8 text-gray-400" />
-                    </div>
-                  )}
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      {post.author.name} {post.author.surname}
-                    </h3>
-                    <p className="text-gray-300">
-                      Marine industry expert with extensive experience in vessel management and maritime compliance.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </article>
-
-          {/* Related Posts */}
-          {relatedPosts.length > 0 && (
-            <section className="mt-16">
-              <h2 className="text-2xl font-bold text-white mb-8">Related Articles</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {relatedPosts.map((relatedPost) => (
-                  <Card key={relatedPost.id} variant="glass" className="hover:scale-105 transition-transform duration-200">
-                    <CardHeader>
-                      {relatedPost.featured_image_url && (
-                        <div className="relative w-full mb-4 rounded-lg overflow-hidden">
-                          <Image
-                            src={relatedPost.featured_image_url}
-                            alt={relatedPost.title}
-                            width={300}
-                            height={150}
-                            className="w-full h-32 object-cover rounded-lg"
-                          />
-                        </div>
-                      )}
-                      <div className="flex items-center gap-2 mb-2">
-                        {relatedPost.category && (
-                          <span
-                            className="px-2 py-1 text-xs font-medium rounded-full text-white"
-                            style={{ backgroundColor: relatedPost.category.color }}
-                          >
-                            {relatedPost.category.name}
-                          </span>
-                        )}
-                        <span className="text-xs text-gray-400">
-                          {relatedPost.reading_time} min read
-                        </span>
-                      </div>
-                      <CardTitle className="text-lg text-white line-clamp-2">
-                        {relatedPost.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-300 line-clamp-3">
-                        {relatedPost.excerpt}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Link href={`/blog/${relatedPost.slug}`}>
-                        <Button className="w-full">
-                          Read More
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
-    </div>
-  )
-
-  if (user) {
-    return (
-      <DashboardLayout>
-        <BlogContent />
-      </DashboardLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
-      <Header />
-      <main className="container mx-auto px-4 py-16">
-        <BlogContent />
-      </main>
-      <Footer />
-    </div>
+    <PageLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="max-w-4xl mx-auto">
+        <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <span>/</span>
+          <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+          <span>/</span>
+          <span className="text-gray-300 truncate">{post.title}</span>
+        </nav>
+
+        <article className="mb-12">
+          <BlogContent post={post} />
+        </article>
+
+        {relatedPosts.length > 0 && (
+          <section className="mt-16">
+            <h2 className="text-2xl font-bold text-white mb-8">Related Articles</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedPosts.map((relatedPost) => (
+                <Card key={relatedPost.id} variant="glass" className="hover:scale-105 transition-transform duration-200">
+                  <CardHeader>
+                    {relatedPost.featured_image_url && (
+                      <div className="relative w-full h-32 mb-4 rounded-lg overflow-hidden">
+                        <Image
+                          src={relatedPost.featured_image_url}
+                          alt={relatedPost.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2 mb-2">
+                      {relatedPost.category && (
+                        <span
+                          className="px-2 py-1 text-xs font-medium rounded-full text-white"
+                          style={{ backgroundColor: relatedPost.category.color }}
+                        >
+                          {relatedPost.category.name}
+                        </span>
+                      )}
+                    </div>
+                    <CardTitle className="text-lg text-white line-clamp-2">
+                      {relatedPost.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Link href={`/blog/${relatedPost.slug}`}>
+                      <Button className="w-full">
+                        Read More
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </PageLayout>
   )
 }
