@@ -204,10 +204,7 @@ export default function MyApplicationsPage() {
             <CardContent className="p-8 text-center">
               <PendingIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-white mb-2">No applications yet</h3>
-              <p className="text-gray-400 mb-6">Start applying to jobs to see your applications here</p>
-              <Button onClick={() => window.location.href = '/dashboard/superintendent/search'}>
-                Browse Available Jobs
-              </Button>
+              <p className="text-gray-400 mb-6">Your applications will appear here when managers reach out to you</p>
             </CardContent>
           </Card>
         ) : (

@@ -210,11 +210,6 @@ export default function SuperintendentDashboard() {
                         Edit Profile
                       </Button>
                     </Link>
-                    <Link href="/dashboard/superintendent/search">
-                      <Button size="sm">
-                        Find Jobs
-                      </Button>
-                    </Link>
                     <Button
                       variant="ghost"
                       size="sm"
