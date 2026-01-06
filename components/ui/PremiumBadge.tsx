@@ -31,21 +31,13 @@ export function PremiumBadge({ signupDate, role, size = 'md', className = '' }: 
   }
 
   return (
-    <span 
-      className={`
-        inline-flex items-center justify-center font-medium rounded-full
-        bg-slate-900/80 text-white shadow-lg border border-yellow-400/60
-        ${sizeClasses[size]}
-        ${className}
-      `}
-      title={badgeText || 'Premium Marine Superintendent - Early Adopter'}
-    >
+    <span className={className} title={badgeText || 'Premium Marine Superintendent - Early Adopter'}>
       <Image
         src="/premium-badge.jpg"
         alt="Premium badge"
         width={iconSizes[size]}
         height={iconSizes[size]}
-        className="rounded-full"
+        className="inline-block"
       />
     </span>
   )
