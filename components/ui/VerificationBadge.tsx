@@ -25,7 +25,7 @@ export function VerificationBadge({ isVerified, size = 'sm' }: VerificationBadge
     return (
       <div className={`inline-flex items-center gap-1 bg-green-50 text-green-800 rounded-full font-medium ${sizeClasses[size]}`}>
         <Image
-          src="/MyLogo/verified badge.jfif"
+          src="/verified-badge.jpg"
           alt="Verified badge"
           width={iconSizes[size]}
           height={iconSizes[size]}
