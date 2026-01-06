@@ -69,14 +69,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const imageUrl = post.featured_image_url || `${siteUrl}/og-image.jpg`
 
   return {
-    title: post.seo_title || post.title,
+    title: post.meta_title || post.title,
     description: post.meta_description || post.excerpt,
     keywords: post.tags,
     alternates: {
       canonical: `${siteUrl}/blog/${post.slug}`,
     },
     openGraph: {
-      title: post.seo_title || post.title,
+      title: post.meta_title || post.title,
       description: post.meta_description || post.excerpt || '',
       url: `${siteUrl}/blog/${post.slug}`,
       type: 'article',
@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.seo_title || post.title,
+      title: post.meta_title || post.title,
       description: post.meta_description || post.excerpt || '',
       images: [imageUrl],
     },

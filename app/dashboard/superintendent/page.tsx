@@ -24,9 +24,9 @@ import Image from 'next/image'
 // Static counter values
 const getMockStats = () => {
   return {
-    shipManagers: 63,
-    completedJobs: 360,
-    activeSuperintendents: 24,
+    shipManagers: 72,
+    completedJobs: 432,
+    activeSuperintendents: 54,
   }
 }
 
