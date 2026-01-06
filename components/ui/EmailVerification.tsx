@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useEmailVerification } from '@/hooks/useEmailVerification'
 import { Button } from './Button'
-import { Input } from './Input'
+import { VerificationBadge } from './VerificationBadge'
 
 interface EmailVerificationProps {
   userEmail: string
@@ -56,10 +56,7 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
   if (isVerified) {
     return (
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200 shadow-sm">
-          <span className="text-green-600">⭐</span>
-          Verified
-        </span>
+        <VerificationBadge isVerified size="md" />
       </div>
     )
   }
@@ -67,10 +64,7 @@ export const EmailVerification = ({ userEmail, onVerificationComplete }: EmailVe
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-3">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-200 shadow-sm">
-          <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-          Unverified
-        </span>
+        <VerificationBadge isVerified={false} size="md" />
       {!showOTPInput && (
         <Button
           onClick={handleSendOTP}
