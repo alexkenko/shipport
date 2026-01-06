@@ -109,6 +109,7 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
   }
 
   const navigationItems = getNavigationItems()
+  const isSuperintendent = user?.role === 'superintendent'
 
   return (
     <header className="border-b sticky top-0 z-50 border-dark-700" style={{ backgroundColor: '#003160' }}>
@@ -225,9 +226,9 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
               </div>
             )}
 
-            {/* Mobile menu button */}
+            {/* Menu button (shows on all screens for superintendent, mobile-only otherwise) */}
             {!hideNavigation && (
-              <div className="md:hidden">
+              <div className={isSuperintendent ? '' : 'md:hidden'}>
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   className="text-gray-400 hover:text-white transition-colors p-2 -m-2"
