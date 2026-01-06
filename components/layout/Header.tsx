@@ -47,7 +47,15 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
     }
   }
 
-  const getNavigationItems = () => {
+  type NavItem = {
+    name: string
+    href: string
+    icon: any
+    color: string
+    showInDesktop?: boolean
+  }
+
+  const getNavigationItems = (): NavItem[] => {
     if (!user) return [
       { name: 'Home', href: '/', icon: HomeIcon, color: 'blue' },
       { name: 'About', href: '/about', icon: UserGroupIcon, color: 'green' },
@@ -72,10 +80,14 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
     if (user.role === 'superintendent') {
       return [
-          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue' },
+          // Primary dashboard tab (desktop + mobile)
+          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue', showInDesktop: true },
+          // Secondary actions – visible only in the hamburger/mobile menu
+          { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green', showInDesktop: false },
+          { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red', showInDesktop: false },
           ...(user.email === 'kenkadzealex@gmail.com' ? [
-            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo' },
-            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal' }
+            { name: 'Blog Management', href: '/dashboard/blog', icon: DocumentTextIcon, color: 'indigo', showInDesktop: false },
+            { name: 'View Superintendents', href: '/dashboard/admin/superintendents', icon: UserGroupIcon, color: 'teal', showInDesktop: false }
           ] : []),
       ]
     }
@@ -116,7 +128,9 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
           {/* Desktop Navigation */}
           {!hideNavigation && (
             <nav className="hidden md:flex space-x-1">
-              {navigationItems.map((item) => {
+              {navigationItems
+                .filter((item) => item.showInDesktop !== false)
+                .map((item) => {
                 const Icon = item.icon
                 const isActive = typeof window !== 'undefined' && window.location.pathname === item.href
               
