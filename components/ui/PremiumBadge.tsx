@@ -19,15 +19,15 @@ export function PremiumBadge({ signupDate, role, size = 'md', className = '' }: 
   
   // Size classes
   const sizeClasses = {
-    sm: 'px-1.5 py-1',
-    md: 'px-2 py-1.5',
-    lg: 'px-2.5 py-2'
+    sm: 'px-2 py-1.5',
+    md: 'px-2.5 py-2',
+    lg: 'px-3 py-2.5'
   }
 
   const iconSizes = {
-    sm: 32,
-    md: 40,
-    lg: 48,
+    sm: 64,
+    md: 80,
+    lg: 96,
   }
 
   return (
