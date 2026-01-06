@@ -60,7 +60,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
       { name: 'Home', href: '/', icon: HomeIcon, color: 'blue' },
       { name: 'About', href: '/about', icon: UserGroupIcon, color: 'green' },
       { name: 'Services', href: '/services', icon: BriefcaseIcon, color: 'yellow' },
-      { name: 'Blog', href: '/blog', icon: DocumentTextIcon, color: 'purple' },
+      // Blog should be available, but only inside the hamburger (mobile) menu
+      { name: 'Blog', href: '/blog', icon: DocumentTextIcon, color: 'purple', showInDesktop: false },
       { name: 'Contact', href: '/contact', icon: UserGroupIcon, color: 'red' },
     ]
 
@@ -80,9 +81,8 @@ export function Header({ user, onNotificationClick, unreadCount, hideNavigation 
 
     if (user.role === 'superintendent') {
       return [
-          // Primary dashboard tab (desktop + mobile)
-          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue', showInDesktop: true },
-          // Secondary actions – visible only in the hamburger/mobile menu
+          // All superintendent actions are accessible from the hamburger/mobile menu only
+          { name: 'Dashboard', href: '/dashboard/superintendent', icon: HomeIcon, color: 'blue', showInDesktop: false },
           { name: 'Search Jobs', href: '/dashboard/superintendent/search', icon: BriefcaseIcon, color: 'green', showInDesktop: false },
           { name: 'My Applications', href: '/dashboard/superintendent/applications', icon: ClipboardDocumentListIcon, color: 'red', showInDesktop: false },
           ...(user.email === 'kenkadzealex@gmail.com' ? [

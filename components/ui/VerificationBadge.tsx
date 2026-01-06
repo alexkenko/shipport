@@ -1,6 +1,7 @@
 'use client'
 
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
 interface VerificationBadgeProps {
   isVerified: boolean
@@ -15,15 +16,20 @@ export function VerificationBadge({ isVerified, size = 'sm' }: VerificationBadge
   }
 
   const iconSizes = {
-    sm: 'h-3 w-3',
-    md: 'h-4 w-4',
-    lg: 'h-5 w-5'
+    sm: 16,
+    md: 20,
+    lg: 24
   }
 
   if (isVerified) {
     return (
-      <div className={`inline-flex items-center gap-1 bg-green-100 text-green-800 rounded-full font-medium ${sizeClasses[size]}`}>
-        <CheckCircleIcon className={`${iconSizes[size]} text-green-600`} />
+      <div className={`inline-flex items-center gap-1 bg-green-50 text-green-800 rounded-full font-medium ${sizeClasses[size]}`}>
+        <Image
+          src="/MyLogo/verified badge.jfif"
+          alt="Verified badge"
+          width={iconSizes[size]}
+          height={iconSizes[size]}
+        />
         <span>Verified</span>
       </div>
     )
@@ -31,7 +37,7 @@ export function VerificationBadge({ isVerified, size = 'sm' }: VerificationBadge
 
   return (
     <div className={`inline-flex items-center gap-1 bg-gray-100 text-gray-600 rounded-full font-medium ${sizeClasses[size]}`}>
-      <XCircleIcon className={`${iconSizes[size]} text-gray-500`} />
+      <XCircleIcon className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 text-gray-500" />
       <span>Unverified</span>
     </div>
   )
