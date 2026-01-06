@@ -19,35 +19,34 @@ export function PremiumBadge({ signupDate, role, size = 'md', className = '' }: 
   
   // Size classes
   const sizeClasses = {
-    sm: 'px-1.5 py-0.5 text-xs',
-    md: 'px-2 py-1 text-sm',
-    lg: 'px-2.5 py-1.5 text-base'
+    sm: 'px-1.5 py-1',
+    md: 'px-2 py-1.5',
+    lg: 'px-2.5 py-2'
   }
 
   const iconSizes = {
-    sm: 16,
-    md: 20,
-    lg: 24,
+    sm: 32,
+    md: 40,
+    lg: 48,
   }
 
   return (
     <span 
       className={`
-        inline-flex items-center font-medium rounded-full
+        inline-flex items-center justify-center font-medium rounded-full
         bg-slate-900/80 text-white shadow-lg border border-yellow-400/60
         ${sizeClasses[size]}
         ${className}
       `}
-      title="Premium Marine Superintendent - Early Adopter"
+      title={badgeText || 'Premium Marine Superintendent - Early Adopter'}
     >
       <Image
         src="/premium-badge.jpg"
         alt="Premium badge"
         width={iconSizes[size]}
         height={iconSizes[size]}
-        className="rounded-full mr-1"
+        className="rounded-full"
       />
-      <span className="whitespace-nowrap">{badgeText}</span>
     </span>
   )
 }
